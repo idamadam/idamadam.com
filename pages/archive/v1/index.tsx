@@ -43,14 +43,14 @@ function MainContent() {
       <section className="caseStudyWrapper">
         <img src="/images/list.png" alt="Preview of the app" />
         <div>
-          <a href="/invoicelist">
+          <a href="v1/invoicelist">
             <h3>Getting SME&apos;s paid faster</h3>
             <p className="subhead">Invoice list</p>
           </a>
         </div>
         <img src="/images/track.png" alt="Preview of the app" />
         <div>
-          <a href="/track">
+          <a href="v1/track">
             <h3>Track time on the go</h3>
             <p className="subhead">Time Tracking for AccountRight</p>
           </a>

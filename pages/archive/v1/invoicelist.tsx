@@ -18,7 +18,7 @@ function InvoiceList() {
       </Head>
       <header className="green">
         <section className="brand">
-          <a href="/">
+          <a href="/archive/v1">
             <h1>Idam Adam</h1>
             <p className="subhead">product designer</p>
           </a>
@@ -126,7 +126,7 @@ function InvoiceList() {
         </section>
       </main>
       <footer className="green">
-        <a href="/track">Previous project</a>
+        <a href="track">Previous project</a>
       </footer>
     </body>
   );

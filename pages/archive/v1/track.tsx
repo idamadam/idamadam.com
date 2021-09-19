@@ -18,7 +18,7 @@ function Track() {
       </Head>
       <header className="purple">
         <section className="brand">
-          <a href="/">
+          <a href="/archive/v1">
             <h1>Idam Adam</h1>
             <p className="subhead">product designer</p>
           </a>
@@ -199,7 +199,7 @@ function Track() {
         </section>
       </main>
       <footer>
-        <a href="/invoicelist">Next project</a>
+        <a href="invoicelist">Next project</a>
       </footer>
     </body>
   );
