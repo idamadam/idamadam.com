@@ -39,4 +39,4 @@ Thumbs.db
 # Node & Eleventy files #
 ##########################
 node_modules/
-dist/
+_site/

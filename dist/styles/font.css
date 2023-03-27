@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'ibm-plex-sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('ibm-plex-sans/woff2/IBMPlexSans-Regular.woff2') format('woff2'),
+       url('ibm-plex-sans/woff/IBMPlexSans-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'ibm-plex-sans';
+  font-style: medium;
+  font-weight: 500;
+  src: url('ibm-plex-sans/woff2/IBMPlexSans-Medium.woff2') format('woff2'),
+       url('ibm-plex-sans/woff/IBMPlexSans-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'source-serif-pro';
+  font-style: normal;
+  font-weight: 300;
+  src: url('source-serif-pro/WOFF2/SourceSerifPro-Regular.otf.woff2') format('woff2'),
+       url('source-serif-pro//WOFF/SourceSerifPro-Regular.otf.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'source-serif-pro';
+  font-style: medium;
+  font-weight: 500;
+  src: url('source-serif-pro/WOFF2/SourceSerifPro-Semibold.otf.woff2') format('woff2'),
+       url('source-serif-pro//WOFF/SourceSerifPro-Semibold.otf.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'source-serif-pro';
+  font-style: bold;
+  font-weight: 700;
+  src: url('source-serif-pro/WOFF2/SourceSerifPro-Bold.otf.woff2') format('woff2'),
+       url('source-serif-pro//WOFF/SourceSerifPro-Bold.otf.woff') format('woff');
+}
