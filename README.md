@@ -1,10 +1,5 @@
 # idamadam.com
-Static HTML site built with Nextjs.
-
-## Getting started
-
-Run `npm install`
+Static HTML site built with Eleventy.
 
 ## Development setup
-
 Run `npm run dev`

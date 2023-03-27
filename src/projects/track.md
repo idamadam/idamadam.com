@@ -8,7 +8,10 @@ heroImages:
     alt: "Mobile phone with timer screen"
   - image: "/images/timetracking/hero-list.png"
     alt: "Mobile phone with timer screen"
-pageRank: 1
+thumbnail: 
+  url: /images/timetracking/hero-timer.png
+  alt: Mobile phone with timer screen
+date: 2019-05-01
 ---
 
 # Track time on the go
@@ -29,11 +32,11 @@ As this was to be a companion app to the MYOB desktop product, I mapped out the 
 Based on this information, I first started with an extremely rough prototype using Framer. I used the prototype to spark conversations with our developers to understand what was possible. The prototype included lots of nods to features that I wanted to understand could be possible.
 
 <div>
-    <video width="100%" style="maxWidth: 320px; margin: 0 auto; display: block;" controls autoPlay>
+    <video width="100%" style="max-width: 320px; margin: 0 auto; display: block;" controls autoPlay>
         <source src="/images/timetracking/framer-prototype-white-bg.mp4" />
     </video>
 </div>
-<Caption>The framer prototype</Caption>
+<p class="caption">The framer prototype</p>
 
 The developers took this prototype and built out the flows using it as a guide. This allowed us to move fast and get a rough version of the app built out so that we could play with real software as quickly as possible.
 
@@ -47,12 +50,12 @@ The conversations we had with our users also allowed us to understand what the k
 
 I made improvements to the existing flow by collating all the feedback. For example, we found that users preferred to enter information in their own way as opposed to entering it in a sequential flow.
 
-<ImageGrid gridTemplateColumns="1fr 1fr" shadow="false" fullbleed > 
+<div class="full-bleed-image-grid"> 
     <img src="/images/timetracking/flow-before.png" alt="Before - Sequential flow" />
     <img src="/images/timetracking/flow-after.png" alt="After - Sequential flow" />
-</ImageGrid>
+</div>
 
-<Caption>Before - Sequential flows. After - Choose your own adventure</Caption>
+<p class="caption">Before - Sequential flows. After - Choose your own adventure</p>
 
 
 We were able to get a version of the app that we felt comfortable in releasing to our first wave of beta testers due to this feedback cycle. In addition to the workflows we changed as part of the feedback rounds, we set up the help and feedback portals for the beta process. This helped us later in the process to scale our feedback gathering to improve the product.
@@ -70,9 +73,9 @@ To aid development of other apps within the company, I also worked with designer
 N.B. Time Tracking has since been renamed to Invoicing for AccountRight.
 
 <div>
-    <video width="100%" controls style="maxWidth: 320px; margin: 0 auto; display: block;">
+    <video width="100%" controls style="max-width: 320px; margin: 0 auto; display: block;">
         <source src="/images/timetracking/final_app.mp4" />
     </video>
 </div>
 
-<Caption>The final product</Caption>
+<p class="caption">The final product</p>
