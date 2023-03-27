@@ -1,0 +1,16 @@
+---
+layout: layout.html
+---
+<!-- TODO: Bring styles into a stylesheet -->
+<!-- TODO: Add hover style to header -->
+<div style="padding: 0 2em; margin: 0 auto; margin-top: 2.5em; @media (min-width: 960px) { position: fixed; }">
+  <a href="/" style="font-size: 1.1em; text-decoration: none; font-weight: 700; color: #CFAF9F;">idam adam</a>
+</div>
+<div style="padding: 2em; display: grid; grid-template-columns: 1fr min(65ch, 100%) 1fr;">
+  <div class="project-hero-container">
+    {% hero heroImages %}
+  </div>
+  <article style="grid-column: 2;">
+    {{ content }}
+  </article>
+</div>

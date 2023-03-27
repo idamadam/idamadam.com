@@ -1,0 +1,39 @@
+---
+layout: layout.html
+---
+<div style="padding: 1em; display: grid; grid-template-columns: 1fr min(65ch,100%) 1fr;">
+  <div style="grid-column: 2;">
+    <p style="font-size: 2em; font-weight: 700; margin-bottom: 0; color: #B5866E">
+        idam adam
+    </p>
+    <p style="font-size: 2em; margin-top: 0.5em; margin-bottom: 0">
+      Product designer at
+      <a href="https://cultureamp.com/" target="_blank" rel="noreferrer">Culture Amp</a>. 
+      <br />Based in Melbourne, Australia.
+    </p>
+    <p style="margin-top: 0">
+      Previously at&nbsp;
+      <a href="https://myob.com.au/" target="_blank" rel="noreferrer">MYOB</a> ,&nbsp;
+      <a href="https://canstar.com.au/" target="_blank" rel="noreferrer">Canstar</a>&nbsp;&amp;&nbsp;
+      <a href="https://netengine.com.au/" target="_blank" rel="noreferrer">NetEngine</a>.
+    </p>
+    <div>
+      <h2 style="margin-bottom: 0; color: #B5866E;">Selected projects</h2>
+      {% for project in collections.projects reversed %}
+        <div style="margin-top: 2em;">
+            <div class="post-container">
+              <div>          
+                <h2 style="line-height: 1; margin-top: 0;"><a href="{{ project.url }}">{{ project.data.title }}</a></h2>
+                <p>{{ project.data.blurb }}</p>
+                <p><a href="{{ project.url }}">View project →</a></p>
+              </div>
+              <div>
+                <a href="{{ project.url }}">{% hero project.data.heroImages %}</a>
+              </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
