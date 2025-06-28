@@ -55,7 +55,7 @@ export default function Multilingual() {
           <h3 className="text-h3 mb-6 text-primary">What I learnt</h3>
           
           <div className="space-y-8">
-            <div className="border-l-4 border-blue-500 pl-6">
+            <div>
               <h4 className="text-body font-semibold mb-3 text-primary">1. Machine translations are deeply embedded into the process</h4>
               <blockquote className="text-tertiary italic mb-4 border-l-2 border-subtle pl-4">
                 "We run everything through Google Translate, then had HRBPs validate the translations." — HR Director, global manufacturing company
@@ -65,7 +65,7 @@ export default function Multilingual() {
               </p>
             </div>
 
-            <div className="border-l-4 border-blue-500 pl-6">
+            <div>
               <h4 className="text-body font-semibold mb-3 text-primary">2. Admins used spreadsheets to manage translations for their cycles</h4>
               <p className="text-secondary mb-4">
                 Building on the first insight, I learnt that admins were using spreadsheets as a way to manage, collaborate and distribute translations between the various different offices that they needed to manage.
@@ -78,14 +78,14 @@ export default function Multilingual() {
               </ul>
             </div>
 
-            <div className="border-l-4 border-blue-500 pl-6">
+            <div>
               <h4 className="text-body font-semibold mb-3 text-primary">3. Cross-lingual reviews important but rare</h4>
               <p className="text-secondary">
                 I was also concerned about reporting relationships that might involve multiple languages. The interviews revealed that whilst this situation happened, it was a rare situation even in large organisation. This helped us decide to deal with this situation in a later release, helping to sharpen the focus of our initial release.
               </p>
             </div>
 
-            <div className="border-l-4 border-blue-500 pl-6">
+            <div>
               <h4 className="text-body font-semibold mb-3 text-primary">4. Customers locked in questions first, and then handled translations</h4>
               <p className="text-secondary">
                 I initially thought customers would want to manage questions and translations together to reduce complexity. The interviews showed me they actually think of these as separate steps—questions get approved first, then translated. This helped me decide on the structure of the multilingual workflow (e.g. questions first, then followed by translations.)
