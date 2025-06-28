@@ -68,3 +68,9 @@ Creating a new portfolio for Lead Product Designer using existing markdown case 
 - Demonstrate technical collaboration skills
 - Highlight measurable business impact
 - Show innovation in AI UX and system design
+
+## Writing Style Guidelines
+- **Simple sentence structure**: Use complete sentences with full stops instead of em dashes
+- **One idea per sentence**: Avoid complex subordinate clauses connected by dashes
+- **Clear prose style**: Prefer coordination over subordination for better readability
+- **Plain English**: Write concisely for accessibility and comprehension
