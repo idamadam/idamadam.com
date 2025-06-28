@@ -236,3 +236,43 @@ a:hover {
 .border-subtle {
   border-color: var(--border);
 }
+
+/* Layout utility classes */
+.case-study-container {
+  min-height: 100vh;
+  padding: var(--space-2xl) var(--space-lg);
+}
+
+@media (min-width: 640px) {
+  .case-study-container {
+    padding: var(--space-3xl) var(--space-2xl);
+  }
+}
+
+.case-study-content {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.case-study-section {
+  margin-top: var(--space-3xl);
+}
+
+/* Spacing utility classes */
+.section-spacing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.item-spacing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.tight-spacing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
