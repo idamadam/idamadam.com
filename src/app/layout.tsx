@@ -28,28 +28,24 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <nav className="border-b border-gray-200 dark:border-gray-700">
-          <div className="max-w-4xl mx-auto px-8 py-4">
-            <div className="flex justify-between items-center">
-              <Link href="/" className="text-xl font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400">
-                Idam Adam
-              </Link>
-              <div className="flex space-x-6">
-                <Link href="/" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                  Home
+        <nav className="border-b border-subtle">
+          <div className="px-8 sm:px-20 py-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="flex justify-between items-center">
+                <Link href="/" className="text-xl font-bold text-primary hover:text-accent">
+                  Idam Adam
                 </Link>
-                <Link href="/performance-ai" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                  Performance AI
-                </Link>
-                <Link href="/multilingual" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                  Multilingual
-                </Link>
-                <Link href="/one-on-ones" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                  1-on-1s
-                </Link>
-                <Link href="/home-connect" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                  Home Connect
-                </Link>
+                <div className="flex space-x-6">
+                  <Link href="/" className="text-secondary hover:text-primary">
+                    Work
+                  </Link>
+                  <Link href="/about" className="text-secondary hover:text-primary">
+                    About
+                  </Link>
+                  <Link href="/contact" className="text-secondary hover:text-primary">
+                    Contact
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

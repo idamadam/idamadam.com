@@ -140,15 +140,13 @@ p {
 
 /* Improved link styling */
 a {
-  color: var(--accent);
+  color: inherit;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 a:hover {
-  color: var(--primary);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+  color: var(--secondary);
 }
 
 /* Semantic typography classes */
