@@ -1,95 +1,37 @@
-import Link from "next/link";
+import PerformanceAIVignette from '@/components/vignettes/PerformanceAIVignette';
+import PrototypingVignette from '@/components/vignettes/PrototypingVignette';
+import VibeCodingVignette from '@/components/vignettes/VibeCodingVignette';
+import MultilingualVignette from '@/components/vignettes/MultilingualVignette';
+import HomeConnectVignette from '@/components/vignettes/HomeConnectVignette';
 
 export default function Home() {
   return (
-    <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="max-w-6xl mx-auto">
-        {/* Hero Card - Full Width */}
-        <div className="border rounded-lg p-8 sm:p-12 mb-6">
-          <h1 className="text-hero mb-6">
-            Hi, I'm Idam Adam
+    <main className="w-full min-h-screen flex flex-col lg:flex-row">
+      {/* Left Sidebar - Fixed on desktop, static on mobile */}
+      <aside className="w-full lg:w-1/3 lg:fixed lg:left-0 lg:top-0 lg:h-screen bg-white flex items-center justify-center p-8 lg:p-12">
+        <div className="max-w-md">
+          <h1 className="text-4xl lg:text-5xl font-bold text-[#1a1d23] mb-4">
+            Idam Adam
           </h1>
-          <p className="text-h3 mb-6 leading-relaxed">
-            I'm a Product Designer with 8 years of experience creating intuitive web and mobile products that solve complex business problems through user-centered design.
+          <p className="text-lg lg:text-xl text-[#6b7280] mb-2">
+            Product designer
           </p>
-          <p className="text-body mb-6 leading-relaxed">
-            I excel at diving into murky, complex problem spaces to create simple and elegant design solutions backed with evidence. My approach combines deep user research, technical collaboration, and systematic design thinking to deliver measurable impact. I thrive in team environments that value frequent shipping, high trust and autonomy.
-          </p>
-          <p className="text-body mb-6 leading-relaxed">
-            I'm fluent in programming languages and technical frameworks - including Python for AI prompt engineering - which allows me to communicate effectively with engineering teams and directly contribute to technical problem-solving.
-          </p>
-          <p className="text-body leading-relaxed">
-            Currently, I'm a Lead Product Designer at Culture Amp, where I've led the design of AI-powered features, platform integration systems, and multilingual workflows. My background includes roles at MYOB, Canstar, and Netengine.
+          <p className="text-lg lg:text-xl text-[#6b7280]">
+            Good at computers
           </p>
         </div>
+      </aside>
 
-        <h2 className="text-h1 mb-6">
-          Selected Projects
-        </h2>
-
-        {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Performance AI - Featured (spans 2 columns on desktop) */}
-          <div className="border rounded-lg p-6 transition-colors md:col-span-2">
-            <Link href="/performance-ai" className="block">
-              <h3 className="text-h3 mb-3">
-                Performance AI: Evolving Design Principles for AI-Powered Manager Tools
-              </h3>
-              <p className="mb-3">
-                Led the design of Culture Amp's first AI features for performance reviews, establishing company-wide AI design principles and visual language. Created systematic approaches to AI feature validation using synthetic data prototyping and Python-based prompt engineering.
-              </p>
-              <p className="text-caption font-medium">
-                <strong>Impact:</strong> 80% feature effectiveness rate, established AI design standards adopted company-wide
-              </p>
-            </Link>
-          </div>
-
-          {/* Multilingual - Single column */}
-          <div className="border rounded-lg p-6 transition-colors">
-            <Link href="/multilingual" className="block">
-              <h3 className="text-h3 mb-3">
-                Multilingual Performance Reviews
-              </h3>
-              <p className="mb-3">
-                Designed Culture Amp's first comprehensive translation management system to address the #3 reason for customer churn. Created research-driven workflows that supported existing customer mental models while reducing operational complexity.
-              </p>
-              <p className="text-caption font-medium">
-                <strong>Impact:</strong> Retained $1M+ ARR customer, enabled 4,000+ multilingual reviews with minimal support overhead
-              </p>
-            </Link>
-          </div>
-
-          {/* 1-on-1s - Single column */}
-          <div className="border rounded-lg p-6 transition-colors">
-            <Link href="/one-on-ones" className="block">
-              <h3 className="text-h3 mb-3">
-                1-on-1s on Home
-              </h3>
-              <p className="mb-3">
-                Increased 1-on-1 adoption by bringing manager workflows to the homepage, linking adoption goals to core human problems through evidence-based design.
-              </p>
-              <p className="text-caption font-medium">
-                <strong>Impact:</strong> 255% increase in first-time 1-on-1 scheduling, 54% increase in homepage engagement
-              </p>
-            </Link>
-          </div>
-
-          {/* Home Connect - Featured (spans 2 columns on desktop) */}
-          <div className="border rounded-lg p-6 transition-colors md:col-span-2">
-            <Link href="/home-connect" className="block">
-              <h3 className="text-h3 mb-3">
-                Home Connect
-              </h3>
-              <p className="mb-3">
-                Created a scalable homepage system to improve Culture Amp's platform cohesion and navigation challenges identified through customer research and churn analysis.
-              </p>
-              <p className="text-caption font-medium">
-                <strong>Impact:</strong> Addressing low adoption rates and navigation difficulties contributing to customer churn
-              </p>
-            </Link>
-          </div>
+      {/* Right Content Area - Scrollable */}
+      <div className="w-full lg:w-2/3 lg:ml-[33.333%] bg-white">
+        <div className="py-12 lg:py-20 px-6 lg:px-12 space-y-12 lg:space-y-16">
+          <PerformanceAIVignette />
+          <PrototypingVignette />
+          <VibeCodingVignette />
+          <MultilingualVignette />
+          <HomeConnectVignette />
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
