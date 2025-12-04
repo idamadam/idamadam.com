@@ -6,7 +6,7 @@ import VignetteContainer from './VignetteContainer';
 import Button from '../demos/Button';
 import RichTextEditor from '../demos/RichTextEditor';
 import { performanceAIContent } from '@/lib/vignette-data';
-import { slideInFromRight, staggerContainer, staggerItem } from '@/lib/animations';
+import { slideInFromRight, staggerContainer, staggerItem, subtlePulse } from '@/lib/animations';
 
 type AIState = 'before' | 'improving' | 'after';
 
@@ -121,9 +121,7 @@ export default function PerformanceAIVignette() {
         {/* Improve Button */}
         {aiState === 'before' && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            {...subtlePulse}
           >
             <Button
               onClick={handleImprove}

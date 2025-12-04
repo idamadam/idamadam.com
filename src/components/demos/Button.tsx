@@ -37,7 +37,7 @@ export default function Button({
     <motion.button
       onClick={onClick}
       disabled={disabled || loading}
-      className={`${baseStyles} ${variantStyles[variant]} ${disabled || loading ? disabledStyles : ''} ${className}`}
+      className={`${baseStyles} ${variantStyles[variant]} ${disabled || loading ? disabledStyles : 'cursor-pointer'} ${className}`}
       {...buttonHover}
     >
       {loading && (

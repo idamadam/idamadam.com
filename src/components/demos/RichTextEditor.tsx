@@ -17,9 +17,13 @@ export default function RichTextEditor({
 }: RichTextEditorProps) {
   return (
     <motion.div
-      className={`bg-white border border-black rounded-lg overflow-hidden ${className}`}
+      className={`bg-white border border-black rounded-lg overflow-hidden cursor-default ${className}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+      whileHover={{
+        boxShadow: '0 0 0 1px rgba(0,0,0,0.1)',
+        transition: { duration: 0.2 }
+      }}
       transition={{ duration: 0.3 }}
     >
       {/* Toolbar */}

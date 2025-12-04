@@ -58,3 +58,24 @@ export const textReveal = {
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.4, ease: "easeOut" }
 };
+
+export const subtlePulse = {
+  initial: { scale: 1 },
+  animate: {
+    scale: [1, 1.03, 1],
+    transition: {
+      duration: 2,
+      repeat: 2,
+      ease: "easeInOut"
+    }
+  }
+};
+
+export const interactiveHover = {
+  whileHover: {
+    scale: 1.01,
+    borderColor: '#9ca3af',
+    transition: { duration: 0.2 }
+  },
+  transition: { duration: 0.2 }
+};
