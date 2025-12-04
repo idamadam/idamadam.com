@@ -45,7 +45,7 @@ export default function MultilingualVignette() {
     <VignetteContainer
       id="multilingual"
       title={multilingualContent.title}
-      backgroundColor="#ffffff"
+      subtitle={multilingualContent.description}
     >
       <div className="w-full max-w-2xl space-y-4">
         {/* Action Buttons */}

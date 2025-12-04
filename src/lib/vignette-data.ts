@@ -5,6 +5,7 @@
 
 export const performanceAIContent = {
   title: "Made Performance Review season faster & fairer",
+  description: "Performance reviews took hours and still ended up subpar. I partnered with organizational psychologists to ground AI feedback tools in people science - not generic models. The system scans for research-backed feedback qualities (specific, shows impact, objective, actionable) and provides structured highlights and opportunities, not just summaries. 80% of managers found it effective.",
   beforeText: "Please stop yelling",
   afterText: "I would appreciate more constructive feedback. When you raise your voice during meetings, it makes it difficult for the team to have productive conversations. I'd like to discuss ways we can communicate more effectively.",
   highlights: {
@@ -19,6 +20,7 @@ export const performanceAIContent = {
 
 export const multilingualContent = {
   title: "Expanded Performance Reviews to 120+ languages",
+  description: "Global customers ran separate performance cycles for each language, creating massive admin burden. When a $1M+ ARR customer needed multilingual support or they'd churn, I researched workflows and advocated for XLSX uploads and machine translation - expanding scope beyond the original ask. The system enables a single cycle with multiple languages, eliminating operational overhead. $1M+ ARR retained, 4,000+ employees supported.",
   englishText: "How did this person perform?",
   spanishText: "¿Cómo se desempeñó esta persona?",
   languagePairs: [

@@ -23,14 +23,14 @@ export default function VignetteContainer({
       className="w-full bg-white rounded-lg border border-gray-200 overflow-hidden"
       {...fadeInUp}
     >
-      <div className="p-6 lg:p-8 space-y-6">
+      <div className="p-6 lg:p-8 space-y-8">
         {/* Title Section */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <h2 className="text-2xl lg:text-3xl font-bold text-[#1a1d23] leading-tight">
             {title}
           </h2>
           {subtitle && (
-            <p className="text-base text-[#6b7280] leading-relaxed">
+            <p className="text-base text-gray-600 leading-relaxed max-w-3xl">
               {subtitle}
             </p>
           )}

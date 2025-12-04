@@ -46,6 +46,7 @@ export default function PerformanceAIVignette() {
     <VignetteContainer
       id="performance-ai"
       title={performanceAIContent.title}
+      subtitle={performanceAIContent.description}
     >
       <div className="w-full max-w-2xl space-y-4">
         {/* Before/After Editor */}
