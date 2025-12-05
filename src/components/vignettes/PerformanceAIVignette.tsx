@@ -3,10 +3,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import VignetteContainer from './VignetteContainer';
-import Button from '../demos/Button';
 import RichTextEditor from '../demos/RichTextEditor';
 import { performanceAIContent } from '@/lib/vignette-data';
-import { slideInFromRight, staggerContainer, staggerItem, subtlePulse } from '@/lib/animations';
 
 type AIState = 'before' | 'improving' | 'after';
 
@@ -36,10 +34,8 @@ export default function PerformanceAIVignette() {
     }, 1500);
   };
 
-  const handleReset = () => {
-    if (aiState === 'after') {
-      setAiState('before');
-    }
+  const handleClose = () => {
+    setAiState('before');
   };
 
   return (
@@ -49,146 +45,105 @@ export default function PerformanceAIVignette() {
       subtitle={performanceAIContent.description}
     >
       <div className="w-full max-w-2xl space-y-4">
-        {/* Before/After Editor */}
-        <div className="relative">
-          <AnimatePresence mode="wait">
-            {aiState === 'before' && (
-              <motion.div
-                key="before"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <RichTextEditor
-                  content={performanceAIContent.beforeText}
-                  placeholder="Write feedback..."
-                />
-              </motion.div>
-            )}
 
+        {/* Rich Text Editor with States */}
+        <div className="space-y-2">
+          <RichTextEditor
+            content={performanceAIContent.beforeText}
+            placeholder="Write feedback..."
+            showImproveButton={true}
+            onImprove={handleImprove}
+            isImproving={isAnimating}
+          />
+
+          {/* Loading State - "Looking for ways to improve" */}
+          <AnimatePresence>
             {aiState === 'improving' && (
               <motion.div
-                key="improving"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
-                className="flex items-center justify-center bg-white border border-black rounded-lg p-12"
+                className="relative w-full"
               >
-                <div className="text-center">
-                  <svg className="animate-spin h-8 w-8 mx-auto mb-3 text-[#2c2c2c]" viewBox="0 0 24 24">
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      fill="none"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  <p className="text-sm text-[#6b7280]">AI is improving your feedback...</p>
-                </div>
-              </motion.div>
-            )}
+                {/* Blurred background layer for glow effect */}
+                <div className="absolute left-[2px] top-0 w-[calc(100%-2px)] h-16 border-2 border-[#a6e5e7] rounded-lg blur-[5px]" />
 
-            {aiState === 'after' && (
-              <motion.div
-                key="after"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                onClick={handleReset}
-                className="cursor-pointer"
-                title="Click to reset"
-              >
-                <RichTextEditor
-                  content={performanceAIContent.afterText}
-                  placeholder="Improved feedback..."
-                />
+                {/* Content */}
+                <div className="relative bg-white border-2 border-[#a6e5e7] rounded-lg px-5 w-full h-16 flex items-center">
+                  <div className="flex items-center gap-2">
+                    <span className="material-icons-outlined text-[16px] text-[#2f2438] align-middle" style={{ verticalAlign: 'middle' }}>auto_awesome</span>
+                    <span className="text-lg font-semibold text-[#2f2438] leading-6 whitespace-nowrap">
+                      Looking for ways to improve
+                    </span>
+                  </div>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* Improve Button */}
-        {aiState === 'before' && (
-          <motion.div
-            {...subtlePulse}
-          >
-            <Button
-              onClick={handleImprove}
-              variant="secondary"
-              disabled={isAnimating}
-              icon={
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                </svg>
-              }
-            >
-              Improve
-            </Button>
-          </motion.div>
-        )}
-
-        {/* Suggestion Panel */}
-        <AnimatePresence>
-          {aiState === 'before' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ delay: 0.3, duration: 0.4 }}
-              className="bg-white border border-black rounded-lg p-4"
-            >
-              <p className="text-base font-medium mb-2 text-[#1a1d23]">Suggested improvements</p>
-              <p className="text-sm text-[#6b7280]">{performanceAIContent.highlights.summary}</p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Highlights & Opportunities Panel */}
+        {/* AI Recommendations Panel */}
         <AnimatePresence>
           {aiState === 'after' && (
             <motion.div
-              {...slideInFromRight}
-              exit={{ x: 100, opacity: 0 }}
-              className="bg-white border border-black rounded-lg p-4 space-y-4"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white border-2 border-[#a6e5e7] rounded-lg p-6 space-y-4"
             >
-              <motion.div {...staggerContainer}>
-                <motion.h3 {...staggerItem} className="text-base font-bold text-[#1a1d23]">
-                  Highlights & Opportunities
-                </motion.h3>
+              {/* Header */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="material-icons-outlined text-[20px] text-[#2f2438]">auto_awesome</span>
+                  <div className="flex items-center gap-1">
+                    <span className="text-lg font-semibold text-[#2f2438] leading-6">
+                      {performanceAIContent.recommendations.length} suggested improvements
+                    </span>
+                    <span className="text-base font-normal text-[#2f2438] leading-6">
+                      based on Culture Amp People Science
+                    </span>
+                  </div>
+                </div>
+                <button onClick={handleClose} className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                  <span className="material-icons-outlined text-[16px] text-[#2f2438]">close</span>
+                </button>
+              </div>
 
-                <motion.p {...staggerItem} className="text-base text-[#1a1d23] mt-2">
-                  {performanceAIContent.highlights.summary}
-                </motion.p>
+              {/* Recommendations */}
+              <div className="space-y-4">
+                {performanceAIContent.recommendations.map((rec, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + index * 0.1 }}
+                  >
+                    <p className="text-base leading-6 text-[#2f2438]">
+                      <span className="font-semibold">{rec.title}</span>
+                      <span className="font-normal"> {rec.description}</span>
+                    </p>
+                    {index < performanceAIContent.recommendations.length - 1 && (
+                      <div className="h-px bg-[#eaeaec] mt-4" />
+                    )}
+                  </motion.div>
+                ))}
+              </div>
 
-                <motion.div {...staggerItem} className="mt-4 space-y-2">
-                  <p className="text-base font-bold text-[#1a1d23]">Key Improvements</p>
-                  {performanceAIContent.highlights.items.map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.5 + index * 0.1 }}
-                      className="flex items-start gap-2"
-                    >
-                      <svg className="w-4 h-4 mt-0.5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      <p className="text-sm text-[#1a1d23]">{item}</p>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              </motion.div>
+              {/* Footer */}
+              <div className="flex items-center justify-between pt-2">
+                <div className="flex items-center gap-4">
+                  <span className="text-sm text-[#524e56]">Is this helpful?</span>
+                  <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                    <span className="material-icons-outlined text-[16px] text-[#2f2438]">thumb_up</span>
+                  </button>
+                  <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                    <span className="material-icons-outlined text-[16px] text-[#2f2438]">thumb_down</span>
+                  </button>
+                </div>
+                <span className="text-sm text-[#524e56]">Review AI-generated suggestions for accuracy</span>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
