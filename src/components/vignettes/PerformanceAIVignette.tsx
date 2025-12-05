@@ -39,12 +39,82 @@ export default function PerformanceAIVignette() {
   };
 
   return (
-    <VignetteContainer
-      id="performance-ai"
-      title={performanceAIContent.title}
-      subtitle={performanceAIContent.description}
-    >
-      <div className="w-full max-w-2xl space-y-4">
+    <>
+      <style jsx global>{`
+        @property --gradient-angle {
+          syntax: '<angle>';
+          initial-value: 0deg;
+          inherits: false;
+        }
+
+        @keyframes rotateGradient {
+          to {
+            --gradient-angle: 360deg;
+          }
+        }
+
+        .loading-card-container {
+          position: relative;
+          width: 100%;
+          height: 64px;
+          border-radius: 8px;
+          padding: 2px;
+        }
+
+        .loading-card-border {
+          position: absolute;
+          inset: 0;
+          border-radius: 8px;
+          background: conic-gradient(
+            from var(--gradient-angle),
+            #A6E5E7,
+            #64D2D7,
+            #9A36B2,
+            #64D2D7,
+            #A6E5E7
+          );
+          animation: rotateGradient 3s linear infinite;
+          filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.5));
+        }
+
+        .loading-card-content {
+          position: relative;
+          background: white;
+          width: 100%;
+          height: 100%;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          padding: 0 20px;
+          z-index: 1;
+        }
+
+        .recommendation-panel {
+          position: relative;
+          border-radius: 7px;
+          padding: 2px;
+          background: linear-gradient(135deg, #A6E5E7, #64D2D7, #9A36B2);
+        }
+
+        .recommendation-content {
+          background: white;
+          border-radius: 5px;
+          padding: 24px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .loading-card-border {
+            animation: none;
+            filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.3));
+          }
+        }
+      `}</style>
+      <VignetteContainer
+        id="performance-ai"
+        title={performanceAIContent.title}
+        subtitle={performanceAIContent.description}
+      >
+        <div className="w-full max-w-2xl space-y-4">
 
         {/* Rich Text Editor with States */}
         <div className="space-y-2">
@@ -66,16 +136,16 @@ export default function PerformanceAIVignette() {
                 transition={{ duration: 0.3 }}
                 className="relative w-full"
               >
-                {/* Blurred background layer for glow effect */}
-                <div className="absolute left-[2px] top-0 w-[calc(100%-2px)] h-16 border-2 border-[#a6e5e7] rounded-lg blur-[5px]" />
-
-                {/* Content */}
-                <div className="relative bg-white border-2 border-[#a6e5e7] rounded-lg px-5 w-full h-16 flex items-center">
-                  <div className="flex items-center gap-2">
-                    <span className="material-icons-outlined text-[16px] text-[#2f2438] align-middle" style={{ verticalAlign: 'middle' }}>auto_awesome</span>
-                    <span className="text-lg font-semibold text-[#2f2438] leading-6 whitespace-nowrap">
-                      Looking for ways to improve
-                    </span>
+                {/* Animated border gradient card */}
+                <div className="loading-card-container">
+                  <div className="loading-card-border"></div>
+                  <div className="loading-card-content">
+                    <div className="flex items-center gap-2">
+                      <span className="material-icons-outlined text-[16px] text-[#2f2438] align-middle" style={{ verticalAlign: 'middle' }}>auto_awesome</span>
+                      <span className="text-lg font-semibold text-[#2f2438] leading-6 whitespace-nowrap">
+                        Looking for ways to improve
+                      </span>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -91,10 +161,11 @@ export default function PerformanceAIVignette() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.3 }}
-              className="bg-white border-2 border-[#a6e5e7] rounded-lg p-6 space-y-4"
+              className="recommendation-panel"
             >
-              {/* Header */}
-              <div className="flex items-center justify-between">
+              <div className="recommendation-content space-y-4">
+                {/* Header */}
+                <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="material-icons-outlined text-[20px] text-[#2f2438]">auto_awesome</span>
                   <div className="flex items-center gap-1">
@@ -114,12 +185,7 @@ export default function PerformanceAIVignette() {
               {/* Recommendations */}
               <div className="space-y-4">
                 {performanceAIContent.recommendations.map((rec, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 + index * 0.1 }}
-                  >
+                  <div key={index}>
                     <p className="text-base leading-6 text-[#2f2438]">
                       <span className="font-semibold">{rec.title}</span>
                       <span className="font-normal"> {rec.description}</span>
@@ -127,7 +193,7 @@ export default function PerformanceAIVignette() {
                     {index < performanceAIContent.recommendations.length - 1 && (
                       <div className="h-px bg-[#eaeaec] mt-4" />
                     )}
-                  </motion.div>
+                  </div>
                 ))}
               </div>
 
@@ -144,10 +210,12 @@ export default function PerformanceAIVignette() {
                 </div>
                 <span className="text-sm text-[#524e56]">Review AI-generated suggestions for accuracy</span>
               </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
     </VignetteContainer>
+    </>
   );
 }
