@@ -17,7 +17,7 @@ export default function Home() {
             Product designer
           </p>
           <p className="text-2xl lg:text-3xl text-[#6b7280]">
-            Good at computers
+            Maker
           </p>
         </div>
       </section>
