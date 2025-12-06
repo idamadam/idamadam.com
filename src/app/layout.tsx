@@ -17,6 +17,18 @@ export const metadata: Metadata = {
   description: "Portfolio of Idam Adam, Lead Product Designer with 8 years of experience creating intuitive web and mobile products through user-centered design.",
 };
 
+// Polyfill localStorage for SSR
+if (typeof window === 'undefined') {
+  global.localStorage = {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+    clear: () => {},
+    key: () => null,
+    length: 0,
+  } as Storage;
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
