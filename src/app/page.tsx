@@ -26,7 +26,7 @@ export default function Home() {
 
       {/* Vignettes Introduction */}
       <section className="w-full py-12 lg:py-16 px-6 lg:px-12">
-        <div className="max-w-6xl mx-auto border-t border-gray-200">
+        <div className="max-w-6xl mx-auto border-t border-gray-200 pt-12 lg:pt-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-[#1a1d23] mb-4">
             Selected Work
           </h2>
