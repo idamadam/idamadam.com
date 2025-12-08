@@ -1,110 +1,217 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from './RichTextEditor';
+import { performanceAIContent } from '@/lib/vignette-data';
 
 interface SuggestionsPanelProps {
   className?: string;
 }
 
+type AIState = 'before' | 'improving' | 'after';
+
 export default function SuggestionsPanel({ className = '' }: SuggestionsPanelProps) {
-  const [suggestionsExpanded, setSuggestionsExpanded] = useState(true);
+  const [aiState, setAiState] = useState<AIState>('before');
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    if (aiState === 'after') {
+      const timer = setTimeout(() => {
+        setAiState('before');
+      }, 10000); // Reset after 10 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [aiState]);
+
+  const handleImprove = () => {
+    if (isAnimating) return;
+
+    setIsAnimating(true);
+    setAiState('improving');
+
+    setTimeout(() => {
+      setAiState('after');
+      setIsAnimating(false);
+    }, 1500);
+  };
+
+  const handleClose = () => {
+    setAiState('before');
+  };
 
   return (
-    <div className={`space-y-2 font-[family-name:var(--font-inter)] ${className}`}>
-      {/* Rich Text Editor */}
-      <RichTextEditor
-        content="This review period, Idam has designed some really great tools to help managers with their performance reviews."
-        placeholder="Write your review..."
-        readOnly={false}
-      />
+    <>
+      <style jsx global>{`
+        @property --gradient-angle {
+          syntax: '<angle>';
+          initial-value: 0deg;
+          inherits: false;
+        }
 
-      {/* AI Suggestions Card */}
-      <AnimatePresence>
-        {suggestionsExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="overflow-hidden"
-          >
-            <div className="bg-white border-2 border-[#a6e5e7] rounded-lg p-6">
-              {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-start gap-2">
-                  <div className="flex items-center justify-center w-5 h-5 mt-0.5">
-                    <span className="material-icons-outlined text-[20px] text-[#2f2438]">
-                      auto_awesome
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap items-baseline gap-1">
-                    <span className="text-[18px] leading-[24px] font-semibold text-[#2f2438]">
-                      2 suggested improvements
-                    </span>
-                    <span className="text-[16px] leading-[24px] text-[rgba(47,36,56,0.7)]">
-                      based on Culture Amp People Science
-                    </span>
+        @keyframes rotateGradient {
+          to {
+            --gradient-angle: 360deg;
+          }
+        }
+
+        .loading-card-container {
+          position: relative;
+          width: 100%;
+          height: 64px;
+          border-radius: 8px;
+          padding: 2px;
+        }
+
+        .loading-card-border {
+          position: absolute;
+          inset: 0;
+          border-radius: 8px;
+          background: conic-gradient(
+            from var(--gradient-angle),
+            #A6E5E7,
+            #64D2D7,
+            #9A36B2,
+            #64D2D7,
+            #A6E5E7
+          );
+          animation: rotateGradient 3s linear infinite;
+          filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.5));
+        }
+
+        .loading-card-content {
+          position: relative;
+          background: white;
+          width: 100%;
+          height: 100%;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          padding: 0 20px;
+          z-index: 1;
+        }
+
+        .recommendation-panel {
+          position: relative;
+          border-radius: 7px;
+          padding: 2px;
+          background: linear-gradient(135deg, #A6E5E7, #64D2D7, #9A36B2);
+        }
+
+        .recommendation-content {
+          background: white;
+          border-radius: 5px;
+          padding: 24px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .loading-card-border {
+            animation: none;
+            filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.3));
+          }
+        }
+      `}</style>
+      <div className={`space-y-2 font-[family-name:var(--font-inter)] ${className}`}>
+        {/* Rich Text Editor with Improve Button */}
+        <div className="space-y-2">
+          <RichTextEditor
+            content={performanceAIContent.beforeText}
+            placeholder="Write feedback..."
+            showImproveButton={true}
+            onImprove={handleImprove}
+            isImproving={isAnimating}
+          />
+
+          {/* Loading State - "Looking for ways to improve" */}
+          <AnimatePresence>
+            {aiState === 'improving' && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                className="relative w-full"
+              >
+                {/* Animated border gradient card */}
+                <div className="loading-card-container">
+                  <div className="loading-card-border"></div>
+                  <div className="loading-card-content">
+                    <div className="flex items-center gap-2">
+                      <span className="material-icons-outlined text-[16px] text-[#2f2438] align-middle" style={{ verticalAlign: 'middle' }}>auto_awesome</span>
+                      <span className="text-lg font-semibold text-[#2f2438] leading-6 whitespace-nowrap">
+                        Looking for ways to improve
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => setSuggestionsExpanded(false)}
-                  className="p-2 hover:bg-gray-50 rounded-lg transition-colors flex-shrink-0"
-                  aria-label="Close suggestions"
-                >
-                  <span className="material-icons-outlined text-[16px] text-[#2f2438]">
-                    close
-                  </span>
-                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* AI Recommendations Panel */}
+        <AnimatePresence>
+          {aiState === 'after' && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.3 }}
+              className="recommendation-panel"
+            >
+              <div className="recommendation-content space-y-4">
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="material-icons-outlined text-[20px] text-[#2f2438]">auto_awesome</span>
+                    <div className="flex items-center gap-1">
+                      <span className="text-lg font-semibold text-[#2f2438] leading-6">
+                        {performanceAIContent.recommendations.length} suggested improvements
+                      </span>
+                      <span className="text-base font-normal text-[#2f2438] leading-6">
+                        based on Culture Amp People Science
+                      </span>
+                    </div>
+                  </div>
+                  <button onClick={handleClose} className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                    <span className="material-icons-outlined text-[16px] text-[#2f2438]">close</span>
+                  </button>
+                </div>
+
+                {/* Recommendations */}
+                <div className="space-y-4">
+                  {performanceAIContent.recommendations.map((rec, index) => (
+                    <div key={index}>
+                      <p className="text-base leading-6 text-[#2f2438]">
+                        <span className="font-semibold">{rec.title}</span>
+                        <span className="font-normal"> {rec.description}</span>
+                      </p>
+                      {index < performanceAIContent.recommendations.length - 1 && (
+                        <div className="h-px bg-[#eaeaec] mt-4" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Footer */}
+                <div className="flex items-center justify-between pt-2">
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm text-[#524e56]">Is this helpful?</span>
+                    <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                      <span className="material-icons-outlined text-[16px] text-[#2f2438]">thumb_up</span>
+                    </button>
+                    <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                      <span className="material-icons-outlined text-[16px] text-[#2f2438]">thumb_down</span>
+                    </button>
+                  </div>
+                  <span className="text-sm text-[#524e56]">Review AI-generated suggestions for accuracy</span>
+                </div>
               </div>
-
-              {/* Suggestion 1 */}
-              <div className="mb-4">
-                <p className="text-[16px] leading-[24px] text-[#2f2438]">
-                  <span className="font-semibold">Suggest actions: </span>
-                  <span className="font-normal">ABCD</span>
-                </p>
-              </div>
-
-              {/* Divider */}
-              <div className="h-px bg-[#eaeaec] mb-4" />
-
-              {/* Suggestion 2 */}
-              <div>
-                <p className="text-[16px] leading-[24px] text-[#2f2438]">
-                  <span className="font-semibold">Be objective: </span>
-                  <span className="font-normal">
-                    Although the feedback is mostly objective, phrases like &quot;conscious
-                    effort&quot; and &quot;constructively&quot; could be interpreted as slightly
-                    subjective, as they infer intent rather than describing purely observable
-                    behavior. While it mentions an observable behavior (interrupting), stating
-                    overall that their communication has &quot;improved&quot; is a value judgment
-                    and does not fit with the requirement of objectivity.
-                  </span>
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Show suggestions button when collapsed */}
-      {!suggestionsExpanded && (
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          onClick={() => setSuggestionsExpanded(true)}
-          className="w-full bg-white border-2 border-[#a6e5e7] rounded-lg p-4 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
-        >
-          <span className="material-icons-outlined text-[20px] text-[#2f2438]">
-            auto_awesome
-          </span>
-          <span className="text-[16px] leading-[24px] font-semibold text-[#2f2438]">
-            Show 2 AI suggestions
-          </span>
-        </motion.button>
-      )}
-    </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </>
   );
 }
