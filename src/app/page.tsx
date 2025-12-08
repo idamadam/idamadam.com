@@ -10,7 +10,7 @@ export default function Home() {
     <main className="w-full min-h-screen bg-white">
       {/* Hero Section */}
       <section className="w-full min-h-[85vh] flex items-center justify-center px-6 lg:px-12">
-        <div className="max-w-4xl w-full">
+        <div className="max-w-6xl w-full">
           <ShaderBackground />
           <div className="mt-8">
             <h1 className="text-5xl lg:text-7xl font-bold text-[#1a1d23] mb-6">
@@ -26,7 +26,7 @@ export default function Home() {
 
       {/* Vignettes Introduction */}
       <section className="w-full py-12 lg:py-16 px-6 lg:px-12">
-        <div className="max-w-4xl mx-auto border-t border-gray-200">
+        <div className="max-w-6xl mx-auto border-t border-gray-200">
           <h2 className="text-3xl lg:text-4xl font-bold text-[#1a1d23] mb-4">
             Selected Work
           </h2>
@@ -35,7 +35,7 @@ export default function Home() {
 
       {/* Vignettes Section */}
       <section className="w-full py-12 lg:py-20 px-6 lg:px-12">
-        <div className="max-w-4xl mx-auto space-y-12 lg:space-y-16">
+        <div className="max-w-6xl mx-auto space-y-12 lg:space-y-16">
           <PerformanceAIVignette />
           <PrototypingVignette />
           <VibeCodingVignette />
