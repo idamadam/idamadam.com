@@ -29,7 +29,7 @@ export default function PerformanceAIVignette() {
           </div>
 
           {/* Right: Interactive Mockup */}
-          <div className="w-full lg:max-w-[533px]">
+          <div className="w-full">
             <HighlightsPanel />
           </div>
         </motion.div>
@@ -48,7 +48,7 @@ export default function PerformanceAIVignette() {
           </div>
 
           {/* Right: Interactive Mockup */}
-          <div className="w-full lg:max-w-[533px]">
+          <div className="w-full">
             <SuggestionsPanel />
           </div>
         </motion.div>
