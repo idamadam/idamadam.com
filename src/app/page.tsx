@@ -30,6 +30,9 @@ export default function Home() {
           <h2 className="text-3xl lg:text-4xl font-bold text-[#1a1d23] mb-4">
             Selected Work
           </h2>
+          <p className="text-lg text-[#6b7280]">
+            Product design at Culture Amp
+          </p>
         </div>
       </section>
 
@@ -38,9 +41,28 @@ export default function Home() {
         <div className="max-w-6xl mx-auto space-y-12 lg:space-y-16">
           <PerformanceAIVignette />
           <PrototypingVignette />
-          <VibeCodingVignette />
           <MultilingualVignette />
           <HomeConnectVignette />
+        </div>
+      </section>
+
+      {/* Explorations Section Header */}
+      <section className="w-full py-12 lg:py-16 px-6 lg:px-12">
+        <div className="max-w-6xl mx-auto border-t border-gray-200 pt-12 lg:pt-16">
+          <h2 className="text-3xl lg:text-4xl font-bold text-[#1a1d23]">
+            Explorations
+          </h2>
+          <p className="text-lg text-[#6b7280]">
+            Personal products I design and build end-to-end. These projects help me
+            understand technology at a deeper level while exploring entrepreneurial ideas.
+          </p>
+        </div>
+      </section>
+
+      {/* Explorations Vignettes */}
+      <section className="w-full py-12 lg:py-20 px-6 lg:px-12">
+        <div className="max-w-6xl mx-auto space-y-12 lg:space-y-16">
+          <VibeCodingVignette />
         </div>
       </section>
     </main>
