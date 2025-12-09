@@ -25,12 +25,17 @@ export default function Home() {
 
       {/* Vignettes Introduction */}
       <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12">
-        <div className="max-w-5xl mx-auto border-t border-gray-200/80 pt-10 lg:pt-12 space-y-2">
+        <div className="max-w-5xl mx-auto border-t border-gray-200/80 pt-10 lg:pt-12 space-y-3">
           <h2 className="text-[24px] lg:text-[26px] leading-[1.2] tracking-[-0.02em] font-semibold text-[#0f172a]">
             Selected Work
           </h2>
-          <p className="text-[17px] leading-[1.6] text-[#4b5563]">
+          <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
             Product design at Culture Amp
+          </p>
+          <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
+            I&apos;m a big believer in showing rather than telling, so I prototype until ideas feel
+            real. Click through and play with each feature—these vignettes are built to be tried, not
+            just read about.
           </p>
         </div>
       </section>
@@ -51,7 +56,7 @@ export default function Home() {
           <h2 className="text-[24px] lg:text-[26px] leading-[1.2] tracking-[-0.02em] font-semibold text-[#0f172a]">
             Explorations
           </h2>
-          <p className="text-[17px] leading-[1.6] text-[#4b5563] max-w-3xl">
+          <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
             Personal products I design and build end-to-end. These projects help me
             understand technology at a deeper level while exploring entrepreneurial ideas.
           </p>
