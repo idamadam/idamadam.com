@@ -2,55 +2,36 @@
 
 import { motion } from 'framer-motion';
 import VignetteContainer from './VignetteContainer';
-import { prototypingContent } from '@/lib/vignette-data';
-import { scaleOnHover } from '@/lib/animations';
+import SandboxPanel from '../demos/SandboxPanel';
+import { fadeInUp } from '@/lib/animations';
 
 export default function PrototypingVignette() {
   return (
     <VignetteContainer
       id="prototyping"
-      title={prototypingContent.title}
-      backgroundColor="#fafafa"
     >
-      <div className="w-full max-w-2xl">
-        <div className="bg-white border border-black rounded-lg p-6 space-y-6">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-[#1a1d23]">
-              {prototypingContent.sandboxTitle}
+      <div className="w-full space-y-12 lg:space-y-16">
+        {/* Section: AI Prototyping Infrastructure */}
+        <motion.div
+          {...fadeInUp}
+          transition={{ delay: 0.2 }}
+          className="grid grid-cols-1 lg:grid-cols-[401px_1fr] gap-6 lg:gap-6"
+        >
+          {/* Left: Description */}
+          <div className="space-y-6">
+            <h3 className="text-[32px] leading-[38.4px] font-medium text-[#1a1d23] font-[family-name:var(--font-ibm-plex-sans)]">
+              Pioneered AI Prototyping infrastructure at Culture Amp
             </h3>
-            <div className="w-16 h-16 bg-[#d9d9d9] rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-              </svg>
-            </div>
+            <p className="text-[24px] leading-[28.8px] text-[#6b7280] font-[family-name:var(--font-ibm-plex-sans)]">
+              I created a common repository for designers & product managers at Culture Amp to create, share and remix React prototypes.
+            </p>
           </div>
 
-          {/* Prototype Grid */}
-          <div className="grid grid-cols-3 gap-4">
-            {prototypingContent.prototypes.map((prototype, index) => (
-              <motion.div
-                key={prototype.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1, duration: 0.3 }}
-                viewport={{ once: true }}
-                {...scaleOnHover}
-                className="bg-[#d9d9d9] rounded-lg aspect-square flex items-center justify-center cursor-pointer hover:bg-[#c9c9c9] transition-colors"
-                title={prototype.name}
-              >
-                <div className="text-center p-2">
-                  <svg className="w-8 h-8 mx-auto mb-1 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                    <line x1="3" y1="9" x2="21" y2="9" />
-                    <line x1="9" y1="21" x2="9" y2="9" />
-                  </svg>
-                  <p className="text-xs text-gray-600 font-medium">{prototype.name}</p>
-                </div>
-              </motion.div>
-            ))}
+          {/* Right: Interactive Mockup */}
+          <div className="w-full">
+            <SandboxPanel />
           </div>
-        </div>
+        </motion.div>
       </div>
     </VignetteContainer>
   );
