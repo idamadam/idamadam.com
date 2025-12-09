@@ -20,18 +20,18 @@ export default function VignetteContainer({
   return (
     <motion.article
       id={id}
-      className="w-full bg-white rounded-lg border border-gray-200 overflow-hidden"
+      className="w-full bg-white rounded-2xl border border-gray-200/80 overflow-hidden"
       {...fadeInUp}
     >
-      <div className="p-6 lg:p-8 space-y-8">
+      <div className="p-7 lg:p-10 space-y-10">
         {/* Title Section - Only show if title is provided */}
         {title && (
           <div className="space-y-3">
-            <h2 className="text-2xl lg:text-3xl font-bold text-[#1a1d23] leading-tight">
+            <h2 className="text-[24px] lg:text-[26px] leading-[1.2] tracking-[-0.02em] font-semibold text-[#0f172a]">
               {title}
             </h2>
             {subtitle && (
-              <p className="text-base text-gray-600 leading-relaxed max-w-3xl">
+              <p className="text-[16px] leading-[1.6] text-gray-600 max-w-3xl">
                 {subtitle}
               </p>
             )}
