@@ -59,22 +59,8 @@ export const prototypingContent = {
 };
 
 export const vibeCodingContent = {
-  title: "Experimented with creating my own vibe coding app",
-  codeSnippet: `function createVibe() {
-  const mood = detectMood();
-  const music = selectPlaylist(mood);
-  const theme = adjustColors(mood);
-
-  return {
-    music,
-    theme,
-    focus: true
-  };
-}
-
-// Start the vibe
-createVibe();`,
-  language: "javascript"
+  title: "Building an AI-powered prototyping tool",
+  description: "A side project exploring how AI agents can help designers and product managers create interactive prototypes through natural language. Type what you want to build, and the system generates working React components in real-time."
 };
 
 export const homeConnectContent = {
