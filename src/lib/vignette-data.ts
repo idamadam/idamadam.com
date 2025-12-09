@@ -37,7 +37,7 @@ export const multilingualContent = {
   description: "Global customers ran separate performance cycles for each language, creating massive admin burden. When a $1M+ ARR customer needed multilingual support or they'd churn, I researched workflows and advocated for XLSX uploads and machine translation - expanding scope beyond the original ask. The system enables a single cycle with multiple languages, eliminating operational overhead. $1M+ ARR retained, 4,000+ employees supported.",
   section1: {
     title: "Expanded Performance Reviews to 120+ languages",
-    description: "I researched translation workflows and designed three input methods for different needs. Manual editing for quick tweaks. CSV uploads for translation agencies. Machine translation for speed."
+    description: "This was a milestone for me. I incorporated my native language, Dhivehi, into my work for the first time. I designed a flexible translation workflow that supports three input methods: manual editing for quick tweaks, CSV uploads for translation agencies, and machine translation for speed."
   },
   section2: {
     title: "Auto-translate in action",
