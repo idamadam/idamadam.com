@@ -1,91 +1,76 @@
-import Link from "next/link";
+import AIHighlightsVignette from '@/components/vignettes/AIHighlightsVignette';
+import AISuggestionsVignette from '@/components/vignettes/AISuggestionsVignette';
+import PrototypingVignette from '@/components/vignettes/PrototypingVignette';
+import VibeCodingVignette from '@/components/vignettes/VibeCodingVignette';
+import MultilingualVignette from '@/components/vignettes/MultilingualVignette';
+import HomeConnectVignette from '@/components/vignettes/HomeConnectVignette';
+import ShaderBackground from '@/components/ShaderBackground';
 
 export default function Home() {
   return (
-    <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="max-w-4xl mx-auto">
-        <div className="mb-12">
-          <h1 className="text-hero mb-6">
-            Hi, I'm Idam Adam
-          </h1>
-          <p className="text-h3 mb-6 leading-relaxed">
-            I'm a Product Designer with 8 years of experience creating intuitive web and mobile products that solve complex business problems through user-centered design.
+    <main className="w-full min-h-screen bg-white text-[#0f172a]">
+      {/* Hero Section */}
+      <section className="w-full py-16 lg:py-24 px-6 lg:px-12">
+        <div className="relative max-w-5xl w-full mx-auto">
+          <ShaderBackground />
+          <div className="space-y-5 lg:space-y-7">
+            <h1 className="text-[clamp(44px,8vw,72px)] leading-[0.95] tracking-[-0.04em] font-bold text-[#0f172a]">
+              Idam Adam
+            </h1>
+            <p className="text-[clamp(18px,3vw,22px)] leading-[1.6] text-[#4b5563] max-w-2xl">
+              Product designer · Maker
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Vignettes Introduction */}
+      <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12">
+        <div className="max-w-5xl mx-auto border-t border-gray-200/80 pt-10 lg:pt-12 space-y-3">
+          <h2 className="text-[24px] lg:text-[26px] leading-[1.2] tracking-[-0.02em] font-semibold text-[#0f172a]">
+            Selected Work
+          </h2>
+          <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
+            Product design at Culture Amp
           </p>
-          <p className="text-body mb-6 leading-relaxed">
-            I excel at diving into murky, complex problem spaces to create simple and elegant design solutions backed with evidence. My approach combines deep user research, technical collaboration, and systematic design thinking to deliver measurable impact. I thrive in team environments that value frequent shipping, high trust and autonomy.
-          </p>
-          <p className="text-body mb-8 leading-relaxed">
-            I'm fluent in programming languages and technical frameworks - including Python for AI prompt engineering - which allows me to communicate effectively with engineering teams and directly contribute to technical problem-solving.
-          </p>
-          <p className="text-body mb-12 leading-relaxed">
-            Currently, I'm a Lead Product Designer at Culture Amp, where I've led the design of AI-powered features, platform integration systems, and multilingual workflows. My background includes roles at MYOB, Canstar, and Netengine.
+          <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
+            I&apos;m a big believer in showing rather than telling, so I prototype until ideas feel
+            real. Click through and play with each feature—these vignettes are built to be tried, not
+            just read about.
           </p>
         </div>
+      </section>
 
-        <section>
-          <h2 className="text-h1">
-            Selected Projects
+      {/* Vignettes Section */}
+      <section className="w-full pb-16 lg:pb-24 px-6 lg:px-12">
+        <div className="max-w-5xl mx-auto space-y-12 lg:space-y-14">
+          <AIHighlightsVignette />
+          <AISuggestionsVignette />
+          <PrototypingVignette />
+          <MultilingualVignette />
+          <HomeConnectVignette />
+        </div>
+      </section>
+
+      {/* Explorations Section Header */}
+      <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12">
+        <div className="max-w-5xl mx-auto border-t border-gray-200/80 pt-10 lg:pt-12 space-y-3">
+          <h2 className="text-[24px] lg:text-[26px] leading-[1.2] tracking-[-0.02em] font-semibold text-[#0f172a]">
+            Explorations
           </h2>
-          
-          <div className="space-y-8">
-            <div className="border rounded-lg p-6 transition-colors">
-              <Link href="/performance-ai" className="block">
-                <h3 className="text-h3 mb-3">
-                  Performance AI: Evolving Design Principles for AI-Powered Manager Tools
-                </h3>
-                <p className="mb-3">
-                  Led the design of Culture Amp's first AI features for performance reviews, establishing company-wide AI design principles and visual language. Created systematic approaches to AI feature validation using synthetic data prototyping and Python-based prompt engineering.
-                </p>
-                <p className="text-caption font-medium">
-                  <strong>Impact:</strong> 80% feature effectiveness rate, established AI design standards adopted company-wide
-                </p>
-              </Link>
-            </div>
+          <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
+            Personal products I design and build end-to-end. These projects help me
+            understand technology at a deeper level while exploring entrepreneurial ideas.
+          </p>
+        </div>
+      </section>
 
-            <div className="border rounded-lg p-6 transition-colors">
-              <Link href="/multilingual" className="block">
-                <h3 className="text-h3 mb-3">
-                  Multilingual Performance Reviews
-                </h3>
-                <p className="mb-3">
-                  Designed Culture Amp's first comprehensive translation management system to address the #3 reason for customer churn. Created research-driven workflows that supported existing customer mental models while reducing operational complexity.
-                </p>
-                <p className="text-caption font-medium">
-                  <strong>Impact:</strong> Retained $1M+ ARR customer, enabled 4,000+ multilingual reviews with minimal support overhead
-                </p>
-              </Link>
-            </div>
-
-            <div className="border rounded-lg p-6 transition-colors">
-              <Link href="/one-on-ones" className="block">
-                <h3 className="text-h3 mb-3">
-                  1-on-1s on Home
-                </h3>
-                <p className="mb-3">
-                  Increased 1-on-1 adoption by bringing manager workflows to the homepage, linking adoption goals to core human problems through evidence-based design.
-                </p>
-                <p className="text-caption font-medium">
-                  <strong>Impact:</strong> 255% increase in first-time 1-on-1 scheduling, 54% increase in homepage engagement
-                </p>
-              </Link>
-            </div>
-
-            <div className="border rounded-lg p-6 transition-colors">
-              <Link href="/home-connect" className="block">
-                <h3 className="text-h3 mb-3">
-                  Home Connect
-                </h3>
-                <p className="mb-3">
-                  Created a scalable homepage system to improve Culture Amp's platform cohesion and navigation challenges identified through customer research and churn analysis.
-                </p>
-                <p className="text-caption font-medium">
-                  <strong>Impact:</strong> Addressing low adoption rates and navigation difficulties contributing to customer churn
-                </p>
-              </Link>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
+      {/* Explorations Vignettes */}
+      <section className="w-full pb-20 lg:pb-28 px-6 lg:px-12">
+        <div className="max-w-5xl mx-auto space-y-12 lg:space-y-14">
+          <VibeCodingVignette />
+        </div>
+      </section>
+    </main>
   );
 }
