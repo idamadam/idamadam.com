@@ -138,7 +138,7 @@ function AIHighlightsContent({
     >
       <div className="relative" style={{ overflow: 'visible' }}>
         <HighlightsPanel
-          stage={stage === 'iterations' ? 'solution' : stage}
+          stage={stage}
           onTransition={goToSolution}
           problemCards={aiHighlightsContent.problemCards}
         />
