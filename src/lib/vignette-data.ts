@@ -168,7 +168,7 @@ export const aiHighlightsContent = {
           { label: "Data", value: "Quotes mapped to highlights, source count as confidence signal" }
         ]
       }
-    ]
+    ] as DesignNotesMode[]
   },
 
   // Problem state content - scattered information cards
