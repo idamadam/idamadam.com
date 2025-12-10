@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from './RichTextEditor';
-import { performanceAIContent } from '@/lib/vignette-data';
+import { aiSuggestionsContent } from '@/lib/vignette-data';
 
 interface SuggestionsPanelProps {
   className?: string;
@@ -116,7 +116,7 @@ export default function SuggestionsPanel({ className = '' }: SuggestionsPanelPro
         {/* Rich Text Editor with Improve Button */}
         <div className="space-y-2">
           <RichTextEditor
-            content={performanceAIContent.beforeText}
+            content={aiSuggestionsContent.beforeText}
             placeholder="Write feedback..."
             showImproveButton={true}
             onImprove={handleImprove}
@@ -167,7 +167,7 @@ export default function SuggestionsPanel({ className = '' }: SuggestionsPanelPro
                     <span className="material-icons-outlined text-[20px] text-[#2f2438]">auto_awesome</span>
                     <div className="flex items-center gap-1">
                       <span className="text-lg font-semibold text-[#2f2438] leading-6">
-                        {performanceAIContent.recommendations.length} suggested improvements
+                        {aiSuggestionsContent.recommendations.length} suggested improvements
                       </span>
                       <span className="text-base font-normal text-[#2f2438] leading-6">
                         based on Culture Amp People Science
@@ -181,13 +181,13 @@ export default function SuggestionsPanel({ className = '' }: SuggestionsPanelPro
 
                 {/* Recommendations */}
                 <div className="space-y-4">
-                  {performanceAIContent.recommendations.map((rec, index) => (
+                  {aiSuggestionsContent.recommendations.map((rec, index) => (
                     <div key={index}>
                       <p className="text-base leading-6 text-[#2f2438]">
                         <span className="font-semibold">{rec.title}</span>
                         <span className="font-normal"> {rec.description}</span>
                       </p>
-                      {index < performanceAIContent.recommendations.length - 1 && (
+                      {index < aiSuggestionsContent.recommendations.length - 1 && (
                         <div className="h-px bg-[#eaeaec] mt-4" />
                       )}
                     </div>

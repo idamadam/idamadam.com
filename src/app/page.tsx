@@ -1,4 +1,5 @@
-import PerformanceAIVignette from '@/components/vignettes/PerformanceAIVignette';
+import AIHighlightsVignette from '@/components/vignettes/AIHighlightsVignette';
+import AISuggestionsVignette from '@/components/vignettes/AISuggestionsVignette';
 import PrototypingVignette from '@/components/vignettes/PrototypingVignette';
 import VibeCodingVignette from '@/components/vignettes/VibeCodingVignette';
 import MultilingualVignette from '@/components/vignettes/MultilingualVignette';
@@ -43,7 +44,8 @@ export default function Home() {
       {/* Vignettes Section */}
       <section className="w-full pb-16 lg:pb-24 px-6 lg:px-12">
         <div className="max-w-5xl mx-auto space-y-12 lg:space-y-14">
-          <PerformanceAIVignette />
+          <AIHighlightsVignette />
+          <AISuggestionsVignette />
           <PrototypingVignette />
           <MultilingualVignette />
           <HomeConnectVignette />

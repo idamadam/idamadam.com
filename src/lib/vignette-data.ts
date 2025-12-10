@@ -3,9 +3,16 @@
  * Separates content from components for easy editing
  */
 
-export const performanceAIContent = {
+export const aiHighlightsContent = {
   title: "Made Performance Review season faster & fairer",
-  description: "Performance reviews took hours and still ended up subpar. I partnered with organizational psychologists to ground AI feedback tools in people science - not generic models. The system scans for research-backed feedback qualities (specific, shows impact, objective, actionable) and provides structured highlights and opportunities, not just summaries. 80% of managers found it effective.",
+  description: "AI Highlights & Opportunities",
+  fullDescription: "Performance reviews took hours gathering information from scattered sources. I designed an AI system that surfaces key highlights and opportunities from feedback, goals, and 1-on-1 notes. Managers can expand to see direct quotes, verifying AI outputs while saving significant time during review season."
+};
+
+export const aiSuggestionsContent = {
+  title: "Made Performance Review season faster & fairer",
+  description: "AI Suggested Improvements",
+  fullDescription: "Performance reviews often ended up subpar despite hours of work. I partnered with organizational psychologists to ground AI coaching in people science. The system scans for research-backed feedback qualities (specific, shows impact, objective, actionable) and provides structured improvement suggestions. 80% of managers found it effective.",
   questionNumber: 2,
   questionText: "How has this person progressed over this review period?",
   instructionText: "Explain how this growth has helped this person achieve their goals and how it has positively impacted their performance. Refer to this person's feedback, self-reflection and goals in the profile to the right. This will give you a more holistic view of their performance over the last review period and make the evaluation easier for you to complete.",
