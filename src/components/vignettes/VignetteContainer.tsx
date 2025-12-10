@@ -9,18 +9,22 @@ interface VignetteContainerProps {
   subtitle?: string;
   children: ReactNode;
   id: string;
+  allowOverflow?: boolean;
 }
 
 export default function VignetteContainer({
   title,
   subtitle,
   children,
-  id
+  id,
+  allowOverflow = false
 }: VignetteContainerProps) {
   return (
     <motion.article
       id={id}
-      className="w-full bg-white rounded-2xl border border-gray-200/80 overflow-hidden"
+      className={`w-full bg-white rounded-2xl border border-gray-200/80 ${
+        allowOverflow ? 'overflow-visible' : 'overflow-hidden'
+      }`}
       {...fadeInUp}
     >
       <div className="p-7 lg:p-10 space-y-10">

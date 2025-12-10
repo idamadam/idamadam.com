@@ -15,30 +15,30 @@ interface VignetteStagedProps {
   stages?: {
     problem?: StageContent;
     solution?: StageContent;
-    iterations?: StageContent;
+    designNotes?: StageContent;
   };
-  iterationsPanel?: ReactNode;
+  designNotesPanel?: ReactNode;
   className?: string;
 }
 
 function VignetteStagedInner({
   children,
   stages,
-  iterationsPanel,
+  designNotesPanel,
   className = ''
 }: VignetteStagedProps) {
-  const { stage, goToIterations, hasSeenSolution, reset } = useVignetteStage();
-  const [showIterationsCta, setShowIterationsCta] = useState(false);
+  const { stage, goToDesignNotes, hasSeenSolution, reset } = useVignetteStage();
+  const [showDesignNotesCta, setShowDesignNotesCta] = useState(false);
 
-  // Show iterations CTA after solution is revealed (with delay for animation to complete)
+  // Show design notes CTA after solution is revealed (with delay for animation to complete)
   useEffect(() => {
     if (stage === 'solution' && hasSeenSolution) {
       const timer = setTimeout(() => {
-        setShowIterationsCta(true);
+        setShowDesignNotesCta(true);
       }, 800); // Delay after solution animation completes
       return () => clearTimeout(timer);
     } else if (stage !== 'solution') {
-      setShowIterationsCta(false);
+      setShowDesignNotesCta(false);
     }
   }, [stage, hasSeenSolution]);
 
@@ -51,9 +51,9 @@ function VignetteStagedInner({
       transition={{ layout: { duration: 0.35, ease: 'easeInOut' } }}
     >
       <AnimatePresence mode="wait">
-        {stage === 'iterations' && iterationsPanel ? (
+        {stage === 'designNotes' && designNotesPanel ? (
           <motion.div
-            key="iterations"
+            key="designNotes"
             layout
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ function VignetteStagedInner({
               </div>
             )}
 
-            {iterationsPanel}
+            {designNotesPanel}
 
             {/* Reset button */}
             <motion.button
@@ -100,9 +100,9 @@ function VignetteStagedInner({
           >
             {children}
 
-            {/* How I got here CTA - appears after solution reveal */}
+            {/* Design notes CTA - appears after solution reveal */}
             <AnimatePresence>
-              {showIterationsCta && stages?.solution?.cta && (
+              {showDesignNotesCta && stages?.solution?.cta && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -111,7 +111,7 @@ function VignetteStagedInner({
                   className="mt-6"
                 >
                   <button
-                    onClick={goToIterations}
+                    onClick={goToDesignNotes}
                     className="flex items-center gap-2 text-[16px] text-[#4b5563] hover:text-[#0f172a] transition-colors font-[family-name:var(--font-ibm-plex-sans)] group"
                   >
                     <span className="material-icons-outlined text-[20px]">auto_awesome</span>

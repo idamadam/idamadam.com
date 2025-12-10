@@ -2,13 +2,13 @@
 
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 
-export type VignetteStage = 'problem' | 'solution' | 'iterations';
+export type VignetteStage = 'problem' | 'solution' | 'designNotes';
 
 interface VignetteStageContextValue {
   stage: VignetteStage;
   setStage: (stage: VignetteStage) => void;
   goToSolution: () => void;
-  goToIterations: () => void;
+  goToDesignNotes: () => void;
   reset: () => void;
   hasSeenSolution: boolean;
 }
@@ -25,22 +25,25 @@ export function VignetteStageProvider({
   initialStage = 'problem'
 }: VignetteStageProviderProps) {
   const [stage, setStageInternal] = useState<VignetteStage>(initialStage);
-  const [hasSeenSolution, setHasSeenSolution] = useState(initialStage === 'solution' || initialStage === 'iterations');
+  const [hasSeenSolution, setHasSeenSolution] = useState(initialStage === 'solution' || initialStage === 'designNotes');
 
-  const setStage = useCallback((newStage: VignetteStage) => {
-    setStageInternal(newStage);
-    if (newStage === 'solution' || newStage === 'iterations') {
-      setHasSeenSolution(true);
-    }
-  }, []);
+  const setStage = useCallback(
+    (newStage: VignetteStage) => {
+      setStageInternal(newStage);
+      if (newStage === 'solution' || newStage === 'designNotes') {
+        setHasSeenSolution(true);
+      }
+    },
+    []
+  );
 
   const goToSolution = useCallback(() => {
     setStage('solution');
   }, [setStage]);
 
-  const goToIterations = useCallback(() => {
+  const goToDesignNotes = useCallback(() => {
     if (hasSeenSolution) {
-      setStage('iterations');
+      setStage('designNotes');
     }
   }, [hasSeenSolution, setStage]);
 
@@ -55,7 +58,7 @@ export function VignetteStageProvider({
         stage,
         setStage,
         goToSolution,
-        goToIterations,
+        goToDesignNotes,
         reset,
         hasSeenSolution,
       }}
