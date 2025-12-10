@@ -45,20 +45,26 @@ function VignetteStagedInner({
   const currentStageContent = stages?.[stage];
 
   return (
-    <div className={`relative ${className}`}>
+    <motion.div
+      layout
+      className={`relative ${className}`}
+      transition={{ layout: { duration: 0.35, ease: 'easeInOut' } }}
+    >
       <AnimatePresence mode="wait">
         {stage === 'iterations' && iterationsPanel ? (
           <motion.div
             key="iterations"
-            initial={{ opacity: 0, y: 20 }}
+            layout
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            className="space-y-6"
           >
             {/* Iterations header */}
             {currentStageContent?.title && (
-              <div className="mb-8">
-                <h3 className="text-[26px] lg:text-[28px] leading-[1.15] tracking-[-0.02em] font-semibold text-[#0f172a] font-[family-name:var(--font-ibm-plex-sans)] mb-3">
+              <div className="space-y-3">
+                <h3 className="text-[26px] lg:text-[28px] leading-[1.15] tracking-[-0.02em] font-semibold text-[#0f172a] font-[family-name:var(--font-ibm-plex-sans)]">
                   {currentStageContent.title}
                 </h3>
                 {currentStageContent.description && (
@@ -74,7 +80,7 @@ function VignetteStagedInner({
             {/* Reset button */}
             <motion.button
               onClick={reset}
-              className="mt-8 flex items-center gap-2 text-[16px] text-[#4b5563] hover:text-[#0f172a] transition-colors font-[family-name:var(--font-ibm-plex-sans)]"
+              className="flex items-center gap-2 text-[16px] text-[#4b5563] hover:text-[#0f172a] transition-colors font-[family-name:var(--font-ibm-plex-sans)]"
               whileHover={{ x: -4 }}
               transition={{ duration: 0.2 }}
             >
@@ -85,9 +91,12 @@ function VignetteStagedInner({
         ) : (
           <motion.div
             key="main"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            layout
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            className="space-y-6"
           >
             {children}
 
@@ -122,7 +131,7 @@ function VignetteStagedInner({
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
 
