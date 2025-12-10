@@ -3,9 +3,74 @@
  * Separates content from components for easy editing
  */
 
+export interface DesignIteration {
+  id: string;
+  label: string;
+  annotation: string;
+  imageUrl?: string;
+}
+
+export interface StageContent {
+  title?: string;
+  description?: string;
+  cta?: string;
+}
+
+export interface VignetteStages {
+  problem?: StageContent;
+  solution?: StageContent;
+  iterations?: StageContent;
+}
+
 export const aiHighlightsContent = {
   title: "Designed AI summaries managers could actually verify and trust",
-  description: "Performance reviews took hours gathering information from scattered sources. I designed an AI system that surfaces key highlights and opportunities from feedback, goals, and 1-on-1 notes. Managers can expand to see direct quotes, verifying AI outputs while saving significant time during review season."
+  description: "Performance reviews took hours gathering information from scattered sources. I designed an AI system that surfaces key highlights and opportunities from feedback, goals, and 1-on-1 notes. Managers can expand to see direct quotes, verifying AI outputs while saving significant time during review season.",
+
+  stages: {
+    problem: {
+      title: "The chaos of review season",
+      description: "Managers spent hours gathering information from scattered sources. Slack threads, 1-on-1 notes, goal updates, peer feedback. All disconnected. All manual.",
+      cta: "See how AI helped"
+    },
+    solution: {
+      cta: "How I got here"
+    },
+    iterations: {
+      title: "Design iterations",
+      description: "From AI-generated summaries to verified insights"
+    }
+  } as VignetteStages,
+
+  iterations: [
+    {
+      id: "v1",
+      label: "First attempt",
+      annotation: "AI summaries without sources. User testing revealed managers didn't trust unverifiable AI outputs. They wanted to see the evidence.",
+      imageUrl: "/iterations/highlights-v1.png"
+    },
+    {
+      id: "v2",
+      label: "Added sources",
+      annotation: "Added expandable source citations. Managers said 'now I can actually verify this' but the interaction felt clunky and broke their flow.",
+      imageUrl: "/iterations/highlights-v2.png"
+    },
+    {
+      id: "final",
+      label: "Final design",
+      annotation: "Streamlined inline expand with direct quotes. 100% of test users checked sources when easily accessible. Trust and efficiency, together.",
+      imageUrl: "/iterations/highlights-final.png"
+    }
+  ] as DesignIteration[],
+
+  // Problem state content - scattered information cards
+  problemCards: [
+    { id: 'slack1', type: 'slack' as const, content: 'Great job on the API redesign!', from: 'Sarah Chen', time: '2 weeks ago' },
+    { id: 'slack2', type: 'slack' as const, content: 'Could use more documentation', from: 'Mike Torres', time: '3 weeks ago' },
+    { id: 'goal1', type: 'goal' as const, content: 'Q3: Improve API response time by 40%', status: 'completed' },
+    { id: 'note1', type: 'note' as const, content: 'Discussed career growth, interested in tech lead path', date: 'Oct 15' },
+    { id: 'feedback1', type: 'feedback' as const, content: 'Excellent collaboration on cross-team projects', from: 'Peer review' },
+    { id: 'calendar1', type: 'calendar' as const, content: '1-on-1 with Idam', date: 'Oct 22' },
+  ]
 };
 
 export const aiSuggestionsContent = {

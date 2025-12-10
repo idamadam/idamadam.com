@@ -2,17 +2,145 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { VignetteStage } from '@/lib/vignette-stage-context';
+
+interface ProblemCard {
+  id: string;
+  type: 'slack' | 'goal' | 'note' | 'feedback' | 'calendar';
+  content: string;
+  from?: string;
+  time?: string;
+  date?: string;
+  status?: string;
+}
 
 interface HighlightsPanelProps {
   className?: string;
+  stage?: VignetteStage;
+  onTransition?: () => void;
+  problemCards?: ProblemCard[];
 }
 
-export default function HighlightsPanel({ className = '' }: HighlightsPanelProps) {
+// Predefined positions for scattered cards
+const cardPositions = [
+  { x: -20, y: -15, rotate: -8 },
+  { x: 30, y: 10, rotate: 5 },
+  { x: -10, y: 25, rotate: -3 },
+  { x: 40, y: -20, rotate: 7 },
+  { x: -30, y: 5, rotate: -5 },
+  { x: 15, y: 30, rotate: 4 },
+];
+
+const typeIcons: Record<ProblemCard['type'], string> = {
+  slack: 'chat_bubble',
+  goal: 'flag',
+  note: 'edit_note',
+  feedback: 'rate_review',
+  calendar: 'event',
+};
+
+const typeColors: Record<ProblemCard['type'], { bg: string; border: string; icon: string }> = {
+  slack: { bg: 'bg-purple-50', border: 'border-purple-200', icon: 'text-purple-500' },
+  goal: { bg: 'bg-green-50', border: 'border-green-200', icon: 'text-green-500' },
+  note: { bg: 'bg-blue-50', border: 'border-blue-200', icon: 'text-blue-500' },
+  feedback: { bg: 'bg-amber-50', border: 'border-amber-200', icon: 'text-amber-500' },
+  calendar: { bg: 'bg-rose-50', border: 'border-rose-200', icon: 'text-rose-500' },
+};
+
+function ProblemState({ cards, onTransition }: { cards: ProblemCard[]; onTransition?: () => void }) {
+  return (
+    <div className="relative min-h-[400px] bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border-2 border-dashed border-gray-200 overflow-hidden">
+      {/* Scattered cards */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center"
+        initial="initial"
+        animate="animate"
+      >
+        {cards.slice(0, 6).map((card, index) => {
+          const pos = cardPositions[index];
+          const colors = typeColors[card.type];
+
+          return (
+            <motion.div
+              key={card.id}
+              className={`absolute w-[180px] ${colors.bg} ${colors.border} border rounded-lg p-3 shadow-sm cursor-default`}
+              initial={{ opacity: 0, scale: 0.8, x: 0, y: 0, rotate: 0 }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                x: pos.x,
+                y: pos.y,
+                rotate: pos.rotate,
+              }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.08,
+                ease: 'easeOut',
+              }}
+              whileHover={{
+                scale: 1.05,
+                zIndex: 10,
+                transition: { duration: 0.2 }
+              }}
+            >
+              <div className="flex items-start gap-2">
+                <span className={`material-icons-outlined text-[16px] ${colors.icon} flex-shrink-0 mt-0.5`}>
+                  {typeIcons[card.type]}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[12px] leading-[1.4] text-gray-700 line-clamp-2">
+                    {card.content}
+                  </p>
+                  {(card.from || card.date || card.time) && (
+                    <p className="text-[10px] text-gray-400 mt-1 truncate">
+                      {card.from || card.date || card.time}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </motion.div>
+
+      {/* Overflow indicator */}
+      <motion.div
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[13px] text-gray-400 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+      >
+        +{cards.length > 6 ? cards.length - 6 : 0} more sources to review
+      </motion.div>
+
+      {/* CTA Button */}
+      <motion.button
+        onClick={onTransition}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-[#0f172a] text-white px-5 py-2.5 rounded-lg text-[14px] font-medium shadow-lg hover:bg-[#1e293b] transition-colors"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        <span className="material-icons-outlined text-[18px]">auto_awesome</span>
+        Summarize with AI
+      </motion.button>
+    </div>
+  );
+}
+
+function SolutionState({ className = '' }: { className?: string }) {
   const [highlightExpanded, setHighlightExpanded] = useState(false);
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
 
   return (
-    <div className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-hidden font-[family-name:var(--font-inter)] ${className}`}>
+    <motion.div
+      className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-hidden font-[family-name:var(--font-inter)] ${className}`}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+    >
       {/* Header Section */}
       <div className="border-b-2 border-[#eaeaec] px-6 py-8">
         <div className="flex items-center gap-3 mb-3">
@@ -231,6 +359,49 @@ export default function HighlightsPanel({ className = '' }: HighlightsPanelProps
           </span>
         </button>
       </div>
-    </div>
+    </motion.div>
+  );
+}
+
+export default function HighlightsPanel({
+  className = '',
+  stage = 'solution',
+  onTransition,
+  problemCards = []
+}: HighlightsPanelProps) {
+  // Default problem cards if none provided
+  const defaultProblemCards: ProblemCard[] = [
+    { id: 'slack1', type: 'slack', content: 'Great job on the API redesign!', from: 'Sarah Chen', time: '2 weeks ago' },
+    { id: 'slack2', type: 'slack', content: 'Could use more documentation', from: 'Mike Torres', time: '3 weeks ago' },
+    { id: 'goal1', type: 'goal', content: 'Q3: Improve API response time by 40%', status: 'completed' },
+    { id: 'note1', type: 'note', content: 'Discussed career growth, interested in tech lead path', date: 'Oct 15' },
+    { id: 'feedback1', type: 'feedback', content: 'Excellent collaboration on cross-team projects', from: 'Peer review' },
+    { id: 'calendar1', type: 'calendar', content: '1-on-1 with Idam', date: 'Oct 22' },
+  ];
+
+  const cards = problemCards.length > 0 ? problemCards : defaultProblemCards;
+
+  return (
+    <AnimatePresence mode="wait">
+      {stage === 'problem' ? (
+        <motion.div
+          key="problem"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.3 }}
+        >
+          <ProblemState cards={cards} onTransition={onTransition} />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="solution"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <SolutionState className={className} />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
