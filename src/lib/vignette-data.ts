@@ -49,8 +49,8 @@ export const aiHighlightsContent = {
 
   stages: {
     problem: {
-      title: "The chaos of review season",
-      description: "Managers spent hours gathering information from scattered sources. Slack threads, 1-on-1 notes, goal updates, peer feedback. All disconnected. All manual.",
+      title: "Synthezising feedback took ages when completing manager reviews",
+      description: "",
       cta: "See how AI helped"
     },
     solution: {},
@@ -173,12 +173,14 @@ export const aiHighlightsContent = {
 
   // Problem state content - scattered information cards
   problemCards: [
-    { id: 'slack1', type: 'slack' as const, content: 'Great job on the API redesign!', from: 'Sarah Chen', time: '2 weeks ago' },
-    { id: 'slack2', type: 'slack' as const, content: 'Could use more documentation', from: 'Mike Torres', time: '3 weeks ago' },
-    { id: 'goal1', type: 'goal' as const, content: 'Q3: Improve API response time by 40%', status: 'completed' },
-    { id: 'note1', type: 'note' as const, content: 'Discussed career growth, interested in tech lead path', date: 'Oct 15' },
-    { id: 'feedback1', type: 'feedback' as const, content: 'Excellent collaboration on cross-team projects', from: 'Peer review' },
-    { id: 'calendar1', type: 'calendar' as const, content: '1-on-1 with Idam', date: 'Oct 22' },
+    { id: 'feedback1', type: 'feedback' as const, content: 'Idam\'s user research uncovered the core trust issue with AI summaries. This insight shaped our entire product direction.', from: 'Product Manager' },
+    { id: 'feedback2', type: 'feedback' as const, content: 'Outstanding collaboration across design and engineering. The verification UX is both elegant and technically feasible.', from: 'Engineering Partner' },
+    { id: 'feedback3', type: 'feedback' as const, content: 'Idam ran the most rigorous AI testing process I\'ve seen. Real feedback, real managers, real insights about trust.', from: 'User Researcher' },
+    { id: 'feedback4', type: 'feedback' as const, content: 'The inline source expansion is brilliant. Managers can verify AI output without leaving their flow. This will save hours.', from: 'Design Manager' },
+    { id: 'feedback5', type: 'feedback' as const, content: 'Idam advocated strongly for verification features when we wanted to ship faster. That user-first mindset prevented a trust disaster.', from: 'Product Lead' },
+    { id: 'feedback6', type: 'feedback' as const, content: 'Built custom prototyping infrastructure to iterate faster. This unlocked velocity we didn\'t know was possible.', from: 'Engineering Lead' },
+    { id: 'feedback7', type: 'feedback' as const, content: 'Every design iteration was grounded in user testing data. No ego, just evidence. That\'s how you ship AI features people trust.', from: 'Research Partner' },
+    { id: 'feedback8', type: 'feedback' as const, content: 'Idam\'s attention to the verification interaction details made the difference. AI summaries are worthless if managers don\'t trust them.', from: 'Product Designer' },
   ]
 };
 
