@@ -78,7 +78,7 @@ function AIHighlightsContent({
   redlineNotes: DesignNote[];
   accent: string;
 }) {
-  const { stage, goToSolution } = useVignetteStage();
+  const { stage, goToSolution, setStage } = useVignetteStage();
 
   // Get stage-specific content
   const currentStageContent = stage === 'problem'
@@ -92,17 +92,43 @@ function AIHighlightsContent({
   return (
     <VignetteSplit
       title={
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={stage}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-          >
-            {title}
-          </motion.span>
-        </AnimatePresence>
+        <div className="space-y-4">
+          {/* Problem/Solution Toggle */}
+          <div className="flex items-center bg-gray-100 rounded-lg p-1 gap-1 w-fit">
+            <button
+              onClick={() => setStage('problem')}
+              className={`px-4 py-2 rounded-md text-[14px] font-medium transition-all ${
+                stage === 'problem'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Problem
+            </button>
+            <button
+              onClick={() => setStage('solution')}
+              className={`px-4 py-2 rounded-md text-[14px] font-medium transition-all ${
+                stage === 'solution'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Solution
+            </button>
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={stage}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              {title}
+            </motion.span>
+          </AnimatePresence>
+        </div>
       }
       description={
         <AnimatePresence mode="wait">

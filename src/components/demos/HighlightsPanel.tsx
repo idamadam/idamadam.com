@@ -170,11 +170,8 @@ function SolutionState({ className = '' }: { className?: string }) {
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
 
   return (
-    <motion.div
+    <div
       className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-hidden font-[family-name:var(--font-inter)] ${className}`}
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       {/* Header Section */}
       <div className="border-b-2 border-[#eaeaec] px-6 py-8">
@@ -388,7 +385,7 @@ function SolutionState({ className = '' }: { className?: string }) {
           </span>
         </button>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -415,9 +412,10 @@ export default function HighlightsPanel({
       {stage === 'problem' ? (
         <motion.div
           key="problem"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
         >
           <ProblemState cards={cards} onTransition={onTransition} />
         </motion.div>
@@ -426,7 +424,8 @@ export default function HighlightsPanel({
           key="solution"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
         >
           <SolutionState className={className} />
         </motion.div>
