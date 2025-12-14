@@ -47,6 +47,52 @@ const typeColors: Record<ProblemCard['type'], { bg: string; border: string; icon
   calendar: { bg: 'bg-rose-50', border: 'border-rose-200', icon: 'text-rose-500' },
 };
 
+interface SourceCardProps {
+  name: string;
+  date: string;
+  context: string;
+  feedback: string;
+  avatarUrl: string;
+}
+
+function SourceCard({ name, date, context, feedback, avatarUrl }: SourceCardProps) {
+  return (
+    <div className="pt-4 border-t border-[#eaeaec]">
+      <div className="flex items-center gap-2 mb-3">
+        <img
+          src={avatarUrl}
+          alt={name}
+          className="w-6 h-6 rounded-full"
+        />
+        <span className="text-[14px] leading-[18px] font-semibold text-[#2f2438]">
+          {name}
+        </span>
+        <span className="text-[12px] leading-[16px] text-[#524e56]">
+          {date}
+        </span>
+        <span className="text-[12px] leading-[16px] text-[#524e56]">
+          •
+        </span>
+        <span className="text-[12px] leading-[16px] text-[#524e56]">
+          {context}
+        </span>
+      </div>
+      <p className="text-[14px] leading-[20px] text-[#2f2438] mb-3">
+        {feedback}
+      </p>
+      <div className="flex items-center justify-between">
+        <span className="text-[12px] leading-[16px] text-[#524e56]">
+          Not shared with Idam Adam
+        </span>
+        <a href="#" className="text-[14px] leading-[18px] text-[#2f2438] hover:underline inline-flex items-center gap-1">
+          View feedback
+          <span className="material-icons-outlined text-[16px]">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function ProblemState({ cards, onTransition }: { cards: ProblemCard[]; onTransition?: () => void }) {
   return (
     <div className="relative bg-white rounded-lg border-2 border-gray-200 overflow-hidden">
@@ -68,43 +114,48 @@ function ProblemState({ cards, onTransition }: { cards: ProblemCard[]; onTransit
       {/* Scrollable feed */}
       <div className="relative max-h-[440px] overflow-y-auto">
         <div className="divide-y divide-gray-100">
-          {cards.map((card, index) => {
-            const colors = typeColors[card.type];
-
-            return (
-              <motion.div
-                key={card.id}
-                className="px-5 py-3.5 hover:bg-gray-50 transition-colors"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{
-                  duration: 0.3,
-                  delay: index * 0.05,
-                  ease: 'easeOut',
-                }}
-              >
-                <div className="flex items-start gap-3">
-                  <div className={`${colors.bg} ${colors.border} border rounded-lg p-2 flex-shrink-0`}>
-                    <span className={`material-icons-outlined text-[18px] ${colors.icon}`}>
-                      {typeIcons[card.type]}
+          {cards.map((card, index) => (
+            <motion.div
+              key={card.id}
+              className="px-5 py-4 hover:bg-gray-50 transition-colors"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                duration: 0.3,
+                delay: index * 0.05,
+                ease: 'easeOut',
+              }}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <img
+                  src="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                  alt={card.from || 'Source'}
+                  className="w-6 h-6 rounded-full"
+                />
+                {card.from && (
+                  <span className="text-[14px] leading-[18px] font-semibold text-[#2f2438]">
+                    {card.from}
+                  </span>
+                )}
+                {(card.date || card.time) && (
+                  <>
+                    <span className="text-[12px] leading-[16px] text-[#524e56]">
+                      {card.date || card.time}
                     </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[14px] leading-[1.5] text-gray-900">
-                      {card.content}
-                    </p>
-                    {(card.from || card.date || card.time) && (
-                      <p className="text-[12px] text-gray-500 mt-1">
-                        {card.from && <span className="font-medium">{card.from}</span>}
-                        {card.from && (card.date || card.time) && <span className="mx-1.5">•</span>}
-                        {card.date || card.time}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+                    <span className="text-[12px] leading-[16px] text-[#524e56]">
+                      •
+                    </span>
+                  </>
+                )}
+                <span className="text-[12px] leading-[16px] text-[#524e56] capitalize">
+                  {card.type === 'slack' ? 'Peer feedback' : card.type}
+                </span>
+              </div>
+              <p className="text-[14px] leading-[20px] text-[#2f2438]">
+                {card.content}
+              </p>
+            </motion.div>
+          ))}
         </div>
 
         {/* Scroll indicator gradient */}
@@ -184,38 +235,6 @@ function SolutionState({ className = '' }: { className?: string }) {
               <p className="text-[16px] leading-[24px] text-[#2f2438]">
                 Developed a process to get early feedback about model output during user testing.
               </p>
-
-              <AnimatePresence>
-                {highlightExpanded && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="overflow-hidden"
-                  >
-                    <div className="mt-3 pt-3 border-t border-[#eaeaec]">
-                      <p className="text-[14px] leading-[18px] text-[#524e56] font-semibold mb-2">
-                        Sources:
-                      </p>
-                      <ul className="space-y-2 text-[14px] leading-[18px] text-[#524e56]">
-                        <li className="flex items-start gap-2">
-                          <span className="material-icons-outlined text-[16px] mt-0.5">
-                            format_quote
-                          </span>
-                          <span>Direct feedback from user testing sessions showing positive model performance.</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="material-icons-outlined text-[16px] mt-0.5">
-                            format_quote
-                          </span>
-                          <span>Documentation of early feedback integration process.</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
 
             <div className="flex items-center gap-2">
@@ -251,6 +270,35 @@ function SolutionState({ className = '' }: { className?: string }) {
               </button>
             </div>
           </div>
+
+          <AnimatePresence>
+            {highlightExpanded && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="overflow-hidden"
+              >
+                <div className="mt-4 space-y-4">
+                  <SourceCard
+                    name="Sarah Chen"
+                    date="Sep 8, 2024"
+                    context="Peer feedback"
+                    feedback="Idam's approach to user testing the AI model was brilliant. Getting early feedback directly from managers helped us iterate on the prompts before launch, which significantly improved the quality of the highlights."
+                    avatarUrl="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                  />
+                  <SourceCard
+                    name="Mike Torres"
+                    date="Sep 15, 2024"
+                    context="Manager review"
+                    feedback="The process Idam created for testing AI output with real users was a game-changer. We had concrete feedback before shipping, which prevented us from launching something managers wouldn't trust."
+                    avatarUrl="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
@@ -270,38 +318,6 @@ function SolutionState({ className = '' }: { className?: string }) {
               <p className="text-[16px] leading-[24px] text-[#2f2438]">
                 Developed a process to get early feedback about model output during user testing.
               </p>
-
-              <AnimatePresence>
-                {opportunityExpanded && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="overflow-hidden"
-                  >
-                    <div className="mt-3 pt-3 border-t border-[#eaeaec]">
-                      <p className="text-[14px] leading-[18px] text-[#524e56] font-semibold mb-2">
-                        Sources:
-                      </p>
-                      <ul className="space-y-2 text-[14px] leading-[18px] text-[#524e56]">
-                        <li className="flex items-start gap-2">
-                          <span className="material-icons-outlined text-[16px] mt-0.5">
-                            format_quote
-                          </span>
-                          <span>Opportunities identified for additional model output validation.</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="material-icons-outlined text-[16px] mt-0.5">
-                            format_quote
-                          </span>
-                          <span>Feedback suggesting improvements to early testing process.</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
 
             <div className="flex items-center gap-2">
@@ -337,6 +353,35 @@ function SolutionState({ className = '' }: { className?: string }) {
               </button>
             </div>
           </div>
+
+          <AnimatePresence>
+            {opportunityExpanded && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="overflow-hidden"
+              >
+                <div className="mt-4 space-y-4">
+                  <SourceCard
+                    name="Alex Kim"
+                    date="Oct 5, 2024"
+                    context="Peer feedback"
+                    feedback="While the testing process was solid, there's an opportunity to document it better for other teams. This approach could be a template for how we validate all AI features going forward."
+                    avatarUrl="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                  />
+                  <SourceCard
+                    name="Jordan Lee"
+                    date="Sep 30, 2024"
+                    context="Manager review"
+                    feedback="Consider scaling the user testing framework to other AI initiatives. The rigor and structure would benefit the entire product org."
+                    avatarUrl="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
