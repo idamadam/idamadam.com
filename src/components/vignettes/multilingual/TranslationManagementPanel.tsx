@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import RichTextEditor from './RichTextEditor';
+import RichTextEditor from '@/components/demos/RichTextEditor';
 import { subtlePulse } from '@/lib/animations';
 import type { MultilingualContent } from '@/components/vignettes/multilingual/content';
 

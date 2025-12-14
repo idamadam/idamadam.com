@@ -25,5 +25,5 @@ To replace with custom avatars from Nano Banana or similar service:
 ## Usage
 
 These avatars are used in:
-- `src/components/demos/HighlightsPanel.tsx` - Problem and solution states
+- `src/components/vignettes/ai-highlights/HighlightsPanel.tsx` - Problem and solution states
 - `src/components/vignettes/ai-highlights/content.ts` - Referenced in problemCards data

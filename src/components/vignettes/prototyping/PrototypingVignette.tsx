@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import SandboxPanel from '@/components/demos/SandboxPanel';
+import SandboxPanel from './SandboxPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { fadeInUp } from '@/lib/animations';

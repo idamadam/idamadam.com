@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import SuggestionsPanel from '@/components/demos/SuggestionsPanel';
+import SuggestionsPanel from './SuggestionsPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { fadeInUp } from '@/lib/animations';

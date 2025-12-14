@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import RichTextEditor from './RichTextEditor';
+import RichTextEditor from '@/components/demos/RichTextEditor';
 import type { AISuggestionsContent } from '@/components/vignettes/ai-suggestions/content';
 
 interface SuggestionsPanelProps {

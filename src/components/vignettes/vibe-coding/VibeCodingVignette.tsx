@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import DemoCreationFlow from '@/components/demos/DemoCreationFlow';
+import DemoCreationFlow from './DemoCreationFlow';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { fadeInUp } from '@/lib/animations';

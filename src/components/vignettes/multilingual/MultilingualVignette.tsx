@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import TranslationManagementPanel from '@/components/demos/TranslationManagementPanel';
+import TranslationManagementPanel from './TranslationManagementPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { fadeInUp } from '@/lib/animations';
