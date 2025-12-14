@@ -2,7 +2,19 @@
 
 import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { DesignNotesMode, DesignNote } from '@/components/vignettes/types';
+import { DesignNote } from '@/components/vignettes/types';
+
+interface DesignNotesMode {
+  id: string;
+  label: string;
+  description: string;
+  accent: string;
+  notes: DesignNote[];
+  specs?: {
+    label: string;
+    value: string;
+  }[];
+}
 
 interface DesignNotesPanelProps {
   modes: DesignNotesMode[];

@@ -14,18 +14,6 @@ export interface DesignNote {
   align?: 'left' | 'right';
 }
 
-export interface DesignNotesMode {
-  id: 'redline' | 'inspector';
-  label: string;
-  description: string;
-  accent: string;
-  notes: DesignNote[];
-  specs?: {
-    label: string;
-    value: string;
-  }[];
-}
-
 export interface StageContent {
   title?: string;
   description?: string;
@@ -36,17 +24,4 @@ export interface VignetteStages {
   problem?: StageContent;
   solution?: StageContent;
   designNotes?: StageContent;
-}
-
-export type ProblemCardType = 'slack' | 'goal' | 'note' | 'feedback' | 'calendar';
-
-export interface ProblemCard {
-  id: string;
-  type: ProblemCardType;
-  content: string;
-  from?: string;
-  time?: string;
-  date?: string;
-  status?: string;
-  avatarUrl?: string;
 }

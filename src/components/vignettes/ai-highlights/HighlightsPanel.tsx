@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
-import { ProblemCard } from '@/components/vignettes/types';
+import type { FeedbackSource } from './content';
 
 interface HighlightsPanelProps {
   className?: string;
   stage?: VignetteStage;
   onTransition?: () => void;
-  problemCards?: ProblemCard[];
+  problemCards?: FeedbackSource[];
 }
 
 // Predefined positions for scattered cards
@@ -68,7 +68,7 @@ function SourceCard({ name, date, context, feedback, avatarUrl }: SourceCardProp
   );
 }
 
-function ProblemState({ cards, onTransition }: { cards: ProblemCard[]; onTransition?: () => void }) {
+function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
   return (
     <div className="relative bg-white rounded-lg border-2 border-gray-200 overflow-hidden">
       {/* Header with count */}
@@ -123,7 +123,7 @@ function ProblemState({ cards, onTransition }: { cards: ProblemCard[]; onTransit
                   </>
                 )}
                 <span className="text-[12px] leading-[16px] text-[#524e56] capitalize">
-                  {card.type === 'slack' ? 'Peer feedback' : card.type}
+                  {card.channel === 'slack' ? 'Peer feedback' : (card.channel || 'feedback')}
                 </span>
               </div>
               <p className="text-[14px] leading-[20px] text-[#2f2438]">
@@ -387,13 +387,13 @@ export default function HighlightsPanel({
   problemCards = []
 }: HighlightsPanelProps) {
   // Default problem cards if none provided
-  const defaultProblemCards: ProblemCard[] = [
-    { id: 'slack1', type: 'slack', content: 'Great job on the API redesign!', from: 'Sarah Chen', time: '2 weeks ago' },
-    { id: 'slack2', type: 'slack', content: 'Could use more documentation', from: 'Mike Torres', time: '3 weeks ago' },
-    { id: 'goal1', type: 'goal', content: 'Q3: Improve API response time by 40%', status: 'completed' },
-    { id: 'note1', type: 'note', content: 'Discussed career growth, interested in tech lead path', date: 'Oct 15' },
-    { id: 'feedback1', type: 'feedback', content: 'Excellent collaboration on cross-team projects', from: 'Peer review' },
-    { id: 'calendar1', type: 'calendar', content: '1-on-1 with Idam', date: 'Oct 22' },
+  const defaultProblemCards: FeedbackSource[] = [
+    { id: 'feedback1', channel: 'feedback', content: 'Excellent collaboration on cross-team projects', from: 'Peer review' },
+    { id: 'feedback2', channel: 'feedback', content: 'Great job on the API redesign!', from: 'Sarah Chen', time: '2 weeks ago' },
+    { id: 'feedback3', channel: 'feedback', content: 'Could use more documentation', from: 'Mike Torres', time: '3 weeks ago' },
+    { id: 'feedback4', channel: 'feedback', content: 'Discussed career growth, interested in tech lead path', date: 'Oct 15' },
+    { id: 'feedback5', channel: 'feedback', content: 'Q3: Improve API response time by 40%', status: 'completed' },
+    { id: 'feedback6', channel: 'feedback', content: '1-on-1 with Idam', date: 'Oct 22' },
   ];
 
   const cards = problemCards.length > 0 ? problemCards : defaultProblemCards;

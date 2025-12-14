@@ -1,9 +1,15 @@
-import {
-  DesignIteration,
-  DesignNotesMode,
-  ProblemCard,
-  VignetteStages
-} from '../types';
+import { DesignIteration, DesignNote, VignetteStages } from '../types';
+
+export interface FeedbackSource {
+  id: string;
+  channel?: string;
+  content: string;
+  from?: string;
+  time?: string;
+  date?: string;
+  status?: string;
+  avatarUrl?: string;
+}
 
 interface AIHighlightsContent {
   title: string;
@@ -11,9 +17,11 @@ interface AIHighlightsContent {
   stages: VignetteStages;
   iterations: DesignIteration[];
   designNotes: {
-    modes: DesignNotesMode[];
+    accent: string;
+    notes: DesignNote[];
+    description?: string;
   };
-  problemCards: ProblemCard[];
+  problemCards: FeedbackSource[];
   sourceAvatars: Record<string, string>;
 }
 
@@ -30,7 +38,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
     solution: {},
     designNotes: {
       title: 'Design notes',
-      description: 'Choose between a redline pass or a technical inspector to see how the solution came together.'
+      description: 'Sharpie-style redlines that show the messy thinking behind the polished surface.'
     }
   },
   iterations: [
@@ -57,105 +65,54 @@ export const aiHighlightsContent: AIHighlightsContent = {
     }
   ],
   designNotes: {
-    modes: [
+    accent: '#ef4444',
+    description: 'Annotated, human notes that show the messy thinking behind the polished surface.',
+    notes: [
       {
-        id: 'redline',
-        label: 'Sharpie redlines',
-        description: 'Annotated, human notes that show the messy thinking behind the polished surface.',
-        accent: '#ef4444',
-        notes: [
-          {
-            id: 'context-first',
-            label: 'Context first',
-            detail: 'Name, role, and purpose up top to anchor managers before they scan AI output.',
-            x: 18,
-            y: 18,
-            align: 'left'
-          },
-          {
-            id: 'verification',
-            label: 'Verification loop',
-            detail: "Sources sit directly under each highlight so managers can trust without hunting.",
-            x: 74,
-            y: 46,
-            align: 'right'
-          },
-          {
-            id: 'mirror',
-            label: 'Mirrored patterns',
-            detail: 'Highlight and Opportunity share the same layout so scanning feels automatic.',
-            x: 24,
-            y: 68,
-            align: 'left'
-          },
-          {
-            id: 'feedback-loop',
-            label: 'Micro feedback',
-            detail: "A lightweight 'Is this helpful?' keeps the model accountable without breaking flow.",
-            x: 72,
-            y: 88,
-            align: 'right'
-          }
-        ]
+        id: 'context-first',
+        label: 'Context first',
+        detail: 'Name, role, and purpose up top to anchor managers before they scan AI output.',
+        x: 18,
+        y: 18,
+        align: 'left'
       },
       {
-        id: 'inspector',
-        label: 'System inspector',
-        description: 'A technical pass that shows tokens, spacing, and how verification data flows.',
-        accent: '#0ea5e9',
-        notes: [
-          {
-            id: 'ai-surface',
-            label: 'AI surface token',
-            detail: 'Reused gradient shell to unify AI features and set expectations for model output.',
-            x: 22,
-            y: 14,
-            align: 'left'
-          },
-          {
-            id: 'expansion',
-            label: 'Progressive disclosure',
-            detail: 'Chevron motion + snap-back keep focus while exposing quotes only when needed.',
-            x: 72,
-            y: 42,
-            align: 'right'
-          },
-          {
-            id: 'signal-density',
-            label: 'Signal density',
-            detail: 'Two quotes per expand fit inside a 16px vertical rhythm so lists stay scannable.',
-            x: 68,
-            y: 64,
-            align: 'right'
-          },
-          {
-            id: 'quality-loop',
-            label: 'Quality loop',
-            detail: 'Thumb reactions log per-highlight telemetry to retrain prompts post-launch.',
-            x: 30,
-            y: 86,
-            align: 'left'
-          }
-        ],
-        specs: [
-          { label: 'Spacing', value: '24px shell padding, 16px internal rhythm, 12px chips' },
-          { label: 'Grid', value: '12-col, 960px max width, 2-column cards on desktop' },
-          { label: 'Data', value: 'Quotes mapped to highlights, source count as confidence signal' }
-        ]
+        id: 'verification',
+        label: 'Verification loop',
+        detail: "Sources sit directly under each highlight so managers can trust without hunting.",
+        x: 74,
+        y: 46,
+        align: 'right'
+      },
+      {
+        id: 'mirror',
+        label: 'Mirrored patterns',
+        detail: 'Highlight and Opportunity share the same layout so scanning feels automatic.',
+        x: 24,
+        y: 68,
+        align: 'left'
+      },
+      {
+        id: 'feedback-loop',
+        label: 'Micro feedback',
+        detail: "A lightweight 'Is this helpful?' keeps the model accountable without breaking flow.",
+        x: 72,
+        y: 88,
+        align: 'right'
       }
     ]
   },
   problemCards: [
     {
       id: 'feedback1',
-      type: 'feedback',
+      channel: 'feedback',
       content: "Idam's user research uncovered the core trust issue with AI summaries. This insight shaped our entire product direction.",
       from: 'Product Manager',
       avatarUrl: '/avatars/sarah-chen.svg'
     },
     {
       id: 'feedback2',
-      type: 'feedback',
+      channel: 'feedback',
       content:
         'Outstanding collaboration across design and engineering. The verification UX is both elegant and technically feasible.',
       from: 'Engineering Partner',
@@ -163,7 +120,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
     },
     {
       id: 'feedback3',
-      type: 'feedback',
+      channel: 'feedback',
       content:
         "Idam ran the most rigorous AI testing process I've seen. Real feedback, real managers, real insights about trust.",
       from: 'User Researcher',
@@ -171,7 +128,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
     },
     {
       id: 'feedback4',
-      type: 'feedback',
+      channel: 'feedback',
       content:
         'The inline source expansion is brilliant. Managers can verify AI output without leaving their flow. This will save hours.',
       from: 'Design Manager',
@@ -179,7 +136,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
     },
     {
       id: 'feedback5',
-      type: 'feedback',
+      channel: 'feedback',
       content:
         'Idam advocated strongly for verification features when we wanted to ship faster. That user-first mindset prevented a trust disaster.',
       from: 'Product Lead',
@@ -187,14 +144,14 @@ export const aiHighlightsContent: AIHighlightsContent = {
     },
     {
       id: 'feedback6',
-      type: 'feedback',
+      channel: 'feedback',
       content: "Built custom prototyping infrastructure to iterate faster. This unlocked velocity we didn't know was possible.",
       from: 'Engineering Lead',
       avatarUrl: '/avatars/mike-torres.svg'
     },
     {
       id: 'feedback7',
-      type: 'feedback',
+      channel: 'feedback',
       content:
         "Every design iteration was grounded in user testing data. No ego, just evidence. That's how you ship AI features people trust.",
       from: 'Research Partner',
@@ -202,7 +159,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
     },
     {
       id: 'feedback8',
-      type: 'feedback',
+      channel: 'feedback',
       content:
         "Idam's attention to the verification interaction details made the difference. AI summaries are worthless if managers don't trust them.",
       from: 'Product Designer',

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import HighlightsPanel from './HighlightsPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
@@ -175,10 +175,7 @@ function AIHighlightsContent({
 }
 
 export default function AIHighlightsVignette() {
-  const redlineMode = useMemo(
-    () => aiHighlightsContent.designNotes?.modes.find((mode) => mode.id === 'redline') ?? aiHighlightsContent.designNotes?.modes?.[0],
-    []
-  );
+  const designNotes = aiHighlightsContent.designNotes;
   const [showDesignNotes, setShowDesignNotes] = useState(false);
   const toggleDesignNotes = () => setShowDesignNotes((prev) => !prev);
 
@@ -195,8 +192,8 @@ export default function AIHighlightsVignette() {
             <AIHighlightsContent
               showDesignNotes={showDesignNotes}
               toggleDesignNotes={toggleDesignNotes}
-              redlineNotes={redlineMode?.notes ?? []}
-              accent={redlineMode?.accent ?? '#ef4444'}
+              redlineNotes={designNotes?.notes ?? []}
+              accent={designNotes?.accent ?? '#ef4444'}
             />
           </VignetteStaged>
         </motion.div>
