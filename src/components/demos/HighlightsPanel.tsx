@@ -31,22 +31,6 @@ const cardPositions = [
   { x: 15, y: 30, rotate: 4 },
 ];
 
-const typeIcons: Record<ProblemCard['type'], string> = {
-  slack: 'chat_bubble',
-  goal: 'flag',
-  note: 'edit_note',
-  feedback: 'rate_review',
-  calendar: 'event',
-};
-
-const typeColors: Record<ProblemCard['type'], { bg: string; border: string; icon: string }> = {
-  slack: { bg: 'bg-purple-50', border: 'border-purple-200', icon: 'text-purple-500' },
-  goal: { bg: 'bg-green-50', border: 'border-green-200', icon: 'text-green-500' },
-  note: { bg: 'bg-blue-50', border: 'border-blue-200', icon: 'text-blue-500' },
-  feedback: { bg: 'bg-amber-50', border: 'border-amber-200', icon: 'text-amber-500' },
-  calendar: { bg: 'bg-rose-50', border: 'border-rose-200', icon: 'text-rose-500' },
-};
-
 interface SourceCardProps {
   name: string;
   date: string;
@@ -99,12 +83,12 @@ function ProblemState({ cards, onTransition }: { cards: ProblemCard[]; onTransit
       {/* Header with count */}
       <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200 px-5 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="material-icons-outlined text-[20px] text-gray-700">
+          <span className="material-icons-outlined text-[18px] text-gray-700 leading-none">
             inbox
           </span>
-          <h3 className="text-[15px] font-semibold text-gray-900">
+          <div className="text-[15px] font-semibold text-gray-900 leading-none">
             Feedback to review
-          </h3>
+          </div>
         </div>
         <div className="bg-amber-100 text-amber-800 text-[13px] font-semibold px-2.5 py-1 rounded-full border border-amber-200">
           {cards.length} items
@@ -174,11 +158,8 @@ function ProblemState({ cards, onTransition }: { cards: ProblemCard[]; onTransit
           whileTap={{ scale: 0.99 }}
         >
           <span className="material-icons-outlined text-[20px]">auto_awesome</span>
-          Summarize with AI
+          Show Highlights and Opportunities
         </motion.button>
-        <p className="text-[12px] text-gray-500 text-center mt-2">
-          Save hours by letting AI surface key insights
-        </p>
       </div>
     </div>
   );
