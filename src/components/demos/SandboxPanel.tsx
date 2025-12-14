@@ -1,12 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import type { PrototypeItem } from '@/components/vignettes/prototyping/content';
 
 interface SandboxPanelProps {
   className?: string;
+  title: string;
+  prototypes: PrototypeItem[];
 }
 
-export default function SandboxPanel({ className = '' }: SandboxPanelProps) {
+export default function SandboxPanel({ className = '', title, prototypes }: SandboxPanelProps) {
   return (
     <div className={`relative w-full ${className}`}>
       {/* Main Sandbox Container */}
@@ -14,17 +17,19 @@ export default function SandboxPanel({ className = '' }: SandboxPanelProps) {
         {/* Header */}
         <div className="flex items-center justify-between mb-[18px]">
           <h3 className="text-[16px] font-bold text-black font-[family-name:var(--font-inter)]">
-            Culture Amp Design Sandbox
+            {title}
           </h3>
           <div className="w-[65px] h-[65px] bg-[#d9d9d9] rounded-full" />
         </div>
 
         {/* Prototype Grid */}
         <div className="grid grid-cols-3 gap-[18px]">
-          {[1, 2, 3, 4, 5, 6].map((item) => (
+          {prototypes.map((item) => (
             <div
-              key={item}
-              className="bg-[#d9d9d9] rounded-[7px] h-[78px]"
+              key={item.id}
+              className="rounded-[7px] h-[78px]"
+              style={{ backgroundColor: item.thumbnail }}
+              aria-label={item.name}
             />
           ))}
         </div>

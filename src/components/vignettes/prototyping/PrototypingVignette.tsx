@@ -1,10 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import VignetteContainer from './VignetteContainer';
-import SandboxPanel from '../demos/SandboxPanel';
+import SandboxPanel from '@/components/demos/SandboxPanel';
+import VignetteContainer from '@/components/vignettes/VignetteContainer';
+import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { fadeInUp } from '@/lib/animations';
-import VignetteSplit from './VignetteSplit';
+import { prototypingContent } from './content';
 
 export default function PrototypingVignette() {
   return (
@@ -18,10 +19,13 @@ export default function PrototypingVignette() {
           transition={{ delay: 0.2 }}
         >
           <VignetteSplit
-            title="Pioneered AI Prototyping infrastructure at Culture Amp"
-            description="I created a common repository for designers & product managers at Culture Amp to create, share and remix React prototypes."
+            title={prototypingContent.title}
+            description={prototypingContent.description}
           >
-            <SandboxPanel />
+            <SandboxPanel
+              title={prototypingContent.sandboxTitle}
+              prototypes={prototypingContent.prototypes}
+            />
           </VignetteSplit>
         </motion.div>
       </div>

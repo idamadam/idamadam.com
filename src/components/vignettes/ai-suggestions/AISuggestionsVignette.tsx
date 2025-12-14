@@ -1,11 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import VignetteContainer from './VignetteContainer';
-import SuggestionsPanel from '../demos/SuggestionsPanel';
-import { aiSuggestionsContent } from '@/lib/vignette-data';
+import SuggestionsPanel from '@/components/demos/SuggestionsPanel';
+import VignetteContainer from '@/components/vignettes/VignetteContainer';
+import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { fadeInUp } from '@/lib/animations';
-import VignetteSplit from './VignetteSplit';
+import { aiSuggestionsContent } from './content';
 
 export default function AISuggestionsVignette() {
   return (
@@ -20,7 +20,7 @@ export default function AISuggestionsVignette() {
             title={aiSuggestionsContent.title}
             description={aiSuggestionsContent.description}
           >
-            <SuggestionsPanel />
+            <SuggestionsPanel content={aiSuggestionsContent} />
           </VignetteSplit>
         </motion.div>
       </div>

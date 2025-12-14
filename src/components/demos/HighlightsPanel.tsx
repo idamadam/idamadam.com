@@ -3,17 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
-
-interface ProblemCard {
-  id: string;
-  type: 'slack' | 'goal' | 'note' | 'feedback' | 'calendar';
-  content: string;
-  from?: string;
-  time?: string;
-  date?: string;
-  status?: string;
-  avatarUrl?: string;
-}
+import { ProblemCard } from '@/components/vignettes/types';
 
 interface HighlightsPanelProps {
   className?: string;

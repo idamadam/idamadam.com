@@ -1,11 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import VignetteContainer from './VignetteContainer';
-import TranslationManagementPanel from '../demos/TranslationManagementPanel';
-import { multilingualContent } from '@/lib/vignette-data';
+import TranslationManagementPanel from '@/components/demos/TranslationManagementPanel';
+import VignetteContainer from '@/components/vignettes/VignetteContainer';
+import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { fadeInUp } from '@/lib/animations';
-import VignetteSplit from './VignetteSplit';
+import { multilingualContent } from './content';
 
 export default function MultilingualVignette() {
   return (
@@ -20,7 +20,7 @@ export default function MultilingualVignette() {
             title={multilingualContent.section1.title}
             description={multilingualContent.section1.description}
           >
-            <TranslationManagementPanel />
+            <TranslationManagementPanel content={multilingualContent} />
           </VignetteSplit>
         </motion.div>
       </div>

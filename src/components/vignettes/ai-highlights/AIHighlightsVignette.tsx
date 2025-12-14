@@ -2,13 +2,13 @@
 
 import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import VignetteContainer from './VignetteContainer';
-import VignetteStaged, { useVignetteStage } from './VignetteStaged';
-import HighlightsPanel from '../demos/HighlightsPanel';
-import { aiHighlightsContent } from '@/lib/vignette-data';
+import HighlightsPanel from '@/components/demos/HighlightsPanel';
+import VignetteContainer from '@/components/vignettes/VignetteContainer';
+import VignetteSplit from '@/components/vignettes/VignetteSplit';
+import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
 import { fadeInUp } from '@/lib/animations';
-import VignetteSplit from './VignetteSplit';
-import type { DesignNote } from '@/lib/vignette-data';
+import { aiHighlightsContent } from './content';
+import type { DesignNote } from '@/components/vignettes/types';
 
 function InlineRedlines({
   notes,
