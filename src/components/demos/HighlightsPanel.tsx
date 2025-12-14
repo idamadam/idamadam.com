@@ -174,23 +174,23 @@ function SolutionState({ className = '' }: { className?: string }) {
       className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-hidden font-[family-name:var(--font-inter)] ${className}`}
     >
       {/* Header Section */}
-      <div className="border-b-2 border-[#eaeaec] px-6 py-8">
-        <div className="flex items-center gap-3 mb-3">
+      <div className="border-b-2 border-[#eaeaec] px-6 py-6">
+        <div className="flex items-center gap-3 mb-2">
           <img
             src="https://www.figma.com/api/mcp/asset/1a127355-1cf2-4469-b9c8-398df34b3017"
             alt="Idam Adam"
             className="w-12 h-12 rounded-full shadow-sm"
           />
           <div>
-            <p className="text-[20px] leading-[30px] font-normal text-[#2f2438]">
+            <p className="text-[20px] leading-[30px] font-normal text-[#2f2438]" style={{ marginBottom: '0px' }}>
               Idam Adam
             </p>
-            <p className="text-[16px] leading-[24px] text-[#2f2438]">
+            <p className="text-[16px] leading-[24px] text-[#2f2438] mb-0">
               Lead Product Designer
             </p>
           </div>
         </div>
-        <p className="text-[16px] leading-[24px] text-[#2f2438]">
+        <p className="text-[16px] leading-[24px] text-[#2f2438] mt-0">
           Idam designed 2 tools to help reduce the burden of the Performance Review Period.
           Highlights & Opportunities helps managers quickly understand what their direct reports
           did & verify AI output using direct quotes from feedback.
@@ -203,8 +203,8 @@ function SolutionState({ className = '' }: { className?: string }) {
           <div className="flex items-start gap-2">
             <div className="flex-1">
               <div className="flex items-center gap-1 mb-2">
-                <span className="material-icons-outlined text-[20px] text-[#2f2438]">
-                  star
+                <span className="material-icons-outlined text-[20px] text-[#22594A]">
+                  star_outline
                 </span>
                 <span className="text-[16px] leading-[24px] font-semibold text-[#2f2438]">
                   Highlight
@@ -286,7 +286,7 @@ function SolutionState({ className = '' }: { className?: string }) {
           <div className="flex items-start gap-2">
             <div className="flex-1">
               <div className="flex items-center gap-1 mb-2">
-                <span className="material-icons-outlined text-[20px] text-[#2f2438]">
+                <span className="material-icons-outlined text-[20px]" style={{ color: 'rgba(135, 100, 0, 1)' }}>
                   lightbulb
                 </span>
                 <span className="text-[16px] leading-[24px] font-semibold text-[#2f2438]">
