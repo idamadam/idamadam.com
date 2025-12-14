@@ -12,6 +12,7 @@ interface ProblemCard {
   time?: string;
   date?: string;
   status?: string;
+  avatarUrl?: string;
 }
 
 interface HighlightsPanelProps {
@@ -112,7 +113,7 @@ function ProblemState({ cards, onTransition }: { cards: ProblemCard[]; onTransit
             >
               <div className="flex items-center gap-2 mb-2">
                 <img
-                  src="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                  src={card.avatarUrl || '/avatars/sarah-chen.svg'}
                   alt={card.from || 'Source'}
                   className="w-6 h-6 rounded-full"
                 />
@@ -177,7 +178,7 @@ function SolutionState({ className = '' }: { className?: string }) {
       <div className="border-b-2 border-[#eaeaec] px-6 py-6">
         <div className="flex items-center gap-3 mb-2">
           <img
-            src="https://www.figma.com/api/mcp/asset/1a127355-1cf2-4469-b9c8-398df34b3017"
+            src="/avatars/idam.svg"
             alt="Idam Adam"
             className="w-12 h-12 rounded-full shadow-sm"
           />
@@ -219,12 +220,12 @@ function SolutionState({ className = '' }: { className?: string }) {
               <div className="flex items-center gap-1">
                 <div className="flex -space-x-2">
                   <img
-                    src="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                    src="/avatars/sarah-chen.svg"
                     alt="Source"
                     className="w-5 h-5 rounded-full border-2 border-white"
                   />
                   <img
-                    src="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                    src="/avatars/mike-torres.svg"
                     alt="Source"
                     className="w-5 h-5 rounded-full border-2 border-white"
                   />
@@ -264,14 +265,14 @@ function SolutionState({ className = '' }: { className?: string }) {
                     date="Sep 8, 2024"
                     context="Peer feedback"
                     feedback="Idam's approach to user testing the AI model was brilliant. Getting early feedback directly from managers helped us iterate on the prompts before launch, which significantly improved the quality of the highlights."
-                    avatarUrl="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                    avatarUrl="/avatars/sarah-chen.svg"
                   />
                   <SourceCard
                     name="Mike Torres"
                     date="Sep 15, 2024"
                     context="Manager review"
                     feedback="The process Idam created for testing AI output with real users was a game-changer. We had concrete feedback before shipping, which prevented us from launching something managers wouldn't trust."
-                    avatarUrl="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                    avatarUrl="/avatars/mike-torres.svg"
                   />
                 </div>
               </motion.div>
@@ -302,12 +303,12 @@ function SolutionState({ className = '' }: { className?: string }) {
               <div className="flex items-center gap-1">
                 <div className="flex -space-x-2">
                   <img
-                    src="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                    src="/avatars/alex-kim.svg"
                     alt="Source"
                     className="w-5 h-5 rounded-full border-2 border-white"
                   />
                   <img
-                    src="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                    src="/avatars/jordan-lee.svg"
                     alt="Source"
                     className="w-5 h-5 rounded-full border-2 border-white"
                   />
@@ -347,14 +348,14 @@ function SolutionState({ className = '' }: { className?: string }) {
                     date="Oct 5, 2024"
                     context="Peer feedback"
                     feedback="While the testing process was solid, there's an opportunity to document it better for other teams. This approach could be a template for how we validate all AI features going forward."
-                    avatarUrl="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                    avatarUrl="/avatars/alex-kim.svg"
                   />
                   <SourceCard
                     name="Jordan Lee"
                     date="Sep 30, 2024"
                     context="Manager review"
                     feedback="Consider scaling the user testing framework to other AI initiatives. The rigor and structure would benefit the entire product org."
-                    avatarUrl="https://www.figma.com/api/mcp/asset/b06a70e3-eb2c-41d1-b6b1-5138056b1df2"
+                    avatarUrl="/avatars/jordan-lee.svg"
                   />
                 </div>
               </motion.div>

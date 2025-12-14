@@ -173,15 +173,24 @@ export const aiHighlightsContent = {
 
   // Problem state content - scattered information cards
   problemCards: [
-    { id: 'feedback1', type: 'feedback' as const, content: 'Idam\'s user research uncovered the core trust issue with AI summaries. This insight shaped our entire product direction.', from: 'Product Manager' },
-    { id: 'feedback2', type: 'feedback' as const, content: 'Outstanding collaboration across design and engineering. The verification UX is both elegant and technically feasible.', from: 'Engineering Partner' },
-    { id: 'feedback3', type: 'feedback' as const, content: 'Idam ran the most rigorous AI testing process I\'ve seen. Real feedback, real managers, real insights about trust.', from: 'User Researcher' },
-    { id: 'feedback4', type: 'feedback' as const, content: 'The inline source expansion is brilliant. Managers can verify AI output without leaving their flow. This will save hours.', from: 'Design Manager' },
-    { id: 'feedback5', type: 'feedback' as const, content: 'Idam advocated strongly for verification features when we wanted to ship faster. That user-first mindset prevented a trust disaster.', from: 'Product Lead' },
-    { id: 'feedback6', type: 'feedback' as const, content: 'Built custom prototyping infrastructure to iterate faster. This unlocked velocity we didn\'t know was possible.', from: 'Engineering Lead' },
-    { id: 'feedback7', type: 'feedback' as const, content: 'Every design iteration was grounded in user testing data. No ego, just evidence. That\'s how you ship AI features people trust.', from: 'Research Partner' },
-    { id: 'feedback8', type: 'feedback' as const, content: 'Idam\'s attention to the verification interaction details made the difference. AI summaries are worthless if managers don\'t trust them.', from: 'Product Designer' },
-  ]
+    { id: 'feedback1', type: 'feedback' as const, content: 'Idam\'s user research uncovered the core trust issue with AI summaries. This insight shaped our entire product direction.', from: 'Product Manager', avatarUrl: '/avatars/sarah-chen.svg' },
+    { id: 'feedback2', type: 'feedback' as const, content: 'Outstanding collaboration across design and engineering. The verification UX is both elegant and technically feasible.', from: 'Engineering Partner', avatarUrl: '/avatars/mike-torres.svg' },
+    { id: 'feedback3', type: 'feedback' as const, content: 'Idam ran the most rigorous AI testing process I\'ve seen. Real feedback, real managers, real insights about trust.', from: 'User Researcher', avatarUrl: '/avatars/alex-kim.svg' },
+    { id: 'feedback4', type: 'feedback' as const, content: 'The inline source expansion is brilliant. Managers can verify AI output without leaving their flow. This will save hours.', from: 'Design Manager', avatarUrl: '/avatars/jordan-lee.svg' },
+    { id: 'feedback5', type: 'feedback' as const, content: 'Idam advocated strongly for verification features when we wanted to ship faster. That user-first mindset prevented a trust disaster.', from: 'Product Lead', avatarUrl: '/avatars/sarah-chen.svg' },
+    { id: 'feedback6', type: 'feedback' as const, content: 'Built custom prototyping infrastructure to iterate faster. This unlocked velocity we didn\'t know was possible.', from: 'Engineering Lead', avatarUrl: '/avatars/mike-torres.svg' },
+    { id: 'feedback7', type: 'feedback' as const, content: 'Every design iteration was grounded in user testing data. No ego, just evidence. That\'s how you ship AI features people trust.', from: 'Research Partner', avatarUrl: '/avatars/alex-kim.svg' },
+    { id: 'feedback8', type: 'feedback' as const, content: 'Idam\'s attention to the verification interaction details made the difference. AI summaries are worthless if managers don\'t trust them.', from: 'Product Designer', avatarUrl: '/avatars/jordan-lee.svg' },
+  ],
+
+  // Avatar URLs for source cards in solution state
+  sourceAvatars: {
+    'idam': '/avatars/idam.svg',
+    'sarah-chen': '/avatars/sarah-chen.svg',
+    'mike-torres': '/avatars/mike-torres.svg',
+    'alex-kim': '/avatars/alex-kim.svg',
+    'jordan-lee': '/avatars/jordan-lee.svg'
+  }
 };
 
 export const aiSuggestionsContent = {
