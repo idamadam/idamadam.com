@@ -49,83 +49,86 @@ const typeColors: Record<ProblemCard['type'], { bg: string; border: string; icon
 
 function ProblemState({ cards, onTransition }: { cards: ProblemCard[]; onTransition?: () => void }) {
   return (
-    <div className="relative min-h-[400px] bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border-2 border-dashed border-gray-200 overflow-hidden">
-      {/* Scattered cards */}
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center"
-        initial="initial"
-        animate="animate"
-      >
-        {cards.slice(0, 6).map((card, index) => {
-          const pos = cardPositions[index];
-          const colors = typeColors[card.type];
+    <div className="relative bg-white rounded-lg border-2 border-gray-200 overflow-hidden">
+      {/* Header with count */}
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200 px-5 py-3.5 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="material-icons-outlined text-[20px] text-gray-700">
+            inbox
+          </span>
+          <h3 className="text-[15px] font-semibold text-gray-900">
+            Feedback to review
+          </h3>
+        </div>
+        <div className="bg-amber-100 text-amber-800 text-[13px] font-semibold px-2.5 py-1 rounded-full border border-amber-200">
+          {cards.length} items
+        </div>
+      </div>
 
-          return (
-            <motion.div
-              key={card.id}
-              className={`absolute w-[180px] ${colors.bg} ${colors.border} border rounded-lg p-3 shadow-sm cursor-default`}
-              initial={{ opacity: 0, scale: 0.8, x: 0, y: 0, rotate: 0 }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-                x: pos.x,
-                y: pos.y,
-                rotate: pos.rotate,
-              }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.08,
-                ease: 'easeOut',
-              }}
-              whileHover={{
-                scale: 1.05,
-                zIndex: 10,
-                transition: { duration: 0.2 }
-              }}
-            >
-              <div className="flex items-start gap-2">
-                <span className={`material-icons-outlined text-[16px] ${colors.icon} flex-shrink-0 mt-0.5`}>
-                  {typeIcons[card.type]}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[12px] leading-[1.4] text-gray-700 line-clamp-2">
-                    {card.content}
-                  </p>
-                  {(card.from || card.date || card.time) && (
-                    <p className="text-[10px] text-gray-400 mt-1 truncate">
-                      {card.from || card.date || card.time}
+      {/* Scrollable feed */}
+      <div className="relative max-h-[440px] overflow-y-auto">
+        <div className="divide-y divide-gray-100">
+          {cards.map((card, index) => {
+            const colors = typeColors[card.type];
+
+            return (
+              <motion.div
+                key={card.id}
+                className="px-5 py-3.5 hover:bg-gray-50 transition-colors"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.05,
+                  ease: 'easeOut',
+                }}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`${colors.bg} ${colors.border} border rounded-lg p-2 flex-shrink-0`}>
+                    <span className={`material-icons-outlined text-[18px] ${colors.icon}`}>
+                      {typeIcons[card.type]}
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[14px] leading-[1.5] text-gray-900">
+                      {card.content}
                     </p>
-                  )}
+                    {(card.from || card.date || card.time) && (
+                      <p className="text-[12px] text-gray-500 mt-1">
+                        {card.from && <span className="font-medium">{card.from}</span>}
+                        {card.from && (card.date || card.time) && <span className="mx-1.5">•</span>}
+                        {card.date || card.time}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          );
-        })}
-      </motion.div>
+              </motion.div>
+            );
+          })}
+        </div>
 
-      {/* Overflow indicator */}
-      <motion.div
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[13px] text-gray-400 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-      >
-        +{cards.length > 6 ? cards.length - 6 : 0} more sources to review
-      </motion.div>
+        {/* Scroll indicator gradient */}
+        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
+      </div>
 
-      {/* CTA Button */}
-      <motion.button
-        onClick={onTransition}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-[#0f172a] text-white px-5 py-2.5 rounded-lg text-[14px] font-medium shadow-lg hover:bg-[#1e293b] transition-colors"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-      >
-        <span className="material-icons-outlined text-[18px]">auto_awesome</span>
-        Summarize with AI
-      </motion.button>
+      {/* CTA Footer */}
+      <div className="border-t-2 border-gray-200 bg-gray-50 px-5 py-4">
+        <motion.button
+          onClick={onTransition}
+          className="w-full flex items-center justify-center gap-2 bg-[#0f172a] text-white px-5 py-3 rounded-lg text-[14px] font-semibold shadow-sm hover:bg-[#1e293b] transition-colors"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+        >
+          <span className="material-icons-outlined text-[20px]">auto_awesome</span>
+          Summarize with AI
+        </motion.button>
+        <p className="text-[12px] text-gray-500 text-center mt-2">
+          Save hours by letting AI surface key insights
+        </p>
+      </div>
     </div>
   );
 }
