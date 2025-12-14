@@ -157,7 +157,7 @@ function AIHighlightsContent({
             <span className="material-icons-outlined text-[18px]" style={{ color: showDesignNotes ? accent : '#0f172a' }}>
               {showDesignNotes ? 'close' : 'edit'}
             </span>
-            {showDesignNotes ? 'Hide design notes' : 'Show redlines'}
+            {showDesignNotes ? 'Hide design details' : 'Show design details'}
           </button>
         )
       }
