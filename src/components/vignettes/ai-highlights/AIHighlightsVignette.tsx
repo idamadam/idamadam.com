@@ -1,14 +1,14 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import VignetteContainer from './VignetteContainer';
-import VignetteStaged, { useVignetteStage } from './VignetteStaged';
-import HighlightsPanel from '../demos/HighlightsPanel';
-import { aiHighlightsContent } from '@/lib/vignette-data';
+import HighlightsPanel from './HighlightsPanel';
+import VignetteContainer from '@/components/vignettes/VignetteContainer';
+import VignetteSplit from '@/components/vignettes/VignetteSplit';
+import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
 import { fadeInUp } from '@/lib/animations';
-import VignetteSplit from './VignetteSplit';
-import type { DesignNote } from '@/lib/vignette-data';
+import { aiHighlightsContent } from './content';
+import type { DesignNote } from '@/components/vignettes/types';
 
 function InlineRedlines({
   notes,
@@ -78,7 +78,7 @@ function AIHighlightsContent({
   redlineNotes: DesignNote[];
   accent: string;
 }) {
-  const { stage, goToSolution } = useVignetteStage();
+  const { stage, goToSolution, setStage } = useVignetteStage();
 
   // Get stage-specific content
   const currentStageContent = stage === 'problem'
@@ -92,17 +92,43 @@ function AIHighlightsContent({
   return (
     <VignetteSplit
       title={
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={stage}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-          >
-            {title}
-          </motion.span>
-        </AnimatePresence>
+        <div className="space-y-4">
+          {/* Problem/Solution Toggle */}
+          <div className="flex items-center bg-gray-100 rounded-lg p-1 gap-1 w-fit">
+            <button
+              onClick={() => setStage('problem')}
+              className={`px-4 py-2 rounded-md text-[14px] font-medium transition-all ${
+                stage === 'problem'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Problem
+            </button>
+            <button
+              onClick={() => setStage('solution')}
+              className={`px-4 py-2 rounded-md text-[14px] font-medium transition-all ${
+                stage === 'solution'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Solution
+            </button>
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={stage}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              {title}
+            </motion.span>
+          </AnimatePresence>
+        </div>
       }
       description={
         <AnimatePresence mode="wait">
@@ -131,7 +157,7 @@ function AIHighlightsContent({
             <span className="material-icons-outlined text-[18px]" style={{ color: showDesignNotes ? accent : '#0f172a' }}>
               {showDesignNotes ? 'close' : 'edit'}
             </span>
-            {showDesignNotes ? 'Hide design notes' : 'Show redlines'}
+            {showDesignNotes ? 'Hide design details' : 'Show design details'}
           </button>
         )
       }
@@ -149,10 +175,7 @@ function AIHighlightsContent({
 }
 
 export default function AIHighlightsVignette() {
-  const redlineMode = useMemo(
-    () => aiHighlightsContent.designNotes?.modes.find((mode) => mode.id === 'redline') ?? aiHighlightsContent.designNotes?.modes?.[0],
-    []
-  );
+  const designNotes = aiHighlightsContent.designNotes;
   const [showDesignNotes, setShowDesignNotes] = useState(false);
   const toggleDesignNotes = () => setShowDesignNotes((prev) => !prev);
 
@@ -169,8 +192,8 @@ export default function AIHighlightsVignette() {
             <AIHighlightsContent
               showDesignNotes={showDesignNotes}
               toggleDesignNotes={toggleDesignNotes}
-              redlineNotes={redlineMode?.notes ?? []}
-              accent={redlineMode?.accent ?? '#ef4444'}
+              redlineNotes={designNotes?.notes ?? []}
+              accent={designNotes?.accent ?? '#ef4444'}
             />
           </VignetteStaged>
         </motion.div>

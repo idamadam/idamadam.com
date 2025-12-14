@@ -1,9 +1,9 @@
-import AIHighlightsVignette from '@/components/vignettes/AIHighlightsVignette';
-import AISuggestionsVignette from '@/components/vignettes/AISuggestionsVignette';
-import PrototypingVignette from '@/components/vignettes/PrototypingVignette';
-import VibeCodingVignette from '@/components/vignettes/VibeCodingVignette';
-import MultilingualVignette from '@/components/vignettes/MultilingualVignette';
-import HomeConnectVignette from '@/components/vignettes/HomeConnectVignette';
+import AIHighlightsVignette from '@/components/vignettes/ai-highlights/AIHighlightsVignette';
+import AISuggestionsVignette from '@/components/vignettes/ai-suggestions/AISuggestionsVignette';
+import PrototypingVignette from '@/components/vignettes/prototyping/PrototypingVignette';
+import VibeCodingVignette from '@/components/vignettes/vibe-coding/VibeCodingVignette';
+import MultilingualVignette from '@/components/vignettes/multilingual/MultilingualVignette';
+import HomeConnectVignette from '@/components/vignettes/home-connect/HomeConnectVignette';
 import ShaderBackground from '@/components/ShaderBackground';
 
 export default function Home() {

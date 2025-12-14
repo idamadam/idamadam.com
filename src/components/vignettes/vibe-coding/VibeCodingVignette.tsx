@@ -1,11 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import VignetteContainer from './VignetteContainer';
-import DemoCreationFlow from '../demos/DemoCreationFlow';
+import DemoCreationFlow from './DemoCreationFlow';
+import VignetteContainer from '@/components/vignettes/VignetteContainer';
+import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { fadeInUp } from '@/lib/animations';
-import { vibeCodingContent } from '@/lib/vignette-data';
-import VignetteSplit from './VignetteSplit';
+import { vibeCodingContent } from './content';
 
 export default function VibeCodingVignette() {
   return (

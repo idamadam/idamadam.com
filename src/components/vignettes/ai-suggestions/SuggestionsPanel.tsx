@@ -2,16 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import RichTextEditor from './RichTextEditor';
-import { aiSuggestionsContent } from '@/lib/vignette-data';
+import RichTextEditor from '@/components/demos/RichTextEditor';
+import type { AISuggestionsContent } from '@/components/vignettes/ai-suggestions/content';
 
 interface SuggestionsPanelProps {
   className?: string;
+  content: AISuggestionsContent;
 }
 
 type AIState = 'before' | 'improving' | 'after';
 
-export default function SuggestionsPanel({ className = '' }: SuggestionsPanelProps) {
+export default function SuggestionsPanel({ className = '', content }: SuggestionsPanelProps) {
   const [aiState, setAiState] = useState<AIState>('before');
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -116,7 +117,7 @@ export default function SuggestionsPanel({ className = '' }: SuggestionsPanelPro
         {/* Rich Text Editor with Improve Button */}
         <div className="space-y-2">
           <RichTextEditor
-            content={aiSuggestionsContent.beforeText}
+            content={content.beforeText}
             placeholder="Write feedback..."
             showImproveButton={true}
             onImprove={handleImprove}
@@ -167,7 +168,7 @@ export default function SuggestionsPanel({ className = '' }: SuggestionsPanelPro
                     <span className="material-icons-outlined text-[20px] text-[#2f2438]">auto_awesome</span>
                     <div className="flex items-center gap-1">
                       <span className="text-lg font-semibold text-[#2f2438] leading-6">
-                        {aiSuggestionsContent.recommendations.length} suggested improvements
+                        {content.recommendations.length} suggested improvements
                       </span>
                       <span className="text-base font-normal text-[#2f2438] leading-6">
                         based on Culture Amp People Science
@@ -181,13 +182,13 @@ export default function SuggestionsPanel({ className = '' }: SuggestionsPanelPro
 
                 {/* Recommendations */}
                 <div className="space-y-4">
-                  {aiSuggestionsContent.recommendations.map((rec, index) => (
+                  {content.recommendations.map((rec, index) => (
                     <div key={index}>
                       <p className="text-base leading-6 text-[#2f2438]">
                         <span className="font-semibold">{rec.title}</span>
                         <span className="font-normal"> {rec.description}</span>
                       </p>
-                      {index < aiSuggestionsContent.recommendations.length - 1 && (
+                      {index < content.recommendations.length - 1 && (
                         <div className="h-px bg-[#eaeaec] mt-4" />
                       )}
                     </div>

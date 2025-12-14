@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { DesignIteration } from '@/lib/vignette-data';
+import { DesignIteration } from '@/components/vignettes/types';
 import { iterationsStagger, iterationCard } from '@/lib/animations';
 
 interface IterationsPanelProps {

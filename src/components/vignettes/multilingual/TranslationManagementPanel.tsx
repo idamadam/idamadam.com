@@ -2,14 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Button from './Button';
-import RichTextEditor from './RichTextEditor';
-import { multilingualContent } from '@/lib/vignette-data';
+import RichTextEditor from '@/components/demos/RichTextEditor';
 import { subtlePulse } from '@/lib/animations';
+import type { MultilingualContent } from '@/components/vignettes/multilingual/content';
+
+interface TranslationManagementPanelProps {
+  className?: string;
+  content: MultilingualContent;
+}
 
 type TranslationState = 'idle' | 'translating' | 'complete';
 
-export default function TranslationManagementPanel() {
+export default function TranslationManagementPanel({
+  content,
+  className = ''
+}: TranslationManagementPanelProps) {
   const [translationState, setTranslationState] = useState<TranslationState>('idle');
   const [isAnimating, setIsAnimating] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(0); // 0 = French, 1 = Dhivehi
@@ -38,7 +45,7 @@ export default function TranslationManagementPanel() {
   };
 
   return (
-    <div className="w-full space-y-6">
+    <div className={`w-full space-y-6 ${className}`}>
       {/* Language & Action Buttons */}
       <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
         {/* Language Dropdown */}
@@ -51,7 +58,7 @@ export default function TranslationManagementPanel() {
             className="bg-white border-2 border-[#878792] rounded-[7px] h-[48px] px-[14px] py-[12px] flex items-center justify-between hover:border-[#0168b3] transition-colors"
           >
             <span className="text-[16px] leading-[24px] text-[#2f2438]">
-              {multilingualContent.languages[selectedLanguage].name}
+              {content.languages[selectedLanguage].name}
             </span>
             <svg className="w-5 h-5 text-[#2f2438]" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -68,7 +75,7 @@ export default function TranslationManagementPanel() {
                 transition={{ duration: 0.2 }}
                 className="absolute top-full left-0 right-0 mt-1 bg-white border-2 border-[#878792] rounded-[7px] shadow-lg z-10"
               >
-                {multilingualContent.languages.map((lang, index) => (
+                {content.languages.map((lang, index) => (
                   <button
                     key={lang.code}
                     onClick={() => {
@@ -78,7 +85,7 @@ export default function TranslationManagementPanel() {
                     }}
                     className={`w-full px-[14px] py-[12px] text-left text-[16px] leading-[24px] text-[#2f2438] hover:bg-gray-50 transition-colors ${
                       index === selectedLanguage ? 'bg-gray-100 font-semibold' : ''
-                    } ${index === 0 ? 'rounded-t-[5px]' : ''} ${index === multilingualContent.languages.length - 1 ? 'rounded-b-[5px]' : ''}`}
+                    } ${index === 0 ? 'rounded-t-[5px]' : ''} ${index === content.languages.length - 1 ? 'rounded-b-[5px]' : ''}`}
                   >
                     {lang.name}
                   </button>
@@ -119,7 +126,7 @@ export default function TranslationManagementPanel() {
 
       {/* Translation Fields */}
       <div className="space-y-6">
-        {multilingualContent.translationFields.map((field, index) => (
+        {content.translationFields.map((field, index) => (
           <div key={field.id} className="space-y-3">
             <label className="text-sm font-semibold text-[#2f2438]">
               {field.label}
@@ -148,7 +155,7 @@ export default function TranslationManagementPanel() {
                 content={
                   translationState === 'idle'
                     ? ''
-                    : multilingualContent.languages[selectedLanguage].text
+                    : content.languages[selectedLanguage].text
                 }
                 placeholder="Translation will appear here..."
               />
