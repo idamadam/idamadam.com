@@ -53,7 +53,14 @@ Design notes anchor to semantic elements in the panel using CSS Anchor Positioni
 
 ## Implementation Approach
 
-Use native CSS Anchor Positioning with inline styles. Each panel element gets an `anchor-name`, and annotations use `position-anchor` to attach to them.
+Use native CSS Anchor Positioning with a **hybrid CSS + inline style approach**:
+
+- **Inline styles** for `anchor-name` (on panel elements) and `position-anchor` (on annotations) - these work as inline styles because they're simple CSS custom property values
+- **CSS file** for `anchor()` function positioning - these **cannot** work as inline styles because React passes them as string literals, not CSS function calls
+
+**Why not pure inline styles?** When you write `style={{ left: 'anchor(right)' }}`, React passes the literal string `"anchor(right)"` to the DOM. The browser's CSS parser never sees this as a CSS function, so it's treated as invalid and falls back to default positioning (0,0 = top-left clustering).
+
+**Solution:** Define `anchor()` positioning rules in a CSS file using data attributes, then apply `position-anchor` via inline styles for dynamic anchor association.
 
 ---
 
@@ -145,25 +152,90 @@ Add CSS anchor names to semantic elements in HighlightsPanel that annotations wi
 
 ---
 
-## Phase 3: Update InlineRedlines Component
+## Phase 3: Create CSS File for Anchor Positioning
 
 ### Overview
-Modify the annotation rendering to use CSS Anchor Positioning instead of percentage coordinates.
+Create a CSS file with `anchor()` positioning rules. These **must** be in CSS (not inline styles) because `anchor()` is a CSS function that React inline styles cannot parse.
 
 ### Changes Required:
 
-#### 1. Add Position Style Mapping
+#### 1. Create Design Notes CSS File
+**File**: `src/components/vignettes/ai-highlights/design-notes.css` (new file)
+**Changes**: Define anchor positioning rules using data attributes
+
+```css
+/* Design Notes Anchor Positioning
+ *
+ * Note: anchor() functions MUST be in CSS, not inline styles.
+ * React inline styles pass "anchor(right)" as a literal string,
+ * which the browser treats as invalid CSS (causing top-left clustering).
+ */
+
+.design-note {
+  position: absolute;
+  /* position-anchor is applied via inline style for dynamic anchor binding */
+}
+
+/* Position variants - annotation appears on this side of the anchor */
+.design-note[data-position="right"] {
+  left: anchor(right);
+  top: anchor(center);
+  translate: 16px -50%;
+}
+
+.design-note[data-position="left"] {
+  right: anchor(left);
+  top: anchor(center);
+  translate: -16px -50%;
+}
+
+.design-note[data-position="top"] {
+  bottom: anchor(top);
+  left: anchor(center);
+  translate: -50% -16px;
+}
+
+.design-note[data-position="bottom"] {
+  top: anchor(bottom);
+  left: anchor(center);
+  translate: -50% 16px;
+}
+
+/* Fallback for browsers without anchor positioning support */
+@supports not (anchor-name: --test) {
+  .design-note {
+    /* Fall back to percentage-based positioning via CSS custom properties */
+    top: var(--fallback-y, 50%);
+    left: var(--fallback-x, 50%);
+    translate: -50% -50%;
+  }
+}
+```
+
+### Success Criteria:
+
+#### Automated Verification:
+- [ ] CSS file created at correct path
+- [ ] No CSS syntax errors: `npm run build`
+
+#### Manual Verification:
+- [ ] N/A for this phase (CSS-only, no visual changes yet)
+
+---
+
+## Phase 4: Update InlineRedlines Component
+
+### Overview
+Modify the annotation rendering to use the CSS classes and data attributes instead of percentage coordinates.
+
+### Changes Required:
+
+#### 1. Import CSS and Update Component
 **File**: `src/components/vignettes/ai-highlights/AIHighlightsVignette.tsx`
-**Changes**: Add a mapping object and update the component to use anchor positioning
+**Changes**: Import CSS file, use data attributes for positioning, inline style for position-anchor
 
 ```tsx
-// Position-to-style mapping for anchor positioning
-const positionStyles = {
-  right: { left: 'anchor(right)', top: 'anchor(center)', transform: 'translateY(-50%)' },
-  left: { right: 'anchor(left)', top: 'anchor(center)', transform: 'translateY(-50%)' },
-  top: { bottom: 'anchor(top)', left: 'anchor(center)', transform: 'translateX(-50%)' },
-  bottom: { top: 'anchor(bottom)', left: 'anchor(center)', transform: 'translateX(-50%)' },
-};
+import './design-notes.css';
 
 function InlineRedlines({
   notes,
@@ -180,18 +252,47 @@ function InlineRedlines({
         return (
           <motion.div
             key={note.id}
-            className="absolute"
+            className="design-note"
+            data-position={note.position}
             style={{
-              position: 'absolute',
               positionAnchor: `--${note.anchor}`,
-              ...positionStyles[note.position],
-              transition: 'all 0.3s ease-out',
             } as React.CSSProperties}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
           >
-            {/* Annotation content unchanged */}
+            <div className={`flex items-start gap-3 ${alignRight ? 'flex-row-reverse text-right' : 'text-left'}`}>
+              {/* Dot and line */}
+              <div className={`flex items-center ${alignRight ? 'flex-row-reverse' : ''}`}>
+                <div
+                  className="w-2.5 h-2.5 rounded-full"
+                  style={{
+                    backgroundColor: accent,
+                    boxShadow: `0 0 0 8px ${accent}1a`
+                  }}
+                />
+                <div
+                  className={`h-px w-10 ${alignRight ? 'mr-2' : 'ml-2'}`}
+                  style={{ backgroundColor: accent }}
+                />
+              </div>
+
+              {/* Label box */}
+              <div
+                className="rounded-xl px-3 py-2 shadow-sm max-w-[230px] bg-white"
+                style={{
+                  border: `1px solid ${accent}33`,
+                  boxShadow: '0 12px 40px rgba(248, 113, 113, 0.15)'
+                }}
+              >
+                <p className="text-[13px] font-semibold leading-[1.3]" style={{ color: accent }}>
+                  {note.label}
+                </p>
+                <p className="text-[13px] leading-[1.5] mt-1 text-[#475569]">
+                  {note.detail}
+                </p>
+              </div>
+            </div>
           </motion.div>
         );
       })}
@@ -200,6 +301,13 @@ function InlineRedlines({
 }
 ```
 
+**Key changes from original plan:**
+- Import CSS file instead of defining inline position styles
+- Use `className="design-note"` for base positioning rules
+- Use `data-position={note.position}` for position variant (left/right/top/bottom)
+- Use inline `style={{ positionAnchor: ... }}` for dynamic anchor binding (this works as inline style)
+- Remove `anchor()` function calls from inline styles (these are now in CSS)
+
 ### Success Criteria:
 
 #### Automated Verification:
@@ -207,7 +315,7 @@ function InlineRedlines({
 - [ ] Dev server runs without errors: `npm run dev`
 
 #### Manual Verification:
-- [ ] Annotations appear attached to their target elements
+- [ ] Annotations appear attached to their target elements (not clustered at top-left)
 - [ ] Annotations follow elements when expand/collapse happens
 - [ ] Animations feel smooth during expand/collapse
 
@@ -215,7 +323,7 @@ function InlineRedlines({
 
 ---
 
-## Phase 4: Update Content Data
+## Phase 5: Update Content Data
 
 ### Overview
 Update the design notes content to use anchor references instead of x,y coordinates.
@@ -284,17 +392,47 @@ designNotes: {
 1. Navigate to homepage, scroll to AI Highlights vignette
 2. Toggle to "Solution" view
 3. Click "Show design details" button
-4. Verify all four annotations appear attached to correct elements
+4. Verify all four annotations appear attached to correct elements (not clustered at top-left!)
 5. Expand the Highlight sources - verify annotations move smoothly
 6. Expand the Opportunity sources - verify annotations move smoothly
 7. Collapse both - verify annotations return smoothly
 8. Resize browser window - verify annotations stay attached
-9. Test on Chrome, Safari, and Firefox
+9. Test on Chrome (primary - full support since v125)
+10. Test on Safari (coming soon, check current support status)
+11. Test on Firefox (no native support yet, verify fallback works)
 
 ### Edge Cases:
 - Very narrow viewport (annotations may need overflow handling)
 - Both highlight and opportunity expanded simultaneously
 - Rapid toggling of expand/collapse
+
+### Browser Support Testing:
+CSS Anchor Positioning is part of **Interop 2025** and has varying support:
+- **Chrome 125+**: Full support ✅
+- **Edge 125+**: Full support ✅
+- **Safari**: Coming soon (check webkit.org for status)
+- **Firefox**: No native support yet (polyfill available from Oddbird)
+
+The `@supports not (anchor-name: --test)` fallback in the CSS ensures graceful degradation.
+
+## Troubleshooting: Top-Left Clustering
+
+If annotations cluster at (0,0) instead of anchoring correctly, check these common causes:
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| All notes at top-left | `anchor()` in inline styles | Move `anchor()` rules to CSS file |
+| All notes at top-left | Missing `position: absolute` | Add to `.design-note` class in CSS |
+| Single note at top-left | Typo in anchor name | Verify `--anchor-name` matches exactly |
+| Notes at top-left in Firefox | No browser support | Check `@supports` fallback is working |
+| Notes ignore anchor | Missing `position-anchor` | Add inline style `positionAnchor: '--name'` |
+| Notes positioned wrong axis | Axis mismatch in `anchor()` | Use `anchor(left/right)` for horizontal, `anchor(top/bottom)` for vertical |
+
+**Debug checklist:**
+1. Open DevTools → Elements → select the annotation element
+2. Check Computed styles for `position-anchor` (should show `--anchor-name`)
+3. Check that `left`/`right`/`top`/`bottom` shows `anchor(...)` not a fallback value
+4. If values show as "invalid", the `anchor()` is in inline styles (move to CSS)
 
 ## Performance Considerations
 
