@@ -72,33 +72,29 @@ export const aiHighlightsContent: AIHighlightsContent = {
         id: 'context-first',
         label: 'Context first',
         detail: 'Name, role, and purpose up top to anchor managers before they scan AI output.',
-        x: 18,
-        y: 18,
-        align: 'left'
+        anchor: 'highlights-header',
+        position: 'left',
       },
       {
         id: 'verification',
         label: 'Verification loop',
         detail: "Sources sit directly under each highlight so managers can trust without hunting.",
-        x: 74,
-        y: 46,
-        align: 'right'
+        anchor: 'highlight-item',
+        position: 'right',
       },
       {
         id: 'mirror',
         label: 'Mirrored patterns',
         detail: 'Highlight and Opportunity share the same layout so scanning feels automatic.',
-        x: 24,
-        y: 68,
-        align: 'left'
+        anchor: 'opportunity-item',
+        position: 'left',
       },
       {
         id: 'feedback-loop',
         label: 'Micro feedback',
         detail: "A lightweight 'Is this helpful?' keeps the model accountable without breaking flow.",
-        x: 72,
-        y: 88,
-        align: 'right'
+        anchor: 'feedback-footer',
+        position: 'right',
       }
     ]
   },

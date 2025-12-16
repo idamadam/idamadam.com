@@ -9,6 +9,7 @@ import VignetteStaged, { useVignetteStage } from '@/components/vignettes/Vignett
 import { fadeInUp } from '@/lib/animations';
 import { aiHighlightsContent } from './content';
 import type { DesignNote } from '@/components/vignettes/types';
+import './design-notes.css';
 
 function InlineRedlines({
   notes,
@@ -18,19 +19,24 @@ function InlineRedlines({
   accent: string;
 }) {
   return (
-    <div className="pointer-events-none absolute inset-0 z-20" style={{ overflow: 'visible' }}>
+    <div className="pointer-events-none" style={{ overflow: 'visible' }}>
       {notes.map((note) => {
-        const alignRight = note.align === 'right';
+        const alignRight = note.position === 'right';
+
         return (
           <motion.div
             key={note.id}
-            className="absolute"
-            style={{ top: `${note.y}%`, left: `${note.x}%` }}
+            className="design-note"
+            data-position={note.position}
+            style={{
+              positionAnchor: `--${note.anchor}`,
+            } as React.CSSProperties}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
           >
             <div className={`flex items-start gap-3 ${alignRight ? 'flex-row-reverse text-right' : 'text-left'}`}>
+              {/* Dot and line */}
               <div className={`flex items-center ${alignRight ? 'flex-row-reverse' : ''}`}>
                 <div
                   className="w-2.5 h-2.5 rounded-full"
@@ -45,6 +51,7 @@ function InlineRedlines({
                 />
               </div>
 
+              {/* Label box */}
               <div
                 className="rounded-xl px-3 py-2 shadow-sm max-w-[230px] bg-white"
                 style={{

@@ -9,9 +9,9 @@ export interface DesignNote {
   id: string;
   label: string;
   detail: string;
-  x: number;
-  y: number;
-  align?: 'left' | 'right';
+  anchor: string;  // Reference to anchor name (e.g., 'highlights-header')
+  position: 'top' | 'bottom' | 'left' | 'right';  // Which side of anchor
+  align?: 'start' | 'center' | 'end';  // Alignment along the edge
 }
 
 export interface StageContent {

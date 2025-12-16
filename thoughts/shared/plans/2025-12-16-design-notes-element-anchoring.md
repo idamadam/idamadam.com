@@ -89,11 +89,11 @@ export interface DesignNote {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compilation passes: `npm run build`
-- [ ] No type errors in IDE
+- [x] TypeScript compilation passes: `npm run build`
+- [x] No type errors in IDE
 
 #### Manual Verification:
-- [ ] N/A for this phase (type-only change)
+- [x] N/A for this phase (type-only change)
 
 ---
 
@@ -143,8 +143,8 @@ Add CSS anchor names to semantic elements in HighlightsPanel that annotations wi
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compilation passes: `npm run build`
-- [ ] Dev server runs without errors: `npm run dev`
+- [x] TypeScript compilation passes: `npm run build`
+- [x] Dev server runs without errors: `npm run dev`
 
 #### Manual Verification:
 - [ ] Panel renders correctly with no visual changes
@@ -215,11 +215,11 @@ Create a CSS file with `anchor()` positioning rules. These **must** be in CSS (n
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] CSS file created at correct path
-- [ ] No CSS syntax errors: `npm run build`
+- [x] CSS file created at correct path
+- [x] No CSS syntax errors: `npm run build`
 
 #### Manual Verification:
-- [ ] N/A for this phase (CSS-only, no visual changes yet)
+- [x] N/A for this phase (CSS-only, no visual changes yet)
 
 ---
 
@@ -311,8 +311,8 @@ function InlineRedlines({
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compilation passes: `npm run build`
-- [ ] Dev server runs without errors: `npm run dev`
+- [x] TypeScript compilation passes: `npm run build`
+- [x] Dev server runs without errors: `npm run dev`
 
 #### Manual Verification:
 - [ ] Annotations appear attached to their target elements (not clustered at top-left)
@@ -374,8 +374,8 @@ designNotes: {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compilation passes: `npm run build`
-- [ ] Dev server runs without errors: `npm run dev`
+- [x] TypeScript compilation passes: `npm run build`
+- [x] Dev server runs without errors: `npm run dev`
 
 #### Manual Verification:
 - [ ] All four annotations appear in correct positions
@@ -407,11 +407,11 @@ grep -r "DesignNotesPanel" src/
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compilation passes: `npm run build`
-- [ ] No broken imports: `npm run dev`
+- [x] TypeScript compilation passes: `npm run build`
+- [x] No broken imports: `npm run dev`
 
 #### Manual Verification:
-- [ ] N/A (removing unused code)
+- [x] N/A (removing unused code)
 
 ---
 

@@ -165,7 +165,10 @@ function SolutionState({ className = '' }: { className?: string }) {
       className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-hidden font-[family-name:var(--font-inter)] ${className}`}
     >
       {/* Header Section */}
-      <div className="border-b-2 border-[#eaeaec] px-6 py-6">
+      <div
+        className="border-b-2 border-[#eaeaec] px-6 py-6"
+        style={{ anchorName: '--highlights-header' } as React.CSSProperties}
+      >
         <div className="flex items-center gap-3 mb-2">
           <img
             src="/avatars/idam.svg"
@@ -189,7 +192,10 @@ function SolutionState({ className = '' }: { className?: string }) {
       </div>
 
       {/* Highlight Item */}
-      <div className="border-b-2 border-[#eaeaec]">
+      <div
+        className="border-b-2 border-[#eaeaec]"
+        style={{ anchorName: '--highlight-item' } as React.CSSProperties}
+      >
         <div className="px-6 py-8">
           <div className="flex items-start gap-2">
             <div className="flex-1">
@@ -272,7 +278,10 @@ function SolutionState({ className = '' }: { className?: string }) {
       </div>
 
       {/* Opportunity Item */}
-      <div className="border-b-2 border-[#eaeaec]">
+      <div
+        className="border-b-2 border-[#eaeaec]"
+        style={{ anchorName: '--opportunity-item' } as React.CSSProperties}
+      >
         <div className="px-6 py-8">
           <div className="flex items-start gap-2">
             <div className="flex-1">
@@ -355,7 +364,10 @@ function SolutionState({ className = '' }: { className?: string }) {
       </div>
 
       {/* Footer with Feedback Buttons */}
-      <div className="px-6 py-4 flex items-center gap-2">
+      <div
+        className="px-6 py-4 flex items-center gap-2"
+        style={{ anchorName: '--feedback-footer' } as React.CSSProperties}
+      >
         <span className="text-[14px] leading-[18px] text-[#524e56]">
           Is this helpful?
         </span>

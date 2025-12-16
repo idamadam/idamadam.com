@@ -1,0 +1,46 @@
+/* Design Notes Anchor Positioning
+ *
+ * Note: anchor() functions MUST be in CSS, not inline styles.
+ * React inline styles pass "anchor(right)" as a literal string,
+ * which the browser treats as invalid CSS (causing top-left clustering).
+ */
+
+.design-note {
+  position: absolute;
+  /* position-anchor is applied via inline style for dynamic anchor binding */
+}
+
+/* Position variants - annotation appears on this side of the anchor */
+.design-note[data-position="right"] {
+  left: anchor(right);
+  top: anchor(center);
+  translate: 16px -50%;
+}
+
+.design-note[data-position="left"] {
+  right: anchor(left);
+  top: anchor(center);
+  translate: -16px -50%;
+}
+
+.design-note[data-position="top"] {
+  bottom: anchor(top);
+  left: anchor(center);
+  translate: -50% -16px;
+}
+
+.design-note[data-position="bottom"] {
+  top: anchor(bottom);
+  left: anchor(center);
+  translate: -50% 16px;
+}
+
+/* Fallback for browsers without anchor positioning support */
+@supports not (anchor-name: --test) {
+  .design-note {
+    /* Fall back to percentage-based positioning via CSS custom properties */
+    top: var(--fallback-y, 50%);
+    left: var(--fallback-x, 50%);
+    translate: -50% -50%;
+  }
+}
