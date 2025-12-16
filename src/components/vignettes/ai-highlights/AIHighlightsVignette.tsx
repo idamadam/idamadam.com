@@ -35,9 +35,9 @@ function InlineRedlines({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
           >
-            <div className={`flex items-start gap-3 ${alignRight ? 'flex-row-reverse text-right' : 'text-left'}`}>
+            <div className={`flex items-start ${alignRight ?  'text-left' : 'flex-row-reverse text-right' }`}>
               {/* Dot and line */}
-              <div className={`flex items-center ${alignRight ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center pt-4 ${alignRight ? '' : 'flex-row-reverse' }`}>
                 <div
                   className="w-2.5 h-2.5 rounded-full"
                   style={{
@@ -46,14 +46,14 @@ function InlineRedlines({
                   }}
                 />
                 <div
-                  className={`h-px w-10 ${alignRight ? 'mr-2' : 'ml-2'}`}
+                  className={`h-px w-8 ${alignRight ? 'mr-2' : 'ml-2'}`}
                   style={{ backgroundColor: accent }}
                 />
               </div>
 
               {/* Label box */}
               <div
-                className="rounded-xl px-3 py-2 shadow-sm max-w-[230px] bg-white"
+                className="rounded-xl px-3 py-2 shadow-sm min-w-[230px] bg-white"
                 style={{
                   border: `1px solid ${accent}33`,
                   boxShadow: '0 12px 40px rgba(248, 113, 113, 0.15)'
