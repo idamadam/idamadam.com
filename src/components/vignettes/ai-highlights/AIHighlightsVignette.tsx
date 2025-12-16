@@ -19,7 +19,7 @@ function InlineRedlines({
   accent: string;
 }) {
   return (
-    <div className="pointer-events-none absolute inset-0 z-20" style={{ overflow: 'visible' }}>
+    <div className="pointer-events-none" style={{ overflow: 'visible' }}>
       {notes.map((note) => {
         const alignRight = note.position === 'right';
 
