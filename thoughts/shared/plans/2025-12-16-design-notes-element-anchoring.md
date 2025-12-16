@@ -386,6 +386,35 @@ designNotes: {
 
 ---
 
+## Phase 6: Cleanup Unused Code
+
+### Overview
+Remove the unused `DesignNotesPanel` component that was an alternative implementation approach.
+
+### Changes Required:
+
+#### 1. Delete Unused Component
+**File**: `src/components/demos/DesignNotesPanel.tsx` (delete)
+**Reason**: This component is never imported anywhere in the codebase. It appears to be an earlier/alternative approach to design notes with a tabbed interface. The `InlineRedlines` component in `AIHighlightsVignette.tsx` is the actual implementation being used.
+
+**Verification before deletion:**
+```bash
+# Confirm no imports exist
+grep -r "DesignNotesPanel" src/
+# Should only show the file itself, no imports
+```
+
+### Success Criteria:
+
+#### Automated Verification:
+- [ ] TypeScript compilation passes: `npm run build`
+- [ ] No broken imports: `npm run dev`
+
+#### Manual Verification:
+- [ ] N/A (removing unused code)
+
+---
+
 ## Testing Strategy
 
 ### Manual Testing Steps:
