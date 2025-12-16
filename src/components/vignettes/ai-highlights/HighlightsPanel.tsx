@@ -10,6 +10,8 @@ interface HighlightsPanelProps {
   stage?: VignetteStage;
   onTransition?: () => void;
   problemCards?: FeedbackSource[];
+  redlineModeActive?: boolean;
+  focusedAnchor?: string | null;
 }
 
 // Predefined positions for scattered cards
@@ -156,9 +158,23 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
   );
 }
 
-function SolutionState({ className = '' }: { className?: string }) {
+interface SolutionStateProps {
+  className?: string;
+  redlineModeActive?: boolean;
+  focusedAnchor?: string | null;
+}
+
+function SolutionState({ className = '', redlineModeActive = false, focusedAnchor = null }: SolutionStateProps) {
   const [highlightExpanded, setHighlightExpanded] = useState(false);
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
+
+  // Helper to compute anchor region styles
+  const getAnchorStyle = (anchorName: string): React.CSSProperties => ({
+    anchorName: `--${anchorName}`,
+    opacity: redlineModeActive && focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
+    boxShadow: focusedAnchor === anchorName ? '0 0 0 2px rgba(239, 68, 68, 0.2)' : 'none',
+    transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
+  } as React.CSSProperties);
 
   return (
     <div
@@ -167,7 +183,8 @@ function SolutionState({ className = '' }: { className?: string }) {
       {/* Header Section */}
       <div
         className="border-b-2 border-[#eaeaec] px-6 py-6"
-        style={{ anchorName: '--highlights-header' } as React.CSSProperties}
+        style={getAnchorStyle('highlights-header')}
+        data-anchor="highlights-header"
       >
         <div className="flex items-center gap-3 mb-2">
           <img
@@ -194,7 +211,8 @@ function SolutionState({ className = '' }: { className?: string }) {
       {/* Highlight Item */}
       <div
         className="border-b-2 border-[#eaeaec]"
-        style={{ anchorName: '--highlight-item' } as React.CSSProperties}
+        style={getAnchorStyle('highlight-item')}
+        data-anchor="highlight-item"
       >
         <div className="px-6 py-8">
           <div className="flex items-start gap-2">
@@ -280,7 +298,8 @@ function SolutionState({ className = '' }: { className?: string }) {
       {/* Opportunity Item */}
       <div
         className="border-b-2 border-[#eaeaec]"
-        style={{ anchorName: '--opportunity-item' } as React.CSSProperties}
+        style={getAnchorStyle('opportunity-item')}
+        data-anchor="opportunity-item"
       >
         <div className="px-6 py-8">
           <div className="flex items-start gap-2">
@@ -366,7 +385,8 @@ function SolutionState({ className = '' }: { className?: string }) {
       {/* Footer with Feedback Buttons */}
       <div
         className="px-6 py-4 flex items-center gap-2"
-        style={{ anchorName: '--feedback-footer' } as React.CSSProperties}
+        style={getAnchorStyle('feedback-footer')}
+        data-anchor="feedback-footer"
       >
         <span className="text-[14px] leading-[18px] text-[#524e56]">
           Is this helpful?
@@ -396,7 +416,9 @@ export default function HighlightsPanel({
   className = '',
   stage = 'solution',
   onTransition,
-  problemCards = []
+  problemCards = [],
+  redlineModeActive = false,
+  focusedAnchor = null
 }: HighlightsPanelProps) {
   // Default problem cards if none provided
   const defaultProblemCards: FeedbackSource[] = [
@@ -430,7 +452,7 @@ export default function HighlightsPanel({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
-          <SolutionState className={className} />
+          <SolutionState className={className} redlineModeActive={redlineModeActive} focusedAnchor={focusedAnchor} />
         </motion.div>
       )}
     </AnimatePresence>

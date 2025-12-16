@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import HighlightsPanel from './HighlightsPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
@@ -9,83 +9,30 @@ import VignetteStaged, { useVignetteStage } from '@/components/vignettes/Vignett
 import { fadeInUp } from '@/lib/animations';
 import { aiHighlightsContent } from './content';
 import type { DesignNote } from '@/components/vignettes/types';
+import { useRedlineMode } from '@/components/vignettes/shared/useRedlineMode';
+import RedlineOverlay from '@/components/vignettes/shared/RedlineOverlay';
+import MobileRedlineTour from '@/components/vignettes/shared/MobileRedlineTour';
+import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
+import { useReducedMotion } from '@/lib/useReducedMotion';
+import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
 import './design-notes.css';
 
-function InlineRedlines({
-  notes,
-  accent
-}: {
-  notes: DesignNote[];
-  accent: string;
-}) {
-  return (
-    <div className="pointer-events-none" style={{ overflow: 'visible' }}>
-      {notes.map((note) => {
-        const alignRight = note.position === 'right';
-
-        return (
-          <motion.div
-            key={note.id}
-            className="design-note"
-            data-position={note.position}
-            style={{
-              positionAnchor: `--${note.anchor}`,
-            } as React.CSSProperties}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-          >
-            <div className={`flex items-start gap-3 ${alignRight ? 'flex-row-reverse text-right' : 'text-left'}`}>
-              {/* Dot and line */}
-              <div className={`flex items-center ${alignRight ? 'flex-row-reverse' : ''}`}>
-                <div
-                  className="w-2.5 h-2.5 rounded-full"
-                  style={{
-                    backgroundColor: accent,
-                    boxShadow: `0 0 0 8px ${accent}1a`
-                  }}
-                />
-                <div
-                  className={`h-px w-10 ${alignRight ? 'mr-2' : 'ml-2'}`}
-                  style={{ backgroundColor: accent }}
-                />
-              </div>
-
-              {/* Label box */}
-              <div
-                className="rounded-xl px-3 py-2 shadow-sm max-w-[230px] bg-white"
-                style={{
-                  border: `1px solid ${accent}33`,
-                  boxShadow: '0 12px 40px rgba(248, 113, 113, 0.15)'
-                }}
-              >
-                <p className="text-[13px] font-semibold leading-[1.3]" style={{ color: accent }}>
-                  {note.label}
-                </p>
-                <p className="text-[13px] leading-[1.5] mt-1 text-[#475569]">
-                  {note.detail}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        );
-      })}
-    </div>
-  );
-}
-
 function AIHighlightsContent({
-  showDesignNotes,
-  toggleDesignNotes,
   redlineNotes,
-  accent
+  accent,
+  redlineMode,
+  mobileIndex,
+  onMobileIndexChange,
 }: {
-  showDesignNotes: boolean;
-  toggleDesignNotes: () => void;
   redlineNotes: DesignNote[];
   accent: string;
+  redlineMode: ReturnType<typeof useRedlineMode>;
+  mobileIndex: number;
+  onMobileIndexChange: (index: number) => void;
 }) {
   const { stage, goToSolution, setStage } = useVignetteStage();
+  const reducedMotion = useReducedMotion();
+  const animations = reducedMotion ? redlineAnimationsReduced : redlineAnimations;
 
   // Get stage-specific content
   const currentStageContent = stage === 'problem'
@@ -94,7 +41,11 @@ function AIHighlightsContent({
 
   const title = currentStageContent?.title || aiHighlightsContent.title;
   const description = currentStageContent?.description || aiHighlightsContent.description;
-  const showNotesOverlay = stage === 'solution' && showDesignNotes && redlineNotes.length > 0;
+
+  // Map focusedAnnotation to anchor name for HighlightsPanel
+  const focusedAnchor = redlineMode.focusedAnnotation
+    ? redlineNotes.find(n => n.id === redlineMode.focusedAnnotation)?.anchor ?? null
+    : null;
 
   return (
     <VignetteSplit
@@ -153,38 +104,77 @@ function AIHighlightsContent({
       actions={
         stage === 'solution' && (
           <button
-            onClick={toggleDesignNotes}
+            onClick={redlineMode.toggleRedlineMode}
             className="inline-flex items-center gap-2 text-[14px] font-medium text-[#0f172a] px-3 py-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
             style={{
-              backgroundColor: showDesignNotes ? `${accent}12` : 'white',
-              borderColor: showDesignNotes ? `${accent}50` : undefined,
-              color: showDesignNotes ? '#991b1b' : undefined
+              backgroundColor: redlineMode.isActive ? `${accent}12` : 'white',
+              borderColor: redlineMode.isActive ? `${accent}50` : undefined,
+              color: redlineMode.isActive ? '#991b1b' : undefined
             }}
           >
-            <span className="material-icons-outlined text-[18px]" style={{ color: showDesignNotes ? accent : '#0f172a' }}>
-              {showDesignNotes ? 'close' : 'edit'}
+            <span className="material-icons-outlined text-[18px]" style={{ color: redlineMode.isActive ? accent : '#0f172a' }}>
+              {redlineMode.isActive ? 'close' : 'edit'}
             </span>
-            {showDesignNotes ? 'Hide design details' : 'Show design details'}
+            {redlineMode.isActive ? 'Hide design details' : 'Show design details'}
           </button>
         )
       }
     >
-      <div className="relative" style={{ overflow: 'visible' }}>
+      <motion.div
+        className="relative"
+        style={{ overflow: 'visible' }}
+        animate={redlineMode.isActive ? animations.panelTransform.active : animations.panelTransform.inactive}
+        transition={animations.panelTransform.transition}
+      >
         <HighlightsPanel
           stage={stage}
           onTransition={goToSolution}
           problemCards={aiHighlightsContent.problemCards}
+          redlineModeActive={redlineMode.isActive}
+          focusedAnchor={focusedAnchor}
         />
-        {showNotesOverlay && <InlineRedlines notes={redlineNotes} accent={accent} />}
-      </div>
+        {/* Desktop annotations */}
+        <RedlineOverlay
+          isActive={redlineMode.isActive && stage === 'solution'}
+          notes={redlineNotes}
+          accent={accent}
+          focusedAnnotation={redlineMode.focusedAnnotation}
+          onFocusAnnotation={redlineMode.setFocusedAnnotation}
+        />
+        {/* Mobile markers */}
+        {redlineMode.isActive && stage === 'solution' && (
+          <MobileRedlineMarkers
+            notes={redlineNotes}
+            accent={accent}
+            currentIndex={mobileIndex}
+            onMarkerClick={onMobileIndexChange}
+          />
+        )}
+      </motion.div>
     </VignetteSplit>
   );
 }
 
 export default function AIHighlightsVignette() {
   const designNotes = aiHighlightsContent.designNotes;
-  const [showDesignNotes, setShowDesignNotes] = useState(false);
-  const toggleDesignNotes = () => setShowDesignNotes((prev) => !prev);
+  const redlineMode = useRedlineMode();
+  const [mobileIndex, setMobileIndex] = useState(0);
+
+  const handleExit = () => {
+    redlineMode.exitRedlineMode();
+    setMobileIndex(0);
+  };
+
+  // Scroll the panel to show the anchor element
+  const handleScrollToAnchor = useCallback((anchor: string) => {
+    const element = document.querySelector(`[data-anchor="${anchor}"]`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, []);
+
+  const redlineNotes = designNotes?.notes ?? [];
+  const accent = designNotes?.accent ?? '#ef4444';
 
   return (
     <VignetteContainer id="ai-highlights" allowOverflow>
@@ -197,14 +187,26 @@ export default function AIHighlightsVignette() {
             stages={aiHighlightsContent.stages}
           >
             <AIHighlightsContent
-              showDesignNotes={showDesignNotes}
-              toggleDesignNotes={toggleDesignNotes}
-              redlineNotes={designNotes?.notes ?? []}
-              accent={designNotes?.accent ?? '#ef4444'}
+              redlineNotes={redlineNotes}
+              accent={accent}
+              redlineMode={redlineMode}
+              mobileIndex={mobileIndex}
+              onMobileIndexChange={setMobileIndex}
             />
           </VignetteStaged>
         </motion.div>
       </div>
+
+      {/* Mobile bottom sheet tour - rendered at root level for fixed positioning */}
+      <MobileRedlineTour
+        isActive={redlineMode.isActive}
+        notes={redlineNotes}
+        accent={accent}
+        onExit={handleExit}
+        currentIndex={mobileIndex}
+        onIndexChange={setMobileIndex}
+        onScrollToAnchor={handleScrollToAnchor}
+      />
     </VignetteContainer>
   );
 }
