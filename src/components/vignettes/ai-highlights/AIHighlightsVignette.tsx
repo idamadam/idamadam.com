@@ -85,31 +85,37 @@ function AIHighlightsContent({
             </button>
           </div>
 
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={stage}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: isLoading ? 0 : 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            >
-              {title}
-            </motion.span>
-          </AnimatePresence>
+          <span className="relative block">
+            <AnimatePresence mode="sync" initial={false}>
+              <motion.span
+                key={stage}
+                className="block"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isLoading ? 0.3 : 1 }}
+                exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
+                transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut" }}
+              >
+                {title}
+              </motion.span>
+            </AnimatePresence>
+          </span>
         </div>
       }
       description={
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={stage}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: isLoading ? 0 : 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1], delay: 0.05 }}
-          >
-            {description}
-          </motion.span>
-        </AnimatePresence>
+        <span className="relative block">
+          <AnimatePresence mode="sync" initial={false}>
+            <motion.span
+              key={stage}
+              className="block"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isLoading ? 0.3 : 1 }}
+              exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
+              transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut", delay: reducedMotion ? 0 : 0.05 }}
+            >
+              {description}
+            </motion.span>
+          </AnimatePresence>
+        </span>
       }
       actions={
         stage === 'solution' && (
