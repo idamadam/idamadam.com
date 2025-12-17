@@ -12,8 +12,6 @@ export interface FeedbackSource {
 }
 
 interface AIHighlightsContent {
-  title: string;
-  description: string;
   stages: VignetteStages;
   iterations: DesignIteration[];
   designNotes: {
@@ -26,16 +24,17 @@ interface AIHighlightsContent {
 }
 
 export const aiHighlightsContent: AIHighlightsContent = {
-  title: 'Designed AI summaries managers could actually verify and trust',
-  description:
-    "Performance reviews took hours gathering information from scattered sources. I designed an AI system that surfaces key highlights and opportunities from feedback, goals, and 1-on-1 notes. Managers can expand to see direct quotes, verifying AI outputs while saving significant time during review season.",
   stages: {
     problem: {
-      title: 'Synthezising feedback took ages when completing manager reviews',
+      title: 'Collating and synthesizing feedback was one of the most time-intensive tasks of writing a performance review',
       description: '',
       cta: 'See how AI helped'
     },
-    solution: {},
+    solution: {
+      title: 'Designed AI summaries managers could actually verify and trust',
+      description:
+        "I designed an AI system that surfaces key highlights and opportunities from feedback. Managers can expand to see direct quotes, verifying AI outputs while saving significant time during review season."
+    },
     designNotes: {
       title: 'Design notes',
       description: 'Sharpie-style redlines that show the messy thinking behind the polished surface.'

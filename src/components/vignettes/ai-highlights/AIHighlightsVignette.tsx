@@ -39,8 +39,8 @@ function AIHighlightsContent({
     ? aiHighlightsContent.stages?.problem
     : aiHighlightsContent.stages?.solution;
 
-  const title = currentStageContent?.title || aiHighlightsContent.title;
-  const description = currentStageContent?.description || aiHighlightsContent.description;
+  const title = currentStageContent?.title;
+  const description = currentStageContent?.description;
 
   // Map focusedAnnotation to anchor name for HighlightsPanel
   const focusedAnchor = redlineMode.focusedAnnotation
