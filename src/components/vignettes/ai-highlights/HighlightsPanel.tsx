@@ -80,11 +80,8 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
             inbox
           </span>
           <div className="text-[15px] font-semibold text-gray-900 leading-none">
-            Feedback to review
+            Feedback about Idam
           </div>
-        </div>
-        <div className="bg-amber-100 text-amber-800 text-[13px] font-semibold px-2.5 py-1 rounded-full border border-amber-200">
-          {cards.length} items
         </div>
       </div>
 
@@ -114,19 +111,6 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
                     {card.from}
                   </span>
                 )}
-                {(card.date || card.time) && (
-                  <>
-                    <span className="text-[12px] leading-[16px] text-[#524e56]">
-                      {card.date || card.time}
-                    </span>
-                    <span className="text-[12px] leading-[16px] text-[#524e56]">
-                      •
-                    </span>
-                  </>
-                )}
-                <span className="text-[12px] leading-[16px] text-[#524e56] capitalize">
-                  {card.channel === 'slack' ? 'Peer feedback' : (card.channel || 'feedback')}
-                </span>
               </div>
               <p className="text-[14px] leading-[20px] text-[#2f2438]">
                 {card.content}
@@ -136,7 +120,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
         </div>
 
         {/* Scroll indicator gradient */}
-        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
+        <div className="sticky bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
       </div>
 
       {/* CTA Footer */}
