@@ -102,7 +102,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       id: 'feedback1',
       channel: 'feedback',
       content: "Idam's user research uncovered the core trust issue with AI summaries. This insight shaped our entire product direction.",
-      from: 'Product Manager',
+      from: 'Sarah Chen',
       avatarUrl: '/avatars/sarah-chen.svg'
     },
     {
@@ -110,7 +110,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       channel: 'feedback',
       content:
         'Outstanding collaboration across design and engineering. The verification UX is both elegant and technically feasible.',
-      from: 'Engineering Partner',
+      from: 'Mike Torres',
       avatarUrl: '/avatars/mike-torres.svg'
     },
     {
@@ -118,7 +118,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       channel: 'feedback',
       content:
         "Idam ran the most rigorous AI testing process I've seen. Real feedback, real managers, real insights about trust.",
-      from: 'User Researcher',
+      from: 'Alex Kim',
       avatarUrl: '/avatars/alex-kim.svg'
     },
     {
@@ -126,7 +126,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       channel: 'feedback',
       content:
         'The inline source expansion is brilliant. Managers can verify AI output without leaving their flow. This will save hours.',
-      from: 'Design Manager',
+      from: 'Jordan Lee',
       avatarUrl: '/avatars/jordan-lee.svg'
     },
     {
@@ -134,14 +134,14 @@ export const aiHighlightsContent: AIHighlightsContent = {
       channel: 'feedback',
       content:
         'Idam advocated strongly for verification features when we wanted to ship faster. That user-first mindset prevented a trust disaster.',
-      from: 'Product Lead',
+      from: 'Sarah Chen',
       avatarUrl: '/avatars/sarah-chen.svg'
     },
     {
       id: 'feedback6',
       channel: 'feedback',
       content: "Built custom prototyping infrastructure to iterate faster. This unlocked velocity we didn't know was possible.",
-      from: 'Engineering Lead',
+      from: 'Mike Torres',
       avatarUrl: '/avatars/mike-torres.svg'
     },
     {
@@ -149,7 +149,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       channel: 'feedback',
       content:
         "Every design iteration was grounded in user testing data. No ego, just evidence. That's how you ship AI features people trust.",
-      from: 'Research Partner',
+      from: 'Alex Kim',
       avatarUrl: '/avatars/alex-kim.svg'
     },
     {
@@ -157,7 +157,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       channel: 'feedback',
       content:
         "Idam's attention to the verification interaction details made the difference. AI summaries are worthless if managers don't trust them.",
-      from: 'Product Designer',
+      from: 'Jordan Lee',
       avatarUrl: '/avatars/jordan-lee.svg'
     }
   ],
