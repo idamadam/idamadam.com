@@ -31,7 +31,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       cta: 'See how AI helped'
     },
     solution: {
-      title: 'Designed AI summaries managers could actually verify and trust',
+      title: 'Designed AI summaries managers could verify and trust',
       description:
         "I designed an AI system that surfaces key highlights and opportunities from feedback. Managers can expand to see direct quotes, verifying AI outputs while saving significant time during review season."
     },
