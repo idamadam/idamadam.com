@@ -49,7 +49,7 @@ function AIHighlightsContent({
     }, 1500);
   }, [goToSolution]);
 
-  // Get stage-specific content
+  // Get stage-specific content based on actual stage (not loading state)
   const currentStageContent = stage === 'problem'
     ? aiHighlightsContent.stages.problem
     : aiHighlightsContent.stages.solution;
@@ -88,10 +88,10 @@ function AIHighlightsContent({
           <AnimatePresence mode="wait">
             <motion.span
               key={stage}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: isLoading ? 0 : 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             >
               {title}
             </motion.span>
@@ -102,10 +102,10 @@ function AIHighlightsContent({
         <AnimatePresence mode="wait">
           <motion.span
             key={stage}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3, delay: 0.05 }}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: isLoading ? 0 : 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1], delay: 0.05 }}
           >
             {description}
           </motion.span>
