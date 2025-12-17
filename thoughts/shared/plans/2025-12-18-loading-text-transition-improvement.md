@@ -197,7 +197,7 @@ Apply the same crossfade pattern to the description text, maintaining the stagge
 
 ---
 
-## Phase 3: Add Reduced Motion Support (Optional Enhancement)
+## Phase 3: Add Reduced Motion Support
 
 ### Overview
 Ensure text transitions respect `prefers-reduced-motion` for accessibility. Currently the hook is imported but not used for text animations.
