@@ -17,6 +17,8 @@ import { useReducedMotion } from '@/lib/useReducedMotion';
 import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
 import './design-notes.css';
 
+type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
+
 function AIHighlightsContent({
   redlineNotes,
   accent,
@@ -31,8 +33,21 @@ function AIHighlightsContent({
   onMobileIndexChange: (index: number) => void;
 }) {
   const { stage, goToSolution, setStage } = useVignetteStage();
+  const [isLoading, setIsLoading] = useState(false);
   const reducedMotion = useReducedMotion();
   const animations = reducedMotion ? redlineAnimationsReduced : redlineAnimations;
+
+  // Determine the panel stage (includes loading state)
+  const panelStage: PanelStage = isLoading ? 'loading' : stage;
+
+  // Handle the transition with loading state
+  const handleTransition = useCallback(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      goToSolution();
+    }, 1500);
+  }, [goToSolution]);
 
   // Get stage-specific content
   const currentStageContent = stage === 'problem'
@@ -122,8 +137,8 @@ function AIHighlightsContent({
         transition={animations.panelTransform.transition}
       >
         <HighlightsPanel
-          stage={stage}
-          onTransition={goToSolution}
+          stage={panelStage}
+          onTransition={handleTransition}
           problemCards={aiHighlightsContent.problemCards}
           redlineModeActive={redlineMode.isActive}
           focusedAnchor={focusedAnchor}
