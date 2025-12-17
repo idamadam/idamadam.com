@@ -51,25 +51,20 @@ function AIHighlightsContent({
     <VignetteSplit
       title={
         <div className="space-y-4">
-          {/* Problem/Solution Toggle */}
-          <div className="flex items-center bg-gray-100 rounded-lg p-1 gap-1 w-fit">
+          {/* Stage Indicator */}
+          <div className="flex items-center gap-1.5 text-[13px] text-gray-400 select-none">
             <button
               onClick={() => setStage('problem')}
-              className={`px-4 py-2 rounded-md text-[14px] font-medium transition-all ${
-                stage === 'problem'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className={`hover:text-gray-500 transition-colors ${stage === 'problem' ? 'text-gray-600' : ''}`}
             >
               Problem
             </button>
+            <span className={`w-2 h-2 rounded-full ${stage === 'problem' ? 'bg-gray-600' : 'bg-gray-300'}`} />
+            <span className="w-6 h-px bg-gray-300" />
+            <span className={`w-2 h-2 rounded-full ${stage === 'solution' ? 'bg-gray-600' : 'bg-gray-300'}`} />
             <button
               onClick={() => setStage('solution')}
-              className={`px-4 py-2 rounded-md text-[14px] font-medium transition-all ${
-                stage === 'solution'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className={`hover:text-gray-500 transition-colors ${stage === 'solution' ? 'text-gray-600' : ''}`}
             >
               Solution
             </button>
