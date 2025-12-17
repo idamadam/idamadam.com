@@ -5,9 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
 import type { FeedbackSource } from './content';
 
+type PanelStage = VignetteStage | 'loading';
+
 interface HighlightsPanelProps {
   className?: string;
-  stage?: VignetteStage;
+  stage?: PanelStage;
   onTransition?: () => void;
   problemCards?: FeedbackSource[];
   redlineModeActive?: boolean;
@@ -70,6 +72,123 @@ function SourceCard({ name, date, context, feedback, avatarUrl }: SourceCardProp
   );
 }
 
+function LoadingState() {
+  return (
+    <>
+      <style jsx global>{`
+        @property --gradient-angle {
+          syntax: '<angle>';
+          initial-value: 0deg;
+          inherits: false;
+        }
+
+        @keyframes rotateGradient {
+          to {
+            --gradient-angle: 360deg;
+          }
+        }
+
+        .loading-panel-border {
+          position: absolute;
+          inset: 0;
+          border-radius: 7px;
+          background: conic-gradient(
+            from var(--gradient-angle),
+            #A6E5E7,
+            #64D2D7,
+            #9A36B2,
+            #64D2D7,
+            #A6E5E7
+          );
+          animation: rotateGradient 3s linear infinite;
+          filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.5));
+        }
+
+        .loading-panel-content {
+          position: relative;
+          background: white;
+          width: 100%;
+          height: 100%;
+          border-radius: 5px;
+          z-index: 1;
+        }
+
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+
+        .skeleton-bar {
+          background: linear-gradient(
+            90deg,
+            rgba(82, 78, 86, 0.1) 25%,
+            rgba(82, 78, 86, 0.05) 50%,
+            rgba(82, 78, 86, 0.1) 75%
+          );
+          background-size: 200% 100%;
+          animation: shimmer 1.5s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .loading-panel-border {
+            animation: none;
+            filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.3));
+          }
+          .skeleton-bar {
+            animation: none;
+          }
+        }
+      `}</style>
+
+      <div className="relative p-[2px] rounded-[7px]">
+        <div className="loading-panel-border"></div>
+        <div className="loading-panel-content">
+          {/* Header Section */}
+          <div className="border-b-2 border-[#eaeaec] px-6 py-8">
+            <p className="text-[16px] leading-[24px] font-semibold text-black mb-3">
+              Loading highlights and opportunities
+            </p>
+            <div className="space-y-3">
+              <div className="skeleton-bar h-[15px] w-full rounded-[7px]" />
+              <div className="skeleton-bar h-[15px] w-full rounded-[7px]" />
+              <div className="skeleton-bar h-[15px] w-[85%] rounded-[7px]" />
+            </div>
+          </div>
+
+          {/* Skeleton Items */}
+          {[0, 1, 2].map((index) => (
+            <div
+              key={index}
+              className={`px-6 py-8 ${index < 2 ? 'border-b-2 border-[#eaeaec]' : ''}`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-center gap-1">
+                    <div className="skeleton-bar w-5 h-5 rounded-full" />
+                    <div className="skeleton-bar h-[15px] w-[85px] rounded-[7px]" />
+                  </div>
+                  <div className="skeleton-bar h-[15px] w-[240px] rounded-[7px]" />
+                </div>
+                <div className="flex items-center gap-12">
+                  <div className="flex items-center gap-1">
+                    <div className="skeleton-bar w-5 h-5 rounded-full" />
+                    <div className="skeleton-bar h-[15px] w-[60px] rounded-[7px]" />
+                  </div>
+                  <div className="skeleton-bar w-5 h-5 rounded-full" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
 function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
   return (
     <div className="relative bg-white rounded-lg border-2 border-gray-200 overflow-hidden">
@@ -80,11 +199,8 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
             inbox
           </span>
           <div className="text-[15px] font-semibold text-gray-900 leading-none">
-            Feedback to review
+            Feedback about Idam
           </div>
-        </div>
-        <div className="bg-amber-100 text-amber-800 text-[13px] font-semibold px-2.5 py-1 rounded-full border border-amber-200">
-          {cards.length} items
         </div>
       </div>
 
@@ -114,19 +230,6 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
                     {card.from}
                   </span>
                 )}
-                {(card.date || card.time) && (
-                  <>
-                    <span className="text-[12px] leading-[16px] text-[#524e56]">
-                      {card.date || card.time}
-                    </span>
-                    <span className="text-[12px] leading-[16px] text-[#524e56]">
-                      •
-                    </span>
-                  </>
-                )}
-                <span className="text-[12px] leading-[16px] text-[#524e56] capitalize">
-                  {card.channel === 'slack' ? 'Peer feedback' : (card.channel || 'feedback')}
-                </span>
               </div>
               <p className="text-[14px] leading-[20px] text-[#2f2438]">
                 {card.content}
@@ -136,7 +239,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
         </div>
 
         {/* Scroll indicator gradient */}
-        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
+        <div className="sticky bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
       </div>
 
       {/* CTA Footer */}
@@ -432,29 +535,50 @@ export default function HighlightsPanel({
 
   const cards = problemCards.length > 0 ? problemCards : defaultProblemCards;
 
+  const renderStage = () => {
+    switch (stage) {
+      case 'problem':
+        return (
+          <motion.div
+            key="problem"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <ProblemState cards={cards} onTransition={onTransition} />
+          </motion.div>
+        );
+      case 'loading':
+        return (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.3 }}
+          >
+            <LoadingState />
+          </motion.div>
+        );
+      default:
+        return (
+          <motion.div
+            key="solution"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <SolutionState className={className} redlineModeActive={redlineModeActive} focusedAnchor={focusedAnchor} />
+          </motion.div>
+        );
+    }
+  };
+
   return (
     <AnimatePresence mode="wait">
-      {stage === 'problem' ? (
-        <motion.div
-          key="problem"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <ProblemState cards={cards} onTransition={onTransition} />
-        </motion.div>
-      ) : (
-        <motion.div
-          key="solution"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <SolutionState className={className} redlineModeActive={redlineModeActive} focusedAnchor={focusedAnchor} />
-        </motion.div>
-      )}
+      {renderStage()}
     </AnimatePresence>
   );
 }

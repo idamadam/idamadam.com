@@ -17,6 +17,8 @@ import { useReducedMotion } from '@/lib/useReducedMotion';
 import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
 import './design-notes.css';
 
+type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
+
 function AIHighlightsContent({
   redlineNotes,
   accent,
@@ -31,16 +33,29 @@ function AIHighlightsContent({
   onMobileIndexChange: (index: number) => void;
 }) {
   const { stage, goToSolution, setStage } = useVignetteStage();
+  const [isLoading, setIsLoading] = useState(false);
   const reducedMotion = useReducedMotion();
   const animations = reducedMotion ? redlineAnimationsReduced : redlineAnimations;
 
-  // Get stage-specific content
-  const currentStageContent = stage === 'problem'
-    ? aiHighlightsContent.stages?.problem
-    : aiHighlightsContent.stages?.solution;
+  // Determine the panel stage (includes loading state)
+  const panelStage: PanelStage = isLoading ? 'loading' : stage;
 
-  const title = currentStageContent?.title || aiHighlightsContent.title;
-  const description = currentStageContent?.description || aiHighlightsContent.description;
+  // Handle the transition with loading state
+  const handleTransition = useCallback(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      goToSolution();
+    }, 1500);
+  }, [goToSolution]);
+
+  // Get stage-specific content based on actual stage (not loading state)
+  const currentStageContent = stage === 'problem'
+    ? aiHighlightsContent.stages.problem
+    : aiHighlightsContent.stages.solution;
+
+  const title = currentStageContent.title;
+  const description = currentStageContent.description;
 
   // Map focusedAnnotation to anchor name for HighlightsPanel
   const focusedAnchor = redlineMode.focusedAnnotation
@@ -51,55 +66,56 @@ function AIHighlightsContent({
     <VignetteSplit
       title={
         <div className="space-y-4">
-          {/* Problem/Solution Toggle */}
-          <div className="flex items-center bg-gray-100 rounded-lg p-1 gap-1 w-fit">
+          {/* Stage Indicator */}
+          <div className="flex items-center gap-1.5 text-[13px] text-gray-400 select-none">
             <button
               onClick={() => setStage('problem')}
-              className={`px-4 py-2 rounded-md text-[14px] font-medium transition-all ${
-                stage === 'problem'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className={`hover:text-gray-500 transition-colors ${stage === 'problem' ? 'text-gray-600' : ''}`}
             >
               Problem
             </button>
+            <span className={`w-2 h-2 rounded-full ${stage === 'problem' ? 'bg-gray-600' : 'bg-gray-300'}`} />
+            <span className="w-6 h-px bg-gray-300" />
+            <span className={`w-2 h-2 rounded-full ${stage === 'solution' ? 'bg-gray-600' : 'bg-gray-300'}`} />
             <button
               onClick={() => setStage('solution')}
-              className={`px-4 py-2 rounded-md text-[14px] font-medium transition-all ${
-                stage === 'solution'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className={`hover:text-gray-500 transition-colors ${stage === 'solution' ? 'text-gray-600' : ''}`}
             >
               Solution
             </button>
           </div>
 
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={stage}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              {title}
-            </motion.span>
-          </AnimatePresence>
+          <span className="relative block">
+            <AnimatePresence mode="sync" initial={false}>
+              <motion.span
+                key={stage}
+                className="block"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isLoading ? 0.3 : 1 }}
+                exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
+                transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut" }}
+              >
+                {title}
+              </motion.span>
+            </AnimatePresence>
+          </span>
         </div>
       }
       description={
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={stage}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3, delay: 0.05 }}
-          >
-            {description}
-          </motion.span>
-        </AnimatePresence>
+        <span className="relative block">
+          <AnimatePresence mode="sync" initial={false}>
+            <motion.span
+              key={stage}
+              className="block"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isLoading ? 0.3 : 1 }}
+              exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
+              transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut", delay: reducedMotion ? 0 : 0.05 }}
+            >
+              {description}
+            </motion.span>
+          </AnimatePresence>
+        </span>
       }
       actions={
         stage === 'solution' && (
@@ -127,8 +143,8 @@ function AIHighlightsContent({
         transition={animations.panelTransform.transition}
       >
         <HighlightsPanel
-          stage={stage}
-          onTransition={goToSolution}
+          stage={panelStage}
+          onTransition={handleTransition}
           problemCards={aiHighlightsContent.problemCards}
           redlineModeActive={redlineMode.isActive}
           focusedAnchor={focusedAnchor}
