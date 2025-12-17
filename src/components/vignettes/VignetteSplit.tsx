@@ -19,7 +19,7 @@ export default function VignetteSplit({
   const textStackClass = hasTitle ? 'space-y-4' : 'space-y-3';
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] xl:grid-cols-[400px_1fr] gap-10 lg:gap-12 items-start">
+    <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] xl:grid-cols-[400px_1fr] gap-10 lg:gap-12 lg:items-center">
       <div className={textStackClass}>
         {title && (
           <h3 className="text-[26px] lg:text-[28px] leading-[1.15] tracking-[-0.02em] font-semibold text-[#0f172a] font-[family-name:var(--font-ibm-plex-sans)]">
