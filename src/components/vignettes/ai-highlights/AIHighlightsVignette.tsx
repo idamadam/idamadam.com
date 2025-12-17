@@ -36,11 +36,11 @@ function AIHighlightsContent({
 
   // Get stage-specific content
   const currentStageContent = stage === 'problem'
-    ? aiHighlightsContent.stages?.problem
-    : aiHighlightsContent.stages?.solution;
+    ? aiHighlightsContent.stages.problem
+    : aiHighlightsContent.stages.solution;
 
-  const title = currentStageContent?.title;
-  const description = currentStageContent?.description;
+  const title = currentStageContent.title;
+  const description = currentStageContent.description;
 
   // Map focusedAnnotation to anchor name for HighlightsPanel
   const focusedAnchor = redlineMode.focusedAnnotation
