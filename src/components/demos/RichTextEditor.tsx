@@ -55,7 +55,7 @@ export default function RichTextEditor({
             <motion.button
               onClick={onImprove}
               disabled={isImproving}
-              className="flex items-center gap-1.5 h-10 px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-1.5 h-10 px-3 py-2 rounded-full bg-[rgba(154,54,178,0.08)] hover:bg-[rgba(154,54,178,0.14)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               animate={pulseImproveButton ? {
                 boxShadow: [
                   '0 0 0 0 rgba(154, 54, 178, 0)',
@@ -69,8 +69,8 @@ export default function RichTextEditor({
                 ease: 'easeInOut'
               } : undefined}
             >
-              <span className="material-icons-outlined text-[24px] text-[#2f2438]">auto_awesome</span>
-              <span className="text-base font-medium text-[#2f2438]">Improve</span>
+              <span className="material-icons-outlined text-[20px] text-[#9A36B2]">auto_awesome</span>
+              <span className="text-sm font-medium text-[#9A36B2]">Improve</span>
             </motion.button>
           )}
         </div>
