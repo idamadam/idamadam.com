@@ -10,29 +10,96 @@
   /* position-anchor is applied via inline style for dynamic anchor binding */
 }
 
+/* Custom fallback positions for viewport collision detection */
+@position-try --flip-to-left {
+  right: anchor(left);
+  left: auto;
+  top: anchor(center);
+  translate: -16px -50%;
+}
+
+@position-try --flip-to-right {
+  left: anchor(right);
+  right: auto;
+  top: anchor(center);
+  translate: 16px -50%;
+}
+
+@position-try --flip-to-top {
+  bottom: anchor(top);
+  top: auto;
+  left: anchor(center);
+  translate: -50% -16px;
+}
+
+@position-try --flip-to-bottom {
+  top: anchor(bottom);
+  bottom: auto;
+  left: anchor(center);
+  translate: -50% 16px;
+}
+
 /* Position variants - annotation appears on this side of the anchor */
+/* With position-try-fallbacks for viewport collision detection */
+
 .design-note[data-position="right"] {
   left: anchor(right);
   top: anchor(center);
   translate: 16px -50%;
+  /* Flip to left side if right side clips */
+  position-try-fallbacks: --flip-to-left;
 }
 
 .design-note[data-position="left"] {
   right: anchor(left);
   top: anchor(center);
   translate: -16px -50%;
+  /* Flip to right side if left side clips */
+  position-try-fallbacks: --flip-to-right;
 }
 
 .design-note[data-position="top"] {
   bottom: anchor(top);
   left: anchor(center);
   translate: -50% -16px;
+  /* Flip to bottom if top clips */
+  position-try-fallbacks: --flip-to-bottom;
 }
 
 .design-note[data-position="bottom"] {
   top: anchor(bottom);
   left: anchor(center);
   translate: -50% 16px;
+  /* Flip to top if bottom clips */
+  position-try-fallbacks: --flip-to-top;
+}
+
+/* Manual viewport collision handling via media query */
+/* position-try-fallbacks checks containing block, not viewport */
+/* This ensures right annotations flip to left on narrow screens */
+@media (max-width: 1350px) {
+  .design-note[data-position="right"] {
+    left: auto;
+    right: anchor(left);
+    translate: -16px -50%;
+  }
+
+  /* Flip the inner flex containers to match left-side layout */
+  .design-note[data-position="right"] > div {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+
+  /* Flip the dot and connector line container */
+  .design-note[data-position="right"] > div > div:first-child {
+    flex-direction: row-reverse;
+  }
+
+  /* Move connector line margin to opposite side */
+  .design-note[data-position="right"] > div > div:first-child > div:last-child {
+    margin-left: 0.5rem;
+    margin-right: 0;
+  }
 }
 
 /* Fallback for browsers without anchor positioning support */
