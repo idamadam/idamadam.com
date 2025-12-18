@@ -1,5 +1,46 @@
 # Floating UI Redline Annotations Implementation Plan
 
+## ⚠️ Implementation Attempted - Approach Abandoned
+
+**Date**: 2025-12-18
+
+This plan was attempted but the Floating UI approach proved problematic. The key learnings are documented below for future reference.
+
+### Why Floating UI Didn't Work
+
+1. **Timing issues with anchor element references**: Floating UI needs a reference to the anchor DOM element, but React's render cycle makes this tricky:
+   - Using `useAnchorRegistry` with state caused infinite re-render loops
+   - Using refs avoided the loop but meant anchors weren't available when FloatingAnnotation first rendered
+   - Using `document.querySelector` in a useEffect worked but introduced timing issues where positions were incorrect
+
+2. **CSS Anchor Positioning works better for this use case**: The existing CSS approach handles the anchor-to-annotation relationship declaratively without needing to manage DOM element references in React state. The browser handles the positioning natively.
+
+3. **Complexity vs. benefit**: The Floating UI approach required:
+   - New hook (`useAnchorRegistry`)
+   - New component (`FloatingAnnotation`)
+   - Prop drilling through multiple components
+   - Careful coordination of ref callbacks and render timing
+
+   Meanwhile, CSS Anchor Positioning "just works" with a few lines of CSS.
+
+### Alternative Approaches to Consider
+
+Instead of replacing CSS Anchor Positioning, consider these alternatives for the viewport clipping issue:
+
+1. **CSS `position-try-fallbacks`**: The CSS Anchor Positioning spec includes fallback positions (like Floating UI's flip). Browser support is limited but growing.
+
+2. **Adjust annotation width/position**: Make annotations narrower or adjust their offset to stay within viewport bounds.
+
+3. **Scroll-into-view on activation**: When redline mode activates, scroll the panel to ensure annotations are visible.
+
+4. **Responsive annotation content**: Show abbreviated annotations on smaller viewports.
+
+5. **Keep current behavior**: The clipping may be acceptable given it only affects edge cases on smaller laptop screens.
+
+---
+
+## Original Plan (For Reference)
+
 ## Overview
 
 Replace CSS Anchor Positioning with Floating UI for redline annotations, fixing viewport clipping issues and adding indicator dots to hint at available annotations. This addresses two UX problems: right-side annotations clipping on laptop screens, and left-side annotations overlapping VignetteSplit text.
@@ -204,9 +245,9 @@ export default function FloatingAnnotation({
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Package installs successfully: `npm install @floating-ui/react`
-- [ ] TypeScript compiles without errors: `npm run build`
-- [ ] New component file exists at correct path
+- [x] Package installs successfully: `npm install @floating-ui/react`
+- [x] TypeScript compiles without errors: `npm run build`
+- [x] New component file exists at correct path
 
 #### Manual Verification:
 - [ ] Component renders (will test in Phase 2 integration)
@@ -354,7 +395,7 @@ const { registerAnchor, getAnchor } = useAnchorRegistry();
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
+- [x] TypeScript compiles: `npm run build`
 - [ ] No runtime errors in browser console
 
 #### Manual Verification:
