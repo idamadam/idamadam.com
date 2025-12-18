@@ -25,7 +25,7 @@ export default function RichTextEditor({
     <div className={`flex flex-col gap-2 ${className}`}>
       <div className="bg-white border-2 border-[#878792] rounded-lg overflow-hidden">
         {/* Toolbar */}
-        <div className="bg-white flex flex-wrap items-center gap-1.5 p-1.5">
+        <div className="bg-white flex items-center gap-1.5 p-1.5">
           {/* Text formatting */}
           <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
             <span className="material-icons-outlined text-[20px] text-[#2f2438]">format_bold</span>
@@ -40,28 +40,9 @@ export default function RichTextEditor({
           {/* Divider */}
           <div className="h-12 w-px bg-[rgba(82,78,86,0.1)] mx-0.5" />
 
-          {/* List buttons */}
+          {/* List button */}
           <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
             <span className="material-icons-outlined text-[20px] text-[#2f2438]">format_list_bulleted</span>
-          </button>
-          <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-[20px] text-[#2f2438]">format_list_numbered</span>
-          </button>
-
-          {/* Indent buttons */}
-          <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-[20px] text-[#2f2438]">format_indent_decrease</span>
-          </button>
-          <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-[20px] text-[#2f2438]">format_indent_increase</span>
-          </button>
-
-          {/* Divider */}
-          <div className="h-12 w-px bg-[rgba(82,78,86,0.1)] mx-0.5" />
-
-          {/* Link button */}
-          <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-[20px] text-[#2f2438]">add_link</span>
           </button>
 
           {/* Divider */}

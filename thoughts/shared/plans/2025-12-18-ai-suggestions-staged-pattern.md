@@ -172,8 +172,8 @@ export const aiSuggestionsContent: AISuggestionsContent = {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles without errors: `npm run build`
-- [ ] No linting errors in content.ts
+- [x] TypeScript compiles without errors: `npm run build`
+- [x] No linting errors in content.ts
 
 #### Manual Verification:
 - [ ] Content structure matches the pattern used in AI Highlights
@@ -504,8 +504,8 @@ export default function SuggestionsPanel({
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
-- [ ] No linting errors
+- [x] TypeScript compiles: `npm run build`
+- [x] No linting errors
 
 #### Manual Verification:
 - [ ] Problem state shows static bad review card
@@ -760,9 +760,9 @@ export default function AISuggestionsVignette() {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Build succeeds: `npm run build`
-- [ ] No TypeScript errors
-- [ ] No linting errors
+- [x] Build succeeds: `npm run build`
+- [x] No TypeScript errors
+- [x] No linting errors
 
 #### Manual Verification:
 - [ ] Problem → Solution stage indicator works
