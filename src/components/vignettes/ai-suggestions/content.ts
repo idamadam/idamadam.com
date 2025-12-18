@@ -23,8 +23,7 @@ export const aiSuggestionsContent: AISuggestionsContent = {
   stages: {
     problem: {
       title: 'Managers struggled to write constructive, actionable feedback',
-      description: '',
-      cta: 'See how AI helped'
+      description: ''
     },
     solution: {
       title: 'Designed AI coaching grounded in people science',

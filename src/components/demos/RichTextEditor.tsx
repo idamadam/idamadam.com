@@ -10,6 +10,7 @@ interface RichTextEditorProps {
   onImprove?: () => void;
   isImproving?: boolean;
   className?: string;
+  pulseImproveButton?: boolean;
 }
 
 export default function RichTextEditor({
@@ -19,7 +20,8 @@ export default function RichTextEditor({
   showImproveButton = false,
   onImprove,
   isImproving = false,
-  className = ''
+  className = '',
+  pulseImproveButton = false
 }: RichTextEditorProps) {
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
@@ -50,14 +52,26 @@ export default function RichTextEditor({
 
           {/* Improve button */}
           {showImproveButton && (
-            <button
+            <motion.button
               onClick={onImprove}
               disabled={isImproving}
               className="flex items-center gap-1.5 h-10 px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              animate={pulseImproveButton ? {
+                boxShadow: [
+                  '0 0 0 0 rgba(154, 54, 178, 0)',
+                  '0 0 0 6px rgba(154, 54, 178, 0.12)',
+                  '0 0 0 0 rgba(154, 54, 178, 0)'
+                ]
+              } : undefined}
+              transition={pulseImproveButton ? {
+                duration: 2.5,
+                repeat: Infinity,
+                ease: 'easeInOut'
+              } : undefined}
             >
               <span className="material-icons-outlined text-[24px] text-[#2f2438]">auto_awesome</span>
               <span className="text-base font-medium text-[#2f2438]">Improve</span>
-            </button>
+            </motion.button>
           )}
         </div>
 
