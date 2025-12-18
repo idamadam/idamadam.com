@@ -1,32 +1,115 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import SandboxPanel from './SandboxPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
+import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
 import { fadeInUp } from '@/lib/animations';
 import { prototypingContent } from './content';
+import { useReducedMotion } from '@/lib/useReducedMotion';
+
+type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
+
+function PrototypingContent() {
+  const { stage, goToSolution, setStage } = useVignetteStage();
+  const [isLoading, setIsLoading] = useState(false);
+  const reducedMotion = useReducedMotion();
+
+  const panelStage: PanelStage = isLoading ? 'loading' : stage;
+
+  const handleTransition = useCallback(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      goToSolution();
+    }, 5000);
+  }, [goToSolution]);
+
+  const currentStageContent = stage === 'problem'
+    ? prototypingContent.stages.problem
+    : prototypingContent.stages.solution;
+
+  const title = currentStageContent.title;
+  const description = currentStageContent.description;
+
+  return (
+    <VignetteSplit
+      title={
+        <div className="space-y-4">
+          {/* Stage Indicator */}
+          <div className="flex items-center gap-1.5 text-[13px] text-gray-400 select-none">
+            <button
+              onClick={() => setStage('problem')}
+              className={`hover:text-gray-500 transition-colors ${stage === 'problem' ? 'text-gray-600' : ''}`}
+            >
+              Problem
+            </button>
+            <span className={`w-2 h-2 rounded-full ${stage === 'problem' ? 'bg-gray-600' : 'bg-gray-300'}`} />
+            <span className="w-6 h-px bg-gray-300" />
+            <span className={`w-2 h-2 rounded-full ${stage === 'solution' ? 'bg-gray-600' : 'bg-gray-300'}`} />
+            <button
+              onClick={() => setStage('solution')}
+              className={`hover:text-gray-500 transition-colors ${stage === 'solution' ? 'text-gray-600' : ''}`}
+            >
+              Solution
+            </button>
+          </div>
+
+          <span className="relative block">
+            <AnimatePresence mode="sync" initial={false}>
+              <motion.span
+                key={stage}
+                className="block"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isLoading ? 0.3 : 1 }}
+                exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
+                transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut" }}
+              >
+                {title}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+        </div>
+      }
+      description={
+        <span className="relative block">
+          <AnimatePresence mode="sync" initial={false}>
+            <motion.span
+              key={stage}
+              className="block"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isLoading ? 0.3 : 1 }}
+              exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
+              transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut", delay: reducedMotion ? 0 : 0.05 }}
+            >
+              {description}
+            </motion.span>
+          </AnimatePresence>
+        </span>
+      }
+    >
+      <SandboxPanel
+        content={prototypingContent}
+        stage={panelStage}
+        onTransition={handleTransition}
+      />
+    </VignetteSplit>
+  );
+}
 
 export default function PrototypingVignette() {
   return (
-    <VignetteContainer
-      id="prototyping"
-    >
+    <VignetteContainer id="prototyping">
       <div className="w-full space-y-10 lg:space-y-12">
-        {/* Section: AI Prototyping Infrastructure */}
         <motion.div
           {...fadeInUp}
           transition={{ delay: 0.2 }}
         >
-          <VignetteSplit
-            title={prototypingContent.title}
-            description={prototypingContent.description}
-          >
-            <SandboxPanel
-              title={prototypingContent.sandboxTitle}
-              prototypes={prototypingContent.prototypes}
-            />
-          </VignetteSplit>
+          <VignetteStaged stages={prototypingContent.stages}>
+            <PrototypingContent />
+          </VignetteStaged>
         </motion.div>
       </div>
     </VignetteContainer>
