@@ -26,7 +26,7 @@ export interface PrototypingContent {
 export const prototypingContent: PrototypingContent = {
   stages: {
     problem: {
-      title: 'Culture Amp lacked an AI prototyping discipline',
+      title: 'Designers & PMs did not know where to start with coding agents',
       description: '',
       cta: 'See how I enabled this'
     },

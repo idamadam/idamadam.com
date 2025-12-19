@@ -22,7 +22,7 @@ function ProblemState({
   return (
     <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[320px] flex flex-col items-center justify-center p-8">
       {/* Floating questions */}
-      <div className="relative w-full h-48 mb-6">
+      <div className="relative w-full h-36">
         {questions.map((q, index) => {
           // Position questions in a scattered pattern
           const positions = [
@@ -58,19 +58,6 @@ function ProblemState({
           );
         })}
       </div>
-
-      {/* Empty state icon */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
-        className="text-center"
-      >
-        <span className="material-icons-outlined text-[48px] text-gray-300 mb-2 block">
-          folder_open
-        </span>
-        <p className="text-gray-400 text-sm">No prototyping infrastructure</p>
-      </motion.div>
 
       {/* CTA */}
       <motion.button
