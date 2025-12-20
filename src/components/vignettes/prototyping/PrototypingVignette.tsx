@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import SandboxPanel from './SandboxPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
+import StageIndicator from '@/components/vignettes/shared/StageIndicator';
+import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
+import { useLoadingTransition } from '@/components/vignettes/shared/useLoadingTransition';
 import { fadeInUp } from '@/lib/animations';
 import { prototypingContent } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
@@ -14,18 +16,14 @@ type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 
 function PrototypingContent() {
   const { stage, goToSolution, setStage } = useVignetteStage();
-  const [isLoading, setIsLoading] = useState(false);
   const reducedMotion = useReducedMotion();
 
-  const panelStage: PanelStage = isLoading ? 'loading' : stage;
+  const { isLoading, startTransition } = useLoadingTransition({
+    duration: 5000,
+    onComplete: goToSolution,
+  });
 
-  const handleTransition = useCallback(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      goToSolution();
-    }, 5000);
-  }, [goToSolution]);
+  const panelStage: PanelStage = isLoading ? 'loading' : stage;
 
   const currentStageContent = stage === 'problem'
     ? prototypingContent.stages.problem
@@ -38,62 +36,29 @@ function PrototypingContent() {
     <VignetteSplit
       title={
         <div className="space-y-4">
-          {/* Stage Indicator */}
-          <div className="flex items-center gap-1.5 text-[13px] text-gray-400 select-none">
-            <button
-              onClick={() => setStage('problem')}
-              className={`hover:text-gray-500 transition-colors ${stage === 'problem' ? 'text-gray-600' : ''}`}
-            >
-              Problem
-            </button>
-            <span className={`w-2 h-2 rounded-full ${stage === 'problem' ? 'bg-gray-600' : 'bg-gray-300'}`} />
-            <span className="w-6 h-px bg-gray-300" />
-            <span className={`w-2 h-2 rounded-full ${stage === 'solution' ? 'bg-gray-600' : 'bg-gray-300'}`} />
-            <button
-              onClick={() => setStage('solution')}
-              className={`hover:text-gray-500 transition-colors ${stage === 'solution' ? 'text-gray-600' : ''}`}
-            >
-              Solution
-            </button>
-          </div>
-
-          <span className="relative block">
-            <AnimatePresence mode="sync" initial={false}>
-              <motion.span
-                key={stage}
-                className="block"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isLoading ? 0.3 : 1 }}
-                exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
-                transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut" }}
-              >
-                {title}
-              </motion.span>
-            </AnimatePresence>
-          </span>
+          <StageIndicator stage={stage} onStageChange={setStage} />
+          <AnimatedStageText
+            stage={stage}
+            text={title}
+            isLoading={isLoading}
+            reducedMotion={reducedMotion}
+          />
         </div>
       }
       description={
-        <span className="relative block">
-          <AnimatePresence mode="sync" initial={false}>
-            <motion.span
-              key={stage}
-              className="block"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: isLoading ? 0.3 : 1 }}
-              exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
-              transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut", delay: reducedMotion ? 0 : 0.05 }}
-            >
-              {description}
-            </motion.span>
-          </AnimatePresence>
-        </span>
+        <AnimatedStageText
+          stage={stage}
+          text={description}
+          isLoading={isLoading}
+          reducedMotion={reducedMotion}
+          delay={0.05}
+        />
       }
     >
       <SandboxPanel
         content={prototypingContent}
         stage={panelStage}
-        onTransition={handleTransition}
+        onTransition={startTransition}
       />
     </VignetteSplit>
   );

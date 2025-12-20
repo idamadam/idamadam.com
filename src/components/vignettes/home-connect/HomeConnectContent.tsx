@@ -12,6 +12,9 @@ import type { DesignNote } from '@/components/vignettes/types';
 import { useRedlineMode } from '@/components/vignettes/shared/useRedlineMode';
 import RedlineOverlay from '@/components/vignettes/shared/RedlineOverlay';
 import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
+import StageIndicator from '@/components/vignettes/shared/StageIndicator';
+import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
+import DesignNotesButton from '@/components/vignettes/shared/DesignNotesButton';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
 
@@ -19,7 +22,6 @@ type PanelStage = 'problem' | 'transition' | 'solution';
 
 interface HomeConnectContentProps {
   redlineNotes: DesignNote[];
-  accent: string;
   redlineMode: ReturnType<typeof useRedlineMode>;
   mobileIndex: number;
   onMobileIndexChange: (index: number) => void;
@@ -27,7 +29,6 @@ interface HomeConnectContentProps {
 
 export default function HomeConnectContent({
   redlineNotes,
-  accent,
   redlineMode,
   mobileIndex,
   onMobileIndexChange,
@@ -74,73 +75,28 @@ export default function HomeConnectContent({
     <VignetteSplit
       title={
         <div className="space-y-4">
-          {/* Stage Indicator */}
-          <div className="flex items-center gap-1.5 text-[13px] text-gray-400 select-none">
-            <button
-              onClick={() => setStage('problem')}
-              className={`hover:text-gray-500 transition-colors ${stage === 'problem' ? 'text-gray-600' : ''}`}
-            >
-              Problem
-            </button>
-            <span className={`w-2 h-2 rounded-full ${stage === 'problem' ? 'bg-gray-600' : 'bg-gray-300'}`} />
-            <span className="w-6 h-px bg-gray-300" />
-            <span className={`w-2 h-2 rounded-full ${stage === 'solution' ? 'bg-gray-600' : 'bg-gray-300'}`} />
-            <button
-              onClick={() => setStage('solution')}
-              className={`hover:text-gray-500 transition-colors ${stage === 'solution' ? 'text-gray-600' : ''}`}
-            >
-              Solution
-            </button>
-          </div>
-
-          <span className="relative block">
-            <AnimatePresence mode="sync" initial={false}>
-              <motion.span
-                key={stage}
-                className="block"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
-                transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut" }}
-              >
-                {title}
-              </motion.span>
-            </AnimatePresence>
-          </span>
+          <StageIndicator stage={stage} onStageChange={setStage} />
+          <AnimatedStageText
+            stage={stage}
+            text={title}
+            reducedMotion={reducedMotion}
+          />
         </div>
       }
       description={
-        <span className="relative block">
-          <AnimatePresence mode="sync" initial={false}>
-            <motion.span
-              key={stage}
-              className="block"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
-              transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut", delay: reducedMotion ? 0 : 0.05 }}
-            >
-              {description}
-            </motion.span>
-          </AnimatePresence>
-        </span>
+        <AnimatedStageText
+          stage={stage}
+          text={description}
+          reducedMotion={reducedMotion}
+          delay={0.05}
+        />
       }
       actions={
         stage === 'solution' && (
-          <button
-            onClick={redlineMode.toggleRedlineMode}
-            className="inline-flex items-center gap-2 text-[14px] font-medium text-[#0f172a] px-3 py-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
-            style={{
-              backgroundColor: redlineMode.isActive ? `${accent}12` : 'white',
-              borderColor: redlineMode.isActive ? `${accent}50` : undefined,
-              color: redlineMode.isActive ? '#5F3361' : undefined
-            }}
-          >
-            <span className="material-icons-outlined text-[18px]" style={{ color: redlineMode.isActive ? accent : '#0f172a' }}>
-              {redlineMode.isActive ? 'close' : 'edit'}
-            </span>
-            {redlineMode.isActive ? 'Hide design details' : 'Show design details'}
-          </button>
+          <DesignNotesButton
+            isActive={redlineMode.isActive}
+            onToggle={redlineMode.toggleRedlineMode}
+          />
         )
       }
     >
@@ -193,7 +149,6 @@ export default function HomeConnectContent({
         <RedlineOverlay
           isActive={redlineMode.isActive && stage === 'solution'}
           notes={redlineNotes}
-          accent={accent}
           focusedAnnotation={redlineMode.focusedAnnotation}
           onFocusAnnotation={redlineMode.setFocusedAnnotation}
         />
@@ -202,7 +157,6 @@ export default function HomeConnectContent({
         {redlineMode.isActive && stage === 'solution' && (
           <MobileRedlineMarkers
             notes={redlineNotes}
-            accent={accent}
             currentIndex={mobileIndex}
             onMarkerClick={onMobileIndexChange}
           />

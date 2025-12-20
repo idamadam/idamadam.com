@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
 import { subtlePulse } from '@/lib/animations';
 import { multilingualContent } from '@/components/vignettes/multilingual/content';
+import { useAnchorStyle } from '@/components/vignettes/shared/useAnchorStyle';
 
 interface TranslationManagementPanelProps {
   className?: string;
@@ -28,6 +29,7 @@ export default function TranslationManagementPanel({
   const [isAnimating, setIsAnimating] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(0); // 0 = French, 1 = Dhivehi
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { getAnchorStyle } = useAnchorStyle({ redlineModeActive, focusedAnchor });
 
   // Don't auto-reset when initialComplete is true
   useEffect(() => {
@@ -51,13 +53,6 @@ export default function TranslationManagementPanel({
       setIsAnimating(false);
     }, 1500);
   };
-
-  const getAnchorStyle = (anchorName: string): React.CSSProperties => ({
-    anchorName: `--${anchorName}`,
-    opacity: redlineModeActive && focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
-    boxShadow: focusedAnchor === anchorName ? '0 0 0 2px rgba(1, 104, 179, 0.2)' : 'none',
-    transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
-  } as React.CSSProperties);
 
   return (
     <div className={`w-full space-y-6 ${className}`}>

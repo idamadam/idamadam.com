@@ -5,6 +5,7 @@ import VibeCodingVignette from '@/components/vignettes/vibe-coding/VibeCodingVig
 import MultilingualVignette from '@/components/vignettes/multilingual/MultilingualVignette';
 import HomeConnectVignette from '@/components/vignettes/home-connect/HomeConnectVignette';
 import ShaderBackground from '@/components/ShaderBackground';
+import SectionHeader from '@/components/SectionHeader';
 
 export default function Home() {
   return (
@@ -25,21 +26,16 @@ export default function Home() {
       </section>
 
       {/* Vignettes Introduction */}
-      <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12">
-        <div className="max-w-5xl mx-auto border-t border-gray-200/80 pt-10 lg:pt-12 space-y-3">
-          <h2 className="text-[24px] lg:text-[26px] leading-[1.2] tracking-[-0.02em] font-semibold text-[#0f172a]">
-            Selected Work
-          </h2>
-          <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
-            Product design at Culture Amp
-          </p>
-          <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
-            I&apos;m a big believer in showing rather than telling, so I prototype until ideas feel
-            real. Click through and play with each feature—these vignettes are built to be tried, not
-            just read about.
-          </p>
-        </div>
-      </section>
+      <SectionHeader title="Selected Work">
+        <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
+          Product design at Culture Amp
+        </p>
+        <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
+          I&apos;m a big believer in showing rather than telling, so I prototype until ideas feel
+          real. Click through and play with each feature—these vignettes are built to be tried, not
+          just read about.
+        </p>
+      </SectionHeader>
 
       {/* Vignettes Section */}
       <section className="w-full pb-16 lg:pb-24 px-6 lg:px-12">
@@ -53,17 +49,12 @@ export default function Home() {
       </section>
 
       {/* Explorations Section Header */}
-      <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12">
-        <div className="max-w-5xl mx-auto border-t border-gray-200/80 pt-10 lg:pt-12 space-y-3">
-          <h2 className="text-[24px] lg:text-[26px] leading-[1.2] tracking-[-0.02em] font-semibold text-[#0f172a]">
-            Explorations
-          </h2>
-          <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
-            Personal products I design and build end-to-end. These projects help me
-            understand technology at a deeper level while exploring entrepreneurial ideas.
-          </p>
-        </div>
-      </section>
+      <SectionHeader title="Explorations">
+        <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
+          Personal products I design and build end-to-end. These projects help me
+          understand technology at a deeper level while exploring entrepreneurial ideas.
+        </p>
+      </SectionHeader>
 
       {/* Explorations Vignettes */}
       <section className="w-full pb-20 lg:pb-28 px-6 lg:px-12">

@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { DesignNote } from '@/components/vignettes/types';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
+import { DESIGN_NOTES_ACCENT } from './constants';
 
 interface RedlineOverlayProps {
   isActive: boolean;
   notes: DesignNote[];
-  accent: string;
   focusedAnnotation: string | null;
   onFocusAnnotation: (id: string | null) => void;
 }
@@ -16,10 +16,10 @@ interface RedlineOverlayProps {
 export default function RedlineOverlay({
   isActive,
   notes,
-  accent,
   focusedAnnotation,
   onFocusAnnotation,
 }: RedlineOverlayProps) {
+  const accent = DESIGN_NOTES_ACCENT;
   const reducedMotion = useReducedMotion();
   const animations = reducedMotion ? redlineAnimationsReduced : redlineAnimations;
 
