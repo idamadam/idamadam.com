@@ -9,7 +9,7 @@ import { fadeInUp } from '@/lib/animations';
 import { homeConnectContent } from './content';
 import { useRedlineMode } from '@/components/vignettes/shared/useRedlineMode';
 import MobileRedlineTour from '@/components/vignettes/shared/MobileRedlineTour';
-import '../ai-highlights/design-notes.css';
+import '../shared/design-notes.css';
 
 export default function HomeConnectVignette() {
   const designNotes = homeConnectContent.designNotes;

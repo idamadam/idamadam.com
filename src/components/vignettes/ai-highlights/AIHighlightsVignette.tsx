@@ -15,7 +15,7 @@ import MobileRedlineTour from '@/components/vignettes/shared/MobileRedlineTour';
 import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
-import './design-notes.css';
+import '../shared/design-notes.css';
 
 type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 

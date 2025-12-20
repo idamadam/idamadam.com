@@ -3,12 +3,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStageProvider, useVignetteStage, VignetteStage } from '@/lib/vignette-stage-context';
-
-interface StageContent {
-  title?: string;
-  description?: string;
-  cta?: string;
-}
+import type { StageContent } from './types';
 
 interface VignetteStagedProps {
   children: ReactNode;
