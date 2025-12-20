@@ -150,14 +150,14 @@ export default function HomeConnectContent({
         animate={redlineMode.isActive ? animations.panelTransform.active : animations.panelTransform.inactive}
         transition={animations.panelTransform.transition}
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           {panelStage === 'problem' && (
             <motion.div
               key="problem"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
             >
               <ProblemPanel onTransition={handleTransition} />
             </motion.div>
@@ -165,10 +165,10 @@ export default function HomeConnectContent({
           {panelStage === 'transition' && (
             <motion.div
               key="transition"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
             >
               <TransitionPanel onComplete={handleTransitionComplete} />
             </motion.div>
@@ -176,10 +176,10 @@ export default function HomeConnectContent({
           {panelStage === 'solution' && (
             <motion.div
               key="solution"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
             >
               <HomeConnectPanel
                 redlineModeActive={redlineMode.isActive}

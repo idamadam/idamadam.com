@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { homeConnectContent } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 
 interface TransitionPanelProps {
@@ -11,27 +10,48 @@ interface TransitionPanelProps {
 
 type TransitionState = 'scattered' | 'consolidating' | 'complete';
 
-// Scattered positions for fragments (relative to center)
-const fragmentPositions = [
-  { x: -80, y: -60, rotate: -8 },
-  { x: 80, y: -40, rotate: 6 },
-  { x: -70, y: 60, rotate: -4 },
-  { x: 90, y: 50, rotate: 10 }
+// Same cards as ProblemPanel, with scattered positions for transition
+const scatteredCards = [
+  {
+    id: 'performance',
+    page: 'Performance',
+    icon: 'trending_up',
+    color: '#5F3361',
+    insight: 'Feedback due in 3 days',
+    // Scattered position (top-right area)
+    scattered: { x: 60, y: -50, rotate: -2 },
+  },
+  {
+    id: 'oneOnOnes',
+    page: '1-on-1s',
+    icon: 'people',
+    color: '#10B981',
+    insight: "Aisha's wellbeing dropped",
+    // Scattered position (left-middle area)
+    scattered: { x: -70, y: 0, rotate: 1 },
+  },
+  {
+    id: 'goals',
+    page: 'Goals',
+    icon: 'flag',
+    color: '#FFB600',
+    insight: "Malik's goal is inactive",
+    // Scattered position (bottom-right area)
+    scattered: { x: 40, y: 60, rotate: -1 },
+  },
 ];
 
 export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
-  const { transitionContent } = homeConnectContent;
   const reducedMotion = useReducedMotion();
   const [state, setState] = useState<TransitionState>('scattered');
 
-  const staggerDelay = reducedMotion ? 50 : 200;
-  const fragmentCount = transitionContent.fragments.length;
+  const staggerDelay = reducedMotion ? 50 : 150;
 
-  // Auto-start consolidation after a brief pause
+  // Auto-start consolidation immediately
   useEffect(() => {
     const startTimer = setTimeout(() => {
       setState('consolidating');
-    }, reducedMotion ? 200 : 600);
+    }, reducedMotion ? 100 : 200);
 
     return () => clearTimeout(startTimer);
   }, [reducedMotion]);
@@ -42,10 +62,10 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
 
     const completeTimer = setTimeout(() => {
       setState('complete');
-    }, staggerDelay * fragmentCount + 600);
+    }, reducedMotion ? 200 : 500);
 
     return () => clearTimeout(completeTimer);
-  }, [state, staggerDelay, fragmentCount]);
+  }, [state, reducedMotion]);
 
   // Auto-advance to solution after complete
   useEffect(() => {
@@ -53,7 +73,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
 
     const advanceTimer = setTimeout(() => {
       onComplete();
-    }, reducedMotion ? 300 : 800);
+    }, reducedMotion ? 100 : 250);
 
     return () => clearTimeout(advanceTimer);
   }, [state, onComplete, reducedMotion]);
@@ -71,43 +91,58 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
         <h1 className="text-white text-[22px] font-bold leading-tight !m-0">Home</h1>
       </div>
 
-      {/* Fragments area */}
-      <div className="relative h-[280px] flex items-center justify-center">
-        {transitionContent.fragments.map((fragment, index) => (
+      {/* Cards consolidating area */}
+      <div className="relative h-[220px] flex items-center justify-center">
+        {scatteredCards.map((card, index) => (
           <motion.div
-            key={fragment.id}
-            className="absolute flex items-center gap-2 px-4 py-3 bg-white rounded-lg shadow-md"
+            key={card.id}
+            className="absolute w-[180px] bg-[#F9F9F9] rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.1)]"
             initial={{
-              x: fragmentPositions[index].x,
-              y: fragmentPositions[index].y,
-              rotate: fragmentPositions[index].rotate,
+              x: card.scattered.x,
+              y: card.scattered.y,
+              rotate: card.scattered.rotate,
               scale: 1,
-              opacity: 1
+              opacity: 1,
             }}
             animate={
               state === 'consolidating' || state === 'complete'
                 ? {
                     x: 0,
-                    y: 0,
+                    y: index * 8 - 8, // Stack them slightly
                     rotate: 0,
-                    scale: state === 'complete' ? 0 : 0.9,
-                    opacity: state === 'complete' ? 0 : 1
+                    scale: state === 'complete' ? 0.9 : 0.95,
+                    opacity: state === 'complete' ? 0 : 1,
                   }
                 : undefined
             }
             transition={{
               delay: state === 'consolidating' ? index * (staggerDelay / 1000) : 0,
-              duration: reducedMotion ? 0.2 : 0.5,
-              ease: 'easeInOut'
+              duration: reducedMotion ? 0.15 : 0.3,
+              ease: 'easeOut',
             }}
+            style={{ zIndex: 3 - index }}
           >
-            <span
-              className="material-icons-outlined text-[20px]"
-              style={{ color: fragment.color }}
-            >
-              {fragment.icon}
-            </span>
-            <span className="text-[14px] font-medium text-gray-800">{fragment.label}</span>
+            {/* Window chrome header */}
+            <div className="px-2.5 py-1.5 flex items-center gap-1 bg-[#F5F5F5] border-b border-gray-200">
+              <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
+              <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
+              <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />
+              <span
+                className="material-icons-outlined text-[12px] ml-1.5"
+                style={{ color: card.color }}
+              >
+                {card.icon}
+              </span>
+              <span className="text-[11px] font-medium text-gray-600">
+                {card.page}
+              </span>
+            </div>
+            {/* Page content */}
+            <div className="px-2.5 py-2.5 bg-white">
+              <span className="text-[12px] text-[#2F2438] leading-tight block">
+                {card.insight}
+              </span>
+            </div>
           </motion.div>
         ))}
       </div>
@@ -118,7 +153,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
           className="flex items-center justify-center gap-2 py-3 text-[15px] text-gray-500"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.2 }}
         >
           <motion.div
             className="w-1.5 h-1.5 rounded-full bg-[#5F3361]"

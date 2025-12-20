@@ -100,7 +100,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
-        See the solution
+        What if it was all in one place?
         <span className="material-icons-outlined text-[18px]">arrow_forward</span>
       </motion.button>
     </div>
