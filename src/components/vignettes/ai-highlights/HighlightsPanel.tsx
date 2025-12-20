@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
 import type { FeedbackSource } from './content';
+import { useAnchorStyle } from '@/components/vignettes/shared/useAnchorStyle';
 
 type PanelStage = VignetteStage | 'loading';
 
@@ -282,14 +283,7 @@ interface SolutionStateProps {
 function SolutionState({ className = '', redlineModeActive = false, focusedAnchor = null }: SolutionStateProps) {
   const [highlightExpanded, setHighlightExpanded] = useState(false);
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
-
-  // Helper to compute anchor region styles
-  const getAnchorStyle = (anchorName: string): React.CSSProperties => ({
-    anchorName: `--${anchorName}`,
-    opacity: redlineModeActive && focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
-    boxShadow: focusedAnchor === anchorName ? '0 0 0 2px rgba(239, 68, 68, 0.2)' : 'none',
-    transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
-  } as React.CSSProperties);
+  const { getAnchorStyle } = useAnchorStyle({ redlineModeActive, focusedAnchor });
 
   return (
     <div

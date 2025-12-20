@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
 import type { AISuggestionsContent } from './content';
 import type { VignetteStage } from '@/lib/vignette-stage-context';
+import { useAnchorStyle } from '@/components/vignettes/shared/useAnchorStyle';
 
 type PanelStage = VignetteStage | 'loading';
 
@@ -90,12 +91,7 @@ function RecommendationsPanel({
   redlineModeActive?: boolean;
   focusedAnchor?: string | null;
 }) {
-  const getAnchorStyle = (anchorName: string): React.CSSProperties => ({
-    anchorName: `--${anchorName}`,
-    opacity: redlineModeActive && focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
-    boxShadow: focusedAnchor === anchorName ? '0 0 0 2px rgba(154, 54, 178, 0.2)' : 'none',
-    transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
-  } as React.CSSProperties);
+  const { getAnchorStyle } = useAnchorStyle({ redlineModeActive, focusedAnchor });
 
   return (
     <div
@@ -182,20 +178,13 @@ export default function SuggestionsPanel({
   const isProblem = stage === 'problem';
   const isLoading = stage === 'loading';
   const isSolution = stage === 'solution' || stage === 'designNotes';
-
-  // Helper for anchor styles on the editor wrapper
-  const getEditorAnchorStyle = (): React.CSSProperties => ({
-    anchorName: '--improve-button',
-    opacity: redlineModeActive && focusedAnchor && focusedAnchor !== 'improve-button' ? 0.4 : 1,
-    boxShadow: focusedAnchor === 'improve-button' ? '0 0 0 2px rgba(154, 54, 178, 0.2)' : 'none',
-    transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
-  } as React.CSSProperties);
+  const { getAnchorStyle } = useAnchorStyle({ redlineModeActive, focusedAnchor });
 
   return (
     <div className="space-y-2 font-[family-name:var(--font-inter)]">
       {/* Editor - always visible */}
       <div
-        style={isSolution ? getEditorAnchorStyle() : undefined}
+        style={isSolution ? getAnchorStyle('improve-button') : undefined}
         data-anchor={isSolution ? 'improve-button' : undefined}
       >
         <RichTextEditor

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import SandboxPanel from './SandboxPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
@@ -8,6 +7,7 @@ import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
 import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
+import { useLoadingTransition } from '@/components/vignettes/shared/useLoadingTransition';
 import { fadeInUp } from '@/lib/animations';
 import { prototypingContent } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
@@ -16,18 +16,14 @@ type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 
 function PrototypingContent() {
   const { stage, goToSolution, setStage } = useVignetteStage();
-  const [isLoading, setIsLoading] = useState(false);
   const reducedMotion = useReducedMotion();
 
-  const panelStage: PanelStage = isLoading ? 'loading' : stage;
+  const { isLoading, startTransition } = useLoadingTransition({
+    duration: 5000,
+    onComplete: goToSolution,
+  });
 
-  const handleTransition = useCallback(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      goToSolution();
-    }, 5000);
-  }, [goToSolution]);
+  const panelStage: PanelStage = isLoading ? 'loading' : stage;
 
   const currentStageContent = stage === 'problem'
     ? prototypingContent.stages.problem
@@ -62,7 +58,7 @@ function PrototypingContent() {
       <SandboxPanel
         content={prototypingContent}
         stage={panelStage}
-        onTransition={handleTransition}
+        onTransition={startTransition}
       />
     </VignetteSplit>
   );

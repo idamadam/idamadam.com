@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import SuggestionsPanel from './SuggestionsPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
@@ -16,7 +15,8 @@ import MobileRedlineTour from '@/components/vignettes/shared/MobileRedlineTour';
 import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
 import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
-import { DESIGN_NOTES_ACCENT } from '@/components/vignettes/shared/constants';
+import DesignNotesButton from '@/components/vignettes/shared/DesignNotesButton';
+import { useLoadingTransition } from '@/components/vignettes/shared/useLoadingTransition';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
 import '../shared/design-notes.css';
@@ -35,19 +35,15 @@ function AISuggestionsContent({
   onMobileIndexChange: (index: number) => void;
 }) {
   const { stage, goToSolution, setStage } = useVignetteStage();
-  const [isLoading, setIsLoading] = useState(false);
   const reducedMotion = useReducedMotion();
   const animations = reducedMotion ? redlineAnimationsReduced : redlineAnimations;
 
-  const panelStage: PanelStage = isLoading ? 'loading' : stage;
+  const { isLoading, startTransition } = useLoadingTransition({
+    duration: 1500,
+    onComplete: goToSolution,
+  });
 
-  const handleTransition = useCallback(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      goToSolution();
-    }, 1500);
-  }, [goToSolution]);
+  const panelStage: PanelStage = isLoading ? 'loading' : stage;
 
   const currentStageContent = stage === 'problem'
     ? aiSuggestionsContent.stages.problem
@@ -84,20 +80,10 @@ function AISuggestionsContent({
       }
       actions={
         stage === 'solution' && (
-          <button
-            onClick={redlineMode.toggleRedlineMode}
-            className="inline-flex items-center gap-2 text-[14px] font-medium text-[#0f172a] px-3 py-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
-            style={{
-              backgroundColor: redlineMode.isActive ? `${DESIGN_NOTES_ACCENT}12` : 'white',
-              borderColor: redlineMode.isActive ? `${DESIGN_NOTES_ACCENT}50` : undefined,
-              color: redlineMode.isActive ? DESIGN_NOTES_ACCENT : undefined
-            }}
-          >
-            <span className="material-icons-outlined text-[18px]" style={{ color: redlineMode.isActive ? DESIGN_NOTES_ACCENT : '#0f172a' }}>
-              {redlineMode.isActive ? 'close' : 'edit'}
-            </span>
-            {redlineMode.isActive ? 'Hide design details' : 'Show design details'}
-          </button>
+          <DesignNotesButton
+            isActive={redlineMode.isActive}
+            onToggle={redlineMode.toggleRedlineMode}
+          />
         )
       }
     >
@@ -110,7 +96,7 @@ function AISuggestionsContent({
         <SuggestionsPanel
           content={aiSuggestionsContent}
           stage={panelStage}
-          onTransition={handleTransition}
+          onTransition={startTransition}
           redlineModeActive={redlineMode.isActive}
           focusedAnchor={focusedAnchor}
         />
