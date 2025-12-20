@@ -12,6 +12,7 @@ import type { DesignNote } from '@/components/vignettes/types';
 import { useRedlineMode } from '@/components/vignettes/shared/useRedlineMode';
 import RedlineOverlay from '@/components/vignettes/shared/RedlineOverlay';
 import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
+import { DESIGN_NOTES_ACCENT } from '@/components/vignettes/shared/constants';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
 
@@ -19,7 +20,6 @@ type PanelStage = 'problem' | 'transition' | 'solution';
 
 interface HomeConnectContentProps {
   redlineNotes: DesignNote[];
-  accent: string;
   redlineMode: ReturnType<typeof useRedlineMode>;
   mobileIndex: number;
   onMobileIndexChange: (index: number) => void;
@@ -27,7 +27,6 @@ interface HomeConnectContentProps {
 
 export default function HomeConnectContent({
   redlineNotes,
-  accent,
   redlineMode,
   mobileIndex,
   onMobileIndexChange,
@@ -131,12 +130,12 @@ export default function HomeConnectContent({
             onClick={redlineMode.toggleRedlineMode}
             className="inline-flex items-center gap-2 text-[14px] font-medium text-[#0f172a] px-3 py-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
             style={{
-              backgroundColor: redlineMode.isActive ? `${accent}12` : 'white',
-              borderColor: redlineMode.isActive ? `${accent}50` : undefined,
-              color: redlineMode.isActive ? '#5F3361' : undefined
+              backgroundColor: redlineMode.isActive ? `${DESIGN_NOTES_ACCENT}12` : 'white',
+              borderColor: redlineMode.isActive ? `${DESIGN_NOTES_ACCENT}50` : undefined,
+              color: redlineMode.isActive ? DESIGN_NOTES_ACCENT : undefined
             }}
           >
-            <span className="material-icons-outlined text-[18px]" style={{ color: redlineMode.isActive ? accent : '#0f172a' }}>
+            <span className="material-icons-outlined text-[18px]" style={{ color: redlineMode.isActive ? DESIGN_NOTES_ACCENT : '#0f172a' }}>
               {redlineMode.isActive ? 'close' : 'edit'}
             </span>
             {redlineMode.isActive ? 'Hide design details' : 'Show design details'}
@@ -193,7 +192,6 @@ export default function HomeConnectContent({
         <RedlineOverlay
           isActive={redlineMode.isActive && stage === 'solution'}
           notes={redlineNotes}
-          accent={accent}
           focusedAnnotation={redlineMode.focusedAnnotation}
           onFocusAnnotation={redlineMode.setFocusedAnnotation}
         />
@@ -202,7 +200,6 @@ export default function HomeConnectContent({
         {redlineMode.isActive && stage === 'solution' && (
           <MobileRedlineMarkers
             notes={redlineNotes}
-            accent={accent}
             currentIndex={mobileIndex}
             onMarkerClick={onMobileIndexChange}
           />

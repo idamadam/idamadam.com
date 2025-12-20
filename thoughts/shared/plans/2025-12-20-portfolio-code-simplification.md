@@ -175,8 +175,8 @@ import '../shared/design-notes.css';
 - [x] TypeScript passes: `npx tsc --noEmit`
 
 #### Manual Verification:
-- [ ] Homepage loads and displays correctly
-- [ ] All vignettes render properly
+- [x] Homepage loads and displays correctly
+- [x] All vignettes render properly
 
 **Implementation Note**: Pause after Phase 1 for verification before proceeding.
 
@@ -288,13 +288,13 @@ Apply same pattern to:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Build passes: `npm run build`
-- [ ] TypeScript passes: `npx tsc --noEmit`
+- [x] Build passes: `npm run build`
+- [x] TypeScript passes: `npx tsc --noEmit`
 
 #### Manual Verification:
-- [ ] Each vignette with redline mode works correctly
-- [ ] Mobile redline tour functions properly
-- [ ] Design notes toggle on/off correctly
+- [x] Each vignette with redline mode works correctly
+- [x] Mobile redline tour functions properly
+- [x] Design notes toggle on/off correctly
 
 **Implementation Note**: Pause after Phase 2 for verification before proceeding.
 

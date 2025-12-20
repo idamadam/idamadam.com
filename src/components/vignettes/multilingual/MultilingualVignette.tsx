@@ -11,10 +11,12 @@ import VignetteStaged, { useVignetteStage } from '@/components/vignettes/Vignett
 import { fadeInUp } from '@/lib/animations';
 import { multilingualContent } from './content';
 import type { DesignNote } from '@/components/vignettes/types';
+import { useDesignNotesSetup } from '@/components/vignettes/shared/useDesignNotesSetup';
 import { useRedlineMode } from '@/components/vignettes/shared/useRedlineMode';
 import RedlineOverlay from '@/components/vignettes/shared/RedlineOverlay';
 import MobileRedlineTour from '@/components/vignettes/shared/MobileRedlineTour';
 import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
+import { DESIGN_NOTES_ACCENT } from '@/components/vignettes/shared/constants';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
 import '../shared/design-notes.css';
@@ -23,13 +25,11 @@ type PanelStage = 'problem' | 'transition' | 'solution';
 
 function MultilingualContent({
   redlineNotes,
-  accent,
   redlineMode,
   mobileIndex,
   onMobileIndexChange,
 }: {
   redlineNotes: DesignNote[];
-  accent: string;
   redlineMode: ReturnType<typeof useRedlineMode>;
   mobileIndex: number;
   onMobileIndexChange: (index: number) => void;
@@ -135,12 +135,12 @@ function MultilingualContent({
             onClick={redlineMode.toggleRedlineMode}
             className="inline-flex items-center gap-2 text-[14px] font-medium text-[#0f172a] px-3 py-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
             style={{
-              backgroundColor: redlineMode.isActive ? `${accent}12` : 'white',
-              borderColor: redlineMode.isActive ? `${accent}50` : undefined,
-              color: redlineMode.isActive ? '#0369a1' : undefined
+              backgroundColor: redlineMode.isActive ? `${DESIGN_NOTES_ACCENT}12` : 'white',
+              borderColor: redlineMode.isActive ? `${DESIGN_NOTES_ACCENT}50` : undefined,
+              color: redlineMode.isActive ? DESIGN_NOTES_ACCENT : undefined
             }}
           >
-            <span className="material-icons-outlined text-[18px]" style={{ color: redlineMode.isActive ? accent : '#0f172a' }}>
+            <span className="material-icons-outlined text-[18px]" style={{ color: redlineMode.isActive ? DESIGN_NOTES_ACCENT : '#0f172a' }}>
               {redlineMode.isActive ? 'close' : 'edit'}
             </span>
             {redlineMode.isActive ? 'Hide design details' : 'Show design details'}
@@ -198,7 +198,6 @@ function MultilingualContent({
         <RedlineOverlay
           isActive={redlineMode.isActive && stage === 'solution'}
           notes={redlineNotes}
-          accent={accent}
           focusedAnnotation={redlineMode.focusedAnnotation}
           onFocusAnnotation={redlineMode.setFocusedAnnotation}
         />
@@ -207,7 +206,6 @@ function MultilingualContent({
         {redlineMode.isActive && stage === 'solution' && (
           <MobileRedlineMarkers
             notes={redlineNotes}
-            accent={accent}
             currentIndex={mobileIndex}
             onMarkerClick={onMobileIndexChange}
           />
@@ -218,24 +216,14 @@ function MultilingualContent({
 }
 
 export default function MultilingualVignette() {
-  const designNotes = multilingualContent.designNotes;
-  const redlineMode = useRedlineMode();
-  const [mobileIndex, setMobileIndex] = useState(0);
-
-  const handleExit = () => {
-    redlineMode.exitRedlineMode();
-    setMobileIndex(0);
-  };
-
-  const handleScrollToAnchor = useCallback((anchor: string) => {
-    const element = document.querySelector(`[data-anchor="${anchor}"]`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }, []);
-
-  const redlineNotes = designNotes?.notes ?? [];
-  const accent = designNotes?.accent ?? '#0168b3';
+  const {
+    redlineMode,
+    mobileIndex,
+    setMobileIndex,
+    handleExit,
+    handleScrollToAnchor,
+    redlineNotes,
+  } = useDesignNotesSetup(multilingualContent.designNotes);
 
   return (
     <VignetteContainer id="multilingual" allowOverflow>
@@ -247,7 +235,6 @@ export default function MultilingualVignette() {
           <VignetteStaged stages={multilingualContent.stages}>
             <MultilingualContent
               redlineNotes={redlineNotes}
-              accent={accent}
               redlineMode={redlineMode}
               mobileIndex={mobileIndex}
               onMobileIndexChange={setMobileIndex}
@@ -260,7 +247,6 @@ export default function MultilingualVignette() {
       <MobileRedlineTour
         isActive={redlineMode.isActive}
         notes={redlineNotes}
-        accent={accent}
         onExit={handleExit}
         currentIndex={mobileIndex}
         onIndexChange={setMobileIndex}

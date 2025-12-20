@@ -2,20 +2,20 @@
 
 import { motion } from 'framer-motion';
 import type { DesignNote } from '@/components/vignettes/types';
+import { DESIGN_NOTES_ACCENT } from './constants';
 
 interface MobileRedlineMarkersProps {
   notes: DesignNote[];
-  accent: string;
   currentIndex: number;
   onMarkerClick: (index: number) => void;
 }
 
 export default function MobileRedlineMarkers({
   notes,
-  accent,
   currentIndex,
   onMarkerClick,
 }: MobileRedlineMarkersProps) {
+  const accent = DESIGN_NOTES_ACCENT;
   return (
     <div className="lg:hidden pointer-events-auto" style={{ overflow: 'visible' }}>
       {notes.map((note, index) => (

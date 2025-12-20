@@ -3,11 +3,11 @@
 import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import type { DesignNote } from '@/components/vignettes/types';
+import { DESIGN_NOTES_ACCENT } from './constants';
 
 interface MobileRedlineTourProps {
   isActive: boolean;
   notes: DesignNote[];
-  accent: string;
   onExit: () => void;
   currentIndex: number;
   onIndexChange: (index: number) => void;
@@ -17,12 +17,12 @@ interface MobileRedlineTourProps {
 export default function MobileRedlineTour({
   isActive,
   notes,
-  accent,
   onExit,
   currentIndex,
   onIndexChange,
   onScrollToAnchor,
 }: MobileRedlineTourProps) {
+  const accent = DESIGN_NOTES_ACCENT;
   // Track previous index for direction calculation
   const prevIndexRef = useRef(currentIndex);
 
