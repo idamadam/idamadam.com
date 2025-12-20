@@ -364,13 +364,13 @@ import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Build passes: `npm run build`
-- [ ] TypeScript passes: `npx tsc --noEmit`
+- [x] Build passes: `npm run build`
+- [x] TypeScript passes: `npx tsc --noEmit`
 
 #### Manual Verification:
-- [ ] Stage indicator appears correctly in all vignettes
-- [ ] Clicking Problem/Solution switches stages
-- [ ] Active state styling works correctly
+- [x] Stage indicator appears correctly in all vignettes
+- [x] Clicking Problem/Solution switches stages
+- [x] Active state styling works correctly
 
 **Implementation Note**: Pause after Phase 3 for verification before proceeding.
 

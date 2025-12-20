@@ -12,6 +12,7 @@ import type { DesignNote } from '@/components/vignettes/types';
 import { useRedlineMode } from '@/components/vignettes/shared/useRedlineMode';
 import RedlineOverlay from '@/components/vignettes/shared/RedlineOverlay';
 import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
+import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import { DESIGN_NOTES_ACCENT } from '@/components/vignettes/shared/constants';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
@@ -73,24 +74,7 @@ export default function HomeConnectContent({
     <VignetteSplit
       title={
         <div className="space-y-4">
-          {/* Stage Indicator */}
-          <div className="flex items-center gap-1.5 text-[13px] text-gray-400 select-none">
-            <button
-              onClick={() => setStage('problem')}
-              className={`hover:text-gray-500 transition-colors ${stage === 'problem' ? 'text-gray-600' : ''}`}
-            >
-              Problem
-            </button>
-            <span className={`w-2 h-2 rounded-full ${stage === 'problem' ? 'bg-gray-600' : 'bg-gray-300'}`} />
-            <span className="w-6 h-px bg-gray-300" />
-            <span className={`w-2 h-2 rounded-full ${stage === 'solution' ? 'bg-gray-600' : 'bg-gray-300'}`} />
-            <button
-              onClick={() => setStage('solution')}
-              className={`hover:text-gray-500 transition-colors ${stage === 'solution' ? 'text-gray-600' : ''}`}
-            >
-              Solution
-            </button>
-          </div>
+          <StageIndicator stage={stage} onStageChange={setStage} />
 
           <span className="relative block">
             <AnimatePresence mode="sync" initial={false}>

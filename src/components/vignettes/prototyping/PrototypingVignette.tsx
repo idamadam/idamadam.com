@@ -6,6 +6,7 @@ import SandboxPanel from './SandboxPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
+import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import { fadeInUp } from '@/lib/animations';
 import { prototypingContent } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
@@ -38,24 +39,7 @@ function PrototypingContent() {
     <VignetteSplit
       title={
         <div className="space-y-4">
-          {/* Stage Indicator */}
-          <div className="flex items-center gap-1.5 text-[13px] text-gray-400 select-none">
-            <button
-              onClick={() => setStage('problem')}
-              className={`hover:text-gray-500 transition-colors ${stage === 'problem' ? 'text-gray-600' : ''}`}
-            >
-              Problem
-            </button>
-            <span className={`w-2 h-2 rounded-full ${stage === 'problem' ? 'bg-gray-600' : 'bg-gray-300'}`} />
-            <span className="w-6 h-px bg-gray-300" />
-            <span className={`w-2 h-2 rounded-full ${stage === 'solution' ? 'bg-gray-600' : 'bg-gray-300'}`} />
-            <button
-              onClick={() => setStage('solution')}
-              className={`hover:text-gray-500 transition-colors ${stage === 'solution' ? 'text-gray-600' : ''}`}
-            >
-              Solution
-            </button>
-          </div>
+          <StageIndicator stage={stage} onStageChange={setStage} />
 
           <span className="relative block">
             <AnimatePresence mode="sync" initial={false}>
