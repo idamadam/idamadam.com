@@ -1,6 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import React from 'react';
+
+interface HomeConnectPanelProps {
+  redlineModeActive?: boolean;
+  focusedAnchor?: string | null;
+}
 
 // Avatar component with initials
 function Avatar({ initials, size = 18 }: { initials: string; size?: number }) {
@@ -100,17 +106,37 @@ function DownArrowIcon() {
   );
 }
 
-// Feed card wrapper
-function FeedCard({ children }: { children: React.ReactNode }) {
+// Feed card wrapper with optional anchor support
+interface FeedCardProps {
+  children: React.ReactNode;
+  anchor?: string;
+  style?: React.CSSProperties;
+}
+
+function FeedCard({ children, anchor, style }: FeedCardProps) {
   return (
-    <div className="bg-white rounded-md shadow-[0px_1px_3px_0px_rgba(0,0,0,0.08)] px-4 py-3 flex items-center gap-3">
+    <div
+      className="bg-white rounded-md shadow-[0px_1px_3px_0px_rgba(0,0,0,0.08)] px-4 py-3 flex items-center gap-3"
+      data-anchor={anchor}
+      style={style}
+    >
       <div className="flex-1 min-w-0">{children}</div>
       <ArrowIcon />
     </div>
   );
 }
 
-export default function HomeConnectPanel() {
+export default function HomeConnectPanel({
+  redlineModeActive = false,
+  focusedAnchor = null
+}: HomeConnectPanelProps) {
+  const getAnchorStyle = (anchorName: string): React.CSSProperties => ({
+    anchorName: `--${anchorName}`,
+    opacity: redlineModeActive && focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
+    boxShadow: focusedAnchor === anchorName ? '0 0 0 2px rgba(95, 51, 97, 0.3)' : 'none',
+    transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
+  } as React.CSSProperties);
+
   return (
     <div className="w-full bg-[#F9F9F9] rounded-xl overflow-hidden">
       {/* Purple header */}
@@ -148,7 +174,10 @@ export default function HomeConnectPanel() {
           <FeedDivider label="Upcoming" />
 
           {/* Performance Cycle Card */}
-          <FeedCard>
+          <FeedCard
+            anchor="feed-card-performance"
+            style={getAnchorStyle('feed-card-performance')}
+          >
             <div className="space-y-2">
               <p className="text-[13px] text-[#2F2438]">
                 <span className="font-semibold">2023 Performance Cycle</span> feedback closes in 3 days
@@ -179,7 +208,10 @@ export default function HomeConnectPanel() {
           <FeedDivider label="Recent" />
 
           {/* Goal Card */}
-          <FeedCard>
+          <FeedCard
+            anchor="feed-card-goal"
+            style={getAnchorStyle('feed-card-goal')}
+          >
             <div className="flex items-center gap-3">
               <GoalDonut percentage={25} />
               <div className="flex-1 min-w-0">
