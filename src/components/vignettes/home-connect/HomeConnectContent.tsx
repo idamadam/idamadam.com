@@ -13,6 +13,7 @@ import { useRedlineMode } from '@/components/vignettes/shared/useRedlineMode';
 import RedlineOverlay from '@/components/vignettes/shared/RedlineOverlay';
 import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
 import StageIndicator from '@/components/vignettes/shared/StageIndicator';
+import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
 import { DESIGN_NOTES_ACCENT } from '@/components/vignettes/shared/constants';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
@@ -75,38 +76,20 @@ export default function HomeConnectContent({
       title={
         <div className="space-y-4">
           <StageIndicator stage={stage} onStageChange={setStage} />
-
-          <span className="relative block">
-            <AnimatePresence mode="sync" initial={false}>
-              <motion.span
-                key={stage}
-                className="block"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
-                transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut" }}
-              >
-                {title}
-              </motion.span>
-            </AnimatePresence>
-          </span>
+          <AnimatedStageText
+            stage={stage}
+            text={title}
+            reducedMotion={reducedMotion}
+          />
         </div>
       }
       description={
-        <span className="relative block">
-          <AnimatePresence mode="sync" initial={false}>
-            <motion.span
-              key={stage}
-              className="block"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
-              transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut", delay: reducedMotion ? 0 : 0.05 }}
-            >
-              {description}
-            </motion.span>
-          </AnimatePresence>
-        </span>
+        <AnimatedStageText
+          stage={stage}
+          text={description}
+          reducedMotion={reducedMotion}
+          delay={0.05}
+        />
       }
       actions={
         stage === 'solution' && (

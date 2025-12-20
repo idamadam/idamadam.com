@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import SandboxPanel from './SandboxPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
 import StageIndicator from '@/components/vignettes/shared/StageIndicator';
+import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
 import { fadeInUp } from '@/lib/animations';
 import { prototypingContent } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
@@ -40,38 +41,22 @@ function PrototypingContent() {
       title={
         <div className="space-y-4">
           <StageIndicator stage={stage} onStageChange={setStage} />
-
-          <span className="relative block">
-            <AnimatePresence mode="sync" initial={false}>
-              <motion.span
-                key={stage}
-                className="block"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isLoading ? 0.3 : 1 }}
-                exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
-                transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut" }}
-              >
-                {title}
-              </motion.span>
-            </AnimatePresence>
-          </span>
+          <AnimatedStageText
+            stage={stage}
+            text={title}
+            isLoading={isLoading}
+            reducedMotion={reducedMotion}
+          />
         </div>
       }
       description={
-        <span className="relative block">
-          <AnimatePresence mode="sync" initial={false}>
-            <motion.span
-              key={stage}
-              className="block"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: isLoading ? 0.3 : 1 }}
-              exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
-              transition={{ duration: reducedMotion ? 0 : 0.2, ease: "easeOut", delay: reducedMotion ? 0 : 0.05 }}
-            >
-              {description}
-            </motion.span>
-          </AnimatePresence>
-        </span>
+        <AnimatedStageText
+          stage={stage}
+          text={description}
+          isLoading={isLoading}
+          reducedMotion={reducedMotion}
+          delay={0.05}
+        />
       }
     >
       <SandboxPanel
