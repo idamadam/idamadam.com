@@ -16,9 +16,6 @@ The main portfolio experience is on the homepage (`src/app/page.tsx`) featuring 
 - **Home Connect**: Platform cohesion system demo
 - **Vibe Coding**: Personal product exploration (under "Explorations" section)
 
-### Legacy Case Study Routes (Deprecated)
-Traditional case study pages at `/performance-ai`, `/multilingual`, `/one-on-ones`, and `/home-connect` routes. These are text-heavy, static pages from the previous portfolio approach.
-
 ## Technical Stack
 
 ### Framework & Core Libraries
@@ -73,22 +70,53 @@ VignetteStages     // Problem/Solution/Design Notes content
 - `cardScatter`: Staggered card animations
 - `iterationCard`: Individual card reveals
 
+**Redline Animations** (`src/lib/redline-animations.ts`):
+- Specialized animations for design annotation overlays
+
+**Accessibility** (`src/lib/useReducedMotion.ts`):
+- Hook that respects user's `prefers-reduced-motion` setting
+- Use to conditionally disable or simplify animations
+
+#### Shared Vignette Utilities
+Located in `src/components/vignettes/shared/`:
+
+- `RedlineOverlay.tsx` - Design annotation overlay system
+- `MobileRedlineMarkers.tsx` - Touch-friendly annotation markers
+- `MobileRedlineTour.tsx` - Guided tour through design annotations
+- `useRedlineMode.ts` - Hook for toggling redline annotation mode
+
+These utilities power the "Design Notes" stage in vignettes, rendering inline annotations positioned via percentages.
+
 ### Vignette Implementation Pattern
 
-Each vignette follows this structure:
+**Simple Pattern** (ai-suggestions, prototyping, vibe-coding):
 ```
 /vignettes/[name]/
-├── [Name]Vignette.tsx      # Main component (30-45 lines)
+├── [Name]Vignette.tsx      # Main component
 ├── [Name]Panel.tsx         # Interactive content panel
 └── content.ts              # All copy, data, and configuration
 ```
+
+**Extended Pattern** (multilingual, home-connect):
+```
+/vignettes/[name]/
+├── [Name]Vignette.tsx      # Main component
+├── ProblemPanel.tsx        # Problem state UI
+├── TransitionPanel.tsx     # Transition animation
+├── [Solution]Panel.tsx     # Solution state UI
+└── content.ts              # All copy, data, and configuration
+```
+
+Some vignettes include additional files:
+- **ai-highlights**: `design-notes.css` for custom annotation styling
+- **home-connect**: `HomeConnectContent.tsx` for complex state management
 
 **Standard Composition:**
 ```tsx
 VignetteContainer
 └── motion.div (fadeInUp)
     └── VignetteStaged OR VignetteSplit
-        └── Custom Panel Component
+        └── Custom Panel Component(s)
 ```
 
 **Content Separation Philosophy:**
@@ -170,7 +198,5 @@ Each `content.ts` should export:
 - Differentiate from traditional text-heavy portfolios
 
 ## Future Considerations
-- The legacy case study routes may be removed entirely
-- Consider migrating any valuable content from old routes to new vignettes
 - Potential for adding more advanced interactions (3D elements, WebGL, physics-based animations)
 - Explore video integration within vignette panels
