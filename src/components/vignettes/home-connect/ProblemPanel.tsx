@@ -1,0 +1,108 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { useReducedMotion } from '@/lib/useReducedMotion';
+
+interface ProblemPanelProps {
+  onTransition: () => void;
+}
+
+const scatteredInsights = [
+  {
+    id: 'performance',
+    page: 'Performance',
+    icon: 'trending_up',
+    color: '#5F3361',
+    insight: 'Feedback due in 3 days',
+    position: { top: 0, right: 0 },
+    rotate: -2,
+    zIndex: 1,
+  },
+  {
+    id: 'oneOnOnes',
+    page: '1-on-1s',
+    icon: 'people',
+    color: '#10B981',
+    insight: "Aisha's wellbeing dropped",
+    position: { top: 70, left: 0 },
+    rotate: 1,
+    zIndex: 2,
+  },
+  {
+    id: 'goals',
+    page: 'Goals',
+    icon: 'flag',
+    color: '#FFB600',
+    insight: "Malik's goal is inactive",
+    position: { bottom: 0, right: 24 },
+    rotate: -1,
+    zIndex: 3,
+  },
+];
+
+export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
+  const reducedMotion = useReducedMotion();
+
+  return (
+    <div className="w-full">
+      {/* Scattered page cards */}
+      <div className="relative h-[220px] mb-5">
+        {scatteredInsights.map((item, i) => (
+          <motion.div
+            key={item.id}
+            className="absolute w-[180px] bg-[#F9F9F9] rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.1)]"
+            style={{
+              top: item.position.top,
+              right: item.position.right,
+              bottom: item.position.bottom,
+              left: item.position.left,
+              zIndex: item.zIndex,
+            }}
+            initial={{ opacity: 0, scale: 0.9, rotate: 0 }}
+            animate={{ opacity: 1, scale: 1, rotate: item.rotate }}
+            transition={{
+              delay: reducedMotion ? 0 : 0.1 + i * 0.12,
+              duration: 0.4,
+              ease: 'easeOut',
+            }}
+          >
+            {/* Window chrome header */}
+            <div className="px-2.5 py-1.5 flex items-center gap-1 bg-[#F5F5F5] border-b border-gray-200">
+              <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
+              <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
+              <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />
+              <span
+                className="material-icons-outlined text-[12px] ml-1.5"
+                style={{ color: item.color }}
+              >
+                {item.icon}
+              </span>
+              <span className="text-[11px] font-medium text-gray-600">
+                {item.page}
+              </span>
+            </div>
+            {/* Page content */}
+            <div className="px-2.5 py-2.5 bg-white">
+              <span className="text-[12px] text-[#2F2438] leading-tight block">{item.insight}</span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* CTA */}
+      <motion.button
+        onClick={onTransition}
+        className="w-full py-3 px-4 rounded-xl text-white font-medium text-[15px] flex items-center justify-center gap-2"
+        style={{ backgroundColor: '#5F3361' }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: reducedMotion ? 0 : 0.6 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        See the solution
+        <span className="material-icons-outlined text-[18px]">arrow_forward</span>
+      </motion.button>
+    </div>
+  );
+}

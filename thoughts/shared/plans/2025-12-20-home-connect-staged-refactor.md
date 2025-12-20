@@ -190,8 +190,8 @@ export const homeConnectContent: HomeConnectContent = {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
-- [ ] No type errors in content.ts
+- [x] TypeScript compiles: `npm run build`
+- [x] No type errors in content.ts
 
 #### Manual Verification:
 - [ ] Content structure matches existing panel content
@@ -282,8 +282,8 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
-- [ ] Component renders without errors
+- [x] TypeScript compiles: `npm run build`
+- [x] Component renders without errors
 
 #### Manual Verification:
 - [ ] Empty state visually conveys "no direction"
@@ -457,8 +457,8 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
-- [ ] Component renders without errors
+- [x] TypeScript compiles: `npm run build`
+- [x] Component renders without errors
 
 #### Manual Verification:
 - [ ] Fragments start scattered with slight rotations
@@ -510,8 +510,8 @@ Add `data-anchor` and `style` to key elements:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
-- [ ] No breaking changes to existing rendering
+- [x] TypeScript compiles: `npm run build`
+- [x] No breaking changes to existing rendering
 
 #### Manual Verification:
 - [ ] Panel renders identically when props not provided
@@ -749,8 +749,8 @@ export default function HomeConnectContent({
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
-- [ ] Component renders without errors
+- [x] TypeScript compiles: `npm run build`
+- [x] Component renders without errors
 
 #### Manual Verification:
 - [ ] Stage indicator shows Problem/Solution
@@ -842,9 +842,9 @@ export default function HomeConnectVignette() {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
+- [x] TypeScript compiles: `npm run build`
 - [ ] No console errors on page load
-- [ ] Linting passes: `npm run lint`
+- [ ] Linting passes: `npm run lint` (Note: lint command has config issue, but build passes)
 
 #### Manual Verification:
 - [ ] Vignette loads on homepage
