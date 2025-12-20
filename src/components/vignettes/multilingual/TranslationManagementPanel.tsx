@@ -1,36 +1,44 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
 import { subtlePulse } from '@/lib/animations';
-import type { MultilingualContent } from '@/components/vignettes/multilingual/content';
+import { multilingualContent } from '@/components/vignettes/multilingual/content';
 
 interface TranslationManagementPanelProps {
   className?: string;
-  content: MultilingualContent;
+  initialComplete?: boolean;
+  redlineModeActive?: boolean;
+  focusedAnchor?: string | null;
 }
 
 type TranslationState = 'idle' | 'translating' | 'complete';
 
 export default function TranslationManagementPanel({
-  content,
-  className = ''
+  className = '',
+  initialComplete = false,
+  redlineModeActive = false,
+  focusedAnchor = null
 }: TranslationManagementPanelProps) {
-  const [translationState, setTranslationState] = useState<TranslationState>('idle');
+  const content = multilingualContent;
+  const [translationState, setTranslationState] = useState<TranslationState>(
+    initialComplete ? 'complete' : 'idle'
+  );
   const [isAnimating, setIsAnimating] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(0); // 0 = French, 1 = Dhivehi
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  // Don't auto-reset when initialComplete is true
   useEffect(() => {
-    if (translationState === 'complete') {
+    if (translationState === 'complete' && !initialComplete) {
       const timer = setTimeout(() => {
         setTranslationState('idle');
       }, 8000);
 
       return () => clearTimeout(timer);
     }
-  }, [translationState]);
+  }, [translationState, initialComplete]);
 
   const handleTranslate = () => {
     if (isAnimating) return;
@@ -44,23 +52,34 @@ export default function TranslationManagementPanel({
     }, 1500);
   };
 
+  const getAnchorStyle = (anchorName: string): React.CSSProperties => ({
+    anchorName: `--${anchorName}`,
+    opacity: redlineModeActive && focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
+    boxShadow: focusedAnchor === anchorName ? '0 0 0 2px rgba(1, 104, 179, 0.2)' : 'none',
+    transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
+  } as React.CSSProperties);
+
   return (
     <div className={`w-full space-y-6 ${className}`}>
       {/* Language & Action Buttons */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3">
         {/* Language Dropdown */}
-        <div className="flex flex-col gap-1.5 w-full sm:w-[240px] relative">
+        <div
+          className="flex flex-col gap-1.5 w-full sm:w-auto relative"
+          style={getAnchorStyle('language-dropdown')}
+          data-anchor="language-dropdown"
+        >
           <label className="text-[14px] font-semibold leading-[24px] text-[#2f2438]">
             Translated language
           </label>
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="bg-white border-2 border-[#878792] rounded-[7px] h-[48px] px-[14px] py-[12px] flex items-center justify-between hover:border-[#0168b3] transition-colors"
+            className="bg-white border-2 border-[#878792] rounded-[6px] h-[36px] px-[10px] py-[6px] flex items-center justify-between gap-2 hover:border-[#0168b3] transition-colors"
           >
-            <span className="text-[16px] leading-[24px] text-[#2f2438]">
+            <span className="text-[14px] leading-[20px] text-[#2f2438] whitespace-nowrap">
               {content.languages[selectedLanguage].name}
             </span>
-            <svg className="w-5 h-5 text-[#2f2438]" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-4 h-4 text-[#2f2438] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
           </button>
@@ -73,7 +92,7 @@ export default function TranslationManagementPanel({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="absolute top-full left-0 right-0 mt-1 bg-white border-2 border-[#878792] rounded-[7px] shadow-lg z-10"
+                className="absolute top-full left-0 mt-1 bg-white border-2 border-[#878792] rounded-[6px] shadow-lg z-10 min-w-full"
               >
                 {content.languages.map((lang, index) => (
                   <button
@@ -81,11 +100,13 @@ export default function TranslationManagementPanel({
                     onClick={() => {
                       setSelectedLanguage(index);
                       setIsDropdownOpen(false);
-                      setTranslationState('idle');
+                      if (!initialComplete) {
+                        setTranslationState('idle');
+                      }
                     }}
-                    className={`w-full px-[14px] py-[12px] text-left text-[16px] leading-[24px] text-[#2f2438] hover:bg-gray-50 transition-colors ${
+                    className={`w-full px-[10px] py-[8px] text-left text-[14px] leading-[20px] text-[#2f2438] hover:bg-gray-50 transition-colors whitespace-nowrap ${
                       index === selectedLanguage ? 'bg-gray-100 font-semibold' : ''
-                    } ${index === 0 ? 'rounded-t-[5px]' : ''} ${index === content.languages.length - 1 ? 'rounded-b-[5px]' : ''}`}
+                    } ${index === 0 ? 'rounded-t-[4px]' : ''} ${index === content.languages.length - 1 ? 'rounded-b-[4px]' : ''}`}
                   >
                     {lang.name}
                   </button>
@@ -96,37 +117,37 @@ export default function TranslationManagementPanel({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-2">
           <motion.button
             onClick={handleTranslate}
             disabled={isAnimating}
+            style={getAnchorStyle('auto-translate-btn')}
+            data-anchor="auto-translate-btn"
             {...subtlePulse}
-            className="bg-[#0168b3] hover:bg-[#015a99] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-[18px] leading-[24px] h-[48px] px-[22px] py-[12px] rounded-[7px] flex items-center gap-2 transition-colors"
+            className="bg-[#0168b3] hover:bg-[#015a99] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-[14px] leading-[20px] h-[36px] px-[14px] py-[8px] rounded-[6px] flex items-center gap-1.5 transition-colors"
           >
             {translationState === 'translating' ? (
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
             ) : (
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" />
               </svg>
             )}
             Auto translate
           </motion.button>
-          <button className="text-[#0168b3] hover:bg-gray-50 font-medium text-[16px] leading-[24px] h-[48px] px-[10px] py-[12px] rounded-[7px] flex items-center gap-2 transition-colors">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <button className="text-[#0168b3] hover:bg-gray-50 font-medium text-[14px] leading-[20px] h-[36px] px-[10px] py-[8px] rounded-[6px] flex items-center gap-1.5 transition-colors">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
             Import XLSX
           </button>
-        </div>
       </div>
 
       {/* Translation Fields */}
       <div className="space-y-6">
-        {content.translationFields.map((field, index) => (
+        {content.translationFields.map((field) => (
           <div key={field.id} className="space-y-3">
             <label className="text-sm font-semibold text-[#2f2438]">
               {field.label}
@@ -162,7 +183,11 @@ export default function TranslationManagementPanel({
             </motion.div>
 
             {/* Source Text Tag */}
-            <div className="flex items-start gap-2">
+            <div
+              className="flex items-start gap-2"
+              style={getAnchorStyle('source-text')}
+              data-anchor="source-text"
+            >
               <span className="inline-flex items-center px-3 py-1 bg-[#eaeaec] rounded-full text-xs text-[#2f2438]">
                 English (English US)
               </span>
