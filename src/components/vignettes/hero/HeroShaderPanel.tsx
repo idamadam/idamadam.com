@@ -1,46 +1,67 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Dithering } from '@paper-design/shaders-react';
-import { useShaderColors } from '@/lib/shader-color-context';
+import { ColorPanels } from '@paper-design/shaders-react';
 
-// Color palette for interactive mode - vibrant colors that blend well
-const colorPalette = [
-  { back: '#fce7f3', front: '#ec4899' }, // Pink
-  { back: '#dbeafe', front: '#3b82f6' }, // Blue
-  { back: '#dcfce7', front: '#22c55e' }, // Green
-  { back: '#fef3c7', front: '#f59e0b' }, // Amber
-  { back: '#ede9fe', front: '#8b5cf6' }, // Purple
-  { back: '#ccfbf1', front: '#14b8a6' }, // Teal
+// Calm state - neutral gray
+const CALM_COLORS = ['#b0b0b0c0', '#b0b0b000', '#b0b0b000', '#b0b0b000', '#b0b0b000'];
+const CALM_SPEED = 0.22;
+
+// Active state - vivid stained glass
+const ACTIVE_COLORS = [
+  '#e63946dd', // Rich red
+  '#457b9ddd', // Steel blue
+  '#2a9d8fdd', // Teal
+  '#f4a261dd', // Sandy orange
+  '#9b5de5dd', // Purple
 ];
+const ACTIVE_SPEED = 0.8;
 
-function interpolateColor(color1: string, color2: string, factor: number): string {
-  const hex1 = color1.replace('#', '');
-  const hex2 = color2.replace('#', '');
+const TRANSITION_DURATION = 600; // ms
 
-  const r1 = parseInt(hex1.substring(0, 2), 16);
-  const g1 = parseInt(hex1.substring(2, 4), 16);
-  const b1 = parseInt(hex1.substring(4, 6), 16);
+function parseColor(hex: string): [number, number, number, number] {
+  const h = hex.replace('#', '');
+  return [
+    parseInt(h.substring(0, 2), 16),
+    parseInt(h.substring(2, 4), 16),
+    parseInt(h.substring(4, 6), 16),
+    h.length >= 8 ? parseInt(h.substring(6, 8), 16) : 255,
+  ];
+}
 
-  const r2 = parseInt(hex2.substring(0, 2), 16);
-  const g2 = parseInt(hex2.substring(2, 4), 16);
-  const b2 = parseInt(hex2.substring(4, 6), 16);
+function toHex(r: number, g: number, b: number, a: number): string {
+  return `#${[r, g, b, a].map(v => Math.round(v).toString(16).padStart(2, '0')).join('')}`;
+}
 
-  const r = Math.round(r1 + (r2 - r1) * factor);
-  const g = Math.round(g1 + (g2 - g1) * factor);
-  const b = Math.round(b1 + (b2 - b1) * factor);
+function lerpColor(from: string, to: string, t: number): string {
+  const [r1, g1, b1, a1] = parseColor(from);
+  const [r2, g2, b2, a2] = parseColor(to);
+  return toHex(
+    r1 + (r2 - r1) * t,
+    g1 + (g2 - g1) * t,
+    b1 + (b2 - b1) * t,
+    a1 + (a2 - a1) * t
+  );
+}
 
-  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+function lerp(a: number, b: number, t: number): number {
+  return a + (b - a) * t;
+}
+
+// Easing function for smooth animation
+function easeInOutCubic(t: number): number {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
 export default function HeroShaderPanel() {
   const [mounted, setMounted] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 400, height: 300 });
+  const [currentColors, setCurrentColors] = useState(CALM_COLORS);
+  const [currentSpeed, setCurrentSpeed] = useState(CALM_SPEED);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // Use shared context for colors - syncs with page background
-  const { colors, setColors, isInteractive, setIsInteractive, resetColors } = useShaderColors();
+  const animationRef = useRef<number | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -57,76 +78,80 @@ export default function HeroShaderPanel() {
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
-  const handleInteraction = useCallback((clientX: number, clientY: number) => {
-    if (!containerRef.current || !isInteractive) return;
+  // Animate transition between states
+  useEffect(() => {
+    const targetColors = isActive ? ACTIVE_COLORS : CALM_COLORS;
+    const targetSpeed = isActive ? ACTIVE_SPEED : CALM_SPEED;
+    const startColors = [...currentColors];
+    const startSpeed = currentSpeed;
+    const startTime = performance.now();
 
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = (clientX - rect.left) / rect.width;
-    const y = (clientY - rect.top) / rect.height;
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      const rawT = Math.min(elapsed / TRANSITION_DURATION, 1);
+      const t = easeInOutCubic(rawT);
 
-    // Use position to pick and blend colors from palette
-    const paletteIndex = Math.floor(x * colorPalette.length);
-    const nextIndex = (paletteIndex + 1) % colorPalette.length;
-    const blendFactor = (x * colorPalette.length) % 1;
+      const newColors = targetColors.map((target, i) =>
+        lerpColor(startColors[i] || startColors[0], target, t)
+      );
+      const newSpeed = lerp(startSpeed, targetSpeed, t);
 
-    const currentPalette = colorPalette[Math.min(paletteIndex, colorPalette.length - 1)];
-    const nextPalette = colorPalette[nextIndex];
+      setCurrentColors(newColors);
+      setCurrentSpeed(newSpeed);
 
-    // Blend between adjacent palette colors based on x position
-    const backColor = interpolateColor(currentPalette.back, nextPalette.back, blendFactor);
+      if (rawT < 1) {
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    };
 
-    // Use y position to influence front color intensity
-    const frontIntensity = 0.3 + y * 0.7;
-    const frontColor = interpolateColor(currentPalette.front, nextPalette.front, blendFactor);
-    const finalFront = interpolateColor('#e8e8e8', frontColor, frontIntensity);
-
-    setColors({ back: backColor, front: finalFront });
-  }, [isInteractive]);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    handleInteraction(e.clientX, e.clientY);
-  }, [handleInteraction]);
-
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (e.touches.length > 0) {
-      handleInteraction(e.touches[0].clientX, e.touches[0].clientY);
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
     }
-  }, [handleInteraction]);
+    animationRef.current = requestAnimationFrame(animate);
 
-  const handleToggleInteractive = () => {
-    if (isInteractive) {
-      resetColors();
-    } else {
-      setIsInteractive(true);
-    }
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [isActive]);
+
+  const handleToggle = () => {
+    setIsActive(!isActive);
   };
 
   return (
     <div className="relative">
       <div
         ref={containerRef}
-        className="w-full aspect-[4/3] rounded-xl overflow-hidden cursor-crosshair"
-        onMouseMove={handleMouseMove}
-        onTouchMove={handleTouchMove}
+        className="w-full aspect-[4/3] rounded-xl overflow-hidden"
       >
         {mounted && (
-          <Dithering
+          <ColorPanels
             width={dimensions.width || 400}
             height={dimensions.height || 300}
-            colorBack={colors.back}
-            colorFront={colors.front}
-            shape="dots"
-            type="2x2"
-            size={2}
-            speed={0.25}
+            colors={currentColors}
+            colorBack="#ffffff"
+            density={1.39}
+            angle1={0.22}
+            angle2={0.32}
+            length={0.62}
+            edges={true}
+            blur={0.5}
+            fadeIn={0.89}
+            fadeOut={0.4}
+            gradient={0.53}
+            speed={currentSpeed}
+            scale={1.0}
+            rotation={90}
           />
         )}
       </div>
 
-      {/* Interactive mode toggle button */}
+      {/* Toggle button */}
       <div className="absolute bottom-4 right-4">
         <motion.button
-          onClick={handleToggleInteractive}
+          onClick={handleToggle}
           className="flex items-center gap-2 px-5 py-3 rounded-full text-body-sm font-semibold transition-colors"
           style={{ backgroundColor: 'var(--accent-interactive-bg)' }}
           initial={{ opacity: 0, scale: 0.9 }}
@@ -138,10 +163,10 @@ export default function HeroShaderPanel() {
             className="material-icons-outlined text-h3"
             style={{ color: 'var(--accent-interactive)' }}
           >
-            {isInteractive ? 'gesture' : 'palette'}
+            {isActive ? 'motion_photos_pause' : 'palette'}
           </span>
           <span style={{ color: 'var(--accent-interactive)' }}>
-            {isInteractive ? 'Move around...' : 'Add color'}
+            {isActive ? 'Calm' : 'Add color'}
           </span>
         </motion.button>
       </div>
