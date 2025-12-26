@@ -77,13 +77,13 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
               >
                 {item.icon}
               </span>
-              <span className="text-[11px] font-medium text-gray-600">
+              <span className="text-label font-medium text-gray-600">
                 {item.page}
               </span>
             </div>
             {/* Page content */}
             <div className="px-2.5 py-2.5 bg-white">
-              <span className="text-[12px] text-[#2F2438] leading-tight block">{item.insight}</span>
+              <span className="text-caption text-primary leading-tight block">{item.insight}</span>
             </div>
           </motion.div>
         ))}
@@ -92,16 +92,28 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
       {/* CTA */}
       <motion.button
         onClick={onTransition}
-        className="w-full py-3 px-4 rounded-xl text-white font-medium text-[15px] flex items-center justify-center gap-2"
-        style={{ backgroundColor: '#5F3361' }}
+        className="w-full py-3 px-4 rounded-full font-semibold text-body-sm flex items-center justify-center gap-2"
+        style={{ backgroundColor: 'var(--accent-interactive-bg)' }}
         initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: reducedMotion ? 0 : 0.6 }}
-        whileHover={{ scale: 1.02 }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          boxShadow: [
+            '0 0 0 0 rgba(154, 54, 178, 0)',
+            '0 0 0 6px rgba(154, 54, 178, 0.12)',
+            '0 0 0 0 rgba(154, 54, 178, 0)'
+          ]
+        }}
+        transition={{
+          opacity: { delay: reducedMotion ? 0 : 0.6 },
+          y: { delay: reducedMotion ? 0 : 0.6 },
+          boxShadow: { delay: reducedMotion ? 0 : 1.1, duration: 2.5, repeat: Infinity, ease: 'easeInOut' }
+        }}
+        whileHover={{ scale: 1.02, backgroundColor: 'var(--accent-interactive-bg-hover)' }}
         whileTap={{ scale: 0.98 }}
       >
-        What if it was all in one place?
-        <span className="material-icons-outlined text-[18px]">arrow_forward</span>
+        <span className="material-icons-outlined text-h3" style={{ color: 'var(--accent-interactive)' }}>auto_awesome</span>
+        <span style={{ color: 'var(--accent-interactive)' }}>What if it was all in one place?</span>
       </motion.button>
     </div>
   );

@@ -128,9 +128,13 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 <div className="flex items-center justify-center h-full">
                   <button
                     onClick={startDemo}
-                    className="px-6 py-3 bg-neutral-900 hover:bg-neutral-800 text-white text-sm font-medium rounded-lg transition-colors"
+                    className="px-6 py-3 text-sm font-semibold rounded-full transition-colors flex items-center gap-2"
+                    style={{ backgroundColor: 'var(--accent-interactive-bg)' }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-interactive-bg-hover)'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-interactive-bg)'}
                   >
-                    ▶ Start Demo
+                    <span className="material-icons-outlined text-lg" style={{ color: 'var(--accent-interactive)' }}>play_arrow</span>
+                    <span style={{ color: 'var(--accent-interactive)' }}>Start Demo</span>
                   </button>
                 </div>
               )}
@@ -251,11 +255,12 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
         <div className="mt-6 text-center">
           <button
             onClick={startDemo}
-            className="px-4 py-2 bg-transparent hover:bg-neutral-100 text-neutral-600 hover:text-neutral-900 text-sm font-medium rounded-lg transition-all duration-200 flex items-center space-x-2 mx-auto border border-neutral-200"
+            className="px-4 py-2 text-sm font-medium rounded-full transition-colors flex items-center gap-2 mx-auto"
+            style={{ backgroundColor: 'var(--accent-interactive-bg)', color: 'var(--accent-interactive)' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-interactive-bg-hover)'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-interactive-bg)'}
           >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
+            <span className="material-icons-outlined text-base">replay</span>
             <span>Replay</span>
           </button>
         </div>

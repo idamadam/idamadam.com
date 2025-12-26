@@ -86,9 +86,9 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
             <circle cx="10" cy="10" r="8" stroke="white" strokeWidth="2" fill="none" />
           </svg>
-          <span className="text-white text-[11px] font-semibold">Culture Amp</span>
+          <span className="text-white text-label font-semibold">Culture Amp</span>
         </div>
-        <h1 className="text-white text-[22px] font-bold leading-tight !m-0">Home</h1>
+        <h1 className="text-white text-h3 font-bold leading-tight !m-0">Home</h1>
       </div>
 
       {/* Cards consolidating area */}
@@ -133,13 +133,13 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
               >
                 {card.icon}
               </span>
-              <span className="text-[11px] font-medium text-gray-600">
+              <span className="text-label font-medium text-gray-600">
                 {card.page}
               </span>
             </div>
             {/* Page content */}
             <div className="px-2.5 py-2.5 bg-white">
-              <span className="text-[12px] text-[#2F2438] leading-tight block">
+              <span className="text-caption text-primary leading-tight block">
                 {card.insight}
               </span>
             </div>
@@ -150,7 +150,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
       {/* Progress indicator */}
       <div className="px-5 pb-5">
         <motion.div
-          className="flex items-center justify-center gap-2 py-3 text-[15px] text-gray-500"
+          className="flex items-center justify-center gap-2 py-3 text-body-sm text-gray-500"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}

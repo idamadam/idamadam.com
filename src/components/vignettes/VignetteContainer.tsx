@@ -10,6 +10,7 @@ interface VignetteContainerProps {
   children: ReactNode;
   id: string;
   allowOverflow?: boolean;
+  className?: string;
 }
 
 export default function VignetteContainer({
@@ -17,25 +18,26 @@ export default function VignetteContainer({
   subtitle,
   children,
   id,
-  allowOverflow = false
+  allowOverflow = false,
+  className = ''
 }: VignetteContainerProps) {
   return (
     <motion.article
       id={id}
       className={`w-full bg-white rounded-2xl border border-gray-200/80 ${
         allowOverflow ? 'overflow-visible' : 'overflow-hidden'
-      }`}
+      } ${className}`}
       {...fadeInUp}
     >
       <div className="p-7 lg:p-10 space-y-10">
         {/* Title Section - Only show if title is provided */}
         {title && (
           <div className="space-y-3">
-            <h2 className="text-[24px] lg:text-[26px] leading-[1.2] tracking-[-0.02em] font-semibold text-[#0f172a]">
+            <h2 className="type-h2">
               {title}
             </h2>
             {subtitle && (
-              <p className="text-[16px] leading-[1.6] text-gray-600 max-w-3xl">
+              <p className="type-body-sm">
                 {subtitle}
               </p>
             )}

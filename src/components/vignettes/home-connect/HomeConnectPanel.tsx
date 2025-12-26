@@ -70,7 +70,7 @@ function GoalDonut({ percentage }: { percentage: number }) {
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-[11px] font-semibold text-[#2F2438]/70">{percentage}%</span>
+        <span className="text-label font-semibold text-primary/70">{percentage}%</span>
       </div>
     </div>
   );
@@ -80,7 +80,7 @@ function GoalDonut({ percentage }: { percentage: number }) {
 function FeedDivider({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-4 py-1">
-      <span className="text-[13px] font-semibold text-[#2F2438]/60 shrink-0">{label}</span>
+      <span className="text-caption font-semibold text-primary/60 shrink-0">{label}</span>
       <div className="flex-1 h-px bg-[#524E56]/10 rounded-full" />
     </div>
   );
@@ -146,12 +146,12 @@ export default function HomeConnectPanel({
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
             <circle cx="10" cy="10" r="8" stroke="white" strokeWidth="2" fill="none" />
           </svg>
-          <span className="text-white text-[11px] font-semibold">Culture Amp</span>
+          <span className="text-white text-label font-semibold">Culture Amp</span>
         </div>
 
         {/* Home title */}
         <motion.h1
-          className="text-white text-[22px] font-bold leading-tight !m-0"
+          className="text-white text-h3 font-bold leading-tight !m-0"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -169,7 +169,7 @@ export default function HomeConnectPanel({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
         >
-          <h2 className="text-[16px] font-bold text-[#2F2438] leading-tight mb-2">Your feed</h2>
+          <h2 className="text-body-sm font-bold text-primary leading-tight mb-2">Your feed</h2>
 
           <FeedDivider label="Upcoming" />
 
@@ -179,13 +179,13 @@ export default function HomeConnectPanel({
             style={getAnchorStyle('feed-card-performance')}
           >
             <div className="space-y-2">
-              <p className="text-[13px] text-[#2F2438]">
+              <p className="text-caption text-primary">
                 <span className="font-semibold">2023 Performance Cycle</span> feedback closes in 3 days
               </p>
               <div className="flex items-center gap-1.5">
                 <ProgressRing progress={80} />
-                <span className="text-[15px] font-bold text-[#2F2438]">4 of 5</span>
-                <span className="text-[12px] text-[#2F2438]/60">reports with completed feedback</span>
+                <span className="text-body-sm font-bold text-primary">4 of 5</span>
+                <span className="text-caption text-primary/60">reports with completed feedback</span>
               </div>
             </div>
           </FeedCard>
@@ -195,12 +195,12 @@ export default function HomeConnectPanel({
             <div className="space-y-2">
               <div className="flex items-center gap-1.5">
                 <Avatar initials="AP" />
-                <span className="text-[13px] font-semibold text-[#2F2438]">Aisha Patel</span>
-                <span className="text-[13px] text-[#2F2438]">1-on-1 today</span>
+                <span className="text-caption font-semibold text-primary">Aisha Patel</span>
+                <span className="text-caption text-primary">1-on-1 today</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <DownArrowIcon />
-                <span className="text-[12px] font-medium text-[#A82433]">Wellbeing has gone down since last 1-on-1</span>
+                <span className="text-caption font-medium text-[#A82433]">Wellbeing has gone down since last 1-on-1</span>
               </div>
             </div>
           </FeedCard>
@@ -217,10 +217,10 @@ export default function HomeConnectPanel({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 mb-1">
                   <Avatar initials="MW" size={16} />
-                  <span className="text-[13px] font-semibold text-[#2F2438]">Malik Williams</span>
-                  <span className="text-[12px] text-[#2F2438]/60">has an inactive goal</span>
+                  <span className="text-caption font-semibold text-primary">Malik Williams</span>
+                  <span className="text-caption text-primary/60">has an inactive goal</span>
                 </div>
-                <p className="text-[12px] text-[#2F2438]">Learn how to handle multiple priorities</p>
+                <p className="text-caption text-primary">Learn how to handle multiple priorities</p>
               </div>
             </div>
           </FeedCard>

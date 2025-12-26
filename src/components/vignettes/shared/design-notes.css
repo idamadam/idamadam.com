@@ -120,7 +120,7 @@
   border-radius: 50%;
   background: var(--accent, #ef4444);
   color: white;
-  font-size: 12px;
+  font-size: 0.8125rem; /* caption size */
   font-weight: 600;
   display: flex;
   align-items: center;

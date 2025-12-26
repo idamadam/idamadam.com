@@ -48,11 +48,11 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
     <div className="w-full space-y-5">
       {/* Source question */}
       <div className="space-y-2">
-        <label className="text-[14px] font-semibold text-[#2f2438]">
+        <label className="text-body-sm font-semibold text-primary">
           {transitionContent.sourceLabel}
         </label>
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-          <p className="text-[15px] text-gray-700">
+          <p className="text-body-sm text-gray-700">
             {transitionContent.sourceQuestion}
           </p>
         </div>
@@ -66,7 +66,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
             className="flex items-start gap-4 p-3 bg-white border border-gray-200 rounded-lg"
           >
             <div className="flex-shrink-0 w-20">
-              <span className="text-[13px] font-medium text-gray-600">
+              <span className="text-caption font-medium text-gray-600">
                 {lang.name}
               </span>
             </div>
@@ -78,7 +78,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: reducedMotion ? 0.15 : 0.4, ease: 'easeOut' }}
-                    className="text-[14px] text-gray-800"
+                    className="text-body-sm text-gray-800"
                     style={{ direction: lang.code === 'dv' ? 'rtl' : 'ltr' }}
                   >
                     {lang.translation}
@@ -93,7 +93,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
                     transition={{ duration: 0.2 }}
                   />
                 ) : (
-                  <span className="text-[14px] text-gray-400 italic">
+                  <span className="text-body-sm text-gray-400 italic">
                     Translation will appear here
                   </span>
                 )}
@@ -112,13 +112,13 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white font-medium text-[15px]"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white font-medium text-body-sm"
             style={{ backgroundColor: '#0168b3' }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
             {transitionContent.continueLabel}
-            <span className="material-icons-outlined text-[18px]">arrow_forward</span>
+            <span className="material-icons-outlined text-body">arrow_forward</span>
           </motion.button>
         ) : (
           <motion.button
@@ -127,7 +127,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
             disabled={state === 'translating'}
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white font-medium text-[15px] disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white font-medium text-body-sm disabled:opacity-70 disabled:cursor-not-allowed"
             style={{ backgroundColor: '#0168b3' }}
             whileHover={state === 'ready' ? { scale: 1.02 } : undefined}
             whileTap={state === 'ready' ? { scale: 0.98 } : undefined}
@@ -142,7 +142,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
               </>
             ) : (
               <>
-                <span className="material-icons-outlined text-[18px]">bolt</span>
+                <span className="material-icons-outlined text-body">bolt</span>
                 {transitionContent.ctaLabel}
               </>
             )}

@@ -59,11 +59,11 @@ function VignetteStagedInner({
             {/* Iterations header */}
             {currentStageContent?.title && (
               <div className="space-y-3">
-                <h3 className="text-[26px] lg:text-[28px] leading-[1.15] tracking-[-0.02em] font-semibold text-[#0f172a] font-[family-name:var(--font-ibm-plex-sans)]">
+                <h3 className="type-h2">
                   {currentStageContent.title}
                 </h3>
                 {currentStageContent.description && (
-                  <p className="text-[18px] leading-[1.6] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-xl">
+                  <p className="type-body">
                     {currentStageContent.description}
                   </p>
                 )}
@@ -75,11 +75,11 @@ function VignetteStagedInner({
             {/* Reset button */}
             <motion.button
               onClick={reset}
-              className="flex items-center gap-2 text-[16px] text-[#4b5563] hover:text-[#0f172a] transition-colors font-[family-name:var(--font-ibm-plex-sans)]"
+              className="flex items-center gap-2 type-body-sm hover:text-primary transition-colors"
               whileHover={{ x: -4 }}
               transition={{ duration: 0.2 }}
             >
-              <span className="material-icons-outlined text-[20px]">replay</span>
+              <span className="material-icons-outlined text-h3">replay</span>
               Watch again
             </motion.button>
           </motion.div>
@@ -107,12 +107,12 @@ function VignetteStagedInner({
                 >
                   <button
                     onClick={goToDesignNotes}
-                    className="flex items-center gap-2 text-[16px] text-[#4b5563] hover:text-[#0f172a] transition-colors font-[family-name:var(--font-ibm-plex-sans)] group"
+                    className="flex items-center gap-2 type-body-sm hover:text-primary transition-colors group"
                   >
-                    <span className="material-icons-outlined text-[20px]">auto_awesome</span>
+                    <span className="material-icons-outlined text-h3">auto_awesome</span>
                     <span>{stages.solution.cta}</span>
                     <motion.span
-                      className="material-icons-outlined text-[18px]"
+                      className="material-icons-outlined text-body"
                       initial={{ x: 0 }}
                       whileHover={{ x: 4 }}
                       transition={{ duration: 0.2 }}

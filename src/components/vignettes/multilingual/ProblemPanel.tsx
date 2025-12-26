@@ -38,10 +38,10 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
           <div className="flex items-center gap-3">
             <div className="w-5 h-5 rounded border-2 border-gray-300 flex-shrink-0" />
             <div>
-              <div className="text-[15px] font-medium text-gray-800">
+              <div className="text-body-sm font-medium text-gray-800">
                 Run Q1 Performance Cycle
               </div>
-              <div className="text-[12px] text-gray-400">
+              <div className="text-caption text-gray-400">
                 Admin task
               </div>
             </div>
@@ -66,7 +66,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
               className="border-t border-gray-100 bg-gray-50"
             >
               <div className="p-3 space-y-2">
-                <div className="text-[11px] text-gray-400 uppercase tracking-wide px-1 mb-2">
+                <div className="text-label text-gray-400 uppercase tracking-wide px-1 mb-2">
                   Requires separate cycle for each language
                 </div>
                 {problemCards.map((card, index) => (
@@ -78,7 +78,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
                     transition={{ duration: 0.25, delay: index * 0.1 }}
                   >
                     <div className="w-4 h-4 rounded border-2 border-gray-300 flex-shrink-0" />
-                    <span className="text-[14px] text-gray-700">
+                    <span className="text-body-sm text-gray-700">
                       {card.name} cycle
                     </span>
                   </motion.div>
@@ -93,7 +93,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
       <AnimatePresence>
         {stage >= 2 && (
           <motion.div
-            className="text-[13px] text-gray-400 mt-4 mb-5"
+            className="text-caption text-gray-400 mt-4 mb-5"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
@@ -108,16 +108,28 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         {stage >= 3 && (
           <motion.button
             onClick={onTransition}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white font-medium text-[15px]"
-            style={{ backgroundColor: '#0168b3' }}
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full font-semibold text-body-sm"
+            style={{ backgroundColor: 'var(--accent-interactive-bg)' }}
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            whileHover={{ scale: 1.02 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              boxShadow: [
+                '0 0 0 0 rgba(154, 54, 178, 0)',
+                '0 0 0 6px rgba(154, 54, 178, 0.12)',
+                '0 0 0 0 rgba(154, 54, 178, 0)'
+              ]
+            }}
+            transition={{
+              opacity: { duration: 0.3 },
+              y: { duration: 0.3 },
+              boxShadow: { delay: 0.5, duration: 2.5, repeat: Infinity, ease: 'easeInOut' }
+            }}
+            whileHover={{ scale: 1.02, backgroundColor: 'var(--accent-interactive-bg-hover)' }}
             whileTap={{ scale: 0.98 }}
           >
-            See the solution
-            <span className="material-icons-outlined text-[18px]">arrow_forward</span>
+            <span className="material-icons-outlined text-h3" style={{ color: 'var(--accent-interactive)' }}>auto_awesome</span>
+            <span style={{ color: 'var(--accent-interactive)' }}>See the solution</span>
           </motion.button>
         )}
       </AnimatePresence>
