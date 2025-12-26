@@ -8,7 +8,7 @@ import HeroVignette from '@/components/vignettes/hero/HeroVignette';
 import SectionHeader from '@/components/SectionHeader';
 export default function Home() {
   return (
-    <main className="w-full min-h-screen text-primary bg-background">
+    <main className="w-full min-h-screen text-primary">
       <div>
         {/* Hero Section */}
         <HeroVignette />
