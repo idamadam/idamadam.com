@@ -34,7 +34,7 @@ export default function HeroShaderPanel() {
           height={dimensions.height || 300}
           colorBack="#f5f5f5"
           colorFront="#e8e8e8"
-          shape="diamond"
+          shape="dots"
           type="2x2"
           size={2}
           speed={0.25}
