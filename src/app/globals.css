@@ -82,6 +82,11 @@
   --text-display--letter-spacing: -0.04em;
   --text-display--font-weight: 700;
 
+  --text-h1: clamp(2.25rem, 5vw, 2.75rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h1--font-weight: 700;
+
   --text-h2: 1.625rem;
   --text-h2--line-height: 1.15;
   --text-h2--letter-spacing: -0.02em;
@@ -133,6 +138,11 @@
   color: var(--primary);
 }
 
+.type-h1 {
+  @apply text-h1 font-bold;
+  color: var(--primary);
+}
+
 .type-h2 {
   @apply text-h2 font-semibold;
   color: var(--primary);
@@ -145,6 +155,11 @@
 
 .type-body {
   @apply text-body;
+  color: var(--secondary);
+}
+
+.type-body-medium {
+  @apply text-body font-medium;
   color: var(--secondary);
 }
 

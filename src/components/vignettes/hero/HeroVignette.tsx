@@ -17,6 +17,7 @@ export default function HeroVignette() {
             <VignetteSplit
               title={heroContent.name}
               description={`${heroContent.role}. ${heroContent.tagline}`}
+              variant="hero"
             >
               <div className="space-y-4">
                 <HeroShaderPanel />
