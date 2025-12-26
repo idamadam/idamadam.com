@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import HeroPanel from './HeroPanel';
 import HeroShaderPanel from './HeroShaderPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
@@ -19,10 +18,7 @@ export default function HeroVignette() {
               description={`${heroContent.role}. ${heroContent.tagline}`}
               variant="hero"
             >
-              <div className="space-y-4">
-                <HeroShaderPanel />
-                <HeroPanel />
-              </div>
+              <HeroShaderPanel />
             </VignetteSplit>
           </motion.div>
         </VignetteContainer>
