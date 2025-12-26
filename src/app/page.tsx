@@ -14,11 +14,13 @@ export default function Home() {
       <HeroVignette />
 
       {/* Vignettes Introduction */}
-      <SectionHeader title="Selected Work">
-        <p className="type-body">
-          Product design at Culture Amp
-        </p>
-      </SectionHeader>
+      <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12">
+        <div className="max-w-5xl mx-auto border-t border-gray-200/80 pt-10 lg:pt-12">
+          <h2 className="type-h2">
+            Selected work from Culture Amp
+          </h2>
+        </div>
+      </section>
 
       {/* Vignettes Section */}
       <section className="w-full pb-16 lg:pb-24 px-6 lg:px-12">
