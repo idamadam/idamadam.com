@@ -69,10 +69,10 @@ function LoadingPanel() {
         <div className="suggestions-loading-border"></div>
         <div className="suggestions-loading-content px-6 py-8">
           <div className="flex items-center gap-2">
-            <span className="material-icons-outlined text-[20px] text-[#2f2438]">
+            <span className="material-icons-outlined text-h3 text-primary">
               auto_awesome
             </span>
-            <span className="text-lg font-semibold text-[#2f2438]">
+            <span className="text-lg font-semibold text-primary">
               Looking for ways to improve...
             </span>
           </div>
@@ -111,14 +111,14 @@ function RecommendationsPanel({
           data-anchor="recommendations-header"
         >
           <div className="flex items-start gap-2">
-            <span className="material-icons-outlined text-[20px] text-[#2f2438] mt-0.5">
+            <span className="material-icons-outlined text-h3 text-primary mt-0.5">
               auto_awesome
             </span>
             <div className="flex flex-col">
-              <span className="text-lg font-semibold text-[#2f2438] leading-6">
+              <span className="text-lg font-semibold text-primary leading-6">
                 {content.recommendations.length} suggested improvements
               </span>
-              <span className="text-sm font-normal text-[#524e56] leading-5">
+              <span className="text-sm font-normal text-secondary leading-5">
                 based on Culture Amp People Science
               </span>
             </div>
@@ -129,7 +129,7 @@ function RecommendationsPanel({
         <div className="space-y-4">
           {content.recommendations.map((rec, index) => (
             <div key={index}>
-              <p className="text-base leading-6 text-[#2f2438]">
+              <p className="text-base leading-6 text-primary">
                 <span className="font-semibold">{rec.title}</span>
                 <span className="font-normal"> {rec.description}</span>
               </p>
@@ -147,19 +147,19 @@ function RecommendationsPanel({
           data-anchor="feedback-footer"
         >
           <div className="flex items-center gap-4">
-            <span className="text-sm text-[#524e56]">Is this helpful?</span>
+            <span className="text-sm text-secondary">Is this helpful?</span>
             <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
-              <span className="material-icons-outlined text-[16px] text-[#2f2438]">
+              <span className="material-icons-outlined text-body-sm text-primary">
                 thumb_up
               </span>
             </button>
             <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
-              <span className="material-icons-outlined text-[16px] text-[#2f2438]">
+              <span className="material-icons-outlined text-body-sm text-primary">
                 thumb_down
               </span>
             </button>
           </div>
-          <span className="text-sm text-[#524e56]">
+          <span className="text-sm text-secondary">
             Review AI-generated suggestions for accuracy
           </span>
         </div>

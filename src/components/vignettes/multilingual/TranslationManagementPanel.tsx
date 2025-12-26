@@ -64,14 +64,14 @@ export default function TranslationManagementPanel({
           style={getAnchorStyle('language-dropdown')}
           data-anchor="language-dropdown"
         >
-          <label className="text-[14px] font-semibold leading-[24px] text-[#2f2438]">
+          <label className="text-body-sm font-semibold text-primary">
             Translated language
           </label>
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="bg-white border-2 border-[#878792] rounded-[6px] h-[36px] px-[10px] py-[6px] flex items-center justify-between gap-2 hover:border-[#0168b3] transition-colors"
+            className="bg-white border-2 border-[#878792] rounded-[6px] h-9 px-sm py-xs flex items-center justify-between gap-2 hover:border-[#0168b3] transition-colors"
           >
-            <span className="text-[14px] leading-[20px] text-[#2f2438] whitespace-nowrap">
+            <span className="text-body-sm text-primary whitespace-nowrap">
               {content.languages[selectedLanguage].name}
             </span>
             <svg className="w-4 h-4 text-[#2f2438] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -99,7 +99,7 @@ export default function TranslationManagementPanel({
                         setTranslationState('idle');
                       }
                     }}
-                    className={`w-full px-[10px] py-[8px] text-left text-[14px] leading-[20px] text-[#2f2438] hover:bg-gray-50 transition-colors whitespace-nowrap ${
+                    className={`w-full px-sm py-sm text-left text-body-sm text-primary hover:bg-gray-50 transition-colors whitespace-nowrap ${
                       index === selectedLanguage ? 'bg-gray-100 font-semibold' : ''
                     } ${index === 0 ? 'rounded-t-[4px]' : ''} ${index === content.languages.length - 1 ? 'rounded-b-[4px]' : ''}`}
                   >
@@ -118,7 +118,7 @@ export default function TranslationManagementPanel({
             style={getAnchorStyle('auto-translate-btn')}
             data-anchor="auto-translate-btn"
             {...subtlePulse}
-            className="bg-[#0168b3] hover:bg-[#015a99] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-[14px] leading-[20px] h-[36px] px-[14px] py-[8px] rounded-[6px] flex items-center gap-1.5 transition-colors"
+            className="bg-[#0168b3] hover:bg-[#015a99] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-body-sm h-9 px-md py-sm rounded-[6px] flex items-center gap-1.5 transition-colors"
           >
             {translationState === 'translating' ? (
               <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
@@ -132,7 +132,7 @@ export default function TranslationManagementPanel({
             )}
             Auto translate
           </motion.button>
-          <button className="text-[#0168b3] hover:bg-gray-50 font-medium text-[14px] leading-[20px] h-[36px] px-[10px] py-[8px] rounded-[6px] flex items-center gap-1.5 transition-colors">
+          <button className="text-[#0168b3] hover:bg-gray-50 font-medium text-body-sm h-9 px-sm py-sm rounded-[6px] flex items-center gap-1.5 transition-colors">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
@@ -144,7 +144,7 @@ export default function TranslationManagementPanel({
       <div className="space-y-6">
         {content.translationFields.map((field) => (
           <div key={field.id} className="space-y-3">
-            <label className="text-sm font-semibold text-[#2f2438]">
+            <label className="text-sm font-semibold text-primary">
               {field.label}
             </label>
 
@@ -183,10 +183,10 @@ export default function TranslationManagementPanel({
               style={getAnchorStyle('source-text')}
               data-anchor="source-text"
             >
-              <span className="inline-flex items-center px-3 py-1 bg-[#eaeaec] rounded-full text-xs text-[#2f2438]">
+              <span className="inline-flex items-center px-3 py-1 bg-[#eaeaec] rounded-full text-xs text-primary">
                 English (English US)
               </span>
-              <p className="text-sm text-[#6b7280]">
+              <p className="text-sm text-secondary">
                 {field.sourceText}
               </p>
             </div>

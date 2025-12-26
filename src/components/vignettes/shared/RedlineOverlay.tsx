@@ -96,10 +96,10 @@ export default function RedlineOverlay({
                           : '0 12px 40px rgba(248, 113, 113, 0.15)',
                       }}
                     >
-                      <p className="text-[13px] font-semibold leading-[1.3]" style={{ color: accent }}>
+                      <p className="text-caption font-semibold leading-snug" style={{ color: accent }}>
                         {note.label}
                       </p>
-                      <p className="text-[13px] leading-[1.5] mt-1 text-[#475569]">
+                      <p className="text-caption leading-normal mt-1 text-secondary">
                         {note.detail}
                       </p>
                     </motion.div>

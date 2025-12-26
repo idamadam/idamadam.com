@@ -7,33 +7,33 @@ Replace 80+ hardcoded typography values and 24+ hardcoded spacing values with a 
 ## Progress Tracking
 
 ### Phase 1: Foundation (must complete first)
-- [ ] **TASK-01**: Update `globals.css` with tokens and composed classes
+- [x] **TASK-01**: Update `globals.css` with tokens and composed classes
 
 ### Phase 2: Component Migrations (parallelizable after Phase 1)
-- [ ] **TASK-02**: `src/app/page.tsx`
-- [ ] **TASK-03**: `src/components/SectionHeader.tsx`
-- [ ] **TASK-04**: `src/components/vignettes/VignetteSplit.tsx`
-- [ ] **TASK-05**: `src/components/vignettes/VignetteStaged.tsx`
-- [ ] **TASK-06**: `src/components/vignettes/VignetteContainer.tsx`
-- [ ] **TASK-07**: `src/components/vignettes/ai-highlights/HighlightsPanel.tsx`
-- [ ] **TASK-08**: `src/components/vignettes/ai-suggestions/SuggestionsPanel.tsx`
-- [ ] **TASK-09**: `src/components/vignettes/home-connect/HomeConnectPanel.tsx`
-- [ ] **TASK-10**: `src/components/vignettes/home-connect/ProblemPanel.tsx`
-- [ ] **TASK-11**: `src/components/vignettes/home-connect/TransitionPanel.tsx`
-- [ ] **TASK-12**: `src/components/vignettes/multilingual/ProblemPanel.tsx`
-- [ ] **TASK-13**: `src/components/vignettes/multilingual/TransitionPanel.tsx`
-- [ ] **TASK-14**: `src/components/vignettes/multilingual/TranslationManagementPanel.tsx`
-- [ ] **TASK-15**: `src/components/vignettes/prototyping/SandboxPanel.tsx`
-- [ ] **TASK-16**: `src/components/vignettes/vibe-coding/VibeCodingVignette.tsx`
-- [ ] **TASK-17**: `src/components/vignettes/shared/DesignNotesButton.tsx`
-- [ ] **TASK-18**: `src/components/vignettes/shared/RedlineOverlay.tsx`
-- [ ] **TASK-19**: `src/components/vignettes/shared/StageIndicator.tsx`
-- [ ] **TASK-20**: `src/components/demos/RichTextEditor.tsx`
+- [x] **TASK-02**: `src/app/page.tsx`
+- [x] **TASK-03**: `src/components/SectionHeader.tsx`
+- [x] **TASK-04**: `src/components/vignettes/VignetteSplit.tsx`
+- [x] **TASK-05**: `src/components/vignettes/VignetteStaged.tsx`
+- [x] **TASK-06**: `src/components/vignettes/VignetteContainer.tsx`
+- [x] **TASK-07**: `src/components/vignettes/ai-highlights/HighlightsPanel.tsx`
+- [x] **TASK-08**: `src/components/vignettes/ai-suggestions/SuggestionsPanel.tsx`
+- [x] **TASK-09**: `src/components/vignettes/home-connect/HomeConnectPanel.tsx`
+- [x] **TASK-10**: `src/components/vignettes/home-connect/ProblemPanel.tsx`
+- [x] **TASK-11**: `src/components/vignettes/home-connect/TransitionPanel.tsx`
+- [x] **TASK-12**: `src/components/vignettes/multilingual/ProblemPanel.tsx`
+- [x] **TASK-13**: `src/components/vignettes/multilingual/TransitionPanel.tsx`
+- [x] **TASK-14**: `src/components/vignettes/multilingual/TranslationManagementPanel.tsx`
+- [x] **TASK-15**: `src/components/vignettes/prototyping/SandboxPanel.tsx`
+- [x] **TASK-16**: `src/components/vignettes/vibe-coding/VibeCodingVignette.tsx`
+- [x] **TASK-17**: `src/components/vignettes/shared/DesignNotesButton.tsx`
+- [x] **TASK-18**: `src/components/vignettes/shared/RedlineOverlay.tsx`
+- [x] **TASK-19**: `src/components/vignettes/shared/StageIndicator.tsx`
+- [x] **TASK-20**: `src/components/demos/RichTextEditor.tsx`
 
 ### Phase 3: Cleanup (after all Phase 2 tasks)
-- [ ] **TASK-21**: Remove old CSS variables from `globals.css`
-- [ ] **TASK-22**: Update `design-notes.css`
-- [ ] **TASK-23**: Final verification
+- [x] **TASK-21**: Remove old CSS variables from `globals.css`
+- [x] **TASK-22**: Update `design-notes.css`
+- [x] **TASK-23**: Final verification
 
 ---
 

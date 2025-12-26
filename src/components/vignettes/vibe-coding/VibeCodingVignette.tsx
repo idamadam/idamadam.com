@@ -26,7 +26,7 @@ export default function VibeCodingVignette() {
                 href="https://studio.up.railway.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#1a1d23] text-white hover:bg-[#2a2d33] transition-colors font-medium rounded-lg text-[15px] leading-[1.4]"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#1a1d23] text-white hover:bg-[#2a2d33] transition-colors font-medium rounded-lg text-body-sm"
               >
                 Join the waitlist
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

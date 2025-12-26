@@ -77,13 +77,13 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
               >
                 {item.icon}
               </span>
-              <span className="text-[11px] font-medium text-gray-600">
+              <span className="text-label font-medium text-gray-600">
                 {item.page}
               </span>
             </div>
             {/* Page content */}
             <div className="px-2.5 py-2.5 bg-white">
-              <span className="text-[12px] text-[#2F2438] leading-tight block">{item.insight}</span>
+              <span className="text-caption text-primary leading-tight block">{item.insight}</span>
             </div>
           </motion.div>
         ))}
@@ -92,7 +92,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
       {/* CTA */}
       <motion.button
         onClick={onTransition}
-        className="w-full py-3 px-4 rounded-xl text-white font-medium text-[15px] flex items-center justify-center gap-2"
+        className="w-full py-3 px-4 rounded-xl text-white font-medium text-body-sm flex items-center justify-center gap-2"
         style={{ backgroundColor: '#5F3361' }}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -101,7 +101,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         whileTap={{ scale: 0.98 }}
       >
         What if it was all in one place?
-        <span className="material-icons-outlined text-[18px]">arrow_forward</span>
+        <span className="material-icons-outlined text-body">arrow_forward</span>
       </motion.button>
     </div>
   );

@@ -44,29 +44,29 @@ function SourceCard({ name, date, context, feedback, avatarUrl }: SourceCardProp
           alt={name}
           className="w-6 h-6 rounded-full"
         />
-        <span className="text-[14px] leading-[18px] font-semibold text-[#2f2438]">
+        <span className="text-body-sm font-semibold text-primary">
           {name}
         </span>
-        <span className="text-[12px] leading-[16px] text-[#524e56]">
+        <span className="text-caption text-secondary">
           {date}
         </span>
-        <span className="text-[12px] leading-[16px] text-[#524e56]">
+        <span className="text-caption text-secondary">
           •
         </span>
-        <span className="text-[12px] leading-[16px] text-[#524e56]">
+        <span className="text-caption text-secondary">
           {context}
         </span>
       </div>
-      <p className="text-[14px] leading-[20px] text-[#2f2438] mb-3">
+      <p className="text-body-sm text-primary mb-3">
         {feedback}
       </p>
       <div className="flex items-center justify-between">
-        <span className="text-[12px] leading-[16px] text-[#524e56]">
+        <span className="text-caption text-secondary">
           Not shared with Idam Adam
         </span>
-        <a href="#" className="text-[14px] leading-[18px] text-[#2f2438] hover:underline inline-flex items-center gap-1">
+        <a href="#" className="text-body-sm text-primary hover:underline inline-flex items-center gap-1">
           View feedback
-          <span className="material-icons-outlined text-[16px]">arrow_forward</span>
+          <span className="material-icons-outlined text-body-sm">arrow_forward</span>
         </a>
       </div>
     </div>
@@ -150,7 +150,7 @@ function LoadingState() {
         <div className="loading-panel-content">
           {/* Header Section */}
           <div className="border-b-2 border-[#eaeaec] px-6 py-8">
-            <p className="text-[16px] leading-[24px] font-semibold text-black mb-3">
+            <p className="text-body-sm font-semibold text-black mb-3">
               Loading highlights and opportunities
             </p>
             <div className="space-y-3">
@@ -196,10 +196,10 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
       {/* Header with count */}
       <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200 px-5 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="material-icons-outlined text-[18px] text-gray-700 leading-none">
+          <span className="material-icons-outlined text-body text-gray-700 leading-none">
             inbox
           </span>
-          <div className="text-[15px] font-semibold text-gray-900 leading-none">
+          <div className="text-body-sm font-semibold text-gray-900 leading-none">
             Feedback about Idam
           </div>
         </div>
@@ -227,12 +227,12 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
                   className="w-6 h-6 rounded-full"
                 />
                 {card.from && (
-                  <span className="text-[14px] leading-[18px] font-semibold text-[#2f2438]">
+                  <span className="text-body-sm font-semibold text-primary">
                     {card.from}
                   </span>
                 )}
               </div>
-              <p className="text-[14px] leading-[20px] text-[#2f2438]">
+              <p className="text-body-sm text-primary">
                 {card.content}
               </p>
             </motion.div>
@@ -266,7 +266,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
         >
-          <span className="material-icons-outlined text-[20px] text-[#9A36B2]">auto_awesome</span>
+          <span className="material-icons-outlined text-h3 text-[#9A36B2]">auto_awesome</span>
           <span className="text-[#9A36B2]">Show Highlights and Opportunities</span>
         </motion.button>
       </div>
@@ -302,15 +302,15 @@ function SolutionState({ className = '', redlineModeActive = false, focusedAncho
             className="w-12 h-12 rounded-full shadow-sm"
           />
           <div>
-            <p className="text-[20px] leading-[30px] font-normal text-[#2f2438]" style={{ marginBottom: '0px' }}>
+            <p className="text-h3 font-normal text-primary" style={{ marginBottom: '0px' }}>
               Idam Adam
             </p>
-            <p className="text-[16px] leading-[24px] text-[#2f2438] mb-0">
+            <p className="text-body-sm text-primary mb-0">
               Lead Product Designer
             </p>
           </div>
         </div>
-        <p className="text-[16px] leading-[24px] text-[#2f2438] mt-0">
+        <p className="text-body-sm text-primary mt-0">
           Idam designed 2 tools to help reduce the burden of the Performance Review Period.
           Highlights & Opportunities helps managers quickly understand what their direct reports
           did & verify AI output using direct quotes from feedback.
@@ -327,14 +327,14 @@ function SolutionState({ className = '', redlineModeActive = false, focusedAncho
           <div className="flex items-start gap-2">
             <div className="flex-1">
               <div className="flex items-center gap-1 mb-2">
-                <span className="material-icons-outlined text-[20px] text-[#22594A]">
+                <span className="material-icons-outlined text-h3 text-[#22594A]">
                   star_outline
                 </span>
-                <span className="text-[16px] leading-[24px] font-semibold text-[#2f2438]">
+                <span className="text-body-sm font-semibold text-primary">
                   Highlight
                 </span>
               </div>
-              <p className="text-[16px] leading-[24px] text-[#2f2438]">
+              <p className="text-body-sm text-primary">
                 Developed a process to get early feedback about model output during user testing.
               </p>
             </div>
@@ -353,7 +353,7 @@ function SolutionState({ className = '', redlineModeActive = false, focusedAncho
                     className="w-5 h-5 rounded-full border-2 border-white"
                   />
                 </div>
-                <span className="text-[14px] leading-[18px] text-[#524e56]">
+                <span className="text-body-sm text-secondary">
                   2 sources
                 </span>
               </div>
@@ -365,7 +365,7 @@ function SolutionState({ className = '', redlineModeActive = false, focusedAncho
                 <motion.span
                   animate={{ rotate: highlightExpanded ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
-                  className="material-icons-outlined text-[20px] text-[#2f2438] block"
+                  className="material-icons-outlined text-h3 text-primary block"
                 >
                   keyboard_arrow_down
                 </motion.span>
@@ -414,14 +414,14 @@ function SolutionState({ className = '', redlineModeActive = false, focusedAncho
           <div className="flex items-start gap-2">
             <div className="flex-1">
               <div className="flex items-center gap-1 mb-2">
-                <span className="material-icons-outlined text-[20px]" style={{ color: 'rgba(135, 100, 0, 1)' }}>
+                <span className="material-icons-outlined text-h3" style={{ color: 'rgba(135, 100, 0, 1)' }}>
                   lightbulb
                 </span>
-                <span className="text-[16px] leading-[24px] font-semibold text-[#2f2438]">
+                <span className="text-body-sm font-semibold text-primary">
                   Opportunity
                 </span>
               </div>
-              <p className="text-[16px] leading-[24px] text-[#2f2438]">
+              <p className="text-body-sm text-primary">
                 Developed a process to get early feedback about model output during user testing.
               </p>
             </div>
@@ -440,7 +440,7 @@ function SolutionState({ className = '', redlineModeActive = false, focusedAncho
                     className="w-5 h-5 rounded-full border-2 border-white"
                   />
                 </div>
-                <span className="text-[14px] leading-[18px] text-[#524e56]">
+                <span className="text-body-sm text-secondary">
                   2 sources
                 </span>
               </div>
@@ -452,7 +452,7 @@ function SolutionState({ className = '', redlineModeActive = false, focusedAncho
                 <motion.span
                   animate={{ rotate: opportunityExpanded ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
-                  className="material-icons-outlined text-[20px] text-[#2f2438] block"
+                  className="material-icons-outlined text-h3 text-primary block"
                 >
                   keyboard_arrow_down
                 </motion.span>
@@ -497,14 +497,14 @@ function SolutionState({ className = '', redlineModeActive = false, focusedAncho
         style={getAnchorStyle('feedback-footer')}
         data-anchor="feedback-footer"
       >
-        <span className="text-[14px] leading-[18px] text-[#524e56]">
+        <span className="text-body-sm text-secondary">
           Is this helpful?
         </span>
         <button
           className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
           aria-label="Thumbs up"
         >
-          <span className="material-icons-outlined text-[24px] text-[#2f2438]">
+          <span className="material-icons-outlined text-h2 text-primary">
             thumb_up
           </span>
         </button>
@@ -512,7 +512,7 @@ function SolutionState({ className = '', redlineModeActive = false, focusedAncho
           className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
           aria-label="Thumbs down"
         >
-          <span className="material-icons-outlined text-[24px] text-[#2f2438]">
+          <span className="material-icons-outlined text-h2 text-primary">
             thumb_down
           </span>
         </button>

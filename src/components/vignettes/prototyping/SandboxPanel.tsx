@@ -36,7 +36,7 @@ function ProblemState({
           return (
             <motion.div
               key={q.id}
-              className="absolute bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 text-[15px] text-gray-600 font-medium"
+              className="absolute bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 text-body-sm text-gray-600 font-medium"
               style={{
                 ...pos,
                 transform: `rotate(${pos.rotate}deg)`,
@@ -62,7 +62,7 @@ function ProblemState({
       {/* CTA */}
       <motion.button
         onClick={onTransition}
-        className="mt-6 flex items-center justify-center gap-2 bg-[rgba(154,54,178,0.08)] hover:bg-[rgba(154,54,178,0.14)] px-5 py-3 rounded-full text-[14px] font-semibold transition-colors"
+        className="mt-6 flex items-center justify-center gap-2 bg-[rgba(154,54,178,0.08)] hover:bg-[rgba(154,54,178,0.14)] px-5 py-3 rounded-full text-body-sm font-semibold transition-colors"
         initial={{ opacity: 0, y: 10 }}
         animate={{
           opacity: 1,
@@ -81,7 +81,7 @@ function ProblemState({
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
-        <span className="material-icons-outlined text-[20px] text-[#9A36B2]">auto_awesome</span>
+        <span className="material-icons-outlined text-h3 text-[#9A36B2]">auto_awesome</span>
         <span className="text-[#9A36B2]">See how I enabled this</span>
       </motion.button>
     </div>
@@ -105,7 +105,7 @@ function LoadingState() {
           <div className="w-3 h-3 rounded-full bg-yellow-500" />
           <div className="w-3 h-3 rounded-full bg-green-500" />
         </div>
-        <span className="text-[12px] text-gray-400 font-mono ml-2">Building sandbox infrastructure</span>
+        <span className="text-caption text-gray-400 font-mono ml-2">Building sandbox infrastructure</span>
       </div>
 
       {/* Setup steps */}
@@ -119,7 +119,7 @@ function LoadingState() {
             className="space-y-1"
           >
             {/* Command line */}
-            <div className="flex items-center gap-2 font-mono text-[12px]">
+            <div className="flex items-center gap-2 font-mono text-caption">
               <span className="text-gray-500">$</span>
               <span className="text-gray-400">{step.command}</span>
             </div>
@@ -135,7 +135,7 @@ function LoadingState() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: step.delay + 0.2, type: 'spring', stiffness: 500 }}
-                  className="text-green-400 text-[14px]"
+                  className="text-green-400 text-body-sm"
                 >
                   ✓
                 </motion.span>
@@ -143,12 +143,12 @@ function LoadingState() {
                 <motion.span
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                  className="text-blue-400 text-[14px]"
+                  className="text-blue-400 text-body-sm"
                 >
                   ⟳
                 </motion.span>
               )}
-              <span className={`text-[13px] ${index < setupSteps.length - 1 ? 'text-gray-500' : 'text-gray-300'}`}>
+              <span className={`text-caption ${index < setupSteps.length - 1 ? 'text-gray-500' : 'text-gray-300'}`}>
                 {step.label}
               </span>
             </motion.div>
@@ -165,12 +165,12 @@ function SolutionState({ content }: { content: PrototypingContent }) {
       {/* Main Sandbox Container */}
       <div className="bg-white border border-black rounded-lg p-4 w-full">
         {/* Header */}
-        <div className="flex items-center justify-between mb-[18px]">
+        <div className="flex items-center justify-between mb-lg">
           <div>
-            <h3 className="text-[16px] font-bold text-black font-[family-name:var(--font-inter)]">
+            <h3 className="text-body-sm font-bold text-black">
               {content.sandboxTitle}
             </h3>
-            <p className="text-[13px] text-gray-500 mt-0.5">
+            <p className="text-caption text-gray-500 mt-0.5">
               {content.adoptionStats.designers} designers • {content.adoptionStats.prototypes}+ prototypes
             </p>
           </div>
@@ -178,7 +178,7 @@ function SolutionState({ content }: { content: PrototypingContent }) {
         </div>
 
         {/* Prototype Grid */}
-        <div className="grid grid-cols-3 gap-[18px]">
+        <div className="grid grid-cols-3 gap-lg">
           {content.prototypes.map((item) => (
             <div
               key={item.id}
@@ -206,13 +206,13 @@ function SolutionState({ content }: { content: PrototypingContent }) {
               <div className="w-3 h-3 rounded-full bg-yellow-500" />
               <div className="w-3 h-3 rounded-full bg-green-500" />
             </div>
-            <span className="text-[12px] text-gray-400 font-mono ml-2">claude-code</span>
+            <span className="text-caption text-gray-400 font-mono ml-2">claude-code</span>
           </div>
-          <span className="text-[10px] text-gray-500 font-mono">~/.../sandbox</span>
+          <span className="text-label text-gray-500 font-mono">~/.../sandbox</span>
         </div>
 
         {/* TUI Content */}
-        <div className="p-4 font-mono text-[13px] leading-relaxed">
+        <div className="p-4 font-mono text-caption leading-relaxed">
           {/* Command prompt */}
           <div className="flex items-start gap-2 mb-3">
             <span className="text-blue-400 select-none">❯</span>

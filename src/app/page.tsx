@@ -9,16 +9,16 @@ import SectionHeader from '@/components/SectionHeader';
 
 export default function Home() {
   return (
-    <main className="w-full min-h-screen bg-white text-[#0f172a]">
+    <main className="w-full min-h-screen bg-white text-primary">
       {/* Hero Section */}
       <section className="w-full py-16 lg:py-24 px-6 lg:px-12">
         <div className="relative max-w-5xl w-full mx-auto">
           <ShaderBackground />
           <div className="space-y-5 lg:space-y-7">
-            <h1 className="text-[clamp(44px,8vw,72px)] leading-[0.95] tracking-[-0.04em] font-bold text-[#0f172a]">
+            <h1 className="type-display">
               Idam Adam
             </h1>
-            <p className="text-[clamp(18px,3vw,22px)] leading-[1.6] text-[#4b5563] max-w-2xl">
+            <p className="type-body">
               Product designer · Maker
             </p>
           </div>
@@ -27,10 +27,10 @@ export default function Home() {
 
       {/* Vignettes Introduction */}
       <SectionHeader title="Selected Work">
-        <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
+        <p className="type-body">
           Product design at Culture Amp
         </p>
-        <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
+        <p className="type-body">
           I&apos;m a big believer in showing rather than telling, so I prototype until ideas feel
           real. Click through and play with each feature—these vignettes are built to be tried, not
           just read about.
@@ -50,7 +50,7 @@ export default function Home() {
 
       {/* Explorations Section Header */}
       <SectionHeader title="Explorations">
-        <p className="text-[18px] leading-[1.7] text-[#4b5563] font-[family-name:var(--font-ibm-plex-sans)] max-w-3xl">
+        <p className="type-body">
           Personal products I design and build end-to-end. These projects help me
           understand technology at a deeper level while exploring entrepreneurial ideas.
         </p>

@@ -9,7 +9,7 @@ interface StageIndicatorProps {
 
 export default function StageIndicator({ stage, onStageChange }: StageIndicatorProps) {
   return (
-    <div className="flex items-center gap-1.5 text-[13px] text-gray-400 select-none">
+    <div className="flex items-center gap-1.5 text-caption text-gray-400 select-none">
       <button
         onClick={() => onStageChange('problem')}
         className={`hover:text-gray-500 transition-colors ${stage === 'problem' ? 'text-gray-600' : ''}`}

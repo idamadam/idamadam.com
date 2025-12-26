@@ -30,13 +30,13 @@ export default function RichTextEditor({
         <div className="bg-white flex items-center gap-1.5 p-1.5">
           {/* Text formatting */}
           <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-[20px] text-[#2f2438]">format_bold</span>
+            <span className="material-icons-outlined text-h3 text-primary">format_bold</span>
           </button>
           <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-[20px] text-[#2f2438]">format_italic</span>
+            <span className="material-icons-outlined text-h3 text-primary">format_italic</span>
           </button>
           <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-[20px] text-[#2f2438]">format_underlined</span>
+            <span className="material-icons-outlined text-h3 text-primary">format_underlined</span>
           </button>
 
           {/* Divider */}
@@ -44,7 +44,7 @@ export default function RichTextEditor({
 
           {/* List button */}
           <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-[20px] text-[#2f2438]">format_list_bulleted</span>
+            <span className="material-icons-outlined text-h3 text-primary">format_list_bulleted</span>
           </button>
 
           {/* Divider */}
@@ -69,7 +69,7 @@ export default function RichTextEditor({
                 ease: 'easeInOut'
               } : undefined}
             >
-              <span className="material-icons-outlined text-[20px] text-[#9A36B2]">auto_awesome</span>
+              <span className="material-icons-outlined text-h3 text-[#9A36B2]">auto_awesome</span>
               <span className="text-sm font-medium text-[#9A36B2]">Improve</span>
             </motion.button>
           )}
@@ -81,11 +81,11 @@ export default function RichTextEditor({
         {/* Content Area */}
         <div className="bg-white p-3.5 min-h-[80px]">
           {content ? (
-            <p className="text-base leading-6 text-[#2f2438] whitespace-pre-wrap">
+            <p className="text-base leading-6 text-primary whitespace-pre-wrap">
               {content}
             </p>
           ) : (
-            <p className="text-base text-[rgba(47,36,56,0.7)]">{placeholder}</p>
+            <p className="text-base text-secondary">{placeholder}</p>
           )}
         </div>
       </div>
