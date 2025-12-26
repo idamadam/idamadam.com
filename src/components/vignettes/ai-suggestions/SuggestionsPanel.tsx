@@ -39,11 +39,11 @@ function LoadingPanel() {
           border-radius: 7px;
           background: conic-gradient(
             from var(--gradient-angle),
-            #A6E5E7,
-            #64D2D7,
-            #9A36B2,
-            #64D2D7,
-            #A6E5E7
+            var(--ai-gradient-1),
+            var(--ai-gradient-2),
+            var(--ai-gradient-3),
+            var(--ai-gradient-2),
+            var(--ai-gradient-1)
           );
           animation: rotateGradient 3s linear infinite;
           filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.5));
@@ -100,7 +100,7 @@ function RecommendationsPanel({
         position: 'relative',
         borderRadius: '7px',
         padding: '2px',
-        background: 'linear-gradient(135deg, #A6E5E7, #64D2D7, #9A36B2)',
+        background: 'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
       }}
     >
       <div className="recommendation-content bg-white rounded-[5px] p-6 space-y-4">
@@ -181,7 +181,7 @@ export default function SuggestionsPanel({
   const { getAnchorStyle } = useAnchorStyle({ redlineModeActive, focusedAnchor });
 
   return (
-    <div className="space-y-2 font-[family-name:var(--font-inter)]">
+    <div className="space-y-2">
       {/* Editor - always visible */}
       <div
         style={isSolution ? getAnchorStyle('improve-button') : undefined}

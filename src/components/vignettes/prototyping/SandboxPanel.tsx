@@ -62,7 +62,8 @@ function ProblemState({
       {/* CTA */}
       <motion.button
         onClick={onTransition}
-        className="mt-6 flex items-center justify-center gap-2 bg-[rgba(154,54,178,0.08)] hover:bg-[rgba(154,54,178,0.14)] px-5 py-3 rounded-full text-body-sm font-semibold transition-colors"
+        className="mt-6 flex items-center justify-center gap-2 px-5 py-3 rounded-full text-body-sm font-semibold transition-colors"
+        style={{ backgroundColor: 'var(--accent-interactive-bg)' }}
         initial={{ opacity: 0, y: 10 }}
         animate={{
           opacity: 1,
@@ -78,11 +79,11 @@ function ProblemState({
           y: { delay: 0.7, duration: 0.3 },
           boxShadow: { delay: 1.2, duration: 2.5, repeat: Infinity, ease: 'easeInOut' }
         }}
-        whileHover={{ scale: 1.02 }}
+        whileHover={{ scale: 1.02, backgroundColor: 'var(--accent-interactive-bg-hover)' }}
         whileTap={{ scale: 0.98 }}
       >
-        <span className="material-icons-outlined text-h3 text-[#9A36B2]">auto_awesome</span>
-        <span className="text-[#9A36B2]">See how I enabled this</span>
+        <span className="material-icons-outlined text-h3" style={{ color: 'var(--accent-interactive)' }}>auto_awesome</span>
+        <span style={{ color: 'var(--accent-interactive)' }}>See how I enabled this</span>
       </motion.button>
     </div>
   );

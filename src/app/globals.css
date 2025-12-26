@@ -1,31 +1,54 @@
 @import "tailwindcss";
 
 :root {
-  /* Colors - Premium designer palette */
-  --background: #fefefe;
-  --foreground: #1a1d23;
-  --muted: #f8f9fa;
-  --muted-foreground: #6b7280;
-  --muted-tertiary: #9ca3af;
-  --border: #e5e7eb;
+  /* Neutral scale (Zinc-based, slightly warm) */
+  --neutral-50: #fafafa;
+  --neutral-100: #f4f4f5;
+  --neutral-200: #e4e4e7;
+  --neutral-300: #d4d4d8;
+  --neutral-400: #a1a1aa;
+  --neutral-500: #71717a;
+  --neutral-600: #52525b;
+  --neutral-700: #3f3f46;
+  --neutral-800: #27272a;
+  --neutral-900: #18181b;
+  --neutral-950: #09090b;
+
+  /* Semantic color mapping */
+  --background: var(--neutral-50);
+  --foreground: var(--neutral-900);
+  --muted: var(--neutral-100);
+  --muted-foreground: var(--neutral-600);
+  --muted-tertiary: var(--neutral-400);
+  --border: var(--neutral-200);
+
+  /* Accent - swap this for personality later */
   --accent: #2563eb;
   --accent-foreground: #ffffff;
+  --accent-interactive: #9A36B2;
+  --accent-interactive-bg: rgba(154, 54, 178, 0.08);
+  --accent-interactive-bg-hover: rgba(154, 54, 178, 0.14);
   --warm-accent: #f59e0b;
-  
-  /* Semantic colors */
-  --primary: #1a1d23;
-  --secondary: #6b7280;
-  --tertiary: #9ca3af;
+
+  /* AI loading gradient */
+  --ai-gradient-1: #A6E5E7;
+  --ai-gradient-2: #64D2D7;
+  --ai-gradient-3: #9A36B2;
+
+  /* Semantic text colors */
+  --primary: var(--neutral-900);
+  --secondary: var(--neutral-600);
+  --tertiary: var(--neutral-400);
+
+  /* Status colors */
   --success: #059669;
   --warning: #f59e0b;
-  
-  /* Note: Spacing, typography, and line-height tokens are now in @theme inline block */
-  
+
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  
+
   /* Border radius */
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
@@ -51,7 +74,7 @@
 
   /* Fonts - switch to Inter */
   --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Typography - font sizes with bundled properties */
   --text-display: clamp(2.75rem, 8vw, 4.5rem);

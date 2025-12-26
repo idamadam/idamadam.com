@@ -1,27 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, IBM_Plex_Sans, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const ibmPlexSans = IBM_Plex_Sans({
-  variable: "--font-ibm-plex-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -52,7 +36,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSans.variable} ${inter.variable} antialiased`}
+        className={`${inter.variable} antialiased`}
       >
         {children}
       </body>

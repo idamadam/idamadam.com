@@ -95,11 +95,11 @@ function LoadingState() {
           border-radius: 7px;
           background: conic-gradient(
             from var(--gradient-angle),
-            #A6E5E7,
-            #64D2D7,
-            #9A36B2,
-            #64D2D7,
-            #A6E5E7
+            var(--ai-gradient-1),
+            var(--ai-gradient-2),
+            var(--ai-gradient-3),
+            var(--ai-gradient-2),
+            var(--ai-gradient-1)
           );
           animation: rotateGradient 3s linear infinite;
           filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.5));
@@ -247,7 +247,8 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
       <div className="border-t-2 border-gray-200 bg-gray-50 px-5 py-4">
         <motion.button
           onClick={onTransition}
-          className="w-full flex items-center justify-center gap-2 bg-[rgba(154,54,178,0.08)] hover:bg-[rgba(154,54,178,0.14)] px-5 py-3 rounded-full text-[14px] font-semibold transition-colors"
+          className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-full text-[14px] font-semibold transition-colors"
+          style={{ backgroundColor: 'var(--accent-interactive-bg)' }}
           initial={{ opacity: 0, y: 10 }}
           animate={{
             opacity: 1,
@@ -263,11 +264,11 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
             y: { delay: 0.5, duration: 0.3 },
             boxShadow: { delay: 1, duration: 2.5, repeat: Infinity, ease: 'easeInOut' }
           }}
-          whileHover={{ scale: 1.01 }}
+          whileHover={{ scale: 1.01, backgroundColor: 'var(--accent-interactive-bg-hover)' }}
           whileTap={{ scale: 0.99 }}
         >
-          <span className="material-icons-outlined text-h3 text-[#9A36B2]">auto_awesome</span>
-          <span className="text-[#9A36B2]">Show Highlights and Opportunities</span>
+          <span className="material-icons-outlined text-h3" style={{ color: 'var(--accent-interactive)' }}>auto_awesome</span>
+          <span style={{ color: 'var(--accent-interactive)' }}>Show Highlights and Opportunities</span>
         </motion.button>
       </div>
     </div>
@@ -287,7 +288,7 @@ function SolutionState({ className = '', redlineModeActive = false, focusedAncho
 
   return (
     <div
-      className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-hidden font-[family-name:var(--font-inter)] ${className}`}
+      className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-hidden ${className}`}
     >
       {/* Header Section */}
       <div

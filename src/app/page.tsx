@@ -9,7 +9,7 @@ import SectionHeader from '@/components/SectionHeader';
 
 export default function Home() {
   return (
-    <main className="w-full min-h-screen bg-white text-primary">
+    <main className="w-full min-h-screen bg-background text-primary">
       {/* Hero Section */}
       <section className="w-full py-16 lg:py-24 px-6 lg:px-12">
         <div className="relative max-w-5xl w-full mx-auto">
