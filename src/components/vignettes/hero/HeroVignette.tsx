@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import HeroPanel from './HeroPanel';
+import HeroShaderPanel from './HeroShaderPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { fadeInUp } from '@/lib/animations';
@@ -17,7 +18,10 @@ export default function HeroVignette() {
               title={heroContent.name}
               description={`${heroContent.role}. ${heroContent.tagline}`}
             >
-              <HeroPanel />
+              <div className="space-y-4">
+                <HeroShaderPanel />
+                <HeroPanel />
+              </div>
             </VignetteSplit>
           </motion.div>
         </VignetteContainer>
