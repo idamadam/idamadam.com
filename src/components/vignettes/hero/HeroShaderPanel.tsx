@@ -152,22 +152,16 @@ export default function HeroShaderPanel() {
       <div className="absolute bottom-4 right-4">
         <motion.button
           onClick={handleToggle}
-          className="flex items-center gap-2 px-5 py-3 rounded-full text-body-sm font-semibold transition-colors"
-          style={{ backgroundColor: 'var(--accent-interactive-bg)' }}
+          className="btn-interactive btn-primary btn-primary-pulse"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.02, backgroundColor: 'var(--accent-interactive-bg-hover)' }}
+          whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
-          <span
-            className="material-icons-outlined text-h3"
-            style={{ color: 'var(--accent-interactive)' }}
-          >
+          <span className="material-icons-outlined">
             {isActive ? 'motion_photos_pause' : 'palette'}
           </span>
-          <span style={{ color: 'var(--accent-interactive)' }}>
-            {isActive ? 'Calm' : 'Add color'}
-          </span>
+          {isActive ? 'Calm' : 'Add color'}
         </motion.button>
       </div>
     </div>
