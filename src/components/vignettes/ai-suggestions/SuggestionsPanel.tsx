@@ -13,7 +13,6 @@ interface SuggestionsPanelProps {
   content: AISuggestionsContent;
   stage?: PanelStage;
   onTransition?: () => void;
-  redlineModeActive?: boolean;
   focusedAnchor?: string | null;
 }
 
@@ -84,14 +83,12 @@ function LoadingPanel() {
 
 function RecommendationsPanel({
   content,
-  redlineModeActive = false,
   focusedAnchor = null
 }: {
   content: AISuggestionsContent;
-  redlineModeActive?: boolean;
   focusedAnchor?: string | null;
 }) {
-  const { getAnchorStyle } = useAnchorStyle({ redlineModeActive, focusedAnchor });
+  const { getAnchorStyle } = useAnchorStyle({ focusedAnchor });
 
   return (
     <div
@@ -172,13 +169,12 @@ export default function SuggestionsPanel({
   content,
   stage = 'solution',
   onTransition,
-  redlineModeActive = false,
   focusedAnchor = null
 }: SuggestionsPanelProps) {
   const isProblem = stage === 'problem';
   const isLoading = stage === 'loading';
   const isSolution = stage === 'solution' || stage === 'designNotes';
-  const { getAnchorStyle } = useAnchorStyle({ redlineModeActive, focusedAnchor });
+  const { getAnchorStyle } = useAnchorStyle({ focusedAnchor });
 
   return (
     <div className="space-y-2">
@@ -221,7 +217,6 @@ export default function SuggestionsPanel({
           >
             <RecommendationsPanel
               content={content}
-              redlineModeActive={redlineModeActive}
               focusedAnchor={focusedAnchor}
             />
           </motion.div>

@@ -112,52 +112,57 @@
   }
 }
 
-/* Mobile Design Note Markers */
-.design-note-marker {
+/* Mobile Design Note Markers - Plain dots */
+.design-note-marker-dot {
   position: absolute;
-  width: 24px;
-  height: 24px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: var(--accent, #ef4444);
-  color: white;
-  font-size: 0.8125rem; /* caption size */
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   z-index: 10;
-  border: 2px solid white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: none;
+  padding: 0;
 }
 
-/* Expand tap target */
-.design-note-marker::before {
+/* Expand tap target for accessibility */
+.design-note-marker-dot::before {
   content: '';
   position: absolute;
-  inset: -10px;
+  inset: -12px;
 }
 
-.design-note-marker[data-position="right"] {
+.design-note-marker-dot[data-position="right"] {
   left: anchor(right);
   top: anchor(center);
   translate: 8px -50%;
 }
 
-.design-note-marker[data-position="left"] {
+.design-note-marker-dot[data-position="left"] {
   right: anchor(left);
   top: anchor(center);
   translate: -8px -50%;
 }
 
+.design-note-marker-dot[data-position="top"] {
+  bottom: anchor(top);
+  left: anchor(center);
+  translate: -50% -8px;
+}
+
+.design-note-marker-dot[data-position="bottom"] {
+  top: anchor(bottom);
+  left: anchor(center);
+  translate: -50% 8px;
+}
+
 @media (min-width: 1024px) {
-  .design-note-marker {
+  .design-note-marker-dot {
     display: none;
   }
 }
 
 @supports not (anchor-name: --test) {
-  .design-note-marker {
+  .design-note-marker-dot {
     display: none; /* Hide on unsupported browsers for mobile */
   }
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useRedlineMode } from './useRedlineMode';
+import { useDesignNotes } from './useRedlineMode';
 import type { DesignNote } from '../types';
 
 interface DesignNotesConfig {
@@ -9,24 +9,32 @@ interface DesignNotesConfig {
 }
 
 interface UseDesignNotesSetupReturn {
-  redlineMode: ReturnType<typeof useRedlineMode>;
+  designNotes: ReturnType<typeof useDesignNotes>;
   mobileIndex: number;
+  mobileTourActive: boolean;
+  openMobileTour: (index: number) => void;
+  closeMobileTour: () => void;
   setMobileIndex: (index: number) => void;
-  handleExit: () => void;
   handleScrollToAnchor: (anchor: string) => void;
   redlineNotes: DesignNote[];
 }
 
 export function useDesignNotesSetup(
-  designNotes: DesignNotesConfig | undefined
+  designNotesConfig: DesignNotesConfig | undefined
 ): UseDesignNotesSetupReturn {
-  const redlineMode = useRedlineMode();
+  const designNotes = useDesignNotes();
   const [mobileIndex, setMobileIndex] = useState(0);
+  const [mobileTourActive, setMobileTourActive] = useState(false);
 
-  const handleExit = useCallback(() => {
-    redlineMode.exitRedlineMode();
+  const openMobileTour = useCallback((index: number) => {
+    setMobileIndex(index);
+    setMobileTourActive(true);
+  }, []);
+
+  const closeMobileTour = useCallback(() => {
+    setMobileTourActive(false);
     setMobileIndex(0);
-  }, [redlineMode]);
+  }, []);
 
   const handleScrollToAnchor = useCallback((anchor: string) => {
     const element = document.querySelector(`[data-anchor="${anchor}"]`);
@@ -35,13 +43,15 @@ export function useDesignNotesSetup(
     }
   }, []);
 
-  const redlineNotes = designNotes?.notes ?? [];
+  const redlineNotes = designNotesConfig?.notes ?? [];
 
   return {
-    redlineMode,
+    designNotes,
     mobileIndex,
+    mobileTourActive,
+    openMobileTour,
+    closeMobileTour,
     setMobileIndex,
-    handleExit,
     handleScrollToAnchor,
     redlineNotes,
   };

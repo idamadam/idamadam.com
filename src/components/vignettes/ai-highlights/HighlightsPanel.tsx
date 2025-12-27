@@ -13,7 +13,6 @@ interface HighlightsPanelProps {
   stage?: PanelStage;
   onTransition?: () => void;
   problemCards?: FeedbackSource[];
-  redlineModeActive?: boolean;
   focusedAnchor?: string | null;
 }
 
@@ -253,14 +252,13 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
 
 interface SolutionStateProps {
   className?: string;
-  redlineModeActive?: boolean;
   focusedAnchor?: string | null;
 }
 
-function SolutionState({ className = '', redlineModeActive = false, focusedAnchor = null }: SolutionStateProps) {
+function SolutionState({ className = '', focusedAnchor = null }: SolutionStateProps) {
   const [highlightExpanded, setHighlightExpanded] = useState(false);
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
-  const { getAnchorStyle } = useAnchorStyle({ redlineModeActive, focusedAnchor });
+  const { getAnchorStyle } = useAnchorStyle({ focusedAnchor });
 
   return (
     <div
@@ -503,7 +501,6 @@ export default function HighlightsPanel({
   stage = 'solution',
   onTransition,
   problemCards = [],
-  redlineModeActive = false,
   focusedAnchor = null
 }: HighlightsPanelProps) {
   // Default problem cards if none provided
@@ -553,7 +550,7 @@ export default function HighlightsPanel({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <SolutionState className={className} redlineModeActive={redlineModeActive} focusedAnchor={focusedAnchor} />
+            <SolutionState className={className} focusedAnchor={focusedAnchor} />
           </motion.div>
         );
     }

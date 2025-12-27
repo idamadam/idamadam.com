@@ -4,7 +4,6 @@ import { useCallback } from 'react';
 import type { CSSProperties } from 'react';
 
 interface UseAnchorStyleOptions {
-  redlineModeActive: boolean;
   focusedAnchor: string | null;
 }
 
@@ -12,17 +11,16 @@ interface UseAnchorStyleOptions {
 const BOX_SHADOW_COLOR = 'rgba(239, 68, 68, 0.2)';
 
 export function useAnchorStyle({
-  redlineModeActive,
   focusedAnchor,
 }: UseAnchorStyleOptions) {
   const getAnchorStyle = useCallback(
     (anchorName: string): CSSProperties => ({
       anchorName: `--${anchorName}`,
-      opacity: redlineModeActive && focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
+      opacity: focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
       boxShadow: focusedAnchor === anchorName ? `0 0 0 2px ${BOX_SHADOW_COLOR}` : 'none',
       transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
     } as CSSProperties),
-    [redlineModeActive, focusedAnchor]
+    [focusedAnchor]
   );
 
   return { getAnchorStyle };

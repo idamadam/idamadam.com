@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import type { DesignNote } from '@/components/vignettes/types';
+import { useReducedMotion } from '@/lib/useReducedMotion';
 import { DESIGN_NOTES_ACCENT } from './constants';
 
 interface MobileRedlineMarkersProps {
@@ -16,29 +17,41 @@ export default function MobileRedlineMarkers({
   onMarkerClick,
 }: MobileRedlineMarkersProps) {
   const accent = DESIGN_NOTES_ACCENT;
+  const reducedMotion = useReducedMotion();
+
+  // Match desktop dot states
+  const getDotStyle = (index: number) => {
+    const isActive = currentIndex === index;
+    if (isActive) {
+      return {
+        scale: 1.1,
+        opacity: 1,
+        boxShadow: `0 0 0 10px ${accent}40`,
+      };
+    }
+    return {
+      scale: 1,
+      opacity: 0.6,
+      boxShadow: `0 0 0 4px ${accent}15`,
+    };
+  };
+
   return (
     <div className="lg:hidden pointer-events-auto" style={{ overflow: 'visible' }}>
       {notes.map((note, index) => (
         <motion.button
           key={note.id}
-          className="design-note-marker"
+          className="design-note-marker-dot"
           data-position={note.position}
           style={{
             positionAnchor: `--${note.anchor}`,
-            '--accent': accent,
+            backgroundColor: accent,
           } as React.CSSProperties}
-          animate={{
-            scale: currentIndex === index ? 1.2 : 1,
-            boxShadow: currentIndex === index
-              ? `0 0 0 8px ${accent}40`
-              : `0 0 0 4px ${accent}1a`,
-          }}
+          animate={reducedMotion ? { opacity: getDotStyle(index).opacity } : getDotStyle(index)}
           transition={{ duration: 0.2 }}
           onClick={() => onMarkerClick(index)}
-          aria-label={`Design note ${index + 1}: ${note.label}`}
-        >
-          {index + 1}
-        </motion.button>
+          aria-label={`Design note: ${note.label}`}
+        />
       ))}
     </div>
   );

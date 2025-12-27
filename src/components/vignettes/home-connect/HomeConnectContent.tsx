@@ -9,34 +9,31 @@ import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { useVignetteStage } from '@/components/vignettes/VignetteStaged';
 import { homeConnectContent } from './content';
 import type { DesignNote } from '@/components/vignettes/types';
-import { useRedlineMode } from '@/components/vignettes/shared/useRedlineMode';
+import { useDesignNotes } from '@/components/vignettes/shared/useRedlineMode';
 import RedlineOverlay from '@/components/vignettes/shared/RedlineOverlay';
 import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
 import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
-import DesignNotesButton from '@/components/vignettes/shared/DesignNotesButton';
 import { useReducedMotion } from '@/lib/useReducedMotion';
-import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
 
 type PanelStage = 'problem' | 'transition' | 'solution';
 
 interface HomeConnectContentProps {
   redlineNotes: DesignNote[];
-  redlineMode: ReturnType<typeof useRedlineMode>;
+  designNotes: ReturnType<typeof useDesignNotes>;
   mobileIndex: number;
   onMobileIndexChange: (index: number) => void;
 }
 
 export default function HomeConnectContent({
   redlineNotes,
-  redlineMode,
+  designNotes,
   mobileIndex,
   onMobileIndexChange,
 }: HomeConnectContentProps) {
   const { stage, goToSolution, setStage } = useVignetteStage();
   const [panelStage, setPanelStage] = useState<PanelStage>('problem');
   const reducedMotion = useReducedMotion();
-  const animations = reducedMotion ? redlineAnimationsReduced : redlineAnimations;
 
   const handleTransition = useCallback(() => {
     setPanelStage('transition');
@@ -67,8 +64,8 @@ export default function HomeConnectContent({
   const title = currentStageContent.title;
   const description = currentStageContent.description;
 
-  const focusedAnchor = redlineMode.focusedAnnotation
-    ? redlineNotes.find(n => n.id === redlineMode.focusedAnnotation)?.anchor ?? null
+  const focusedAnchor = designNotes.focusedAnnotation
+    ? redlineNotes.find(n => n.id === designNotes.focusedAnnotation)?.anchor ?? null
     : null;
 
   return (
@@ -91,21 +88,8 @@ export default function HomeConnectContent({
           delay={0.05}
         />
       }
-      actions={
-        stage === 'solution' && (
-          <DesignNotesButton
-            isActive={redlineMode.isActive}
-            onToggle={redlineMode.toggleRedlineMode}
-          />
-        )
-      }
     >
-      <motion.div
-        className="relative"
-        style={{ overflow: 'visible' }}
-        animate={redlineMode.isActive ? animations.panelTransform.active : animations.panelTransform.inactive}
-        transition={animations.panelTransform.transition}
-      >
+      <div className="relative" style={{ overflow: 'visible' }}>
         <AnimatePresence mode="sync">
           {panelStage === 'problem' && (
             <motion.div
@@ -137,31 +121,31 @@ export default function HomeConnectContent({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
             >
-              <HomeConnectPanel
-                redlineModeActive={redlineMode.isActive}
-                focusedAnchor={focusedAnchor}
-              />
+              <HomeConnectPanel focusedAnchor={focusedAnchor} />
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Desktop annotations */}
-        <RedlineOverlay
-          isActive={redlineMode.isActive && stage === 'solution'}
-          notes={redlineNotes}
-          focusedAnnotation={redlineMode.focusedAnnotation}
-          onFocusAnnotation={redlineMode.setFocusedAnnotation}
-        />
+        {/* Desktop annotations - dots always visible in solution stage */}
+        {stage === 'solution' && (
+          <RedlineOverlay
+            notes={redlineNotes}
+            expandedAnnotations={designNotes.expandedAnnotations}
+            focusedAnnotation={designNotes.focusedAnnotation}
+            onToggleAnnotation={designNotes.toggleAnnotation}
+            onFocusAnnotation={designNotes.setFocusedAnnotation}
+          />
+        )}
 
-        {/* Mobile markers */}
-        {redlineMode.isActive && stage === 'solution' && (
+        {/* Mobile markers - dots always visible in solution stage */}
+        {stage === 'solution' && (
           <MobileRedlineMarkers
             notes={redlineNotes}
             currentIndex={mobileIndex}
             onMarkerClick={onMobileIndexChange}
           />
         )}
-      </motion.div>
+      </div>
     </VignetteSplit>
   );
 }

@@ -10,7 +10,6 @@ import { useAnchorStyle } from '@/components/vignettes/shared/useAnchorStyle';
 interface TranslationManagementPanelProps {
   className?: string;
   initialComplete?: boolean;
-  redlineModeActive?: boolean;
   focusedAnchor?: string | null;
 }
 
@@ -19,7 +18,6 @@ type TranslationState = 'idle' | 'translating' | 'complete';
 export default function TranslationManagementPanel({
   className = '',
   initialComplete = false,
-  redlineModeActive = false,
   focusedAnchor = null
 }: TranslationManagementPanelProps) {
   const content = multilingualContent;
@@ -29,7 +27,7 @@ export default function TranslationManagementPanel({
   const [isAnimating, setIsAnimating] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(0); // 0 = French, 1 = Dhivehi
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { getAnchorStyle } = useAnchorStyle({ redlineModeActive, focusedAnchor });
+  const { getAnchorStyle } = useAnchorStyle({ focusedAnchor });
 
   // Don't auto-reset when initialComplete is true
   useEffect(() => {

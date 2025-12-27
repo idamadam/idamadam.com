@@ -2,29 +2,33 @@
 
 import { useState, useCallback } from 'react';
 
-interface RedlineState {
-  isActive: boolean;
+interface DesignNotesState {
+  expandedAnnotations: Set<string>;
   focusedAnnotation: string | null;
 }
 
-export function useRedlineMode() {
-  const [state, setState] = useState<RedlineState>({
-    isActive: false,
+export function useDesignNotes() {
+  const [state, setState] = useState<DesignNotesState>({
+    expandedAnnotations: new Set(),
     focusedAnnotation: null,
   });
 
-  const enterRedlineMode = useCallback(() => {
-    setState(prev => ({ ...prev, isActive: true }));
+  const toggleAnnotation = useCallback((id: string) => {
+    setState(prev => {
+      const isCurrentlyExpanded = prev.expandedAnnotations.has(id);
+      // If clicking the same one, close it. Otherwise, open only this one.
+      const newExpanded = new Set<string>();
+      if (!isCurrentlyExpanded) {
+        newExpanded.add(id);
+      }
+      return { ...prev, expandedAnnotations: newExpanded };
+    });
   }, []);
 
-  const exitRedlineMode = useCallback(() => {
-    setState({ isActive: false, focusedAnnotation: null });
-  }, []);
-
-  const toggleRedlineMode = useCallback(() => {
+  const collapseAll = useCallback(() => {
     setState(prev => ({
-      isActive: !prev.isActive,
-      focusedAnnotation: null,
+      ...prev,
+      expandedAnnotations: new Set(),
     }));
   }, []);
 
@@ -32,11 +36,19 @@ export function useRedlineMode() {
     setState(prev => ({ ...prev, focusedAnnotation: id }));
   }, []);
 
+  const isExpanded = useCallback((id: string) => {
+    return state.expandedAnnotations.has(id);
+  }, [state.expandedAnnotations]);
+
   return {
-    ...state,
-    enterRedlineMode,
-    exitRedlineMode,
-    toggleRedlineMode,
+    expandedAnnotations: state.expandedAnnotations,
+    focusedAnnotation: state.focusedAnnotation,
+    isExpanded,
+    toggleAnnotation,
+    collapseAll,
     setFocusedAnnotation,
   };
 }
+
+// Keep old export for backwards compatibility during migration
+export const useRedlineMode = useDesignNotes;

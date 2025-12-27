@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import React from 'react';
 
 interface HomeConnectPanelProps {
-  redlineModeActive?: boolean;
   focusedAnchor?: string | null;
 }
 
@@ -127,12 +126,11 @@ function FeedCard({ children, anchor, style }: FeedCardProps) {
 }
 
 export default function HomeConnectPanel({
-  redlineModeActive = false,
   focusedAnchor = null
 }: HomeConnectPanelProps) {
   const getAnchorStyle = (anchorName: string): React.CSSProperties => ({
     anchorName: `--${anchorName}`,
-    opacity: redlineModeActive && focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
+    opacity: focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
     boxShadow: focusedAnchor === anchorName ? '0 0 0 2px rgba(95, 51, 97, 0.3)' : 'none',
     transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
   } as React.CSSProperties);
