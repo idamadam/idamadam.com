@@ -194,7 +194,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
   const displayCards = cards.slice(0, 5);
 
   return (
-    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[400px] flex flex-col items-center justify-end p-8">
+    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[400px] flex flex-col items-center justify-end p-8 overflow-hidden">
       {/* Scattered floating cards */}
       <div className="absolute inset-0">
         {displayCards.map((card, index) => {
