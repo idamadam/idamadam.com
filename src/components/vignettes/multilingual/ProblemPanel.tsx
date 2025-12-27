@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { multilingualContent } from './content';
+import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 
 interface ProblemPanelProps {
   onTransition: () => void;
@@ -10,19 +11,23 @@ interface ProblemPanelProps {
 
 export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
   const { problemCards } = multilingualContent;
+  const { entranceDelay, stagger, reducedMotion } = useVignetteEntrance();
   const [expanded, setExpanded] = useState(false);
   const [stage, setStage] = useState(0);
 
+  // Convert entrance delay to ms and add to auto-play sequence
+  const baseDelay = reducedMotion ? 0 : entranceDelay * 1000;
+
   useEffect(() => {
     const timers = [
-      setTimeout(() => setExpanded(true), 1000),
-      setTimeout(() => setStage(1), 1000),
-      setTimeout(() => setStage(2), 1800),
-      setTimeout(() => setStage(3), 2400)
+      setTimeout(() => setExpanded(true), baseDelay + 600),
+      setTimeout(() => setStage(1), baseDelay + 600),
+      setTimeout(() => setStage(2), baseDelay + 1400),
+      setTimeout(() => setStage(3), baseDelay + 2000)
     ];
 
     return () => timers.forEach(clearTimeout);
-  }, []);
+  }, [baseDelay]);
 
   return (
     <div className="relative">
@@ -75,7 +80,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
                     className="flex items-center gap-3 p-3 bg-white rounded-md border border-gray-200"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.25, delay: index * 0.1 }}
+                    transition={{ duration: 0.25, delay: index * stagger }}
                   >
                     <div className="w-4 h-4 rounded border-2 border-gray-300 flex-shrink-0" />
                     <span className="text-body-sm text-gray-700">
@@ -109,15 +114,10 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
           <div className="flex justify-center">
             <motion.button
               onClick={onTransition}
-              className="btn-interactive btn-primary btn-primary-pulse"
+              className="btn-interactive btn-primary"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{
-                opacity: { duration: 0.3 },
-                y: { duration: 0.3 },
-              }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.3 }}
             >
               <span className="material-icons-outlined">auto_awesome</span>
               See the solution

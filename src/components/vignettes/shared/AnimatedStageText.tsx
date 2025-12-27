@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
+import { timing, timingReduced } from '@/lib/animations';
 
 interface AnimatedStageTextProps {
   stage: VignetteStage;
@@ -18,6 +19,8 @@ export default function AnimatedStageText({
   reducedMotion = false,
   delay = 0,
 }: AnimatedStageTextProps) {
+  const t = reducedMotion ? timingReduced : timing;
+
   return (
     <span className="relative block">
       <AnimatePresence mode="sync" initial={false}>
@@ -28,7 +31,7 @@ export default function AnimatedStageText({
           animate={{ opacity: isLoading ? 0.3 : 1 }}
           exit={{ opacity: 0, position: 'absolute', top: 0, left: 0 }}
           transition={{
-            duration: reducedMotion ? 0 : 0.2,
+            duration: t.stage.textDuration,
             ease: "easeOut",
             delay: reducedMotion ? 0 : delay,
           }}

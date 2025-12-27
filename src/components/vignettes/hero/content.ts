@@ -1,11 +1,29 @@
 export interface HeroContent {
   name: string;
   role: string;
-  tagline: string;
+  stages: {
+    problem: {
+      tagline: string;
+      cta: string;
+    };
+    solution: {
+      tagline: string;
+      scrollHint: string;
+    };
+  };
 }
 
 export const heroContent: HeroContent = {
   name: 'Idam Adam',
   role: 'Lead Product Designer',
-  tagline: 'I design and build products that show rather than tell.',
+  stages: {
+    problem: {
+      tagline: 'A portfolio that shows, not tells.',
+      cta: 'See it in action',
+    },
+    solution: {
+      tagline: 'Each project below is interactive.',
+      scrollHint: 'Scroll to explore',
+    },
+  },
 };

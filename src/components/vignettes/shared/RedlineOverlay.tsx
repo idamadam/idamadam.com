@@ -3,113 +3,160 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import type { DesignNote } from '@/components/vignettes/types';
 import { useReducedMotion } from '@/lib/useReducedMotion';
-import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
 import { DESIGN_NOTES_ACCENT } from './constants';
 
 interface RedlineOverlayProps {
-  isActive: boolean;
   notes: DesignNote[];
+  expandedAnnotations: Set<string>;
   focusedAnnotation: string | null;
+  onToggleAnnotation: (id: string) => void;
   onFocusAnnotation: (id: string | null) => void;
 }
 
 export default function RedlineOverlay({
-  isActive,
   notes,
+  expandedAnnotations,
   focusedAnnotation,
+  onToggleAnnotation,
   onFocusAnnotation,
 }: RedlineOverlayProps) {
   const accent = DESIGN_NOTES_ACCENT;
   const reducedMotion = useReducedMotion();
-  const animations = reducedMotion ? redlineAnimationsReduced : redlineAnimations;
+
+  // Dot visual states
+  const getDotState = (noteId: string) => {
+    const isExpanded = expandedAnnotations.has(noteId);
+    const isFocused = focusedAnnotation === noteId;
+    const isDimmed = focusedAnnotation !== null && !isFocused && !isExpanded;
+
+    if (isDimmed) return 'dimmed';
+    if (isExpanded) return 'expanded';
+    if (isFocused) return 'focused';
+    return 'subtle';
+  };
+
+  const dotStyles = {
+    subtle: {
+      scale: 1,
+      opacity: 0.7,  // Slightly more visible with warm color
+      boxShadow: `0 0 0 4px ${accent}20`,
+    },
+    focused: {
+      scale: 1.15,
+      opacity: 1,
+      boxShadow: `0 0 0 8px ${accent}35`,
+    },
+    expanded: {
+      scale: 1.1,
+      opacity: 1,
+      boxShadow: `0 0 0 10px ${accent}45`,
+    },
+    dimmed: {
+      scale: 1,
+      opacity: 0.4,
+      boxShadow: `0 0 0 4px ${accent}12`,
+    },
+  };
+
+  const hasExpandedAnnotation = expandedAnnotations.size > 0;
+
+  const handleBackdropClick = () => {
+    // Close all expanded annotations by toggling the currently expanded one
+    expandedAnnotations.forEach(id => onToggleAnnotation(id));
+  };
 
   return (
-    <AnimatePresence>
-      {isActive && (
-        <>
-          {/* Annotations */}
-          <div className="pointer-events-none hidden lg:block" style={{ overflow: 'visible' }}>
-            {notes.map((note, index) => {
-              const alignRight = note.position === 'right';
-              const isFocused = focusedAnnotation === note.id;
-              const isDimmed = focusedAnnotation !== null && !isFocused;
-              const position = note.position === 'right' || note.position === 'left' ? note.position : 'right';
-              const anim = animations.annotation(index, position);
+    <div className="pointer-events-none hidden lg:block" style={{ overflow: 'visible' }}>
+      {/* Invisible backdrop to catch clicks outside annotations */}
+      {hasExpandedAnnotation && (
+        <div
+          className="fixed inset-0 pointer-events-auto z-0"
+          onClick={handleBackdropClick}
+          aria-hidden="true"
+        />
+      )}
+      {notes.map((note, index) => {
+        const alignRight = note.position === 'right';
+        const isExpanded = expandedAnnotations.has(note.id);
+        const dotState = getDotState(note.id);
 
-              return (
-                <motion.div
-                  key={note.id}
-                  className="design-note pointer-events-auto cursor-pointer"
-                  data-position={note.position}
+        return (
+          <div
+            key={note.id}
+            className="design-note pointer-events-auto"
+            data-position={note.position}
+            style={{
+              positionAnchor: `--${note.anchor}`,
+              zIndex: 10,
+            } as React.CSSProperties}
+          >
+            <div className={`flex items-start ${alignRight ? 'text-left' : 'flex-row-reverse text-right'}`}>
+              {/* Dot - always visible */}
+              <div className={`flex items-center pt-4 ${alignRight ? '' : 'flex-row-reverse'}`}>
+                <motion.button
+                  className="w-2.5 h-2.5 rounded-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
                   style={{
-                    positionAnchor: `--${note.anchor}`,
+                    backgroundColor: accent,
+                    focusVisibleRingColor: accent,
                   } as React.CSSProperties}
-                  initial={anim.container.initial}
-                  animate={{
-                    ...anim.container.animate,
-                    opacity: isDimmed ? 0.4 : 1,
-                    scale: isFocused ? 1.02 : 1,
+                  initial={reducedMotion ? {} : { scale: 0, opacity: 0 }}
+                  animate={reducedMotion ? { opacity: dotStyles[dotState].opacity } : dotStyles[dotState]}
+                  transition={{
+                    duration: 0.2,
+                    delay: 1.0 + index * 0.1,  // Wait for solution panel, then stagger
                   }}
-                  exit={anim.container.exit}
-                  transition={anim.container.transition}
+                  onClick={() => onToggleAnnotation(note.id)}
                   onMouseEnter={() => onFocusAnnotation(note.id)}
                   onMouseLeave={() => onFocusAnnotation(null)}
-                >
-                  <div className={`flex items-start ${alignRight ? 'text-left' : 'flex-row-reverse text-right'}`}>
-                    {/* Dot and line */}
-                    <div className={`flex items-center pt-4 ${alignRight ? '' : 'flex-row-reverse'}`}>
-                      <motion.div
-                        className="w-2.5 h-2.5 rounded-full"
-                        style={{
-                          backgroundColor: accent,
-                        }}
-                        initial={anim.dot.initial}
-                        animate={{
-                          ...anim.dot.animate,
-                          boxShadow: isFocused
-                            ? `0 0 0 12px ${accent}30`
-                            : `0 0 0 8px ${accent}1a`
-                        }}
-                        transition={anim.dot.transition}
-                      />
-                      <motion.div
-                        className={`h-px w-8 ${alignRight ? 'mr-2' : 'ml-2'}`}
-                        style={{
-                          backgroundColor: accent,
-                          transformOrigin: alignRight ? 'left' : 'right',
-                        }}
-                        initial={anim.connector.initial}
-                        animate={anim.connector.animate}
-                        transition={anim.connector.transition}
-                      />
-                    </div>
+                  aria-label={`Design note: ${note.label}`}
+                  aria-expanded={isExpanded}
+                />
 
-                    {/* Label box */}
+                {/* Connector line - only when expanded */}
+                <AnimatePresence>
+                  {isExpanded && (
                     <motion.div
-                      className="rounded-xl px-3 py-2 shadow-sm min-w-[230px] bg-white"
+                      className={`h-px w-8 ${alignRight ? 'mr-2' : 'ml-2'}`}
                       style={{
-                        border: `1px solid ${accent}33`,
+                        backgroundColor: accent,
+                        transformOrigin: alignRight ? 'left' : 'right',
                       }}
-                      animate={{
-                        boxShadow: isFocused
-                          ? `0 12px 40px ${accent}25`
-                          : '0 12px 40px rgba(248, 113, 113, 0.15)',
-                      }}
-                    >
-                      <p className="text-caption font-semibold leading-snug" style={{ color: accent }}>
-                        {note.label}
-                      </p>
-                      <p className="text-caption leading-normal mt-1 text-secondary">
-                        {note.detail}
-                      </p>
-                    </motion.div>
-                  </div>
-                </motion.div>
-              );
-            })}
+                      initial={{ scaleX: 0, opacity: 0 }}
+                      animate={{ scaleX: 1, opacity: 1 }}
+                      exit={{ scaleX: 0, opacity: 0 }}
+                      transition={{ duration: reducedMotion ? 0.1 : 0.15 }}
+                    />
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Label box - only when expanded */}
+              <AnimatePresence>
+                {isExpanded && (
+                  <motion.div
+                    className="rounded-xl px-3 py-2 shadow-sm min-w-[230px] bg-white"
+                    style={{
+                      border: `1px solid ${accent}33`,
+                      boxShadow: `0 12px 40px ${accent}20`,
+                    }}
+                    initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: alignRight ? -10 : 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={reducedMotion ? { opacity: 0 } : { opacity: 0, x: alignRight ? -10 : 10 }}
+                    transition={{ duration: reducedMotion ? 0.1 : 0.2, delay: reducedMotion ? 0 : 0.05 }}
+                  >
+                    <p className="text-caption font-semibold leading-snug" style={{ color: accent }}>
+                      {note.label}
+                    </p>
+                    <p className="text-caption leading-normal mt-1 text-secondary">
+                      {note.detail}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
-        </>
-      )}
-    </AnimatePresence>
+        );
+      })}
+    </div>
   );
 }

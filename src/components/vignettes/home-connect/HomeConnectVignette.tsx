@@ -12,10 +12,12 @@ import '../shared/design-notes.css';
 
 export default function HomeConnectVignette() {
   const {
-    redlineMode,
+    designNotes,
     mobileIndex,
+    mobileTourActive,
+    openMobileTour,
+    closeMobileTour,
     setMobileIndex,
-    handleExit,
     handleScrollToAnchor,
     redlineNotes,
   } = useDesignNotesSetup(homeConnectContent.designNotes);
@@ -23,16 +25,13 @@ export default function HomeConnectVignette() {
   return (
     <VignetteContainer id="home-connect" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
-        <motion.div
-          {...fadeInUp}
-          transition={{ delay: 0.2 }}
-        >
+        <motion.div {...fadeInUp}>
           <VignetteStaged stages={homeConnectContent.stages}>
             <HomeConnectContent
               redlineNotes={redlineNotes}
-              redlineMode={redlineMode}
+              designNotes={designNotes}
               mobileIndex={mobileIndex}
-              onMobileIndexChange={setMobileIndex}
+              onMobileIndexChange={openMobileTour}
             />
           </VignetteStaged>
         </motion.div>
@@ -40,9 +39,9 @@ export default function HomeConnectVignette() {
 
       {/* Mobile bottom sheet tour */}
       <MobileRedlineTour
-        isActive={redlineMode.isActive}
+        isActive={mobileTourActive}
         notes={redlineNotes}
-        onExit={handleExit}
+        onExit={closeMobileTour}
         currentIndex={mobileIndex}
         onIndexChange={setMobileIndex}
         onScrollToAnchor={handleScrollToAnchor}

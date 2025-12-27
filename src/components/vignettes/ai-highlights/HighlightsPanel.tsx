@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
+import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import type { FeedbackSource } from './content';
 import { useAnchorStyle } from '@/components/vignettes/shared/useAnchorStyle';
 
@@ -13,7 +14,6 @@ interface HighlightsPanelProps {
   stage?: PanelStage;
   onTransition?: () => void;
   problemCards?: FeedbackSource[];
-  redlineModeActive?: boolean;
   focusedAnchor?: string | null;
 }
 
@@ -190,11 +190,15 @@ const feedbackCardPositions = [
 ];
 
 function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
+  const { entranceDelay, stagger } = useVignetteEntrance();
   // Use first 5 cards for scattered layout
   const displayCards = cards.slice(0, 5);
 
+  // CTA appears after all cards have animated in
+  const ctaDelay = entranceDelay + displayCards.length * stagger + 0.1;
+
   return (
-    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[400px] flex flex-col items-center justify-end p-8">
+    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[400px] flex flex-col items-center justify-end p-8 overflow-hidden">
       {/* Scattered floating cards */}
       <div className="absolute inset-0">
         {displayCards.map((card, index) => {
@@ -213,11 +217,11 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
                 duration: 0.4,
-                delay: index * 0.08,
-                ease: 'easeOut',
+                delay: entranceDelay + index * stagger,
+                ease: 'easeOut' as const,
               }}
             >
-              <span className="text-2xl text-gray-300 leading-none select-none">"</span>
+              <span className="text-2xl text-gray-300 leading-none select-none">&ldquo;</span>
               <p className="text-body-sm text-primary italic line-clamp-3 -mt-1">
                 {card.content}
               </p>
@@ -234,15 +238,10 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
       {/* CTA */}
       <motion.button
         onClick={onTransition}
-        className="btn-interactive btn-primary btn-primary-pulse relative z-10"
+        className="btn-interactive btn-primary relative z-10"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{
-          opacity: { delay: 0.5, duration: 0.3 },
-          y: { delay: 0.5, duration: 0.3 },
-        }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        transition={{ delay: ctaDelay, duration: 0.3 }}
       >
         <span className="material-icons-outlined">auto_awesome</span>
         Show Highlights and Opportunities
@@ -253,14 +252,13 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
 
 interface SolutionStateProps {
   className?: string;
-  redlineModeActive?: boolean;
   focusedAnchor?: string | null;
 }
 
-function SolutionState({ className = '', redlineModeActive = false, focusedAnchor = null }: SolutionStateProps) {
+function SolutionState({ className = '', focusedAnchor = null }: SolutionStateProps) {
   const [highlightExpanded, setHighlightExpanded] = useState(false);
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
-  const { getAnchorStyle } = useAnchorStyle({ redlineModeActive, focusedAnchor });
+  const { getAnchorStyle } = useAnchorStyle({ focusedAnchor });
 
   return (
     <div
@@ -503,7 +501,6 @@ export default function HighlightsPanel({
   stage = 'solution',
   onTransition,
   problemCards = [],
-  redlineModeActive = false,
   focusedAnchor = null
 }: HighlightsPanelProps) {
   // Default problem cards if none provided
@@ -553,7 +550,7 @@ export default function HighlightsPanel({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <SolutionState className={className} redlineModeActive={redlineModeActive} focusedAnchor={focusedAnchor} />
+            <SolutionState className={className} focusedAnchor={focusedAnchor} />
           </motion.div>
         );
     }

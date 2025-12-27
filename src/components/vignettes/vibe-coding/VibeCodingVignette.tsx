@@ -14,10 +14,7 @@ export default function VibeCodingVignette() {
     >
       <div className="w-full space-y-10 lg:space-y-12">
         {/* Section: Vibe Coding Demo */}
-        <motion.div
-          {...fadeInUp}
-          transition={{ delay: 0.2 }}
-        >
+        <motion.div {...fadeInUp}>
           <VignetteSplit
             title={vibeCodingContent.title}
             description={vibeCodingContent.description}
@@ -26,7 +23,7 @@ export default function VibeCodingVignette() {
                 href="https://studio.up.railway.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-interactive btn-primary btn-primary-pulse"
+                className="btn-interactive btn-primary"
               >
                 Join the waitlist
                 <span className="material-icons-outlined">arrow_forward</span>

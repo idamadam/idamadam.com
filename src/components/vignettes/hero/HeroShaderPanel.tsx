@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
 import { ColorPanels } from '@paper-design/shaders-react';
 
 // Calm state - monochrome grays with depth
@@ -60,9 +59,13 @@ function easeInOutCubic(t: number): number {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
-export default function HeroShaderPanel() {
+interface HeroShaderPanelProps {
+  isActive: boolean;
+  onReset?: () => void;
+}
+
+export default function HeroShaderPanel({ isActive, onReset }: HeroShaderPanelProps) {
   const [mounted, setMounted] = useState(false);
-  const [isActive, setIsActive] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 400, height: 300 });
   const [currentColors, setCurrentColors] = useState(CALM_COLORS);
   const [currentSpeed, setCurrentSpeed] = useState(CALM_SPEED);
@@ -122,15 +125,12 @@ export default function HeroShaderPanel() {
     };
   }, [isActive]);
 
-  const handleToggle = () => {
-    setIsActive(!isActive);
-  };
-
   return (
     <div className="flex flex-col items-center">
       <div
         ref={containerRef}
-        className="w-full aspect-[2/1] rounded-xl overflow-hidden"
+        onClick={isActive && onReset ? onReset : undefined}
+        className={`w-full aspect-[2/1] rounded-xl overflow-hidden ${isActive && onReset ? 'cursor-pointer' : ''}`}
       >
         {mounted && (
           <ColorPanels
@@ -153,21 +153,6 @@ export default function HeroShaderPanel() {
           />
         )}
       </div>
-
-      {/* Toggle button */}
-      <motion.button
-        onClick={handleToggle}
-        className="btn-interactive btn-primary btn-primary-pulse mt-6"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-      >
-        <span className="material-icons-outlined">
-          {isActive ? 'motion_photos_pause' : 'palette'}
-        </span>
-        {isActive ? 'Remove color' : 'Add color'}
-      </motion.button>
     </div>
   );
 }

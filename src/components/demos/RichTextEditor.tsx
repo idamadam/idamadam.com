@@ -3,23 +3,19 @@
 interface RichTextEditorProps {
   content: string;
   placeholder?: string;
-  readOnly?: boolean;
   showImproveButton?: boolean;
   onImprove?: () => void;
   isImproving?: boolean;
   className?: string;
-  pulseImproveButton?: boolean;
 }
 
 export default function RichTextEditor({
   content,
   placeholder = 'Start typing...',
-  readOnly = true,
   showImproveButton = false,
   onImprove,
   isImproving = false,
-  className = '',
-  pulseImproveButton = false
+  className = ''
 }: RichTextEditorProps) {
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
@@ -53,7 +49,7 @@ export default function RichTextEditor({
             <button
               onClick={onImprove}
               disabled={isImproving}
-              className={`btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed ${pulseImproveButton ? 'btn-primary-pulse' : ''}`}
+              className="btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="material-icons-outlined">auto_awesome</span>
               <span className="text-sm">Improve</span>

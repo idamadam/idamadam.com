@@ -68,10 +68,7 @@ export default function PrototypingVignette() {
   return (
     <VignetteContainer id="prototyping">
       <div className="w-full space-y-10 lg:space-y-12">
-        <motion.div
-          {...fadeInUp}
-          transition={{ delay: 0.2 }}
-        >
+        <motion.div {...fadeInUp}>
           <VignetteStaged stages={prototypingContent.stages}>
             <PrototypingContent />
           </VignetteStaged>

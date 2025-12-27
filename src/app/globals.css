@@ -314,35 +314,24 @@ a:hover {
   padding: 0.75rem 1.25rem;
   border-radius: 9999px;
   border: none;
+  transition: color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
 }
 
 .btn-primary:hover {
-  background-color: color-mix(in srgb, var(--accent-interactive) 85%, black);
-  transform: scale(1.02);
+  color: #fef3c7;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.4);
 }
 
 .btn-primary:active {
-  background-color: color-mix(in srgb, var(--accent-interactive) 75%, black);
-  transform: scale(0.98);
+  color: #fef3c7;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.6);
+  transform: scale(0.97);
 }
 
-/* Shimmer animation for text */
-@keyframes btn-shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
+/* btn-primary-pulse is now a no-op for backwards compatibility */
+/* Entrance animation handled via Framer Motion buttonEntrance preset */
 .btn-primary-pulse {
-  background: linear-gradient(
-    90deg,
-    var(--accent-interactive) 0%,
-    var(--accent-interactive) 40%,
-    var(--neutral-600) 50%,
-    var(--accent-interactive) 60%,
-    var(--accent-interactive) 100%
-  );
-  background-size: 200% 100%;
-  animation: btn-shimmer 3s ease-in-out infinite;
+  /* Intentionally empty - class kept for any external references */
 }
 
 /* Secondary: text style for navigation */
@@ -364,14 +353,13 @@ a:hover {
 }
 
 .btn-primary .material-icons-outlined {
-  color: white;
+  color: inherit;
 }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .btn-interactive { transition: none; }
-  .btn-primary:hover, .btn-primary:active { transform: none; }
-  .btn-primary-pulse { animation: none; }
+  .btn-interactive,
+  .btn-primary { transition: none; }
 }
 
 /* Layout utility classes */

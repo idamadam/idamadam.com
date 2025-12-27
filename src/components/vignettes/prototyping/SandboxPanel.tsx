@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import type { PrototypingContent } from './content';
 
 type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
@@ -19,6 +20,11 @@ function ProblemState({
   questions: PrototypingContent['problemQuestions'];
   onTransition?: () => void;
 }) {
+  const { entranceDelay, stagger } = useVignetteEntrance();
+
+  // CTA appears after all questions have animated in
+  const ctaDelay = entranceDelay + questions.length * stagger + 0.1;
+
   return (
     <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[320px] flex flex-col items-center justify-center p-8">
       {/* Floating questions */}
@@ -49,8 +55,8 @@ function ProblemState({
               }}
               transition={{
                 duration: 0.4,
-                delay: q.delay,
-                ease: 'easeOut',
+                delay: entranceDelay + index * stagger,
+                ease: 'easeOut' as const,
               }}
             >
               {q.text}
@@ -62,15 +68,10 @@ function ProblemState({
       {/* CTA */}
       <motion.button
         onClick={onTransition}
-        className="btn-interactive btn-primary btn-primary-pulse mt-6"
+        className="btn-interactive btn-primary mt-6"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{
-          opacity: { delay: 0.7, duration: 0.3 },
-          y: { delay: 0.7, duration: 0.3 },
-        }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        transition={{ delay: ctaDelay, duration: 0.3 }}
       >
         <span className="material-icons-outlined">auto_awesome</span>
         See how I enabled this

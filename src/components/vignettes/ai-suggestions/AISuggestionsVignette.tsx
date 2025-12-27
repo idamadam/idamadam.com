@@ -9,34 +9,31 @@ import { fadeInUp } from '@/lib/animations';
 import { aiSuggestionsContent } from './content';
 import type { DesignNote } from '@/components/vignettes/types';
 import { useDesignNotesSetup } from '@/components/vignettes/shared/useDesignNotesSetup';
-import { useRedlineMode } from '@/components/vignettes/shared/useRedlineMode';
+import { useDesignNotes } from '@/components/vignettes/shared/useRedlineMode';
 import RedlineOverlay from '@/components/vignettes/shared/RedlineOverlay';
 import MobileRedlineTour from '@/components/vignettes/shared/MobileRedlineTour';
 import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
 import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
-import DesignNotesButton from '@/components/vignettes/shared/DesignNotesButton';
 import { useLoadingTransition } from '@/components/vignettes/shared/useLoadingTransition';
 import { useReducedMotion } from '@/lib/useReducedMotion';
-import { redlineAnimations, redlineAnimationsReduced } from '@/lib/redline-animations';
 import '../shared/design-notes.css';
 
 type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 
 function AISuggestionsContent({
   redlineNotes,
-  redlineMode,
+  designNotes,
   mobileIndex,
   onMobileIndexChange,
 }: {
   redlineNotes: DesignNote[];
-  redlineMode: ReturnType<typeof useRedlineMode>;
+  designNotes: ReturnType<typeof useDesignNotes>;
   mobileIndex: number;
   onMobileIndexChange: (index: number) => void;
 }) {
   const { stage, goToSolution, setStage } = useVignetteStage();
   const reducedMotion = useReducedMotion();
-  const animations = reducedMotion ? redlineAnimationsReduced : redlineAnimations;
 
   const { isLoading, startTransition } = useLoadingTransition({
     duration: 1500,
@@ -52,8 +49,8 @@ function AISuggestionsContent({
   const title = currentStageContent.title;
   const description = currentStageContent.description;
 
-  const focusedAnchor = redlineMode.focusedAnnotation
-    ? redlineNotes.find(n => n.id === redlineMode.focusedAnnotation)?.anchor ?? null
+  const focusedAnchor = designNotes.focusedAnnotation
+    ? redlineNotes.find(n => n.id === designNotes.focusedAnnotation)?.anchor ?? null
     : null;
 
   return (
@@ -78,54 +75,45 @@ function AISuggestionsContent({
           delay={0.05}
         />
       }
-      actions={
-        stage === 'solution' && (
-          <DesignNotesButton
-            isActive={redlineMode.isActive}
-            onToggle={redlineMode.toggleRedlineMode}
-          />
-        )
-      }
     >
-      <motion.div
-        className="relative"
-        style={{ overflow: 'visible' }}
-        animate={redlineMode.isActive ? animations.panelTransform.active : animations.panelTransform.inactive}
-        transition={animations.panelTransform.transition}
-      >
+      <div className="relative" style={{ overflow: 'visible' }}>
         <SuggestionsPanel
           content={aiSuggestionsContent}
           stage={panelStage}
           onTransition={startTransition}
-          redlineModeActive={redlineMode.isActive}
           focusedAnchor={focusedAnchor}
         />
-        {/* Desktop annotations */}
-        <RedlineOverlay
-          isActive={redlineMode.isActive && stage === 'solution'}
-          notes={redlineNotes}
-          focusedAnnotation={redlineMode.focusedAnnotation}
-          onFocusAnnotation={redlineMode.setFocusedAnnotation}
-        />
-        {/* Mobile markers */}
-        {redlineMode.isActive && stage === 'solution' && (
+        {/* Desktop annotations - dots always visible in solution stage */}
+        {stage === 'solution' && (
+          <RedlineOverlay
+            notes={redlineNotes}
+            expandedAnnotations={designNotes.expandedAnnotations}
+            focusedAnnotation={designNotes.focusedAnnotation}
+            onToggleAnnotation={designNotes.toggleAnnotation}
+            onFocusAnnotation={designNotes.setFocusedAnnotation}
+          />
+        )}
+        {/* Mobile markers - dots always visible in solution stage */}
+        {stage === 'solution' && (
           <MobileRedlineMarkers
             notes={redlineNotes}
             currentIndex={mobileIndex}
             onMarkerClick={onMobileIndexChange}
           />
         )}
-      </motion.div>
+      </div>
     </VignetteSplit>
   );
 }
 
 export default function AISuggestionsVignette() {
   const {
-    redlineMode,
+    designNotes,
     mobileIndex,
+    mobileTourActive,
+    openMobileTour,
+    closeMobileTour,
     setMobileIndex,
-    handleExit,
     handleScrollToAnchor,
     redlineNotes,
   } = useDesignNotesSetup(aiSuggestionsContent.designNotes);
@@ -133,18 +121,15 @@ export default function AISuggestionsVignette() {
   return (
     <VignetteContainer id="ai-suggestions" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
-        <motion.div
-          {...fadeInUp}
-          transition={{ delay: 0.2 }}
-        >
+        <motion.div {...fadeInUp}>
           <VignetteStaged
             stages={aiSuggestionsContent.stages}
           >
             <AISuggestionsContent
               redlineNotes={redlineNotes}
-              redlineMode={redlineMode}
+              designNotes={designNotes}
               mobileIndex={mobileIndex}
-              onMobileIndexChange={setMobileIndex}
+              onMobileIndexChange={openMobileTour}
             />
           </VignetteStaged>
         </motion.div>
@@ -152,9 +137,9 @@ export default function AISuggestionsVignette() {
 
       {/* Mobile bottom sheet tour */}
       <MobileRedlineTour
-        isActive={redlineMode.isActive}
+        isActive={mobileTourActive}
         notes={redlineNotes}
-        onExit={handleExit}
+        onExit={closeMobileTour}
         currentIndex={mobileIndex}
         onIndexChange={setMobileIndex}
         onScrollToAnchor={handleScrollToAnchor}
