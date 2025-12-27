@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
+import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import type { FeedbackSource } from './content';
 import { useAnchorStyle } from '@/components/vignettes/shared/useAnchorStyle';
 
@@ -189,8 +190,12 @@ const feedbackCardPositions = [
 ];
 
 function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
+  const { entranceDelay, stagger } = useVignetteEntrance();
   // Use first 5 cards for scattered layout
   const displayCards = cards.slice(0, 5);
+
+  // CTA appears after all cards have animated in
+  const ctaDelay = entranceDelay + displayCards.length * stagger + 0.1;
 
   return (
     <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[400px] flex flex-col items-center justify-end p-8 overflow-hidden">
@@ -212,8 +217,8 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
                 duration: 0.4,
-                delay: index * 0.08,
-                ease: 'easeOut',
+                delay: entranceDelay + index * stagger,
+                ease: 'easeOut' as const,
               }}
             >
               <span className="text-2xl text-gray-300 leading-none select-none">&ldquo;</span>
@@ -236,7 +241,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
         className="btn-interactive btn-primary relative z-10"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.3 }}
+        transition={{ delay: ctaDelay, duration: 0.3 }}
       >
         <span className="material-icons-outlined">auto_awesome</span>
         Show Highlights and Opportunities

@@ -173,10 +173,7 @@ export default function MultilingualVignette() {
   return (
     <VignetteContainer id="multilingual" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
-        <motion.div
-          {...fadeInUp}
-          transition={{ delay: 0.2 }}
-        >
+        <motion.div {...fadeInUp}>
           <VignetteStaged stages={multilingualContent.stages}>
             <MultilingualContent
               redlineNotes={redlineNotes}

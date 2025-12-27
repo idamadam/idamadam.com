@@ -3,6 +3,42 @@
  * Used across all vignettes for consistent feel
  */
 
+/**
+ * Semantic timing system for "read then explore" animation sequencing
+ * All values are in seconds
+ */
+export const timing = {
+  entrance: {
+    text: 0,        // Text column starts immediately
+    panel: 0.4,     // Panel waits 400ms for text to settle
+    cards: 0.5,     // Cards wait 500ms (after panel wrapper)
+  },
+  duration: {
+    fast: 0.25,     // Standard transitions
+    medium: 0.4,    // Card reveals
+    slow: 0.6,      // Major reveals (fadeInUp)
+  },
+  stagger: {
+    tight: 0.08,    // Fast card sequences
+    normal: 0.1,    // Standard stagger
+  },
+  stage: {
+    textDuration: 0.25,   // How long text swap takes
+    panelDelay: 0.2,      // Panel waits after text starts swapping
+    panelDuration: 0.35,  // Panel transition duration
+  },
+} as const;
+
+/**
+ * Reduced motion timing - respects prefers-reduced-motion
+ */
+export const timingReduced = {
+  entrance: { text: 0, panel: 0, cards: 0 },
+  duration: { fast: 0.1, medium: 0.15, slow: 0.2 },
+  stagger: { tight: 0, normal: 0 },
+  stage: { textDuration: 0.1, panelDelay: 0, panelDuration: 0.15 },
+} as const;
+
 export const fadeInUp = {
   initial: { opacity: 0, y: 60 },
   whileInView: { opacity: 1, y: 0 },

@@ -6,6 +6,7 @@ import MultilingualVignette from '@/components/vignettes/multilingual/Multilingu
 import HomeConnectVignette from '@/components/vignettes/home-connect/HomeConnectVignette';
 import HeroVignette from '@/components/vignettes/hero/HeroVignette';
 import SectionHeader from '@/components/SectionHeader';
+import SectionTitle from '@/components/SectionTitle';
 export default function Home() {
   return (
     <main className="w-full min-h-screen text-primary bg-background">
@@ -14,13 +15,7 @@ export default function Home() {
         <HeroVignette />
 
         {/* Vignettes Introduction */}
-        <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12">
-          <div className="max-w-5xl mx-auto border-t border-gray-200/80 pt-10 lg:pt-12">
-            <h2 className="type-h2">
-              Selected work from Culture Amp
-            </h2>
-          </div>
-        </section>
+        <SectionTitle>Selected work from Culture Amp</SectionTitle>
 
         {/* Vignettes Section */}
         <section className="w-full pb-16 lg:pb-24 px-6 lg:px-12">

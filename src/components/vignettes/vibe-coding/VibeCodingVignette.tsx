@@ -14,10 +14,7 @@ export default function VibeCodingVignette() {
     >
       <div className="w-full space-y-10 lg:space-y-12">
         {/* Section: Vibe Coding Demo */}
-        <motion.div
-          {...fadeInUp}
-          transition={{ delay: 0.2 }}
-        >
+        <motion.div {...fadeInUp}>
           <VignetteSplit
             title={vibeCodingContent.title}
             description={vibeCodingContent.description}

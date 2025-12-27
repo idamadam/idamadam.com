@@ -3,6 +3,8 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStageProvider, useVignetteStage, VignetteStage } from '@/lib/vignette-stage-context';
+import { timing, timingReduced } from '@/lib/animations';
+import { useReducedMotion } from '@/lib/useReducedMotion';
 import type { StageContent } from './types';
 
 interface VignetteStagedProps {
@@ -24,18 +26,23 @@ function VignetteStagedInner({
 }: VignetteStagedProps) {
   const { stage, goToDesignNotes, hasSeenSolution, reset } = useVignetteStage();
   const [showDesignNotesCta, setShowDesignNotesCta] = useState(false);
+  const reducedMotion = useReducedMotion();
+  const t = reducedMotion ? timingReduced : timing;
+
+  // CTA delay: wait for text + panel transitions to complete
+  const ctaDelayMs = (t.stage.textDuration + t.stage.panelDuration + 0.2) * 1000;
 
   // Show design notes CTA after solution is revealed (with delay for animation to complete)
   useEffect(() => {
     if (stage === 'solution' && hasSeenSolution) {
       const timer = setTimeout(() => {
         setShowDesignNotesCta(true);
-      }, 800); // Delay after solution animation completes
+      }, ctaDelayMs);
       return () => clearTimeout(timer);
     } else if (stage !== 'solution') {
       setShowDesignNotesCta(false);
     }
-  }, [stage, hasSeenSolution]);
+  }, [stage, hasSeenSolution, ctaDelayMs]);
 
   const currentStageContent = stages?.[stage];
 
@@ -43,7 +50,7 @@ function VignetteStagedInner({
     <motion.div
       layout
       className={`relative ${className}`}
-      transition={{ layout: { duration: 0.35, ease: 'easeInOut' } }}
+      transition={{ layout: { duration: t.stage.panelDuration, ease: 'easeInOut' } }}
     >
       <AnimatePresence mode="wait">
         {stage === 'designNotes' && designNotesPanel ? (
@@ -53,7 +60,7 @@ function VignetteStagedInner({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            transition={{ duration: t.stage.panelDuration, ease: 'easeInOut' }}
             className="space-y-6"
           >
             {/* Iterations header */}
@@ -90,7 +97,7 @@ function VignetteStagedInner({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            transition={{ duration: t.stage.panelDuration, ease: 'easeInOut' }}
             className="space-y-6"
           >
             {children}

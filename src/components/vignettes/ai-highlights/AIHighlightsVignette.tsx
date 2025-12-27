@@ -124,10 +124,7 @@ export default function AIHighlightsVignette() {
   return (
     <VignetteContainer id="ai-highlights" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
-        <motion.div
-          {...fadeInUp}
-          transition={{ delay: 0.2 }}
-        >
+        <motion.div {...fadeInUp}>
           <VignetteStaged
             stages={aiHighlightsContent.stages}
           >
