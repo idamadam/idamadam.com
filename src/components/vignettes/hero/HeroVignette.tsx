@@ -15,7 +15,7 @@ export default function HeroVignette() {
           <motion.div {...fadeInUp} transition={{ delay: 0.1 }}>
             <VignetteSplit
               title={heroContent.name}
-              description={`${heroContent.role}. ${heroContent.tagline}`}
+              description={`${heroContent.role}.`}
               variant="hero"
             >
               <HeroShaderPanel />
