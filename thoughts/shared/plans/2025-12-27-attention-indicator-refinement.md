@@ -58,127 +58,85 @@ Replace the continuous `btn-shimmer` animation with one-shot entrance animations
 
 Use Framer Motion exclusively for button entrance animations (cleaner than coordinating CSS + Framer). Keep CSS for design note dot breathing since it's a simple infinite loop.
 
-## Phase 1: Remove Shimmer, Add Button Entrance Animation
+## Phase 1: Remove Shimmer, Redesign Button Hover States ✅ COMPLETED
 
 ### Overview
-Replace `btn-primary-pulse` with a new `btn-entrance` class that applies a one-shot scale/glow animation via Framer Motion.
+Removed the continuous `btn-shimmer` animation and redesigned hover/active states for better visual feedback without causing text blur or looking like disabled states.
 
-### Changes Required
+### What Was Actually Implemented
 
-#### 1. Update Button Animation Presets
-**File**: `src/lib/animations.ts`
-**Changes**: Add new entrance animation preset
-
-```typescript
-/**
- * One-shot button entrance animation
- * Use after fadeInUp completes for a subtle "pop" effect
- */
-export const buttonEntrance = {
-  initial: { scale: 1, boxShadow: '0 0 0 0 rgba(24, 24, 27, 0)' },
-  animate: {
-    scale: [1, 1.03, 1],
-    boxShadow: [
-      '0 0 0 0 rgba(24, 24, 27, 0)',
-      '0 0 12px 4px rgba(24, 24, 27, 0.12)',
-      '0 0 0 0 rgba(24, 24, 27, 0)',
-    ],
-  },
-  transition: {
-    duration: 0.5,
-    ease: 'easeOut' as const,
-    times: [0, 0.5, 1],
-  },
-};
-```
-
-#### 2. Update globals.css
+#### 1. Removed Shimmer Animation
 **File**: `src/app/globals.css`
-**Changes**: Remove shimmer animation, simplify button styling
+- Removed `@keyframes btn-shimmer`
+- Made `.btn-primary-pulse` a no-op for backwards compatibility
 
-Replace lines 329-346:
+#### 2. Redesigned Button Hover/Active States
+**File**: `src/app/globals.css`
+
+After iterating through several approaches (scale transforms caused blurry text, darkening looked like disabled state), settled on:
+
 ```css
-/* Shimmer animation for text */
-@keyframes btn-shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+.btn-primary {
+  background-color: var(--accent-interactive);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  border: none;
+  transition: color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
 }
 
-.btn-primary-pulse {
-  background: linear-gradient(
-    90deg,
-    var(--accent-interactive) 0%,
-    var(--accent-interactive) 40%,
-    var(--neutral-600) 50%,
-    var(--accent-interactive) 60%,
-    var(--accent-interactive) 100%
-  );
-  background-size: 200% 100%;
-  animation: btn-shimmer 3s ease-in-out infinite;
+.btn-primary:hover {
+  color: #fef3c7;  /* Light cream - readable on dark bg, warm tint */
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.4);  /* Warm amber ring */
+}
+
+.btn-primary:active {
+  color: #fef3c7;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.6);
+  transform: scale(0.97);  /* Subtle bounce on click */
+}
+
+.btn-primary .material-icons-outlined {
+  color: inherit;  /* Icons follow text color on hover */
 }
 ```
 
-With:
-```css
-/* btn-primary-pulse is now a no-op for backwards compatibility */
-/* Entrance animation handled via Framer Motion buttonEntrance preset */
-.btn-primary-pulse {
-  /* Intentionally empty - class kept for any external references */
-}
-```
+#### 3. Simplified Button Components
+Removed `btn-primary-pulse` class and Framer Motion `whileHover`/`whileTap` from all buttons (CSS handles hover now):
+- `src/components/vignettes/ai-highlights/HighlightsPanel.tsx`
+- `src/components/vignettes/vibe-coding/VibeCodingVignette.tsx`
+- `src/components/vignettes/hero/HeroShaderPanel.tsx`
+- `src/components/vignettes/home-connect/ProblemPanel.tsx`
+- `src/components/vignettes/multilingual/ProblemPanel.tsx`
+- `src/components/vignettes/prototyping/SandboxPanel.tsx`
+- `src/components/vignettes/vibe-coding/DemoCreationFlow.tsx`
 
-Update reduced motion (line 374):
-```css
-/* Remove: .btn-primary-pulse { animation: none; } - no longer needed */
-```
+#### 4. Cleaned Up RichTextEditor
+**File**: `src/components/demos/RichTextEditor.tsx`
+- Removed unused `pulseImproveButton` prop
+- Removed unused `readOnly` prop
+- Updated `src/components/vignettes/ai-suggestions/SuggestionsPanel.tsx` to remove prop usage
 
-#### 3. Update Vignette Button Components
-**Files to update** (8 files):
-- `src/components/vignettes/ai-highlights/HighlightsPanel.tsx:234-248`
-- `src/components/vignettes/vibe-coding/VibeCodingVignette.tsx:29`
-- `src/components/vignettes/hero/HeroShaderPanel.tsx:160`
-- `src/components/vignettes/home-connect/ProblemPanel.tsx:96`
-- `src/components/vignettes/multilingual/ProblemPanel.tsx:112`
-- `src/components/vignettes/prototyping/SandboxPanel.tsx:65`
-- `src/components/vignettes/vibe-coding/DemoCreationFlow.tsx:131`
-- `src/components/demos/RichTextEditor.tsx:56`
+### Design Decisions & Iterations
 
-**Pattern for motion.button updates**:
-```tsx
-import { buttonEntrance } from '@/lib/animations';
-
-<motion.button
-  className="btn-interactive btn-primary"  // Remove btn-primary-pulse
-  initial={{ opacity: 0, y: 10, ...buttonEntrance.initial }}
-  animate={{ opacity: 1, y: 0, ...buttonEntrance.animate }}
-  transition={{
-    opacity: { delay: 0.5, duration: 0.3 },
-    y: { delay: 0.5, duration: 0.3 },
-    scale: { delay: 0.8, ...buttonEntrance.transition },  // Start pop after fade
-    boxShadow: { delay: 0.8, ...buttonEntrance.transition },
-  }}
-  whileHover={{ scale: 1.02 }}
-  whileTap={{ scale: 0.98 }}
->
-```
-
-For non-motion buttons (VibeCodingVignette, RichTextEditor), wrap in motion or keep static.
+1. **Scale transforms cause blurry text** - Removed all `scale()` from hover states
+2. **Dark buttons can't darken on hover** - Lightening looked disabled
+3. **Warm accent ring** - Using `#f59e0b` (amber) creates visible, distinctive hover
+4. **Light cream text on hover** - `#fef3c7` is readable and feels warm
+5. **Subtle bounce on click** - `scale(0.97)` with 0.1s transition feels responsive
 
 ### Success Criteria
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
-- [ ] Linting passes: `npm run lint`
-- [ ] No console errors in dev mode: `npm run dev`
+- [x] TypeScript compiles: `npm run build`
+- [x] Linting passes (0 errors)
 
 #### Manual Verification:
-- [ ] CTA buttons no longer shimmer continuously
-- [ ] Buttons have subtle "pop" effect when scrolling into view
-- [ ] Multiple vignettes visible = calm visual experience
-- [ ] Hover/tap states still work correctly
-- [ ] Reduced motion setting disables entrance animation
-
-**Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding to the next phase.
+- [x] CTA buttons no longer shimmer continuously
+- [x] Multiple vignettes visible = calm visual experience
+- [x] Hover state clearly visible (warm amber ring + cream text)
+- [x] Click/tap has subtle bounce feedback
+- [x] Text remains crisp (no scale blur)
 
 ---
 
@@ -307,94 +265,17 @@ Note: Need to pass `index` from the map function to enable stagger.
 ## Phase 3: Polish and Edge Cases
 
 ### Overview
-Handle edge cases and ensure consistency across all vignettes.
+Handle any remaining edge cases. Most items originally planned here were completed in Phase 1.
 
-### Changes Required
+### Items Completed in Phase 1
+- ✅ VibeCodingVignette: Removed `btn-primary-pulse` class, kept as static `<a>` (CSS hover works fine)
+- ✅ RichTextEditor: Removed `pulseImproveButton` prop entirely (no longer needed)
+- ✅ Cleaned up shimmer keyframes from CSS
 
-#### 1. Handle Static Button in VibeCodingVignette
-**File**: `src/components/vignettes/vibe-coding/VibeCodingVignette.tsx`
-**Changes**: Convert `<a>` to `motion.a` for entrance animation
-
-```tsx
-import { motion } from 'framer-motion';
-import { buttonEntrance } from '@/lib/animations';
-
-<motion.a
-  href="https://studio.up.railway.app/"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="btn-interactive btn-primary"
-  initial={{ opacity: 0, y: 10 }}
-  whileInView={{ opacity: 1, y: 0, ...buttonEntrance.animate }}
-  viewport={{ once: true }}
-  transition={{
-    opacity: { duration: 0.3 },
-    y: { duration: 0.3 },
-    scale: { delay: 0.3, ...buttonEntrance.transition },
-    boxShadow: { delay: 0.3, ...buttonEntrance.transition },
-  }}
-  whileHover={{ scale: 1.02 }}
-  whileTap={{ scale: 0.98 }}
->
-  Join the waitlist
-  <span className="material-icons-outlined">arrow_forward</span>
-</motion.a>
-```
-
-#### 2. Handle Conditional Pulse in RichTextEditor
-**File**: `src/components/demos/RichTextEditor.tsx`
-**Changes**: The `pulseImproveButton` prop controlled conditional shimmer. Replace with entrance animation.
-
-Since this is inside a demo, the entrance should trigger when `pulseImproveButton` becomes true:
-
-```tsx
-import { motion, AnimatePresence } from 'framer-motion';
-
-// Replace static button with motion.button
-<motion.button
-  onClick={onImprove}
-  disabled={isImproving}
-  className="btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
-  animate={pulseImproveButton ? {
-    scale: [1, 1.03, 1],
-    boxShadow: [
-      '0 0 0 0 rgba(24, 24, 27, 0)',
-      '0 0 12px 4px rgba(24, 24, 27, 0.12)',
-      '0 0 0 0 rgba(24, 24, 27, 0)',
-    ],
-  } : {}}
-  transition={{ duration: 0.5, ease: 'easeOut' }}
->
-```
-
-#### 3. Clean Up Unused CSS
-**File**: `src/app/globals.css`
-**Changes**: Remove the shimmer keyframes entirely since they're no longer used
-
-Delete lines 329-333:
-```css
-/* Shimmer animation for text */
-@keyframes btn-shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-```
-
-And simplify `.btn-primary-pulse` or remove it entirely.
-
-### Success Criteria
-
-#### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
-- [ ] Linting passes: `npm run lint`
-- [ ] No unused CSS warnings
-
-#### Manual Verification:
-- [ ] Vibe Coding waitlist link has entrance animation
-- [ ] RichTextEditor "Improve" button pulses when triggered
-- [ ] All 8 original button locations work correctly
-- [ ] No visual regressions across any vignette
-- [ ] Page feels calm with multiple vignettes in view
+### Remaining Items
+- [ ] Verify all buttons work correctly after Phase 2 changes
+- [ ] Final cross-browser testing
+- [ ] Verify reduced motion support works end-to-end
 
 ---
 

@@ -26,7 +26,7 @@ export default function VibeCodingVignette() {
                 href="https://studio.up.railway.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-interactive btn-primary btn-primary-pulse"
+                className="btn-interactive btn-primary"
               >
                 Join the waitlist
                 <span className="material-icons-outlined">arrow_forward</span>

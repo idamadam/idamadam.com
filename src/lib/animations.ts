@@ -33,3 +33,4 @@ export const buttonAnimations = {
   animate: { opacity: 1, y: 0 },
   transition: { opacity: { duration: 0.3 }, y: { duration: 0.3 } },
 };
+

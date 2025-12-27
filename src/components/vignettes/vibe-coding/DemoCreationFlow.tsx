@@ -128,7 +128,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 <div className="flex items-center justify-center h-full">
                   <button
                     onClick={startDemo}
-                    className="btn-interactive btn-primary btn-primary-pulse"
+                    className="btn-interactive btn-primary"
                   >
                     <span className="material-icons-outlined">play_arrow</span>
                     Start Demo

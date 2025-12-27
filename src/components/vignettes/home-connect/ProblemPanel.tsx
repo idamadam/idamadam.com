@@ -93,15 +93,10 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
       <div className="flex justify-center">
         <motion.button
           onClick={onTransition}
-          className="btn-interactive btn-primary btn-primary-pulse"
+          className="btn-interactive btn-primary"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{
-            opacity: { delay: reducedMotion ? 0 : 0.6 },
-            y: { delay: reducedMotion ? 0 : 0.6 },
-          }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          transition={{ delay: reducedMotion ? 0 : 0.6, duration: 0.3 }}
         >
           <span className="material-icons-outlined">auto_awesome</span>
           What if it was all in one place?

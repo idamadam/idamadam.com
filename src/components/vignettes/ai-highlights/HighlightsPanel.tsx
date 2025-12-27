@@ -216,7 +216,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
                 ease: 'easeOut',
               }}
             >
-              <span className="text-2xl text-gray-300 leading-none select-none">"</span>
+              <span className="text-2xl text-gray-300 leading-none select-none">&ldquo;</span>
               <p className="text-body-sm text-primary italic line-clamp-3 -mt-1">
                 {card.content}
               </p>
@@ -233,15 +233,10 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
       {/* CTA */}
       <motion.button
         onClick={onTransition}
-        className="btn-interactive btn-primary btn-primary-pulse relative z-10"
+        className="btn-interactive btn-primary relative z-10"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{
-          opacity: { delay: 0.5, duration: 0.3 },
-          y: { delay: 0.5, duration: 0.3 },
-        }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        transition={{ delay: 0.5, duration: 0.3 }}
       >
         <span className="material-icons-outlined">auto_awesome</span>
         Show Highlights and Opportunities

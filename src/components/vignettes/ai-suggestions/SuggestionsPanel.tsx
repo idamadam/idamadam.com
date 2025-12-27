@@ -188,9 +188,7 @@ export default function SuggestionsPanel({
           placeholder="Write feedback..."
           showImproveButton={true}
           isImproving={isLoading}
-          readOnly={true}
           onImprove={isProblem ? onTransition : undefined}
-          pulseImproveButton={isProblem}
         />
       </div>
 

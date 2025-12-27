@@ -157,11 +157,10 @@ export default function HeroShaderPanel() {
       {/* Toggle button */}
       <motion.button
         onClick={handleToggle}
-        className="btn-interactive btn-primary btn-primary-pulse mt-6"
+        className="btn-interactive btn-primary mt-6"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        transition={{ duration: 0.3 }}
       >
         <span className="material-icons-outlined">
           {isActive ? 'motion_photos_pause' : 'palette'}
