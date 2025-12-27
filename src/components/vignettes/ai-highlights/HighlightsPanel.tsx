@@ -247,28 +247,18 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
       <div className="border-t-2 border-gray-200 bg-gray-50 px-5 py-4">
         <motion.button
           onClick={onTransition}
-          className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-full text-[14px] font-semibold transition-colors"
-          style={{ backgroundColor: 'var(--accent-interactive-bg)' }}
+          className="btn-interactive btn-primary btn-primary-pulse w-full"
           initial={{ opacity: 0, y: 10 }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            boxShadow: [
-              '0 0 0 0 rgba(154, 54, 178, 0)',
-              '0 0 0 6px rgba(154, 54, 178, 0.12)',
-              '0 0 0 0 rgba(154, 54, 178, 0)'
-            ]
-          }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{
             opacity: { delay: 0.5, duration: 0.3 },
             y: { delay: 0.5, duration: 0.3 },
-            boxShadow: { delay: 1, duration: 2.5, repeat: Infinity, ease: 'easeInOut' }
           }}
-          whileHover={{ scale: 1.01, backgroundColor: 'var(--accent-interactive-bg-hover)' }}
-          whileTap={{ scale: 0.99 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          <span className="material-icons-outlined text-h3" style={{ color: 'var(--accent-interactive)' }}>auto_awesome</span>
-          <span style={{ color: 'var(--accent-interactive)' }}>Show Highlights and Opportunities</span>
+          <span className="material-icons-outlined">auto_awesome</span>
+          Show Highlights and Opportunities
         </motion.button>
       </div>
     </div>

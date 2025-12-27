@@ -108,28 +108,18 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         {stage >= 3 && (
           <motion.button
             onClick={onTransition}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full font-semibold text-body-sm"
-            style={{ backgroundColor: 'var(--accent-interactive-bg)' }}
+            className="btn-interactive btn-primary btn-primary-pulse w-full"
             initial={{ opacity: 0, y: 10 }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              boxShadow: [
-                '0 0 0 0 rgba(154, 54, 178, 0)',
-                '0 0 0 6px rgba(154, 54, 178, 0.12)',
-                '0 0 0 0 rgba(154, 54, 178, 0)'
-              ]
-            }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               opacity: { duration: 0.3 },
               y: { duration: 0.3 },
-              boxShadow: { delay: 0.5, duration: 2.5, repeat: Infinity, ease: 'easeInOut' }
             }}
-            whileHover={{ scale: 1.02, backgroundColor: 'var(--accent-interactive-bg-hover)' }}
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className="material-icons-outlined text-h3" style={{ color: 'var(--accent-interactive)' }}>auto_awesome</span>
-            <span style={{ color: 'var(--accent-interactive)' }}>See the solution</span>
+            <span className="material-icons-outlined">auto_awesome</span>
+            See the solution
           </motion.button>
         )}
       </AnimatePresence>
