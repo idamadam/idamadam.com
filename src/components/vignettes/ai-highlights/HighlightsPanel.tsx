@@ -17,16 +17,6 @@ interface HighlightsPanelProps {
   focusedAnchor?: string | null;
 }
 
-// Predefined positions for scattered cards
-const cardPositions = [
-  { x: -20, y: -15, rotate: -8 },
-  { x: 30, y: 10, rotate: 5 },
-  { x: -10, y: 25, rotate: -3 },
-  { x: 40, y: -20, rotate: 7 },
-  { x: -30, y: 5, rotate: -5 },
-  { x: 15, y: 30, rotate: 4 },
-];
-
 interface SourceCardProps {
   name: string;
   date: string;
@@ -190,87 +180,73 @@ function LoadingState() {
   );
 }
 
-function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
-  return (
-    <div className="relative bg-white rounded-lg border-2 border-gray-200 overflow-hidden">
-      {/* Header with count */}
-      <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200 px-5 py-3.5 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="material-icons-outlined text-body text-gray-700 leading-none">
-            inbox
-          </span>
-          <div className="text-body-sm font-semibold text-gray-900 leading-none">
-            Feedback about Idam
-          </div>
-        </div>
-      </div>
+// Positions for scattered feedback cards
+const feedbackCardPositions = [
+  { top: '5%', left: '5%', rotate: -4 },
+  { top: '8%', right: '8%', rotate: 3 },
+  { top: '35%', left: '8%', rotate: -2 },
+  { top: '38%', right: '5%', rotate: 5 },
+  { top: '62%', left: '12%', rotate: -3 },
+];
 
-      {/* Scrollable feed */}
-      <div className="relative max-h-[440px] overflow-y-auto">
-        <div className="divide-y divide-gray-100">
-          {cards.map((card, index) => (
+function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
+  // Use first 5 cards for scattered layout
+  const displayCards = cards.slice(0, 5);
+
+  return (
+    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[400px] flex flex-col items-center justify-end p-8">
+      {/* Scattered floating cards */}
+      <div className="absolute inset-0">
+        {displayCards.map((card, index) => {
+          const pos = feedbackCardPositions[index % feedbackCardPositions.length];
+          return (
             <motion.div
               key={card.id}
-              className="px-5 py-4 hover:bg-gray-50 transition-colors"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              className="absolute bg-white px-4 py-3 rounded-lg shadow-sm border border-gray-200 max-w-[220px]"
+              style={{
+                top: pos.top,
+                left: pos.left,
+                right: pos.right,
+                transform: `rotate(${pos.rotate}deg)`,
+              }}
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
-                duration: 0.3,
-                delay: index * 0.05,
+                duration: 0.4,
+                delay: index * 0.08,
                 ease: 'easeOut',
               }}
             >
-              <div className="flex items-center gap-2 mb-2">
-                <img
-                  src={card.avatarUrl || '/avatars/sarah-chen.svg'}
-                  alt={card.from || 'Source'}
-                  className="w-6 h-6 rounded-full"
-                />
-                {card.from && (
-                  <span className="text-body-sm font-semibold text-primary">
-                    {card.from}
-                  </span>
-                )}
-              </div>
-              <p className="text-body-sm text-primary">
+              <span className="text-2xl text-gray-300 leading-none select-none">"</span>
+              <p className="text-body-sm text-primary italic line-clamp-3 -mt-1">
                 {card.content}
               </p>
+              {card.from && (
+                <p className="text-caption text-secondary mt-2">
+                  — {card.from}
+                </p>
+              )}
             </motion.div>
-          ))}
-        </div>
-
-        {/* Scroll indicator gradient */}
-        <div className="sticky bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
+          );
+        })}
       </div>
 
-      {/* CTA Footer */}
-      <div className="border-t-2 border-gray-200 bg-gray-50 px-5 py-4">
-        <motion.button
-          onClick={onTransition}
-          className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-full text-[14px] font-semibold transition-colors"
-          style={{ backgroundColor: 'var(--accent-interactive-bg)' }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            boxShadow: [
-              '0 0 0 0 rgba(154, 54, 178, 0)',
-              '0 0 0 6px rgba(154, 54, 178, 0.12)',
-              '0 0 0 0 rgba(154, 54, 178, 0)'
-            ]
-          }}
-          transition={{
-            opacity: { delay: 0.5, duration: 0.3 },
-            y: { delay: 0.5, duration: 0.3 },
-            boxShadow: { delay: 1, duration: 2.5, repeat: Infinity, ease: 'easeInOut' }
-          }}
-          whileHover={{ scale: 1.01, backgroundColor: 'var(--accent-interactive-bg-hover)' }}
-          whileTap={{ scale: 0.99 }}
-        >
-          <span className="material-icons-outlined text-h3" style={{ color: 'var(--accent-interactive)' }}>auto_awesome</span>
-          <span style={{ color: 'var(--accent-interactive)' }}>Show Highlights and Opportunities</span>
-        </motion.button>
-      </div>
+      {/* CTA */}
+      <motion.button
+        onClick={onTransition}
+        className="btn-interactive btn-primary btn-primary-pulse relative z-10"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          opacity: { delay: 0.5, duration: 0.3 },
+          y: { delay: 0.5, duration: 0.3 },
+        }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        <span className="material-icons-outlined">auto_awesome</span>
+        Show Highlights and Opportunities
+      </motion.button>
     </div>
   );
 }

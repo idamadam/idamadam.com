@@ -26,16 +26,10 @@ export default function VibeCodingVignette() {
                 href="https://studio.up.railway.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full font-semibold text-body-sm transition-colors"
-                style={{
-                  backgroundColor: 'var(--accent-interactive-bg)',
-                  color: 'var(--accent-interactive)'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-interactive-bg-hover)'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-interactive-bg)'}
+                className="btn-interactive btn-primary btn-primary-pulse"
               >
                 Join the waitlist
-                <span className="material-icons-outlined text-base">arrow_forward</span>
+                <span className="material-icons-outlined">arrow_forward</span>
               </a>
             )}
           >

@@ -21,7 +21,7 @@ export default function VignetteSplit({
   const textStackClass = hasTitle ? 'space-y-4' : 'space-y-3';
 
   const titleClass = variant === 'hero' ? 'type-h1' : 'type-h2';
-  const descriptionClass = variant === 'hero' ? 'type-body-medium' : 'type-body';
+  const descriptionClass = 'type-body';
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] xl:grid-cols-[400px_1fr] gap-10 lg:gap-12 lg:items-center">

@@ -1,7 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
-
 interface RichTextEditorProps {
   content: string;
   placeholder?: string;
@@ -52,30 +50,14 @@ export default function RichTextEditor({
 
           {/* Improve button */}
           {showImproveButton && (
-            <motion.button
+            <button
               onClick={onImprove}
               disabled={isImproving}
-              className="flex items-center gap-1.5 h-10 px-3 py-2 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{
-                backgroundColor: 'var(--accent-interactive-bg)',
-              }}
-              whileHover={{ backgroundColor: 'var(--accent-interactive-bg-hover)' }}
-              animate={pulseImproveButton ? {
-                boxShadow: [
-                  '0 0 0 0 rgba(154, 54, 178, 0)',
-                  '0 0 0 6px rgba(154, 54, 178, 0.12)',
-                  '0 0 0 0 rgba(154, 54, 178, 0)'
-                ]
-              } : undefined}
-              transition={pulseImproveButton ? {
-                duration: 2.5,
-                repeat: Infinity,
-                ease: 'easeInOut'
-              } : undefined}
+              className={`btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed ${pulseImproveButton ? 'btn-primary-pulse' : ''}`}
             >
-              <span className="material-icons-outlined text-h3" style={{ color: 'var(--accent-interactive)' }}>auto_awesome</span>
-              <span className="text-sm font-medium" style={{ color: 'var(--accent-interactive)' }}>Improve</span>
-            </motion.button>
+              <span className="material-icons-outlined">auto_awesome</span>
+              <span className="text-sm">Improve</span>
+            </button>
           )}
         </div>
 

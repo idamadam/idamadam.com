@@ -25,15 +25,20 @@
   /* Accent - swap this for personality later */
   --accent: #2563eb;
   --accent-foreground: #ffffff;
-  --accent-interactive: #9A36B2;
-  --accent-interactive-bg: rgba(154, 54, 178, 0.08);
-  --accent-interactive-bg-hover: rgba(154, 54, 178, 0.14);
+
+  /* Interactive accent - Dark neutral */
+  --accent-interactive: var(--neutral-900);
+  --accent-interactive-rgb: 24, 24, 27;
+  --accent-interactive-bg: rgba(245, 158, 11, 0.08);
+  --accent-interactive-bg-hover: rgba(245, 158, 11, 0.12);
+  --accent-interactive-bg-active: rgba(245, 158, 11, 0.16);
+
   --warm-accent: #f59e0b;
 
   /* AI loading gradient */
   --ai-gradient-1: #A6E5E7;
   --ai-gradient-2: #64D2D7;
-  --ai-gradient-3: #9A36B2;
+  --ai-gradient-3: #0EA5A3;
 
   /* Semantic text colors */
   --primary: var(--neutral-900);
@@ -209,7 +214,7 @@ html {
 }
 
 body {
-  background: var(--background);
+  background: transparent;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 1rem;
@@ -277,6 +282,96 @@ a:hover {
 
 .border-subtle {
   border-color: var(--border);
+}
+
+/* =================================================
+   INTERACTIVE BUTTON SYSTEM
+   ================================================= */
+
+.btn-interactive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: var(--text-body-sm);
+  line-height: 1;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-interactive:focus-visible {
+  outline: 2px solid var(--accent-interactive);
+  outline-offset: 2px;
+}
+
+/* Primary: solid filled button */
+.btn-primary {
+  background-color: var(--accent-interactive);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--accent-interactive) 85%, black);
+  transform: scale(1.02);
+}
+
+.btn-primary:active {
+  background-color: color-mix(in srgb, var(--accent-interactive) 75%, black);
+  transform: scale(0.98);
+}
+
+/* Shimmer animation for text */
+@keyframes btn-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.btn-primary-pulse {
+  background: linear-gradient(
+    90deg,
+    var(--accent-interactive) 0%,
+    var(--accent-interactive) 40%,
+    var(--neutral-600) 50%,
+    var(--accent-interactive) 60%,
+    var(--accent-interactive) 100%
+  );
+  background-size: 200% 100%;
+  animation: btn-shimmer 3s ease-in-out infinite;
+}
+
+/* Secondary: text style for navigation */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--secondary);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.btn-secondary:hover {
+  color: var(--primary);
+}
+
+/* Icon styling */
+.btn-interactive .material-icons-outlined {
+  font-size: var(--text-h3);
+  line-height: 1;
+}
+
+.btn-primary .material-icons-outlined {
+  color: white;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .btn-interactive { transition: none; }
+  .btn-primary:hover, .btn-primary:active { transform: none; }
+  .btn-primary-pulse { animation: none; }
 }
 
 /* Layout utility classes */

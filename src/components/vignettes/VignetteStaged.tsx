@@ -75,11 +75,11 @@ function VignetteStagedInner({
             {/* Reset button */}
             <motion.button
               onClick={reset}
-              className="flex items-center gap-2 type-body-sm hover:text-primary transition-colors"
+              className="btn-interactive btn-secondary"
               whileHover={{ x: -4 }}
               transition={{ duration: 0.2 }}
             >
-              <span className="material-icons-outlined text-h3">replay</span>
+              <span className="material-icons-outlined">replay</span>
               Watch again
             </motion.button>
           </motion.div>
@@ -107,9 +107,9 @@ function VignetteStagedInner({
                 >
                   <button
                     onClick={goToDesignNotes}
-                    className="flex items-center gap-2 type-body-sm hover:text-primary transition-colors group"
+                    className="btn-interactive btn-secondary group"
                   >
-                    <span className="material-icons-outlined text-h3">auto_awesome</span>
+                    <span className="material-icons-outlined">auto_awesome</span>
                     <span>{stages.solution.cta}</span>
                     <motion.span
                       className="material-icons-outlined text-body"

@@ -128,13 +128,10 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 <div className="flex items-center justify-center h-full">
                   <button
                     onClick={startDemo}
-                    className="px-6 py-3 text-sm font-semibold rounded-full transition-colors flex items-center gap-2"
-                    style={{ backgroundColor: 'var(--accent-interactive-bg)' }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-interactive-bg-hover)'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-interactive-bg)'}
+                    className="btn-interactive btn-primary btn-primary-pulse"
                   >
-                    <span className="material-icons-outlined text-lg" style={{ color: 'var(--accent-interactive)' }}>play_arrow</span>
-                    <span style={{ color: 'var(--accent-interactive)' }}>Start Demo</span>
+                    <span className="material-icons-outlined">play_arrow</span>
+                    Start Demo
                   </button>
                 </div>
               )}
@@ -255,13 +252,10 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
         <div className="mt-6 text-center">
           <button
             onClick={startDemo}
-            className="px-4 py-2 text-sm font-medium rounded-full transition-colors flex items-center gap-2 mx-auto"
-            style={{ backgroundColor: 'var(--accent-interactive-bg)', color: 'var(--accent-interactive)' }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-interactive-bg-hover)'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-interactive-bg)'}
+            className="btn-interactive btn-primary mx-auto"
           >
-            <span className="material-icons-outlined text-base">replay</span>
-            <span>Replay</span>
+            <span className="material-icons-outlined">replay</span>
+            Replay
           </button>
         </div>
       )}
