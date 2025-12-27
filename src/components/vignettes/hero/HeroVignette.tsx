@@ -1,11 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import HeroShaderPanel from './HeroShaderPanel';
+import HeroContent from './HeroContent';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
-import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { fadeInUp } from '@/lib/animations';
-import { heroContent } from './content';
 
 export default function HeroVignette() {
   return (
@@ -13,13 +11,7 @@ export default function HeroVignette() {
       <div className="max-w-5xl mx-auto">
         <VignetteContainer id="hero">
           <motion.div {...fadeInUp} transition={{ delay: 0.1 }}>
-            <VignetteSplit
-              title={heroContent.name}
-              description={`${heroContent.role}.`}
-              variant="hero"
-            >
-              <HeroShaderPanel />
-            </VignetteSplit>
+            <HeroContent />
           </motion.div>
         </VignetteContainer>
       </div>
