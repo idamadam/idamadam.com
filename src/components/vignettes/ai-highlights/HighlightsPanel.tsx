@@ -244,10 +244,10 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
       </div>
 
       {/* CTA Footer */}
-      <div className="border-t-2 border-gray-200 bg-gray-50 px-5 py-4">
+      <div className="border-t-2 border-gray-200 bg-gray-50 px-5 py-4 flex justify-center">
         <motion.button
           onClick={onTransition}
-          className="btn-interactive btn-primary btn-primary-pulse w-full"
+          className="btn-interactive btn-primary btn-primary-pulse"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{

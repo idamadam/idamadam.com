@@ -4,9 +4,15 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ColorPanels } from '@paper-design/shaders-react';
 
-// Calm state - neutral gray
-const CALM_COLORS = ['#b0b0b0c0', '#b0b0b000', '#b0b0b000', '#b0b0b000', '#b0b0b000'];
-const CALM_SPEED = 0.22;
+// Calm state - monochrome grays with depth
+const CALM_COLORS = [
+  '#d4d4d4cc', // Light gray
+  '#a3a3a3bb', // Mid gray
+  '#737373aa', // Dark gray
+  '#c0c0c0bb', // Silver
+  '#8a8a8acc', // Charcoal tint
+];
+const CALM_SPEED = 0.3;
 
 // Active state - vivid stained glass
 const ACTIVE_COLORS = [
@@ -16,7 +22,7 @@ const ACTIVE_COLORS = [
   '#f4a261dd', // Sandy orange
   '#9b5de5dd', // Purple
 ];
-const ACTIVE_SPEED = 0.8;
+const ACTIVE_SPEED = 1.5;
 
 const TRANSITION_DURATION = 600; // ms
 
@@ -121,10 +127,10 @@ export default function HeroShaderPanel() {
   };
 
   return (
-    <div className="relative">
+    <div className="flex flex-col items-center">
       <div
         ref={containerRef}
-        className="w-full aspect-[4/3] rounded-xl overflow-hidden"
+        className="w-full aspect-[2/1] rounded-xl overflow-hidden"
       >
         {mounted && (
           <ColorPanels
@@ -149,21 +155,19 @@ export default function HeroShaderPanel() {
       </div>
 
       {/* Toggle button */}
-      <div className="absolute bottom-4 right-4">
-        <motion.button
-          onClick={handleToggle}
-          className="btn-interactive btn-primary btn-primary-pulse"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <span className="material-icons-outlined">
-            {isActive ? 'motion_photos_pause' : 'palette'}
-          </span>
-          {isActive ? 'Calm' : 'Add color'}
-        </motion.button>
-      </div>
+      <motion.button
+        onClick={handleToggle}
+        className="btn-interactive btn-primary btn-primary-pulse mt-6"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        <span className="material-icons-outlined">
+          {isActive ? 'motion_photos_pause' : 'palette'}
+        </span>
+        {isActive ? 'Remove color' : 'Add color'}
+      </motion.button>
     </div>
   );
 }
