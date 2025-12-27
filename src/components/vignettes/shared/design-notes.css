@@ -166,3 +166,25 @@
     display: none; /* Hide on unsupported browsers for mobile */
   }
 }
+
+/* Breathing animation for design note dots */
+@keyframes dot-breathe {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.15);
+  }
+}
+
+.design-note-marker-dot {
+  animation: dot-breathe 2.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .design-note-marker-dot {
+    animation: none;
+  }
+}

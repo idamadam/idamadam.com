@@ -38,23 +38,23 @@ export default function RedlineOverlay({
   const dotStyles = {
     subtle: {
       scale: 1,
-      opacity: 0.6,
-      boxShadow: `0 0 0 4px ${accent}15`,
+      opacity: 0.7,  // Slightly more visible with warm color
+      boxShadow: `0 0 0 4px ${accent}20`,
     },
     focused: {
       scale: 1.15,
       opacity: 1,
-      boxShadow: `0 0 0 8px ${accent}30`,
+      boxShadow: `0 0 0 8px ${accent}35`,
     },
     expanded: {
       scale: 1.1,
       opacity: 1,
-      boxShadow: `0 0 0 10px ${accent}40`,
+      boxShadow: `0 0 0 10px ${accent}45`,
     },
     dimmed: {
       scale: 1,
-      opacity: 0.35,
-      boxShadow: `0 0 0 4px ${accent}10`,
+      opacity: 0.4,
+      boxShadow: `0 0 0 4px ${accent}12`,
     },
   };
 
@@ -75,7 +75,7 @@ export default function RedlineOverlay({
           aria-hidden="true"
         />
       )}
-      {notes.map((note) => {
+      {notes.map((note, index) => {
         const alignRight = note.position === 'right';
         const isExpanded = expandedAnnotations.has(note.id);
         const dotState = getDotState(note.id);
@@ -99,8 +99,12 @@ export default function RedlineOverlay({
                     backgroundColor: accent,
                     focusVisibleRingColor: accent,
                   } as React.CSSProperties}
+                  initial={reducedMotion ? {} : { scale: 0, opacity: 0 }}
                   animate={reducedMotion ? { opacity: dotStyles[dotState].opacity } : dotStyles[dotState]}
-                  transition={{ duration: 0.2 }}
+                  transition={{
+                    duration: 0.2,
+                    delay: 1.0 + index * 0.1,  // Wait for solution panel, then stagger
+                  }}
                   onClick={() => onToggleAnnotation(note.id)}
                   onMouseEnter={() => onFocusAnnotation(note.id)}
                   onMouseLeave={() => onFocusAnnotation(null)}
