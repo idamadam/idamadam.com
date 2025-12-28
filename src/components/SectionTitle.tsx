@@ -14,7 +14,7 @@ export default function SectionTitle({ children }: SectionTitleProps) {
 
   return (
     <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12">
-      <div className="max-w-5xl mx-auto border-t border-gray-200/80 pt-10 lg:pt-12">
+      <div className="max-w-5xl mx-auto border-t border-border pt-10 lg:pt-12">
         <motion.h2
           className="type-h2"
           initial={{ opacity: 0, y: 30 }}
