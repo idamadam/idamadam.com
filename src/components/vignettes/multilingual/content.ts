@@ -30,23 +30,10 @@ interface LanguagePair {
 interface ProblemCard {
   code: string;
   name: string;
+  flag: string;
   cycleNumber: number;
 }
 
-interface TransitionLanguage {
-  code: string;
-  name: string;
-  translation: string;
-}
-
-interface TransitionContent {
-  sourceLabel: string;
-  sourceQuestion: string;
-  ctaLabel: string;
-  ctaLoadingLabel: string;
-  continueLabel: string;
-  languages: TransitionLanguage[];
-}
 
 export interface MultilingualContent {
   title: string;
@@ -71,7 +58,6 @@ export interface MultilingualContent {
     notes: DesignNote[];
   };
   problemCards: ProblemCard[];
-  transitionContent: TransitionContent;
 }
 
 export const multilingualContent: MultilingualContent = {
@@ -133,7 +119,7 @@ export const multilingualContent: MultilingualContent = {
   ],
   stages: {
     problem: {
-      title: 'Each language required a separate performance review cycle',
+      title: 'Supporting multiple languages required a separate workflow for each language',
       description: '',
       cta: 'Show the solution'
     },
@@ -169,20 +155,8 @@ export const multilingualContent: MultilingualContent = {
     ]
   },
   problemCards: [
-    { code: 'fr', name: 'French', cycleNumber: 1 },
-    { code: 'es', name: 'Spanish', cycleNumber: 2 },
-    { code: 'dv', name: 'Dhivehi', cycleNumber: 3 }
-  ],
-  transitionContent: {
-    sourceLabel: 'Performance review question',
-    sourceQuestion: 'How did this person perform during this review period?',
-    ctaLabel: 'Auto translate all',
-    ctaLoadingLabel: 'Translating...',
-    continueLabel: 'Continue',
-    languages: [
-      { code: 'fr', name: 'French', translation: "Comment cette personne a-t-elle performé au cours de cette période d'évaluation?" },
-      { code: 'es', name: 'Spanish', translation: '¿Cómo se desempeñó esta persona durante este período de evaluación?' },
-      { code: 'dv', name: 'Dhivehi', translation: 'މި މީހާ މި ރިވިއު ތެރޭގައި ކިހިނެއް ކުރިއަރައިފި؟' }
-    ]
-  }
+    { code: 'fr', name: 'French', flag: '🇫🇷', cycleNumber: 1 },
+    { code: 'es', name: 'Spanish', flag: '🇪🇸', cycleNumber: 2 },
+    { code: 'dv', name: 'Dhivehi', flag: '🇲🇻', cycleNumber: 3 }
+  ]
 };

@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TranslationManagementPanel from './TranslationManagementPanel';
-import TransitionPanel from './TransitionPanel';
 import ProblemPanel from './ProblemPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
@@ -21,8 +20,6 @@ import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import '../shared/design-notes.css';
 
-type PanelStage = 'problem' | 'transition' | 'solution';
-
 function MultilingualContent({
   redlineNotes,
   designNotes,
@@ -35,32 +32,11 @@ function MultilingualContent({
   onMobileIndexChange: (index: number) => void;
 }) {
   const { stage, goToSolution, setStage } = useVignetteStage();
-  const [panelStage, setPanelStage] = useState<PanelStage>('problem');
   const reducedMotion = useReducedMotion();
 
   const handleTransition = useCallback(() => {
-    setPanelStage('transition');
-  }, []);
-
-  const handleTransitionComplete = useCallback(() => {
-    setPanelStage('solution');
     goToSolution();
   }, [goToSolution]);
-
-  // Sync panelStage when stage indicator is clicked directly
-  // We use a ref to track the previous stage to detect when it changes via the indicator
-  const prevStageRef = useRef(stage);
-  useEffect(() => {
-    if (prevStageRef.current !== stage) {
-      // Stage changed via indicator click, sync panelStage
-      if (stage === 'problem') {
-        setPanelStage('problem');
-      } else if (stage === 'solution') {
-        setPanelStage('solution');
-      }
-      prevStageRef.current = stage;
-    }
-  }, [stage]);
 
   const currentStageContent = stage === 'problem'
     ? multilingualContent.stages.problem
@@ -96,7 +72,7 @@ function MultilingualContent({
     >
       <div className="relative" style={{ overflow: 'visible' }}>
         <AnimatePresence mode="wait">
-          {panelStage === 'problem' && (
+          {stage === 'problem' && (
             <motion.div
               key="problem"
               initial={{ opacity: 0, y: 10 }}
@@ -107,18 +83,7 @@ function MultilingualContent({
               <ProblemPanel onTransition={handleTransition} />
             </motion.div>
           )}
-          {panelStage === 'transition' && (
-            <motion.div
-              key="transition"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <TransitionPanel onComplete={handleTransitionComplete} />
-            </motion.div>
-          )}
-          {panelStage === 'solution' && (
+          {stage === 'solution' && (
             <motion.div
               key="solution"
               initial={{ opacity: 0, y: 10 }}
