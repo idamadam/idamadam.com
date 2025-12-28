@@ -35,7 +35,6 @@ export interface HomeConnectContent {
   description: string;
   stages: VignetteStages;
   designNotes: {
-    accent: string;
     notes: DesignNote[];
   };
   transitionContent: TransitionContent;
@@ -61,23 +60,24 @@ export const homeConnectContent: HomeConnectContent = {
   },
 
   designNotes: {
-    accent: '#5F3361',
     notes: [
       {
         id: 'progressive-disclosure',
         label: 'Progressive disclosure',
         detail:
           'Feed items show just enough context at a glance. Details expand on interaction, reducing cognitive load.',
-        anchor: 'feed-card-performance',
-        position: 'right' as const
+        x: '104%',
+        y: '35%',
+        popoverSide: 'right' as const,
       },
       {
         id: 'visual-cohesion',
         label: 'Visual cohesion',
         detail:
           'Consistent card structure with type-specific accents. Each module retains identity while feeling unified.',
-        anchor: 'feed-card-goal',
-        position: 'left' as const
+        x: '-4%',
+        y: '80%',
+        popoverSide: 'left' as const,
       }
     ]
   },

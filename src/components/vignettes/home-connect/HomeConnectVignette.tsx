@@ -1,26 +1,28 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import HomeConnectContent from './HomeConnectContent';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteStaged from '@/components/vignettes/VignetteStaged';
 import { fadeInUp } from '@/lib/animations';
 import { homeConnectContent } from './content';
-import { useDesignNotesSetup } from '@/components/vignettes/shared/useDesignNotesSetup';
-import MobileRedlineTour from '@/components/vignettes/shared/MobileRedlineTour';
-import '../shared/design-notes.css';
+
+// Map note IDs to the content sections they reference
+const NOTE_TO_SECTION: Record<string, string> = {
+  'progressive-disclosure': 'performance',
+  'visual-cohesion': 'goal',
+};
 
 export default function HomeConnectVignette() {
-  const {
-    designNotes,
-    mobileIndex,
-    mobileTourActive,
-    openMobileTour,
-    closeMobileTour,
-    setMobileIndex,
-    handleScrollToAnchor,
-    redlineNotes,
-  } = useDesignNotesSetup(homeConnectContent.designNotes);
+  const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
+
+  // Get the section to highlight based on active note
+  const highlightedSection = activeNoteId ? NOTE_TO_SECTION[activeNoteId] ?? null : null;
+
+  const handleNoteOpenChange = (noteId: string, isOpen: boolean) => {
+    setActiveNoteId(isOpen ? noteId : null);
+  };
 
   return (
     <VignetteContainer id="home-connect" allowOverflow>
@@ -28,24 +30,14 @@ export default function HomeConnectVignette() {
         <motion.div {...fadeInUp}>
           <VignetteStaged stages={homeConnectContent.stages}>
             <HomeConnectContent
-              redlineNotes={redlineNotes}
-              designNotes={designNotes}
-              mobileIndex={mobileIndex}
-              onMobileIndexChange={openMobileTour}
+              notes={homeConnectContent.designNotes.notes}
+              highlightedSection={highlightedSection}
+              onNoteOpenChange={handleNoteOpenChange}
+              onActiveNoteChange={setActiveNoteId}
             />
           </VignetteStaged>
         </motion.div>
       </div>
-
-      {/* Mobile bottom sheet tour */}
-      <MobileRedlineTour
-        isActive={mobileTourActive}
-        notes={redlineNotes}
-        onExit={closeMobileTour}
-        currentIndex={mobileIndex}
-        onIndexChange={setMobileIndex}
-        onScrollToAnchor={handleScrollToAnchor}
-      />
     </VignetteContainer>
   );
 }

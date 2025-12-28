@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TranslationManagementPanel from './TranslationManagementPanel';
 import ProblemPanel from './ProblemPanel';
@@ -9,29 +9,21 @@ import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
 import { fadeInUp } from '@/lib/animations';
 import { multilingualContent } from './content';
-import type { DesignNote } from '@/components/vignettes/types';
-import { useDesignNotesSetup } from '@/components/vignettes/shared/useDesignNotesSetup';
-import { useDesignNotes } from '@/components/vignettes/shared/useRedlineMode';
-import RedlineOverlay from '@/components/vignettes/shared/RedlineOverlay';
-import MobileRedlineTour from '@/components/vignettes/shared/MobileRedlineTour';
-import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
+import { DesignNotesOverlay } from '@/components/vignettes/shared/DesignNotesOverlay';
 import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
 import { useReducedMotion } from '@/lib/useReducedMotion';
-import '../shared/design-notes.css';
 
-function MultilingualContent({
-  redlineNotes,
-  designNotes,
-  mobileIndex,
-  onMobileIndexChange,
-}: {
-  redlineNotes: DesignNote[];
-  designNotes: ReturnType<typeof useDesignNotes>;
-  mobileIndex: number;
-  onMobileIndexChange: (index: number) => void;
-}) {
+// Map note IDs to the content sections they reference
+const NOTE_TO_SECTION: Record<string, string> = {
+  'unified-cycle': 'language-dropdown',
+  'ai-translate': 'auto-translate-btn',
+  'source-reference': 'source-text',
+};
+
+function MultilingualContent() {
   const { stage, goToSolution, setStage } = useVignetteStage();
+  const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
   const reducedMotion = useReducedMotion();
 
   const handleTransition = useCallback(() => {
@@ -45,9 +37,12 @@ function MultilingualContent({
   const title = currentStageContent.title;
   const description = currentStageContent.description;
 
-  const focusedAnchor = designNotes.focusedAnnotation
-    ? redlineNotes.find(n => n.id === designNotes.focusedAnnotation)?.anchor ?? null
-    : null;
+  // Get the section to highlight based on active note
+  const highlightedSection = activeNoteId ? NOTE_TO_SECTION[activeNoteId] ?? null : null;
+
+  const handleNoteOpenChange = (noteId: string, isOpen: boolean) => {
+    setActiveNoteId(isOpen ? noteId : null);
+  };
 
   return (
     <VignetteSplit
@@ -93,29 +88,19 @@ function MultilingualContent({
             >
               <TranslationManagementPanel
                 initialComplete
-                focusedAnchor={focusedAnchor}
+                highlightedSection={highlightedSection}
+                onNoteOpenChange={handleNoteOpenChange}
+                notes={multilingualContent.designNotes.notes}
               />
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Desktop annotations - dots always visible in solution stage */}
+        {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
         {stage === 'solution' && (
-          <RedlineOverlay
-            notes={redlineNotes}
-            expandedAnnotations={designNotes.expandedAnnotations}
-            focusedAnnotation={designNotes.focusedAnnotation}
-            onToggleAnnotation={designNotes.toggleAnnotation}
-            onFocusAnnotation={designNotes.setFocusedAnnotation}
-          />
-        )}
-
-        {/* Mobile markers - dots always visible in solution stage */}
-        {stage === 'solution' && (
-          <MobileRedlineMarkers
-            notes={redlineNotes}
-            currentIndex={mobileIndex}
-            onMarkerClick={onMobileIndexChange}
+          <DesignNotesOverlay
+            notes={multilingualContent.designNotes.notes}
+            onActiveNoteChange={setActiveNoteId}
           />
         )}
       </div>
@@ -124,41 +109,15 @@ function MultilingualContent({
 }
 
 export default function MultilingualVignette() {
-  const {
-    designNotes,
-    mobileIndex,
-    mobileTourActive,
-    openMobileTour,
-    closeMobileTour,
-    setMobileIndex,
-    handleScrollToAnchor,
-    redlineNotes,
-  } = useDesignNotesSetup(multilingualContent.designNotes);
-
   return (
     <VignetteContainer id="multilingual" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
         <motion.div {...fadeInUp}>
           <VignetteStaged stages={multilingualContent.stages}>
-            <MultilingualContent
-              redlineNotes={redlineNotes}
-              designNotes={designNotes}
-              mobileIndex={mobileIndex}
-              onMobileIndexChange={openMobileTour}
-            />
+            <MultilingualContent />
           </VignetteStaged>
         </motion.div>
       </div>
-
-      {/* Mobile bottom sheet tour */}
-      <MobileRedlineTour
-        isActive={mobileTourActive}
-        notes={redlineNotes}
-        onExit={closeMobileTour}
-        currentIndex={mobileIndex}
-        onIndexChange={setMobileIndex}
-        onScrollToAnchor={handleScrollToAnchor}
-      />
     </VignetteContainer>
   );
 }

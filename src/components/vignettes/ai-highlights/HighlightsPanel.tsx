@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
+import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
 import type { FeedbackSource } from './content';
-import { useAnchorStyle } from '@/components/vignettes/shared/useAnchorStyle';
 
 type PanelStage = VignetteStage | 'loading';
 
@@ -14,7 +14,9 @@ interface HighlightsPanelProps {
   stage?: PanelStage;
   onTransition?: () => void;
   problemCards?: FeedbackSource[];
-  focusedAnchor?: string | null;
+  highlightedSection?: string | null;
+  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
+  notes?: Array<{ id: string; label?: string; detail: string }>;
 }
 
 interface SourceCardProps {
@@ -252,24 +254,45 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
 
 interface SolutionStateProps {
   className?: string;
-  focusedAnchor?: string | null;
+  highlightedSection?: string | null;
+  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
+  notes?: Array<{ id: string; label?: string; detail: string }>;
 }
 
-function SolutionState({ className = '', focusedAnchor = null }: SolutionStateProps) {
+function SolutionState({ className = '', highlightedSection = null, onNoteOpenChange, notes = [] }: SolutionStateProps) {
   const [highlightExpanded, setHighlightExpanded] = useState(false);
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
-  const { getAnchorStyle } = useAnchorStyle({ focusedAnchor });
+
+  // Get opacity style for a section based on what's highlighted
+  const getSectionStyle = (section: string) => {
+    if (!highlightedSection) return {};
+    return {
+      opacity: highlightedSection === section ? 1 : 0.3,
+      transition: 'opacity 0.2s ease-in-out',
+    };
+  };
+
+  const handleNoteOpen = (noteId: string, isOpen: boolean) => {
+    onNoteOpenChange?.(noteId, isOpen);
+  };
+
+  // Find notes by ID
+  const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
     <div
-      className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-hidden ${className}`}
+      className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-visible ${className}`}
     >
       {/* Header Section */}
-      <div
-        className="border-b-2 border-[#eaeaec] px-6 py-6"
-        style={getAnchorStyle('highlights-header')}
-        data-anchor="highlights-header"
-      >
+      <div className="border-b-2 border-[#eaeaec] px-6 py-6 relative" style={getSectionStyle('summary')}>
+        <SectionMarker
+          index={0}
+          noteId="context-first"
+          side="left"
+          isActive={highlightedSection === 'summary'}
+          onOpenChange={handleNoteOpen}
+          note={getNote('context-first')}
+        />
         <div className="flex items-center gap-3 mb-2">
           <img
             src="/avatars/idam.svg"
@@ -286,35 +309,40 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
           </div>
         </div>
         <p className="text-body-sm text-primary mt-0">
-          Idam designed 2 tools to help reduce the burden of the Performance Review Period.
-          Highlights & Opportunities helps managers quickly understand what their direct reports
-          did & verify AI output using direct quotes from feedback.
+          Led design for Highlights & Opportunities from discovery through launch.
+          User research shaped both the verification UX and improvements to model output.
         </p>
       </div>
 
       {/* Highlight Item */}
-      <div
-        className="border-b-2 border-[#eaeaec]"
-        style={getAnchorStyle('highlight-item')}
-        data-anchor="highlight-item"
-      >
+      <div className="border-b-2 border-[#eaeaec]" style={getSectionStyle('highlight')}>
         <div className="px-6 py-8">
-          <div className="flex items-start gap-2">
-            <div className="flex-1">
-              <div className="flex items-center gap-1 mb-2">
-                <span className="material-icons-outlined text-h3 text-[#22594A]">
-                  star_outline
-                </span>
+          {/* Header row with marker */}
+          <div className="relative">
+            <SectionMarker
+              index={1}
+              noteId="verification"
+              side="left"
+              isActive={highlightedSection === 'highlight'}
+              onOpenChange={handleNoteOpen}
+              note={getNote('verification')}
+            />
+            <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+              <div className="flex-1">
+                <div className="flex items-center gap-1 mb-2">
+                  <span className="material-icons-outlined text-h3 text-[#22594A]">
+                    star_outline
+                  </span>
                 <span className="text-body-sm font-semibold text-primary">
                   Highlight
                 </span>
               </div>
               <p className="text-body-sm text-primary">
-                Developed a process to get early feedback about model output during user testing.
+                Created a process to test AI model output with real users, using research findings to improve what the model generates.
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <div className="flex items-center gap-1">
                 <div className="flex -space-x-2">
                   <img
@@ -347,6 +375,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
               </button>
             </div>
           </div>
+          </div>
 
           <AnimatePresence>
             {highlightExpanded && (
@@ -362,7 +391,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
                     name="Sarah Chen"
                     date="Sep 8, 2024"
                     context="Peer feedback"
-                    feedback="Idam's approach to user testing the AI model was brilliant. Getting early feedback directly from managers helped us iterate on the prompts before launch, which significantly improved the quality of the highlights."
+                    feedback="Idam's approach to user testing the AI model was excellent. Getting early feedback directly from managers helped us iterate on the prompts before launch, which significantly improved the quality of the highlights."
                     avatarUrl="/avatars/sarah-chen.svg"
                   />
                   <SourceCard
@@ -380,16 +409,22 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
       </div>
 
       {/* Opportunity Item */}
-      <div
-        className="border-b-2 border-[#eaeaec]"
-        style={getAnchorStyle('opportunity-item')}
-        data-anchor="opportunity-item"
-      >
+      <div className="border-b-2 border-[#eaeaec]" style={getSectionStyle('opportunity')}>
         <div className="px-6 py-8">
-          <div className="flex items-start gap-2">
-            <div className="flex-1">
-              <div className="flex items-center gap-1 mb-2">
-                <span className="material-icons-outlined text-h3" style={{ color: 'rgba(135, 100, 0, 1)' }}>
+          {/* Header row with marker */}
+          <div className="relative">
+            <SectionMarker
+              index={2}
+              noteId="sources"
+              side="right"
+              isActive={highlightedSection === 'opportunity'}
+              onOpenChange={handleNoteOpen}
+              note={getNote('sources')}
+            />
+            <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+              <div className="flex-1">
+                <div className="flex items-center gap-1 mb-2">
+                  <span className="material-icons-outlined text-h3" style={{ color: 'rgba(135, 100, 0, 1)' }}>
                   lightbulb
                 </span>
                 <span className="text-body-sm font-semibold text-primary">
@@ -397,11 +432,11 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
                 </span>
               </div>
               <p className="text-body-sm text-primary">
-                Developed a process to get early feedback about model output during user testing.
+                Document and scale this AI testing framework as a template for validating model output across other features.
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <div className="flex items-center gap-1">
                 <div className="flex -space-x-2">
                   <img
@@ -433,6 +468,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
                 </motion.span>
               </button>
             </div>
+          </div>
           </div>
 
           <AnimatePresence>
@@ -467,11 +503,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
       </div>
 
       {/* Footer with Feedback Buttons */}
-      <div
-        className="px-6 py-4 flex items-center gap-2"
-        style={getAnchorStyle('feedback-footer')}
-        data-anchor="feedback-footer"
-      >
+      <div className="px-6 py-4 flex items-center gap-2">
         <span className="text-body-sm text-secondary">
           Is this helpful?
         </span>
@@ -501,7 +533,9 @@ export default function HighlightsPanel({
   stage = 'solution',
   onTransition,
   problemCards = [],
-  focusedAnchor = null
+  highlightedSection = null,
+  onNoteOpenChange,
+  notes = [],
 }: HighlightsPanelProps) {
   // Default problem cards if none provided
   const defaultProblemCards: FeedbackSource[] = [
@@ -550,7 +584,12 @@ export default function HighlightsPanel({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <SolutionState className={className} focusedAnchor={focusedAnchor} />
+            <SolutionState
+              className={className}
+              highlightedSection={highlightedSection}
+              onNoteOpenChange={onNoteOpenChange}
+              notes={notes}
+            />
           </motion.div>
         );
     }

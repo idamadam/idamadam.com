@@ -2,9 +2,12 @@
 
 import { motion } from 'framer-motion';
 import React from 'react';
+import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
 
 interface HomeConnectPanelProps {
-  focusedAnchor?: string | null;
+  highlightedSection?: string | null;
+  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
+  notes?: Array<{ id: string; label?: string; detail: string }>;
 }
 
 // Avatar component with initials
@@ -108,15 +111,13 @@ function DownArrowIcon() {
 // Feed card wrapper with optional anchor support
 interface FeedCardProps {
   children: React.ReactNode;
-  anchor?: string;
   style?: React.CSSProperties;
 }
 
-function FeedCard({ children, anchor, style }: FeedCardProps) {
+function FeedCard({ children, style }: FeedCardProps) {
   return (
     <div
       className="bg-white rounded-md shadow-[0px_1px_3px_0px_rgba(0,0,0,0.08)] px-4 py-3 flex items-center gap-3"
-      data-anchor={anchor}
       style={style}
     >
       <div className="flex-1 min-w-0">{children}</div>
@@ -126,17 +127,28 @@ function FeedCard({ children, anchor, style }: FeedCardProps) {
 }
 
 export default function HomeConnectPanel({
-  focusedAnchor = null
+  highlightedSection = null,
+  onNoteOpenChange,
+  notes = [],
 }: HomeConnectPanelProps) {
-  const getAnchorStyle = (anchorName: string): React.CSSProperties => ({
-    anchorName: `--${anchorName}`,
-    opacity: focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
-    boxShadow: focusedAnchor === anchorName ? '0 0 0 2px rgba(95, 51, 97, 0.3)' : 'none',
-    transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
-  } as React.CSSProperties);
+  // Get opacity style for a section based on what's highlighted
+  const getSectionStyle = (section: string) => {
+    if (!highlightedSection) return {};
+    return {
+      opacity: highlightedSection === section ? 1 : 0.3,
+      transition: 'opacity 0.2s ease-in-out',
+    };
+  };
+
+  const handleNoteOpen = (noteId: string, isOpen: boolean) => {
+    onNoteOpenChange?.(noteId, isOpen);
+  };
+
+  // Find notes by ID
+  const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
-    <div className="w-full bg-[#F9F9F9] rounded-xl overflow-hidden">
+    <div className="w-full bg-[#F9F9F9] rounded-xl overflow-visible">
       {/* Purple header */}
       <div className="bg-[#5F3361] px-5 pt-4 pb-4 relative">
         {/* Culture Amp Logo */}
@@ -172,24 +184,31 @@ export default function HomeConnectPanel({
           <FeedDivider label="Upcoming" />
 
           {/* Performance Cycle Card */}
-          <FeedCard
-            anchor="feed-card-performance"
-            style={getAnchorStyle('feed-card-performance')}
-          >
-            <div className="space-y-2">
-              <p className="text-caption text-primary">
-                <span className="font-semibold">2023 Performance Cycle</span> feedback closes in 3 days
-              </p>
-              <div className="flex items-center gap-1.5">
-                <ProgressRing progress={80} />
-                <span className="text-body-sm font-bold text-primary">4 of 5</span>
-                <span className="text-caption text-primary/60">reports with completed feedback</span>
+          <div className="relative" style={getSectionStyle('performance')}>
+            <SectionMarker
+              index={0}
+              noteId="progressive-disclosure"
+              side="right"
+              isActive={highlightedSection === 'performance'}
+              onOpenChange={handleNoteOpen}
+              note={getNote('progressive-disclosure')}
+            />
+            <FeedCard>
+              <div className="space-y-2">
+                <p className="text-caption text-primary">
+                  <span className="font-semibold">2023 Performance Cycle</span> feedback closes in 3 days
+                </p>
+                <div className="flex items-center gap-1.5">
+                  <ProgressRing progress={80} />
+                  <span className="text-body-sm font-bold text-primary">4 of 5</span>
+                  <span className="text-caption text-primary/60">reports with completed feedback</span>
+                </div>
               </div>
-            </div>
-          </FeedCard>
+            </FeedCard>
+          </div>
 
           {/* 1-on-1 Card */}
-          <FeedCard>
+          <FeedCard style={getSectionStyle('oneOnOne')}>
             <div className="space-y-2">
               <div className="flex items-center gap-1.5">
                 <Avatar initials="AP" />
@@ -206,22 +225,29 @@ export default function HomeConnectPanel({
           <FeedDivider label="Recent" />
 
           {/* Goal Card */}
-          <FeedCard
-            anchor="feed-card-goal"
-            style={getAnchorStyle('feed-card-goal')}
-          >
-            <div className="flex items-center gap-3">
-              <GoalDonut percentage={25} />
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5 mb-1">
-                  <Avatar initials="MW" size={16} />
-                  <span className="text-caption font-semibold text-primary">Malik Williams</span>
-                  <span className="text-caption text-primary/60">has an inactive goal</span>
+          <div className="relative" style={getSectionStyle('goal')}>
+            <SectionMarker
+              index={1}
+              noteId="visual-cohesion"
+              side="left"
+              isActive={highlightedSection === 'goal'}
+              onOpenChange={handleNoteOpen}
+              note={getNote('visual-cohesion')}
+            />
+            <FeedCard>
+              <div className="flex items-center gap-3">
+                <GoalDonut percentage={25} />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <Avatar initials="MW" size={16} />
+                    <span className="text-caption font-semibold text-primary">Malik Williams</span>
+                    <span className="text-caption text-primary/60">has an inactive goal</span>
+                  </div>
+                  <p className="text-caption text-primary">Learn how to handle multiple priorities</p>
                 </div>
-                <p className="text-caption text-primary">Learn how to handle multiple priorities</p>
               </div>
-            </div>
-          </FeedCard>
+            </FeedCard>
+          </div>
         </motion.div>
       </div>
     </div>

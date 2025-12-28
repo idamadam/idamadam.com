@@ -8,7 +8,6 @@ interface AISuggestionsRecommendation {
 export interface AISuggestionsContent {
   stages: VignetteStages;
   designNotes: {
-    accent: string;
     notes: DesignNote[];
   };
   questionNumber: number;
@@ -36,28 +35,30 @@ export const aiSuggestionsContent: AISuggestionsContent = {
     }
   },
   designNotes: {
-    accent: '#9A36B2', // Purple to match the gradient
     notes: [
       {
         id: 'editor-integration',
         label: 'Contextual placement',
         detail: 'The Improve button lives inside the editor, right where managers are writing. No context switch needed.',
-        anchor: 'improve-button',
-        position: 'left'
+        x: '-4%',
+        y: '12%',
+        popoverSide: 'left' as const,
       },
       {
         id: 'people-science',
         label: 'People science foundation',
         detail: 'Partnered with org psych to ground suggestions in research. The 4 qualities (specific, impact, actions, objective) are evidence-based.',
-        anchor: 'recommendations-header',
-        position: 'right'
+        x: '104%',
+        y: '52%',
+        popoverSide: 'right' as const,
       },
       {
         id: 'loading-state',
         label: 'Processing feedback',
         detail: 'The animated gradient border signals AI is working. Designed to feel premium and build anticipation for the suggestions.',
-        anchor: 'feedback-footer',
-        position: 'left'
+        x: '-4%',
+        y: '88%',
+        popoverSide: 'left' as const,
       }
     ]
   },

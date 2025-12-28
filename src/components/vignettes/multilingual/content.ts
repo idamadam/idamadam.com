@@ -54,7 +54,6 @@ export interface MultilingualContent {
   languagePairs: LanguagePair[];
   stages: VignetteStages;
   designNotes: {
-    accent: string;
     notes: DesignNote[];
   };
   problemCards: ProblemCard[];
@@ -129,28 +128,30 @@ export const multilingualContent: MultilingualContent = {
     }
   },
   designNotes: {
-    accent: '#0168b3',
     notes: [
       {
         id: 'unified-cycle',
         label: 'Single unified cycle',
         detail: 'All languages share one performance cycle. Eliminates duplicate setup and parallel admin work.',
-        anchor: 'language-dropdown',
-        position: 'right' as const
+        x: '-4%',
+        y: '10%',
+        popoverSide: 'left' as const
       },
       {
         id: 'ai-translate',
         label: 'AI translation placement',
         detail: 'Auto-translate button placed prominently with the language selector. Contextual placement reduces cognitive load.',
-        anchor: 'auto-translate-btn',
-        position: 'right' as const
+        x: '104%',
+        y: '10%',
+        popoverSide: 'right' as const
       },
       {
         id: 'source-reference',
         label: 'Source text reference',
         detail: 'English source text displayed below each field so translators have full context without switching screens.',
-        anchor: 'source-text',
-        position: 'left' as const
+        x: '-4%',
+        y: '75%',
+        popoverSide: 'left' as const
       }
     ]
   },

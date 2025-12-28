@@ -1,0 +1,142 @@
+'use client';
+
+import { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import type { DesignNote } from '@/components/vignettes/types';
+
+interface MobileDesignNotesSheetProps {
+  isOpen: boolean;
+  onClose: () => void;
+  notes: DesignNote[];
+  currentIndex: number;
+  onIndexChange: (index: number) => void;
+}
+
+export function MobileDesignNotesSheet({
+  isOpen,
+  onClose,
+  notes,
+  currentIndex,
+  onIndexChange,
+}: MobileDesignNotesSheetProps) {
+  const currentNote = notes[currentIndex];
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'Escape':
+          onClose();
+          break;
+        case 'ArrowRight':
+          if (currentIndex < notes.length - 1) onIndexChange(currentIndex + 1);
+          break;
+        case 'ArrowLeft':
+          if (currentIndex > 0) onIndexChange(currentIndex - 1);
+          break;
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, currentIndex, notes.length, onClose, onIndexChange]);
+
+  if (!currentNote) return null;
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            className="fixed inset-0 bg-black/20 z-40 lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+          />
+
+          {/* Sheet */}
+          <motion.div
+            className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl z-50 lg:hidden shadow-xl"
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+          >
+            {/* Handle */}
+            <div className="flex justify-center pt-3 pb-2">
+              <div className="w-10 h-1 bg-gray-300 rounded-full" />
+            </div>
+
+            {/* Progress dots */}
+            <div className="px-6 pb-3 flex items-center justify-between">
+              <span className="text-sm text-gray-500">
+                {currentIndex + 1} of {notes.length}
+              </span>
+              <div className="flex gap-1.5">
+                {notes.map((_, i) => (
+                  <button
+                    key={i}
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      i === currentIndex ? 'bg-gray-900' : 'bg-gray-300'
+                    }`}
+                    onClick={() => onIndexChange(i)}
+                    aria-label={`Go to note ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="px-6 pb-6">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentNote.id}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {currentNote.label && (
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      {currentNote.label}
+                    </h3>
+                  )}
+                  <p className="text-gray-600 leading-relaxed">
+                    {currentNote.detail}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Navigation */}
+            <div className="px-6 pb-6 flex gap-3">
+              <button
+                className="flex-1 py-3 px-4 rounded-xl border border-gray-200 text-gray-700 font-medium disabled:opacity-40"
+                onClick={() => onIndexChange(currentIndex - 1)}
+                disabled={currentIndex === 0}
+              >
+                Previous
+              </button>
+              <button
+                className="flex-1 py-3 px-4 rounded-xl bg-gray-900 text-white font-medium"
+                onClick={() => {
+                  if (currentIndex === notes.length - 1) {
+                    onClose();
+                  } else {
+                    onIndexChange(currentIndex + 1);
+                  }
+                }}
+              >
+                {currentIndex === notes.length - 1 ? 'Done' : 'Next'}
+              </button>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
