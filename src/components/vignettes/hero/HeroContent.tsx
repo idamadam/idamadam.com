@@ -15,7 +15,7 @@ export default function HeroContent() {
           <span className="flex items-center gap-2 flex-wrap">
             <span>Lead Product Designer at</span>
             <span
-              className="inline-flex opacity-70 grayscale"
+              className="inline-flex opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
               title={heroContent.companies[0].name}
             >
               <Image
@@ -34,7 +34,7 @@ export default function HeroContent() {
             {heroContent.companies.slice(1).map((company) => (
               <span
                 key={company.name}
-                className="opacity-60 grayscale hover:opacity-80 transition-opacity"
+                className="opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
                 title={company.name}
               >
                 <Image
