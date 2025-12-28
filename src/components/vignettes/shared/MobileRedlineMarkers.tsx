@@ -50,7 +50,7 @@ export default function MobileRedlineMarkers({
           animate={reducedMotion ? { opacity: getDotStyle(index).opacity } : getDotStyle(index)}
           transition={{ duration: 0.2 }}
           onClick={() => onMarkerClick(index)}
-          aria-label={`Design note: ${note.label}`}
+          aria-label={`Design note: ${note.label || note.detail.slice(0, 50)}`}
         />
       ))}
     </div>

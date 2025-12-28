@@ -7,7 +7,7 @@ export interface DesignIteration {
 
 export interface DesignNote {
   id: string;
-  label: string;
+  label?: string;
   detail: string;
   anchor: string;  // Reference to anchor name (e.g., 'highlights-header')
   position: 'top' | 'bottom' | 'left' | 'right';  // Which side of anchor

@@ -69,31 +69,24 @@ export const aiHighlightsContent: AIHighlightsContent = {
     notes: [
       {
         id: 'context-first',
-        label: 'Context first',
-        detail: 'Name, role, and purpose up top to anchor managers before they scan AI output.',
-        anchor: 'highlights-header',
+        label: 'Summary paragraph',
+        detail: 'The summary orients the managers before diving into the details below.',
+        anchor: 'summary-anchor',
         position: 'left',
       },
       {
         id: 'verification',
-        label: 'Verification loop',
-        detail: "Sources sit directly under each highlight so managers can trust without hunting.",
-        anchor: 'highlight-item',
-        position: 'right',
-      },
-      {
-        id: 'mirror',
-        label: 'Mirrored patterns',
-        detail: 'Highlight and Opportunity share the same layout so scanning feels automatic.',
-        anchor: 'opportunity-item',
+        label: 'AI generated themes',
+        detail: "Design research revealed opportunities to refine the model output. Managers wanted richer summaries that show when a behaviour occurred, e.g. project names.",
+        anchor: 'highlight-anchor',
         position: 'left',
       },
       {
-        id: 'feedback-loop',
-        label: 'Micro feedback',
-        detail: "A lightweight 'Is this helpful?' keeps the model accountable without breaking flow.",
-        anchor: 'feedback-footer',
-        position: 'right',
+        id: 'sources',
+        label: 'Expandable sources',
+        detail: "Avatars of people and clear affordances make it easy to verify AI output.",
+        anchor: 'sources-anchor',
+        position: 'left',
       }
     ]
   },

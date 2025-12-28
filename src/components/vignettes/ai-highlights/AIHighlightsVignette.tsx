@@ -51,9 +51,21 @@ function AIHighlightsContent({
   const title = currentStageContent.title;
   const description = currentStageContent.description;
 
-  // Map focusedAnnotation to anchor name for HighlightsPanel
-  const focusedAnchor = designNotes.focusedAnnotation
-    ? redlineNotes.find(n => n.id === designNotes.focusedAnnotation)?.anchor ?? null
+  // Map note id to the content anchor that should be highlighted (greyed out logic)
+  // Position anchors are separate from content anchors
+  const noteToContentAnchor: Record<string, string> = {
+    'context-first': 'summary-text',
+    'verification': 'highlight-text',
+    'sources': 'opportunity-sources',
+  };
+
+  // Grey out other elements when hovering OR when an annotation is expanded
+  const activeAnnotationId = designNotes.focusedAnnotation
+    ?? (designNotes.expandedAnnotations.size > 0
+        ? Array.from(designNotes.expandedAnnotations)[0]
+        : null);
+  const focusedAnchor = activeAnnotationId
+    ? noteToContentAnchor[activeAnnotationId] ?? null
     : null;
 
   return (

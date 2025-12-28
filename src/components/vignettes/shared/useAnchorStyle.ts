@@ -17,8 +17,7 @@ export function useAnchorStyle({
     (anchorName: string): CSSProperties => ({
       anchorName: `--${anchorName}`,
       opacity: focusedAnchor && focusedAnchor !== anchorName ? 0.4 : 1,
-      boxShadow: focusedAnchor === anchorName ? `0 0 0 2px ${BOX_SHADOW_COLOR}` : 'none',
-      transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
+      transition: 'opacity 0.3s ease',
     } as CSSProperties),
     [focusedAnchor]
   );

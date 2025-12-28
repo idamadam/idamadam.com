@@ -262,15 +262,20 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
 
   return (
     <div
-      className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-hidden ${className}`}
+      className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-visible ${className}`}
     >
       {/* Header Section */}
-      <div
-        className="border-b-2 border-[#eaeaec] px-6 py-6"
-        style={getAnchorStyle('highlights-header')}
-        data-anchor="highlights-header"
-      >
-        <div className="flex items-center gap-3 mb-2">
+      <div className="border-b-2 border-[#eaeaec] px-6 py-6 relative">
+        {/* Position anchor outside panel on left */}
+        <div
+          className="absolute -left-4 top-1/2 w-0 h-0"
+          style={{ anchorName: '--summary-anchor' } as React.CSSProperties}
+          data-anchor="summary-anchor"
+        />
+        <div
+          className="flex items-center gap-3 mb-2"
+          style={getAnchorStyle('profile-header')}
+        >
           <img
             src="/avatars/idam.svg"
             alt="Idam Adam"
@@ -285,21 +290,29 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
             </p>
           </div>
         </div>
-        <p className="text-body-sm text-primary mt-0">
+        <p
+          className="text-body-sm text-primary mt-0"
+          style={getAnchorStyle('summary-text')}
+        >
           Led design for Highlights & Opportunities from discovery through launch.
           User research shaped both the verification UX and improvements to model output.
         </p>
       </div>
 
       {/* Highlight Item */}
-      <div
-        className="border-b-2 border-[#eaeaec]"
-        style={getAnchorStyle('highlight-item')}
-        data-anchor="highlight-item"
-      >
+      <div className="border-b-2 border-[#eaeaec] relative">
+        {/* Position anchor outside panel on left */}
+        <div
+          className="absolute -left-4 top-1/2 w-0 h-0"
+          style={{ anchorName: '--highlight-anchor' } as React.CSSProperties}
+          data-anchor="highlight-anchor"
+        />
         <div className="px-6 py-8">
           <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-            <div className="flex-1">
+            <div
+              className="flex-1"
+              style={getAnchorStyle('highlight-text')}
+            >
               <div className="flex items-center gap-1 mb-2">
                 <span className="material-icons-outlined text-h3 text-[#22594A]">
                   star_outline
@@ -313,7 +326,10 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
               </p>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div
+              className="flex items-center gap-2 shrink-0"
+              style={getAnchorStyle('highlight-sources')}
+            >
               <div className="flex items-center gap-1">
                 <div className="flex -space-x-2">
                   <img
@@ -379,14 +395,19 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
       </div>
 
       {/* Opportunity Item */}
-      <div
-        className="border-b-2 border-[#eaeaec]"
-        style={getAnchorStyle('opportunity-item')}
-        data-anchor="opportunity-item"
-      >
+      <div className="border-b-2 border-[#eaeaec] relative">
+        {/* Position anchor outside panel on left */}
+        <div
+          className="absolute -left-4 top-1/2 w-0 h-0"
+          style={{ anchorName: '--sources-anchor' } as React.CSSProperties}
+          data-anchor="sources-anchor"
+        />
         <div className="px-6 py-8">
           <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-            <div className="flex-1">
+            <div
+              className="flex-1"
+              style={getAnchorStyle('opportunity-text')}
+            >
               <div className="flex items-center gap-1 mb-2">
                 <span className="material-icons-outlined text-h3" style={{ color: 'rgba(135, 100, 0, 1)' }}>
                   lightbulb
@@ -400,7 +421,10 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
               </p>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div
+              className="flex items-center gap-2 shrink-0"
+              style={getAnchorStyle('opportunity-sources')}
+            >
               <div className="flex items-center gap-1">
                 <div className="flex -space-x-2">
                   <img

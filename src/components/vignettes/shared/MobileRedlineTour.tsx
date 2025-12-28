@@ -148,12 +148,14 @@ export default function MobileRedlineTour({
                   exit={{ opacity: 0, x: direction === 'right' ? -40 : 40 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <h3
-                    className="text-lg font-semibold mb-2"
-                    style={{ color: accent }}
-                  >
-                    {currentNote.label}
-                  </h3>
+                  {currentNote.label && (
+                    <h3
+                      className="text-lg font-semibold mb-2"
+                      style={{ color: accent }}
+                    >
+                      {currentNote.label}
+                    </h3>
+                  )}
                   <p className="text-gray-600 leading-relaxed">
                     {currentNote.detail}
                   </p>

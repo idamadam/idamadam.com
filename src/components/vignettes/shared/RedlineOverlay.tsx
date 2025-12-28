@@ -108,7 +108,7 @@ export default function RedlineOverlay({
                   onClick={() => onToggleAnnotation(note.id)}
                   onMouseEnter={() => onFocusAnnotation(note.id)}
                   onMouseLeave={() => onFocusAnnotation(null)}
-                  aria-label={`Design note: ${note.label}`}
+                  aria-label={`Design note: ${note.label || note.detail.slice(0, 50)}`}
                   aria-expanded={isExpanded}
                 />
 
@@ -134,7 +134,7 @@ export default function RedlineOverlay({
               <AnimatePresence>
                 {isExpanded && (
                   <motion.div
-                    className="rounded-xl px-3 py-2 shadow-sm min-w-[230px] bg-white"
+                    className={`rounded-xl px-3 py-2 shadow-sm min-w-[230px] bg-white ${alignRight ? '' : 'mr-48'}`}
                     style={{
                       border: `1px solid ${accent}33`,
                       boxShadow: `0 12px 40px ${accent}20`,
@@ -144,10 +144,12 @@ export default function RedlineOverlay({
                     exit={reducedMotion ? { opacity: 0 } : { opacity: 0, x: alignRight ? -10 : 10 }}
                     transition={{ duration: reducedMotion ? 0.1 : 0.2, delay: reducedMotion ? 0 : 0.05 }}
                   >
-                    <p className="text-caption font-semibold leading-snug" style={{ color: accent }}>
-                      {note.label}
-                    </p>
-                    <p className="text-caption leading-normal mt-1 text-secondary">
+                    {note.label && (
+                      <p className="text-caption font-semibold leading-snug" style={{ color: accent }}>
+                        {note.label}
+                      </p>
+                    )}
+                    <p className={`text-caption leading-normal text-secondary ${note.label ? 'mt-1' : ''}`}>
                       {note.detail}
                     </p>
                   </motion.div>
