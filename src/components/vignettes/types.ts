@@ -9,9 +9,9 @@ export interface DesignNote {
   id: string;
   label?: string;
   detail: string;
-  anchor: string;  // Reference to anchor name (e.g., 'highlights-header')
-  position: 'top' | 'bottom' | 'left' | 'right';  // Which side of anchor
-  align?: 'start' | 'center' | 'end';  // Alignment along the edge
+  x?: string; // e.g., '85%' - percentage from left of container
+  y?: string; // e.g., '20%' - percentage from top of container
+  popoverSide?: 'top' | 'bottom' | 'left' | 'right'; // Which side popover appears
 }
 
 export interface StageContent {

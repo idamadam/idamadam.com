@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import HighlightsPanel from './HighlightsPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
@@ -7,33 +8,25 @@ import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
 import { fadeInUp } from '@/lib/animations';
 import { aiHighlightsContent } from './content';
-import type { DesignNote } from '@/components/vignettes/types';
-import { useDesignNotesSetup } from '@/components/vignettes/shared/useDesignNotesSetup';
-import { useDesignNotes } from '@/components/vignettes/shared/useRedlineMode';
-import RedlineOverlay from '@/components/vignettes/shared/RedlineOverlay';
-import MobileRedlineTour from '@/components/vignettes/shared/MobileRedlineTour';
-import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
+import { DesignNotesOverlay } from '@/components/vignettes/shared/DesignNotesOverlay';
 import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
 import { useLoadingTransition } from '@/components/vignettes/shared/useLoadingTransition';
 import { useReducedMotion } from '@/lib/useReducedMotion';
-import '../shared/design-notes.css';
 
 type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 
-function AIHighlightsContent({
-  redlineNotes,
-  designNotes,
-  mobileIndex,
-  onMobileIndexChange,
-}: {
-  redlineNotes: DesignNote[];
-  designNotes: ReturnType<typeof useDesignNotes>;
-  mobileIndex: number;
-  onMobileIndexChange: (index: number) => void;
-}) {
+// Map note IDs to the content sections they reference
+const NOTE_TO_SECTION: Record<string, string> = {
+  'context-first': 'summary',
+  'verification': 'highlight',
+  'sources': 'opportunity',
+};
+
+function AIHighlightsContent() {
   const { stage, goToSolution, setStage } = useVignetteStage();
   const reducedMotion = useReducedMotion();
+  const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
 
   const { isLoading, startTransition } = useLoadingTransition({
     duration: 1500,
@@ -51,22 +44,12 @@ function AIHighlightsContent({
   const title = currentStageContent.title;
   const description = currentStageContent.description;
 
-  // Map note id to the content anchor that should be highlighted (greyed out logic)
-  // Position anchors are separate from content anchors
-  const noteToContentAnchor: Record<string, string> = {
-    'context-first': 'summary-text',
-    'verification': 'highlight-text',
-    'sources': 'opportunity-sources',
-  };
+  // Get the section to highlight based on active note
+  const highlightedSection = activeNoteId ? NOTE_TO_SECTION[activeNoteId] ?? null : null;
 
-  // Grey out other elements when hovering OR when an annotation is expanded
-  const activeAnnotationId = designNotes.focusedAnnotation
-    ?? (designNotes.expandedAnnotations.size > 0
-        ? Array.from(designNotes.expandedAnnotations)[0]
-        : null);
-  const focusedAnchor = activeAnnotationId
-    ? noteToContentAnchor[activeAnnotationId] ?? null
-    : null;
+  const handleNoteOpenChange = (noteId: string, isOpen: boolean) => {
+    setActiveNoteId(isOpen ? noteId : null);
+  };
 
   return (
     <VignetteSplit
@@ -96,24 +79,15 @@ function AIHighlightsContent({
           stage={panelStage}
           onTransition={startTransition}
           problemCards={aiHighlightsContent.problemCards}
-          focusedAnchor={focusedAnchor}
+          highlightedSection={highlightedSection}
+          onNoteOpenChange={handleNoteOpenChange}
+          notes={aiHighlightsContent.designNotes.notes}
         />
-        {/* Desktop annotations - dots always visible in solution stage */}
+        {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
         {stage === 'solution' && (
-          <RedlineOverlay
-            notes={redlineNotes}
-            expandedAnnotations={designNotes.expandedAnnotations}
-            focusedAnnotation={designNotes.focusedAnnotation}
-            onToggleAnnotation={designNotes.toggleAnnotation}
-            onFocusAnnotation={designNotes.setFocusedAnnotation}
-          />
-        )}
-        {/* Mobile markers - dots always visible in solution stage */}
-        {stage === 'solution' && (
-          <MobileRedlineMarkers
-            notes={redlineNotes}
-            currentIndex={mobileIndex}
-            onMarkerClick={onMobileIndexChange}
+          <DesignNotesOverlay
+            notes={aiHighlightsContent.designNotes.notes}
+            onActiveNoteChange={setActiveNoteId}
           />
         )}
       </div>
@@ -122,43 +96,15 @@ function AIHighlightsContent({
 }
 
 export default function AIHighlightsVignette() {
-  const {
-    designNotes,
-    mobileIndex,
-    mobileTourActive,
-    openMobileTour,
-    closeMobileTour,
-    setMobileIndex,
-    handleScrollToAnchor,
-    redlineNotes,
-  } = useDesignNotesSetup(aiHighlightsContent.designNotes);
-
   return (
     <VignetteContainer id="ai-highlights" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
         <motion.div {...fadeInUp}>
-          <VignetteStaged
-            stages={aiHighlightsContent.stages}
-          >
-            <AIHighlightsContent
-              redlineNotes={redlineNotes}
-              designNotes={designNotes}
-              mobileIndex={mobileIndex}
-              onMobileIndexChange={openMobileTour}
-            />
+          <VignetteStaged stages={aiHighlightsContent.stages}>
+            <AIHighlightsContent />
           </VignetteStaged>
         </motion.div>
       </div>
-
-      {/* Mobile bottom sheet tour - rendered at root level for fixed positioning */}
-      <MobileRedlineTour
-        isActive={mobileTourActive}
-        notes={redlineNotes}
-        onExit={closeMobileTour}
-        currentIndex={mobileIndex}
-        onIndexChange={setMobileIndex}
-        onScrollToAnchor={handleScrollToAnchor}
-      />
     </VignetteContainer>
   );
 }

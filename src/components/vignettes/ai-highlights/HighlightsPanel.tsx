@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import type { FeedbackSource } from './content';
-import { useAnchorStyle } from '@/components/vignettes/shared/useAnchorStyle';
 
 type PanelStage = VignetteStage | 'loading';
 
@@ -14,7 +13,9 @@ interface HighlightsPanelProps {
   stage?: PanelStage;
   onTransition?: () => void;
   problemCards?: FeedbackSource[];
-  focusedAnchor?: string | null;
+  highlightedSection?: string | null;
+  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
+  notes?: Array<{ id: string; label?: string; detail: string }>;
 }
 
 interface SourceCardProps {
@@ -250,32 +251,108 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
   );
 }
 
-interface SolutionStateProps {
-  className?: string;
-  focusedAnchor?: string | null;
+interface SectionMarkerProps {
+  index: number;
+  noteId: string;
+  side: 'left' | 'right';
+  isActive: boolean;
+  onOpenChange: (noteId: string, isOpen: boolean) => void;
+  note: { label?: string; detail: string };
 }
 
-function SolutionState({ className = '', focusedAnchor = null }: SolutionStateProps) {
+function SectionMarker({ index, noteId, side, isActive, onOpenChange, note }: SectionMarkerProps) {
+  const [open, setOpen] = useState(false);
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    onOpenChange(noteId, isOpen);
+  };
+
+  // Dynamic import to avoid SSR issues
+  const Popover = require('@radix-ui/react-popover');
+
+  return (
+    <div
+      className={`absolute top-1/2 -translate-y-1/2 hidden lg:block ${
+        side === 'left' ? '-left-8' : '-right-8'
+      }`}
+    >
+      <Popover.Root open={open} onOpenChange={handleOpenChange}>
+        <Popover.Trigger asChild>
+          <button
+            className={`w-6 h-6 rounded-full text-xs font-semibold flex items-center justify-center
+                       bg-[var(--gold-500)] text-[var(--neutral-900)] hover:bg-[var(--gold-600)] transition-all cursor-pointer
+                       focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-500)] focus-visible:ring-offset-2
+                       ${isActive ? 'ring-2 ring-[var(--gold-500)] ring-offset-2' : ''}`}
+            aria-label={`Design note ${index + 1}`}
+          >
+            {index + 1}
+          </button>
+        </Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Content
+            side={side}
+            align="center"
+            sideOffset={12}
+            collisionPadding={16}
+            className="bg-white rounded-xl px-4 py-3 shadow-lg border border-gray-200 max-w-[280px] z-50"
+          >
+            {note.label && (
+              <p className="font-semibold text-sm text-gray-900">{note.label}</p>
+            )}
+            <p className={`text-sm text-gray-600 leading-relaxed ${note.label ? 'mt-1' : ''}`}>
+              {note.detail}
+            </p>
+            <Popover.Arrow className="fill-white" />
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
+    </div>
+  );
+}
+
+interface SolutionStateProps {
+  className?: string;
+  highlightedSection?: string | null;
+  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
+  notes?: Array<{ id: string; label?: string; detail: string }>;
+}
+
+function SolutionState({ className = '', highlightedSection = null, onNoteOpenChange, notes = [] }: SolutionStateProps) {
   const [highlightExpanded, setHighlightExpanded] = useState(false);
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
-  const { getAnchorStyle } = useAnchorStyle({ focusedAnchor });
+
+  // Get opacity style for a section based on what's highlighted
+  const getSectionStyle = (section: string) => {
+    if (!highlightedSection) return {};
+    return {
+      opacity: highlightedSection === section ? 1 : 0.3,
+      transition: 'opacity 0.2s ease-in-out',
+    };
+  };
+
+  const handleNoteOpen = (noteId: string, isOpen: boolean) => {
+    onNoteOpenChange?.(noteId, isOpen);
+  };
+
+  // Find notes by ID
+  const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
     <div
       className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-visible ${className}`}
     >
       {/* Header Section */}
-      <div className="border-b-2 border-[#eaeaec] px-6 py-6 relative">
-        {/* Position anchor outside panel on left */}
-        <div
-          className="absolute -left-4 top-1/2 w-0 h-0"
-          style={{ anchorName: '--summary-anchor' } as React.CSSProperties}
-          data-anchor="summary-anchor"
+      <div className="border-b-2 border-[#eaeaec] px-6 py-6 relative" style={getSectionStyle('summary')}>
+        <SectionMarker
+          index={0}
+          noteId="context-first"
+          side="left"
+          isActive={highlightedSection === 'summary'}
+          onOpenChange={handleNoteOpen}
+          note={getNote('context-first')}
         />
-        <div
-          className="flex items-center gap-3 mb-2"
-          style={getAnchorStyle('profile-header')}
-        >
+        <div className="flex items-center gap-3 mb-2">
           <img
             src="/avatars/idam.svg"
             alt="Idam Adam"
@@ -290,33 +367,31 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
             </p>
           </div>
         </div>
-        <p
-          className="text-body-sm text-primary mt-0"
-          style={getAnchorStyle('summary-text')}
-        >
+        <p className="text-body-sm text-primary mt-0">
           Led design for Highlights & Opportunities from discovery through launch.
           User research shaped both the verification UX and improvements to model output.
         </p>
       </div>
 
       {/* Highlight Item */}
-      <div className="border-b-2 border-[#eaeaec] relative">
-        {/* Position anchor outside panel on left */}
-        <div
-          className="absolute -left-4 top-1/2 w-0 h-0"
-          style={{ anchorName: '--highlight-anchor' } as React.CSSProperties}
-          data-anchor="highlight-anchor"
-        />
+      <div className="border-b-2 border-[#eaeaec]" style={getSectionStyle('highlight')}>
         <div className="px-6 py-8">
-          <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-            <div
-              className="flex-1"
-              style={getAnchorStyle('highlight-text')}
-            >
-              <div className="flex items-center gap-1 mb-2">
-                <span className="material-icons-outlined text-h3 text-[#22594A]">
-                  star_outline
-                </span>
+          {/* Header row with marker */}
+          <div className="relative">
+            <SectionMarker
+              index={1}
+              noteId="verification"
+              side="left"
+              isActive={highlightedSection === 'highlight'}
+              onOpenChange={handleNoteOpen}
+              note={getNote('verification')}
+            />
+            <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+              <div className="flex-1">
+                <div className="flex items-center gap-1 mb-2">
+                  <span className="material-icons-outlined text-h3 text-[#22594A]">
+                    star_outline
+                  </span>
                 <span className="text-body-sm font-semibold text-primary">
                   Highlight
                 </span>
@@ -326,10 +401,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
               </p>
             </div>
 
-            <div
-              className="flex items-center gap-2 shrink-0"
-              style={getAnchorStyle('highlight-sources')}
-            >
+            <div className="flex items-center gap-2 shrink-0">
               <div className="flex items-center gap-1">
                 <div className="flex -space-x-2">
                   <img
@@ -361,6 +433,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
                 </motion.span>
               </button>
             </div>
+          </div>
           </div>
 
           <AnimatePresence>
@@ -395,21 +468,22 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
       </div>
 
       {/* Opportunity Item */}
-      <div className="border-b-2 border-[#eaeaec] relative">
-        {/* Position anchor outside panel on left */}
-        <div
-          className="absolute -left-4 top-1/2 w-0 h-0"
-          style={{ anchorName: '--sources-anchor' } as React.CSSProperties}
-          data-anchor="sources-anchor"
-        />
+      <div className="border-b-2 border-[#eaeaec]" style={getSectionStyle('opportunity')}>
         <div className="px-6 py-8">
-          <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-            <div
-              className="flex-1"
-              style={getAnchorStyle('opportunity-text')}
-            >
-              <div className="flex items-center gap-1 mb-2">
-                <span className="material-icons-outlined text-h3" style={{ color: 'rgba(135, 100, 0, 1)' }}>
+          {/* Header row with marker */}
+          <div className="relative">
+            <SectionMarker
+              index={2}
+              noteId="sources"
+              side="right"
+              isActive={highlightedSection === 'opportunity'}
+              onOpenChange={handleNoteOpen}
+              note={getNote('sources')}
+            />
+            <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+              <div className="flex-1">
+                <div className="flex items-center gap-1 mb-2">
+                  <span className="material-icons-outlined text-h3" style={{ color: 'rgba(135, 100, 0, 1)' }}>
                   lightbulb
                 </span>
                 <span className="text-body-sm font-semibold text-primary">
@@ -421,10 +495,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
               </p>
             </div>
 
-            <div
-              className="flex items-center gap-2 shrink-0"
-              style={getAnchorStyle('opportunity-sources')}
-            >
+            <div className="flex items-center gap-2 shrink-0">
               <div className="flex items-center gap-1">
                 <div className="flex -space-x-2">
                   <img
@@ -456,6 +527,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
                 </motion.span>
               </button>
             </div>
+          </div>
           </div>
 
           <AnimatePresence>
@@ -490,11 +562,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
       </div>
 
       {/* Footer with Feedback Buttons */}
-      <div
-        className="px-6 py-4 flex items-center gap-2"
-        style={getAnchorStyle('feedback-footer')}
-        data-anchor="feedback-footer"
-      >
+      <div className="px-6 py-4 flex items-center gap-2">
         <span className="text-body-sm text-secondary">
           Is this helpful?
         </span>
@@ -524,7 +592,9 @@ export default function HighlightsPanel({
   stage = 'solution',
   onTransition,
   problemCards = [],
-  focusedAnchor = null
+  highlightedSection = null,
+  onNoteOpenChange,
+  notes = [],
 }: HighlightsPanelProps) {
   // Default problem cards if none provided
   const defaultProblemCards: FeedbackSource[] = [
@@ -573,7 +643,12 @@ export default function HighlightsPanel({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <SolutionState className={className} focusedAnchor={focusedAnchor} />
+            <SolutionState
+              className={className}
+              highlightedSection={highlightedSection}
+              onNoteOpenChange={onNoteOpenChange}
+              notes={notes}
+            />
           </motion.div>
         );
     }

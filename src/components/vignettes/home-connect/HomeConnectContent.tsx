@@ -9,27 +9,25 @@ import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { useVignetteStage } from '@/components/vignettes/VignetteStaged';
 import { homeConnectContent } from './content';
 import type { DesignNote } from '@/components/vignettes/types';
-import { useDesignNotes } from '@/components/vignettes/shared/useRedlineMode';
-import RedlineOverlay from '@/components/vignettes/shared/RedlineOverlay';
-import MobileRedlineMarkers from '@/components/vignettes/shared/MobileRedlineMarkers';
 import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
+import { DesignNotesOverlay } from '@/components/vignettes/shared/DesignNotesOverlay';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 
 type PanelStage = 'problem' | 'transition' | 'solution';
 
 interface HomeConnectContentProps {
-  redlineNotes: DesignNote[];
-  designNotes: ReturnType<typeof useDesignNotes>;
-  mobileIndex: number;
-  onMobileIndexChange: (index: number) => void;
+  notes: DesignNote[];
+  highlightedSection?: string | null;
+  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
+  onActiveNoteChange?: (noteId: string | null) => void;
 }
 
 export default function HomeConnectContent({
-  redlineNotes,
-  designNotes,
-  mobileIndex,
-  onMobileIndexChange,
+  notes,
+  highlightedSection = null,
+  onNoteOpenChange,
+  onActiveNoteChange,
 }: HomeConnectContentProps) {
   const { stage, goToSolution, setStage } = useVignetteStage();
   const [panelStage, setPanelStage] = useState<PanelStage>('problem');
@@ -63,10 +61,6 @@ export default function HomeConnectContent({
 
   const title = currentStageContent.title;
   const description = currentStageContent.description;
-
-  const focusedAnchor = designNotes.focusedAnnotation
-    ? redlineNotes.find(n => n.id === designNotes.focusedAnnotation)?.anchor ?? null
-    : null;
 
   return (
     <VignetteSplit
@@ -121,28 +115,20 @@ export default function HomeConnectContent({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
             >
-              <HomeConnectPanel focusedAnchor={focusedAnchor} />
+              <HomeConnectPanel
+                highlightedSection={highlightedSection}
+                onNoteOpenChange={onNoteOpenChange}
+                notes={notes}
+              />
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Desktop annotations - dots always visible in solution stage */}
+        {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
         {stage === 'solution' && (
-          <RedlineOverlay
-            notes={redlineNotes}
-            expandedAnnotations={designNotes.expandedAnnotations}
-            focusedAnnotation={designNotes.focusedAnnotation}
-            onToggleAnnotation={designNotes.toggleAnnotation}
-            onFocusAnnotation={designNotes.setFocusedAnnotation}
-          />
-        )}
-
-        {/* Mobile markers - dots always visible in solution stage */}
-        {stage === 'solution' && (
-          <MobileRedlineMarkers
-            notes={redlineNotes}
-            currentIndex={mobileIndex}
-            onMarkerClick={onMobileIndexChange}
+          <DesignNotesOverlay
+            notes={notes}
+            onActiveNoteChange={onActiveNoteChange}
           />
         )}
       </div>

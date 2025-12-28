@@ -15,9 +15,7 @@ interface AIHighlightsContent {
   stages: VignetteStages;
   iterations: DesignIteration[];
   designNotes: {
-    accent: string;
     notes: DesignNote[];
-    description?: string;
   };
   problemCards: FeedbackSource[];
   sourceAvatars: Record<string, string>;
@@ -64,29 +62,30 @@ export const aiHighlightsContent: AIHighlightsContent = {
     }
   ],
   designNotes: {
-    accent: '#ef4444',
-    description: 'Annotated, human notes that show the messy thinking behind the polished surface.',
     notes: [
       {
         id: 'context-first',
         label: 'Summary paragraph',
         detail: 'The summary orients the managers before diving into the details below.',
-        anchor: 'summary-anchor',
-        position: 'left',
+        x: '-4%',
+        y: '18%',
+        popoverSide: 'left' as const,
       },
       {
         id: 'verification',
         label: 'AI generated themes',
         detail: "Design research revealed opportunities to refine the model output. Managers wanted richer summaries that show when a behaviour occurred, e.g. project names.",
-        anchor: 'highlight-anchor',
-        position: 'left',
+        x: '-4%',
+        y: '45%',
+        popoverSide: 'left' as const,
       },
       {
         id: 'sources',
         label: 'Expandable sources',
-        detail: "Avatars of people and clear affordances make it easy to verify AI output.",
-        anchor: 'sources-anchor',
-        position: 'left',
+        detail: "Try expanding the sources. Avatars and clear affordances make it easy to verify AI output.",
+        x: '104%',
+        y: '72%',
+        popoverSide: 'right' as const,
       }
     ]
   },

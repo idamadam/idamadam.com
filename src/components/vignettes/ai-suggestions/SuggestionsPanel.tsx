@@ -1,10 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
 import type { AISuggestionsContent } from './content';
 import type { VignetteStage } from '@/lib/vignette-stage-context';
-import { useAnchorStyle } from '@/components/vignettes/shared/useAnchorStyle';
 
 type PanelStage = VignetteStage | 'loading';
 
@@ -13,7 +13,9 @@ interface SuggestionsPanelProps {
   content: AISuggestionsContent;
   stage?: PanelStage;
   onTransition?: () => void;
-  focusedAnchor?: string | null;
+  highlightedSection?: string | null;
+  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
+  notes?: Array<{ id: string; label?: string; detail: string }>;
 }
 
 function LoadingPanel() {
@@ -81,14 +83,94 @@ function LoadingPanel() {
   );
 }
 
+interface SectionMarkerProps {
+  index: number;
+  noteId: string;
+  side: 'left' | 'right';
+  isActive: boolean;
+  onOpenChange: (noteId: string, isOpen: boolean) => void;
+  note: { label?: string; detail: string };
+}
+
+function SectionMarker({ index, noteId, side, isActive, onOpenChange, note }: SectionMarkerProps) {
+  const [open, setOpen] = useState(false);
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    onOpenChange(noteId, isOpen);
+  };
+
+  // Dynamic import to avoid SSR issues
+  const Popover = require('@radix-ui/react-popover');
+
+  return (
+    <div
+      className={`absolute top-1/2 -translate-y-1/2 hidden lg:block ${
+        side === 'left' ? '-left-8' : '-right-8'
+      }`}
+    >
+      <Popover.Root open={open} onOpenChange={handleOpenChange}>
+        <Popover.Trigger asChild>
+          <button
+            className={`w-6 h-6 rounded-full text-xs font-semibold flex items-center justify-center
+                       bg-[var(--gold-500)] text-[var(--neutral-900)] hover:bg-[var(--gold-600)] transition-all cursor-pointer
+                       focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-500)] focus-visible:ring-offset-2
+                       ${isActive ? 'ring-2 ring-[var(--gold-500)] ring-offset-2' : ''}`}
+            aria-label={`Design note ${index + 1}`}
+          >
+            {index + 1}
+          </button>
+        </Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Content
+            side={side}
+            align="center"
+            sideOffset={12}
+            collisionPadding={16}
+            className="bg-white rounded-xl px-4 py-3 shadow-lg border border-gray-200 max-w-[280px] z-50"
+          >
+            {note.label && (
+              <p className="font-semibold text-sm text-gray-900">{note.label}</p>
+            )}
+            <p className={`text-sm text-gray-600 leading-relaxed ${note.label ? 'mt-1' : ''}`}>
+              {note.detail}
+            </p>
+            <Popover.Arrow className="fill-white" />
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
+    </div>
+  );
+}
+
+interface RecommendationsPanelProps {
+  content: AISuggestionsContent;
+  highlightedSection?: string | null;
+  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
+  notes?: Array<{ id: string; label?: string; detail: string }>;
+}
+
 function RecommendationsPanel({
   content,
-  focusedAnchor = null
-}: {
-  content: AISuggestionsContent;
-  focusedAnchor?: string | null;
-}) {
-  const { getAnchorStyle } = useAnchorStyle({ focusedAnchor });
+  highlightedSection = null,
+  onNoteOpenChange,
+  notes = [],
+}: RecommendationsPanelProps) {
+  // Get opacity style for a section based on what's highlighted
+  const getSectionStyle = (section: string) => {
+    if (!highlightedSection) return {};
+    return {
+      opacity: highlightedSection === section ? 1 : 0.3,
+      transition: 'opacity 0.2s ease-in-out',
+    };
+  };
+
+  const handleNoteOpen = (noteId: string, isOpen: boolean) => {
+    onNoteOpenChange?.(noteId, isOpen);
+  };
+
+  // Find notes by ID
+  const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
     <div
@@ -101,12 +183,19 @@ function RecommendationsPanel({
       }}
     >
       <div className="recommendation-content bg-white rounded-[5px] p-6 space-y-4">
-        {/* Header - anchored */}
+        {/* Header with marker */}
         <div
-          className="flex items-center justify-between"
-          style={getAnchorStyle('recommendations-header')}
-          data-anchor="recommendations-header"
+          className="flex items-center justify-between relative"
+          style={getSectionStyle('recommendations-header')}
         >
+          <SectionMarker
+            index={1}
+            noteId="people-science"
+            side="right"
+            isActive={highlightedSection === 'recommendations-header'}
+            onOpenChange={handleNoteOpen}
+            note={getNote('people-science')}
+          />
           <div className="flex items-start gap-2">
             <span className="material-icons-outlined text-h3 text-primary mt-0.5">
               auto_awesome
@@ -137,12 +226,19 @@ function RecommendationsPanel({
           ))}
         </div>
 
-        {/* Footer - anchored */}
+        {/* Footer with marker */}
         <div
-          className="flex items-center justify-between pt-2"
-          style={getAnchorStyle('feedback-footer')}
-          data-anchor="feedback-footer"
+          className="flex items-center justify-between pt-2 relative"
+          style={getSectionStyle('feedback-footer')}
         >
+          <SectionMarker
+            index={2}
+            noteId="loading-state"
+            side="left"
+            isActive={highlightedSection === 'feedback-footer'}
+            onOpenChange={handleNoteOpen}
+            note={getNote('loading-state')}
+          />
           <div className="flex items-center gap-4">
             <span className="text-sm text-secondary">Is this helpful?</span>
             <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
@@ -169,20 +265,47 @@ export default function SuggestionsPanel({
   content,
   stage = 'solution',
   onTransition,
-  focusedAnchor = null
+  highlightedSection = null,
+  onNoteOpenChange,
+  notes = [],
 }: SuggestionsPanelProps) {
   const isProblem = stage === 'problem';
   const isLoading = stage === 'loading';
   const isSolution = stage === 'solution' || stage === 'designNotes';
-  const { getAnchorStyle } = useAnchorStyle({ focusedAnchor });
+
+  // Get opacity style for a section based on what's highlighted
+  const getSectionStyle = (section: string) => {
+    if (!highlightedSection) return {};
+    return {
+      opacity: highlightedSection === section ? 1 : 0.3,
+      transition: 'opacity 0.2s ease-in-out',
+    };
+  };
+
+  const handleNoteOpen = (noteId: string, isOpen: boolean) => {
+    onNoteOpenChange?.(noteId, isOpen);
+  };
+
+  // Find notes by ID
+  const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
     <div className="space-y-2">
-      {/* Editor - always visible */}
+      {/* Editor with marker - always visible */}
       <div
-        style={isSolution ? getAnchorStyle('improve-button') : undefined}
-        data-anchor={isSolution ? 'improve-button' : undefined}
+        className="relative"
+        style={isSolution ? getSectionStyle('improve-button') : undefined}
       >
+        {isSolution && (
+          <SectionMarker
+            index={0}
+            noteId="editor-integration"
+            side="left"
+            isActive={highlightedSection === 'improve-button'}
+            onOpenChange={handleNoteOpen}
+            note={getNote('editor-integration')}
+          />
+        )}
         <RichTextEditor
           content={content.beforeText}
           placeholder="Write feedback..."
@@ -215,7 +338,9 @@ export default function SuggestionsPanel({
           >
             <RecommendationsPanel
               content={content}
-              focusedAnchor={focusedAnchor}
+              highlightedSection={highlightedSection}
+              onNoteOpenChange={onNoteOpenChange}
+              notes={notes}
             />
           </motion.div>
         )}

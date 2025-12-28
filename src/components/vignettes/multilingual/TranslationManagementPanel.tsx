@@ -5,20 +5,83 @@ import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
 import { subtlePulse } from '@/lib/animations';
 import { multilingualContent } from '@/components/vignettes/multilingual/content';
-import { useAnchorStyle } from '@/components/vignettes/shared/useAnchorStyle';
 
 interface TranslationManagementPanelProps {
   className?: string;
   initialComplete?: boolean;
-  focusedAnchor?: string | null;
+  highlightedSection?: string | null;
+  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
+  notes?: Array<{ id: string; label?: string; detail: string }>;
 }
 
 type TranslationState = 'idle' | 'translating' | 'complete';
 
+interface SectionMarkerProps {
+  index: number;
+  noteId: string;
+  side: 'left' | 'right';
+  isActive: boolean;
+  onOpenChange: (noteId: string, isOpen: boolean) => void;
+  note: { label?: string; detail: string };
+}
+
+function SectionMarker({ index, noteId, side, isActive, onOpenChange, note }: SectionMarkerProps) {
+  const [open, setOpen] = useState(false);
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    onOpenChange(noteId, isOpen);
+  };
+
+  // Dynamic import to avoid SSR issues
+  const Popover = require('@radix-ui/react-popover');
+
+  return (
+    <div
+      className={`absolute top-1/2 -translate-y-1/2 hidden lg:block ${
+        side === 'left' ? '-left-8' : '-right-8'
+      }`}
+    >
+      <Popover.Root open={open} onOpenChange={handleOpenChange}>
+        <Popover.Trigger asChild>
+          <button
+            className={`w-6 h-6 rounded-full text-xs font-semibold flex items-center justify-center
+                       bg-[var(--gold-500)] text-[var(--neutral-900)] hover:bg-[var(--gold-600)] transition-all cursor-pointer
+                       focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-500)] focus-visible:ring-offset-2
+                       ${isActive ? 'ring-2 ring-[var(--gold-500)] ring-offset-2' : ''}`}
+            aria-label={`Design note ${index + 1}`}
+          >
+            {index + 1}
+          </button>
+        </Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Content
+            side={side}
+            align="center"
+            sideOffset={12}
+            collisionPadding={16}
+            className="bg-white rounded-xl px-4 py-3 shadow-lg border border-gray-200 max-w-[280px] z-50"
+          >
+            {note.label && (
+              <p className="font-semibold text-sm text-gray-900">{note.label}</p>
+            )}
+            <p className={`text-sm text-gray-600 leading-relaxed ${note.label ? 'mt-1' : ''}`}>
+              {note.detail}
+            </p>
+            <Popover.Arrow className="fill-white" />
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
+    </div>
+  );
+}
+
 export default function TranslationManagementPanel({
   className = '',
   initialComplete = false,
-  focusedAnchor = null
+  highlightedSection = null,
+  onNoteOpenChange,
+  notes = []
 }: TranslationManagementPanelProps) {
   const content = multilingualContent;
   const [translationState, setTranslationState] = useState<TranslationState>(
@@ -27,7 +90,22 @@ export default function TranslationManagementPanel({
   const [isAnimating, setIsAnimating] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(0); // 0 = French, 1 = Dhivehi
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { getAnchorStyle } = useAnchorStyle({ focusedAnchor });
+
+  // Get opacity style for a section based on what's highlighted
+  const getSectionStyle = (section: string) => {
+    if (!highlightedSection) return {};
+    return {
+      opacity: highlightedSection === section ? 1 : 0.3,
+      transition: 'opacity 0.2s ease-in-out',
+    };
+  };
+
+  const handleNoteOpen = (noteId: string, isOpen: boolean) => {
+    onNoteOpenChange?.(noteId, isOpen);
+  };
+
+  // Find notes by ID
+  const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   // Don't auto-reset when initialComplete is true
   useEffect(() => {
@@ -59,9 +137,16 @@ export default function TranslationManagementPanel({
         {/* Language Dropdown */}
         <div
           className="flex flex-col gap-1.5 w-full sm:w-auto relative"
-          style={getAnchorStyle('language-dropdown')}
-          data-anchor="language-dropdown"
+          style={getSectionStyle('language-dropdown')}
         >
+          <SectionMarker
+            index={0}
+            noteId="unified-cycle"
+            side="left"
+            isActive={highlightedSection === 'language-dropdown'}
+            onOpenChange={handleNoteOpen}
+            note={getNote('unified-cycle')}
+          />
           <label className="text-body-sm font-semibold text-primary">
             Translated language
           </label>
@@ -110,11 +195,18 @@ export default function TranslationManagementPanel({
         </div>
 
         {/* Action Buttons */}
+        <div className="relative" style={getSectionStyle('auto-translate-btn')}>
+          <SectionMarker
+            index={1}
+            noteId="ai-translate"
+            side="right"
+            isActive={highlightedSection === 'auto-translate-btn'}
+            onOpenChange={handleNoteOpen}
+            note={getNote('ai-translate')}
+          />
           <motion.button
             onClick={handleTranslate}
             disabled={isAnimating}
-            style={getAnchorStyle('auto-translate-btn')}
-            data-anchor="auto-translate-btn"
             {...subtlePulse}
             className="bg-[#0168b3] hover:bg-[#015a99] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-body-sm h-9 px-md py-sm rounded-[6px] flex items-center gap-1.5 transition-colors"
           >
@@ -130,12 +222,13 @@ export default function TranslationManagementPanel({
             )}
             Auto translate
           </motion.button>
-          <button className="text-[#0168b3] hover:bg-gray-50 font-medium text-body-sm h-9 px-sm py-sm rounded-[6px] flex items-center gap-1.5 transition-colors">
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-            Import XLSX
-          </button>
+        </div>
+        <button className="text-[#0168b3] hover:bg-gray-50 font-medium text-body-sm h-9 px-sm py-sm rounded-[6px] flex items-center gap-1.5 transition-colors">
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+          Import XLSX
+        </button>
       </div>
 
       {/* Translation Fields */}
@@ -177,10 +270,17 @@ export default function TranslationManagementPanel({
 
             {/* Source Text Tag */}
             <div
-              className="flex items-start gap-2"
-              style={getAnchorStyle('source-text')}
-              data-anchor="source-text"
+              className="flex items-start gap-2 relative"
+              style={getSectionStyle('source-text')}
             >
+              <SectionMarker
+                index={2}
+                noteId="source-reference"
+                side="left"
+                isActive={highlightedSection === 'source-text'}
+                onOpenChange={handleNoteOpen}
+                note={getNote('source-reference')}
+              />
               <span className="inline-flex items-center px-3 py-1 bg-[#eaeaec] rounded-full text-xs text-primary">
                 English (English US)
               </span>
