@@ -1,29 +1,19 @@
+export interface Company {
+  name: string;
+  logo: string;
+  type: 'svg' | 'png';
+}
+
 export interface HeroContent {
   name: string;
-  role: string;
-  stages: {
-    problem: {
-      tagline: string;
-      cta: string;
-    };
-    solution: {
-      tagline: string;
-      scrollHint: string;
-    };
-  };
+  companies: Company[];
 }
 
 export const heroContent: HeroContent = {
   name: 'Idam Adam',
-  role: 'Lead Product Designer',
-  stages: {
-    problem: {
-      tagline: 'A portfolio that shows, not tells.',
-      cta: 'See it in action',
-    },
-    solution: {
-      tagline: 'Each project below is interactive.',
-      scrollHint: 'Scroll to explore',
-    },
-  },
+  companies: [
+    { name: 'Culture Amp', logo: '/logos/cultureamp.svg', type: 'svg' },
+    { name: 'MYOB', logo: '/logos/myob.svg', type: 'svg' },
+    { name: 'Canstar', logo: '/logos/canstar-gold-and-blue-logo.png', type: 'png' },
+  ],
 };
