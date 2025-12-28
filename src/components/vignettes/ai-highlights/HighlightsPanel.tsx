@@ -286,9 +286,8 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
           </div>
         </div>
         <p className="text-body-sm text-primary mt-0">
-          Idam designed 2 tools to help reduce the burden of the Performance Review Period.
-          Highlights & Opportunities helps managers quickly understand what their direct reports
-          did & verify AI output using direct quotes from feedback.
+          Led design for Highlights & Opportunities from discovery through launch.
+          User research shaped both the verification UX and improvements to model output.
         </p>
       </div>
 
@@ -299,7 +298,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
         data-anchor="highlight-item"
       >
         <div className="px-6 py-8">
-          <div className="flex items-start gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-3">
             <div className="flex-1">
               <div className="flex items-center gap-1 mb-2">
                 <span className="material-icons-outlined text-h3 text-[#22594A]">
@@ -310,11 +309,11 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
                 </span>
               </div>
               <p className="text-body-sm text-primary">
-                Developed a process to get early feedback about model output during user testing.
+                Created a process to test AI model output with real users, using research findings to improve what the model generates.
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <div className="flex items-center gap-1">
                 <div className="flex -space-x-2">
                   <img
@@ -362,7 +361,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
                     name="Sarah Chen"
                     date="Sep 8, 2024"
                     context="Peer feedback"
-                    feedback="Idam's approach to user testing the AI model was brilliant. Getting early feedback directly from managers helped us iterate on the prompts before launch, which significantly improved the quality of the highlights."
+                    feedback="Idam's approach to user testing the AI model was excellent. Getting early feedback directly from managers helped us iterate on the prompts before launch, which significantly improved the quality of the highlights."
                     avatarUrl="/avatars/sarah-chen.svg"
                   />
                   <SourceCard
@@ -386,7 +385,7 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
         data-anchor="opportunity-item"
       >
         <div className="px-6 py-8">
-          <div className="flex items-start gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-3">
             <div className="flex-1">
               <div className="flex items-center gap-1 mb-2">
                 <span className="material-icons-outlined text-h3" style={{ color: 'rgba(135, 100, 0, 1)' }}>
@@ -397,11 +396,11 @@ function SolutionState({ className = '', focusedAnchor = null }: SolutionStatePr
                 </span>
               </div>
               <p className="text-body-sm text-primary">
-                Developed a process to get early feedback about model output during user testing.
+                Document and scale this AI testing framework as a template for validating model output across other features.
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <div className="flex items-center gap-1">
                 <div className="flex -space-x-2">
                   <img
