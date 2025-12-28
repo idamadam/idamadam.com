@@ -9,19 +9,19 @@ interface StageIndicatorProps {
 
 export default function StageIndicator({ stage, onStageChange }: StageIndicatorProps) {
   return (
-    <div className="flex items-center gap-1.5 text-caption text-gray-400 select-none">
+    <div className="flex items-center gap-1.5 text-caption select-none">
       <button
         onClick={() => onStageChange('problem')}
-        className={`hover:text-gray-500 transition-colors ${stage === 'problem' ? 'text-gray-600' : ''}`}
+        className={`transition-colors ${stage === 'problem' ? 'text-gold-600 font-medium' : 'text-muted-tertiary hover:text-gold-500'}`}
       >
         Problem
       </button>
-      <span className={`w-2 h-2 rounded-full ${stage === 'problem' ? 'bg-gray-600' : 'bg-gray-300'}`} />
-      <span className="w-6 h-px bg-gray-300" />
-      <span className={`w-2 h-2 rounded-full ${stage === 'solution' ? 'bg-gray-600' : 'bg-gray-300'}`} />
+      <span className={`w-2 h-2 rounded-full transition-colors ${stage === 'problem' ? 'bg-gold-500' : 'bg-border'}`} />
+      <span className="w-6 h-px bg-border" />
+      <span className={`w-2 h-2 rounded-full transition-colors ${stage === 'solution' ? 'bg-gold-500' : 'bg-border'}`} />
       <button
         onClick={() => onStageChange('solution')}
-        className={`hover:text-gray-500 transition-colors ${stage === 'solution' ? 'text-gray-600' : ''}`}
+        className={`transition-colors ${stage === 'solution' ? 'text-gold-600 font-medium' : 'text-muted-tertiary hover:text-gold-500'}`}
       >
         Solution
       </button>

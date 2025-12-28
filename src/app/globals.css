@@ -1,18 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  /* Neutral scale (Zinc-based, slightly warm) */
-  --neutral-50: #fafafa;
-  --neutral-100: #f4f4f5;
-  --neutral-200: #e4e4e7;
-  --neutral-300: #d4d4d8;
-  --neutral-400: #a1a1aa;
-  --neutral-500: #71717a;
-  --neutral-600: #52525b;
-  --neutral-700: #3f3f46;
-  --neutral-800: #27272a;
-  --neutral-900: #18181b;
-  --neutral-950: #09090b;
+  /* Neutral scale (Warm cream/ivory undertones) */
+  --neutral-50: #fdfcfa;
+  --neutral-100: #f9f7f4;
+  --neutral-200: #f0ece5;
+  --neutral-300: #e2dcd2;
+  --neutral-400: #b8b0a2;
+  --neutral-500: #8a8275;
+  --neutral-600: #5c564b;
+  --neutral-700: #433e36;
+  --neutral-800: #2d2a24;
+  --neutral-900: #1c1a16;
+  --neutral-950: #0d0c0a;
+
+  /* Gold accent scale */
+  --gold-50: #fffdf5;
+  --gold-100: #fef9e7;
+  --gold-200: #fdf0c5;
+  --gold-300: #f9dd8c;
+  --gold-400: #f5c84a;
+  --gold-500: #d4a012;
+  --gold-600: #b8890d;
+  --gold-700: #9a6f08;
 
   /* Semantic color mapping */
   --background: var(--neutral-50);
@@ -22,18 +32,18 @@
   --muted-tertiary: var(--neutral-400);
   --border: var(--neutral-200);
 
-  /* Accent - swap this for personality later */
-  --accent: #2563eb;
+  /* Accent - gold for personality */
+  --accent: var(--gold-500);
   --accent-foreground: #ffffff;
 
-  /* Interactive accent - Dark neutral */
+  /* Interactive accent - Warm dark neutral */
   --accent-interactive: var(--neutral-900);
-  --accent-interactive-rgb: 24, 24, 27;
-  --accent-interactive-bg: rgba(245, 158, 11, 0.08);
-  --accent-interactive-bg-hover: rgba(245, 158, 11, 0.12);
-  --accent-interactive-bg-active: rgba(245, 158, 11, 0.16);
+  --accent-interactive-rgb: 28, 26, 22;
+  --accent-interactive-bg: rgba(212, 160, 18, 0.08);
+  --accent-interactive-bg-hover: rgba(212, 160, 18, 0.12);
+  --accent-interactive-bg-active: rgba(212, 160, 18, 0.16);
 
-  --warm-accent: #f59e0b;
+  --warm-accent: var(--gold-500);
 
   /* AI loading gradient */
   --ai-gradient-1: #A6E5E7;
@@ -46,13 +56,13 @@
   --tertiary: var(--neutral-400);
 
   /* Status colors */
-  --success: #059669;
-  --warning: #f59e0b;
+  --success: #2a9d6a;
+  --warning: var(--gold-500);
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* Shadows (warm-tinted) */
+  --shadow-sm: 0 1px 2px 0 rgba(28, 26, 22, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(28, 26, 22, 0.08), 0 2px 4px -2px rgba(28, 26, 22, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(28, 26, 22, 0.08), 0 4px 6px -4px rgba(28, 26, 22, 0.06);
 
   /* Border radius */
   --radius-sm: 0.375rem;
@@ -61,7 +71,7 @@
 }
 
 @theme inline {
-  /* Colors (existing) */
+  /* Colors - semantic */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
@@ -77,24 +87,35 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
 
-  /* Fonts - switch to Inter */
-  --font-sans: var(--font-inter);
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* Colors - gold scale */
+  --color-gold-50: var(--gold-50);
+  --color-gold-100: var(--gold-100);
+  --color-gold-200: var(--gold-200);
+  --color-gold-300: var(--gold-300);
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-gold-700: var(--gold-700);
+
+  /* Fonts */
+  --font-family-sans: var(--font-inter);
+  --font-family-display: var(--font-display);
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Typography - font sizes with bundled properties */
-  --text-display: clamp(2.75rem, 8vw, 4.5rem);
-  --text-display--line-height: 0.95;
-  --text-display--letter-spacing: -0.04em;
+  --text-display: clamp(3.25rem, 10vw, 5.5rem);
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.05em;
   --text-display--font-weight: 700;
 
-  --text-h1: clamp(2.25rem, 5vw, 2.75rem);
-  --text-h1--line-height: 1.05;
-  --text-h1--letter-spacing: -0.03em;
+  --text-h1: clamp(2.5rem, 6vw, 3.25rem);
+  --text-h1--line-height: 1;
+  --text-h1--letter-spacing: -0.04em;
   --text-h1--font-weight: 700;
 
-  --text-h2: 1.625rem;
-  --text-h2--line-height: 1.15;
-  --text-h2--letter-spacing: -0.02em;
+  --text-h2: 1.75rem;
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.03em;
 
   --text-h3: 1.125rem;
   --text-h3--line-height: 1.3;
@@ -140,16 +161,19 @@
 /* Composed typography classes */
 .type-display {
   @apply text-display font-bold;
+  font-family: var(--font-display), system-ui, sans-serif;
   color: var(--primary);
 }
 
 .type-h1 {
-  @apply text-h1 font-bold;
+  @apply text-h1 font-semibold;
+  font-family: var(--font-display), system-ui, sans-serif;
   color: var(--primary);
 }
 
 .type-h2 {
   @apply text-h2 font-semibold;
+  font-family: var(--font-display), system-ui, sans-serif;
   color: var(--primary);
 }
 
@@ -214,14 +238,26 @@ html {
 }
 
 body {
-  background: transparent;
+  background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-family-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 1rem;
   line-height: 1.5;
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  position: relative;
+}
+
+/* Subtle grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1000;
 }
 
 /* Typography improvements */
@@ -245,8 +281,8 @@ p {
 
 /* Selection styling */
 ::selection {
-  background-color: var(--accent);
-  color: var(--accent-foreground);
+  background-color: var(--gold-200);
+  color: var(--neutral-900);
 }
 
 /* Improved link styling */
@@ -307,24 +343,23 @@ a:hover {
   outline-offset: 2px;
 }
 
-/* Primary: solid filled button */
+/* Primary: solid gold button */
 .btn-primary {
-  background-color: var(--accent-interactive);
-  color: white;
+  background-color: var(--gold-500);
+  color: var(--neutral-900);
   padding: 0.75rem 1.25rem;
   border-radius: 9999px;
   border: none;
-  transition: color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  transition: all 0.15s ease;
 }
 
 .btn-primary:hover {
-  color: #fef3c7;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.4);
+  background-color: var(--gold-600);
+  box-shadow: 0 0 0 3px rgba(212, 160, 18, 0.3);
 }
 
 .btn-primary:active {
-  color: #fef3c7;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.6);
+  background-color: var(--gold-700);
   transform: scale(0.97);
 }
 
