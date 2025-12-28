@@ -7,6 +7,7 @@ import HomeConnectVignette from '@/components/vignettes/home-connect/HomeConnect
 import HeroVignette from '@/components/vignettes/hero/HeroVignette';
 import SectionHeader from '@/components/SectionHeader';
 import SectionTitle from '@/components/SectionTitle';
+import Footer from '@/components/Footer';
 export default function Home() {
   return (
     <main className="w-full min-h-screen text-primary bg-background">
@@ -42,6 +43,9 @@ export default function Home() {
             <VibeCodingVignette />
           </div>
         </section>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </main>
   );
