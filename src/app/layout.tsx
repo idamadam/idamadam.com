@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import ShaderProviderWrapper from "@/components/ShaderProviderWrapper";
+import { GrainBackground } from "@/components/GrainBackground";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -46,6 +47,7 @@ export default function RootLayout({
         className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
       >
         <ShaderProviderWrapper>
+          <GrainBackground />
           {children}
         </ShaderProviderWrapper>
       </body>

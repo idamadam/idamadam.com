@@ -10,7 +10,7 @@ import SectionTitle from '@/components/SectionTitle';
 import Footer from '@/components/Footer';
 export default function Home() {
   return (
-    <main className="w-full min-h-screen text-primary bg-background">
+    <main className="w-full min-h-screen text-primary bg-transparent relative z-10">
       <div>
         {/* Hero Section */}
         <HeroVignette />
