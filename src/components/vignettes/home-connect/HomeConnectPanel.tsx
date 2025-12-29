@@ -186,7 +186,7 @@ export default function HomeConnectPanel({
           <FeedDivider label="Upcoming" />
 
           {/* Performance Cycle Card */}
-          <div className="relative" style={getSectionStyle('performance', true)}>
+          <div className="relative" data-section-id="performance" style={getSectionStyle('performance', true)}>
             <SectionMarker
               index={0}
               noteId="card-system"
@@ -227,7 +227,7 @@ export default function HomeConnectPanel({
           <FeedDivider label="Recent" />
 
           {/* Goal Card */}
-          <div className="relative" style={getSectionStyle('goal', true)}>
+          <div className="relative" data-section-id="goal" style={getSectionStyle('goal', true)}>
             <SectionMarker
               index={1}
               noteId="inactive-goal"

@@ -310,7 +310,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
     >
       <div className="bg-white rounded-[5px] overflow-visible">
       {/* Header Section */}
-      <div className="border-b-2 border-[#eaeaec] px-6 py-6" style={getSectionStyle('summary')}>
+      <div className="border-b-2 border-[#eaeaec] px-6 py-6" data-section-id="summary" style={getSectionStyle('summary')}>
         <div className="relative">
           <SectionMarker
             index={0}
@@ -343,7 +343,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
       </div>
 
       {/* Highlight Item */}
-      <div className="border-b-2 border-[#eaeaec]" style={getSectionStyle('highlight')}>
+      <div className="border-b-2 border-[#eaeaec]" data-section-id="highlight" style={getSectionStyle('highlight')}>
         <div className="px-6 py-8">
           {/* Header row with marker */}
           <div className="relative">
@@ -437,7 +437,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
       </div>
 
       {/* Opportunity Item */}
-      <div className="border-b-2 border-[#eaeaec]" style={getSectionStyle('opportunity')}>
+      <div className="border-b-2 border-[#eaeaec]" data-section-id="opportunity" style={getSectionStyle('opportunity')}>
         <div className="px-6 py-8">
           {/* Header row with marker */}
           <div className="relative">

@@ -13,6 +13,7 @@ import { DesignNotesOverlay } from '@/components/vignettes/shared/DesignNotesOve
 import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
 import { useReducedMotion } from '@/lib/useReducedMotion';
+import { useScrollToSection } from '@/components/vignettes/shared/useScrollToSection';
 
 // Map note IDs to the content sections they reference
 const NOTE_TO_SECTION: Record<string, string> = {
@@ -25,6 +26,7 @@ function MultilingualContent() {
   const { stage, goToSolution, setStage } = useVignetteStage();
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
   const reducedMotion = useReducedMotion();
+  const { scrollToSection } = useScrollToSection();
 
   const handleTransition = useCallback(() => {
     goToSolution();
@@ -43,6 +45,13 @@ function MultilingualContent() {
   const handleNoteOpenChange = (noteId: string, isOpen: boolean) => {
     setActiveNoteId(isOpen ? noteId : null);
   };
+
+  const handleActiveNoteChange = useCallback((noteId: string | null) => {
+    setActiveNoteId(noteId);
+    if (noteId) {
+      scrollToSection(NOTE_TO_SECTION[noteId]);
+    }
+  }, [scrollToSection]);
 
   return (
     <VignetteSplit
@@ -100,7 +109,7 @@ function MultilingualContent() {
         {stage === 'solution' && (
           <DesignNotesOverlay
             notes={multilingualContent.designNotes.notes}
-            onActiveNoteChange={setActiveNoteId}
+            onActiveNoteChange={handleActiveNoteChange}
           />
         )}
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import HighlightsPanel from './HighlightsPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
@@ -13,6 +13,7 @@ import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
 import { useLoadingTransition } from '@/components/vignettes/shared/useLoadingTransition';
 import { useReducedMotion } from '@/lib/useReducedMotion';
+import { useScrollToSection } from '@/components/vignettes/shared/useScrollToSection';
 
 type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 
@@ -27,6 +28,14 @@ function AIHighlightsContent() {
   const { stage, goToSolution, setStage } = useVignetteStage();
   const reducedMotion = useReducedMotion();
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
+  const { scrollToSection } = useScrollToSection();
+
+  const handleActiveNoteChange = useCallback((noteId: string | null) => {
+    setActiveNoteId(noteId);
+    if (noteId) {
+      scrollToSection(NOTE_TO_SECTION[noteId]);
+    }
+  }, [scrollToSection]);
 
   const { isLoading, startTransition } = useLoadingTransition({
     duration: 1500,
@@ -87,7 +96,7 @@ function AIHighlightsContent() {
         {stage === 'solution' && (
           <DesignNotesOverlay
             notes={aiHighlightsContent.designNotes.notes}
-            onActiveNoteChange={setActiveNoteId}
+            onActiveNoteChange={handleActiveNoteChange}
           />
         )}
       </div>
