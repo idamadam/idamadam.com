@@ -1,16 +1,60 @@
 'use client';
 
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { heroContent } from './content';
+import { useReducedMotion } from '@/lib/useReducedMotion';
+import { timing, timingReduced } from '@/lib/animations';
 
 export default function HeroContent() {
+  const reducedMotion = useReducedMotion();
+  const t = reducedMotion ? timingReduced : timing;
+
+  // Split name into characters, preserving spaces
+  const characters = heroContent.name.split('');
+
+  // Calculate when credentials should appear (after name finishes)
+  const nameAnimationEnd = characters.length * t.stagger.tight + t.duration.medium;
+
   return (
     <div className="space-y-6">
-      {/* Name */}
-      <h1 className="type-display">{heroContent.name}</h1>
+      {/* Name with staggered character reveal */}
+      <h1 className="type-display">
+        {reducedMotion ? (
+          heroContent.name
+        ) : (
+          <span aria-label={heroContent.name}>
+            {characters.map((char, index) => (
+              <motion.span
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: t.duration.medium,
+                  delay: t.entrance.text + index * t.stagger.tight,
+                  ease: [0.2, 0.65, 0.3, 0.9],
+                }}
+                className="inline-block"
+                style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+              >
+                {char}
+              </motion.span>
+            ))}
+          </span>
+        )}
+      </h1>
 
       {/* Single row: Role + Previous + LinkedIn */}
-      <p className="flex items-center gap-3 flex-wrap text-secondary">
+      <motion.p
+        className="flex items-center gap-3 flex-wrap text-secondary"
+        initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: t.duration.medium,
+          delay: nameAnimationEnd,
+          ease: [0.2, 0.65, 0.3, 0.9],
+        }}
+      >
         {/* Current role */}
         <span className="flex items-center gap-2">
           <span>Lead Product Designer at</span>
@@ -69,7 +113,7 @@ export default function HeroContent() {
             <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
           </svg>
         </a>
-      </p>
+      </motion.p>
     </div>
   );
 }

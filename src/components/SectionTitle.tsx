@@ -22,7 +22,6 @@ export default function SectionTitle({ children }: SectionTitleProps) {
           viewport={{ once: true, margin: '-100px' }}
           transition={{
             duration: t.duration.slow,
-            delay: t.entrance.text,
             ease: 'easeOut',
           }}
         >
