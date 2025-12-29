@@ -33,7 +33,7 @@ export default function VignetteSplit({
   const hasTitle = Boolean(title);
   const textStackClass = hasTitle ? 'space-y-4' : 'space-y-3';
 
-  const titleClass = variant === 'hero' ? 'type-display' : 'type-h2';
+  const titleClass = variant === 'hero' ? 'type-display' : 'type-h3';
   const descriptionClass = 'type-body';
 
   // Grid classes - compact forces single column, otherwise responsive
