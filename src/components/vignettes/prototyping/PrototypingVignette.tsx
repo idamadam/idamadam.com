@@ -19,7 +19,7 @@ function PrototypingContent() {
   const reducedMotion = useReducedMotion();
 
   const { isLoading, startTransition } = useLoadingTransition({
-    duration: 5000,
+    duration: 4000,
     onComplete: goToSolution,
   });
 
