@@ -21,16 +21,32 @@ function ProblemState({
   onTransition?: () => void;
 }) {
   const { entranceDelay, stagger } = useVignetteEntrance();
-
-  // CTA appears after all questions have animated in
   const ctaDelay = entranceDelay + questions.length * stagger + 0.1;
 
   return (
-    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[320px] flex flex-col items-center justify-center p-8">
-      {/* Floating questions */}
-      <div className="relative w-full h-36">
+    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[280px] lg:min-h-[320px] flex flex-col items-center justify-center p-4 lg:p-8">
+      {/* Mobile: Stacked questions */}
+      <div className="flex flex-col gap-2 w-full mb-4 lg:hidden">
+        {questions.map((q, index) => (
+          <motion.div
+            key={q.id}
+            className="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 text-body-sm text-gray-600 font-medium"
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{
+              duration: 0.4,
+              delay: entranceDelay + index * stagger,
+              ease: 'easeOut' as const,
+            }}
+          >
+            {q.text}
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Desktop: Scattered floating questions */}
+      <div className="relative w-full h-36 hidden lg:block">
         {questions.map((q, index) => {
-          // Position questions in a scattered pattern
           const positions = [
             { top: '10%', left: '5%', rotate: -5 },
             { top: '5%', right: '10%', rotate: 3 },
@@ -48,11 +64,7 @@ function ProblemState({
                 transform: `rotate(${pos.rotate}deg)`,
               }}
               initial={{ opacity: 0, y: 20, scale: 0.9 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                scale: 1,
-              }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
                 duration: 0.4,
                 delay: entranceDelay + index * stagger,
@@ -68,7 +80,7 @@ function ProblemState({
       {/* CTA */}
       <motion.button
         onClick={onTransition}
-        className="btn-interactive btn-primary mt-6"
+        className="btn-interactive btn-primary mt-4 lg:mt-6"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: ctaDelay, duration: 0.3 }}
@@ -162,11 +174,11 @@ function SolutionState({ content }: { content: PrototypingContent }) {
         </div>
 
         {/* Prototype Grid */}
-        <div className="grid grid-cols-3 gap-lg">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-lg">
           {content.prototypes.map((item) => (
             <div
               key={item.id}
-              className="rounded-[7px] h-[78px]"
+              className="rounded-[7px] h-[60px] sm:h-[78px]"
               style={{ backgroundColor: item.thumbnail }}
               aria-label={item.name}
             />
@@ -179,7 +191,7 @@ function SolutionState({ content }: { content: PrototypingContent }) {
         initial={{ opacity: 0, y: 10, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.3, ease: 'easeOut', delay: 0.2 }}
-        className="absolute bottom-0 right-0 bg-[#09090B] rounded-lg w-[420px] shadow-2xl border border-[#1f1f23] overflow-hidden"
+        className="absolute bottom-0 right-0 left-0 sm:left-auto bg-[#09090B] rounded-lg w-full sm:w-[340px] lg:w-[420px] shadow-2xl border border-[#1f1f23] overflow-hidden"
         style={{ transform: 'translate(0, 50%)' }}
       >
         {/* TUI Header */}

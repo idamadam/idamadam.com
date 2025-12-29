@@ -50,9 +50,46 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
   const ctaDelay = reducedMotion ? 0 : entranceDelay + scatteredInsights.length * stagger + 0.1;
 
   return (
-    <div className="w-full min-h-[400px] flex flex-col items-center justify-center">
-      {/* Scattered page cards */}
-      <div className="relative h-[220px] mb-5 w-full">
+    <div className="w-full min-h-[300px] lg:min-h-[400px] flex flex-col items-center justify-center p-4 lg:p-0">
+      {/* Mobile: Stacked cards */}
+      <div className="flex flex-col gap-3 w-full mb-4 lg:hidden">
+        {scatteredInsights.map((item, i) => (
+          <motion.div
+            key={item.id}
+            className="w-full bg-[#F9F9F9] rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.1)]"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              delay: reducedMotion ? 0 : entranceDelay + i * stagger,
+              duration: 0.4,
+              ease: 'easeOut' as const,
+            }}
+          >
+            {/* Window chrome header */}
+            <div className="px-3 py-2 flex items-center gap-1.5 bg-[#F5F5F5] border-b border-gray-200">
+              <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
+              <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
+              <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />
+              <span
+                className="material-icons-outlined text-[14px] ml-1"
+                style={{ color: item.color }}
+              >
+                {item.icon}
+              </span>
+              <span className="text-caption font-semibold text-primary">
+                {item.page}
+              </span>
+            </div>
+            {/* Page content */}
+            <div className="px-3 py-3 bg-white">
+              <span className="text-body-sm text-primary leading-snug block">{item.insight}</span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Desktop: Scattered page cards */}
+      <div className="relative h-[220px] mb-5 w-full hidden lg:block">
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}

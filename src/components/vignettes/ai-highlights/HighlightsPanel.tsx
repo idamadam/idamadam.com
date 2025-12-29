@@ -158,18 +158,18 @@ function LoadingState() {
               key={index}
               className={`px-6 py-8 ${index < 2 ? 'border-b-2 border-[#eaeaec]' : ''}`}
             >
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center gap-1">
                     <div className="skeleton-bar w-5 h-5 rounded-full" />
-                    <div className="skeleton-bar h-[15px] w-[85px] rounded-[7px]" />
+                    <div className="skeleton-bar h-[15px] w-20 sm:w-[85px] rounded-[7px]" />
                   </div>
-                  <div className="skeleton-bar h-[15px] w-[240px] rounded-[7px]" />
+                  <div className="skeleton-bar h-[15px] w-full max-w-[240px] rounded-[7px]" />
                 </div>
-                <div className="flex items-center gap-12">
+                <div className="flex items-center gap-4 sm:gap-12">
                   <div className="flex items-center gap-1">
                     <div className="skeleton-bar w-5 h-5 rounded-full" />
-                    <div className="skeleton-bar h-[15px] w-[60px] rounded-[7px]" />
+                    <div className="skeleton-bar h-[15px] w-14 sm:w-[60px] rounded-[7px]" />
                   </div>
                   <div className="skeleton-bar w-5 h-5 rounded-full" />
                 </div>
@@ -193,16 +193,40 @@ const feedbackCardPositions = [
 
 function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
   const { entranceDelay, stagger } = useVignetteEntrance();
-  // Use first 5 cards for scattered layout
   const displayCards = cards.slice(0, 5);
-
-  // CTA appears after all cards have animated in
   const ctaDelay = entranceDelay + displayCards.length * stagger + 0.1;
 
   return (
-    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[400px] flex flex-col items-center justify-end p-8 overflow-hidden">
-      {/* Scattered floating cards */}
-      <div className="absolute inset-0">
+    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[300px] lg:min-h-[400px] flex flex-col items-center justify-end p-4 lg:p-8 overflow-hidden">
+      {/* Mobile: Simple stacked layout */}
+      <div className="flex flex-col gap-3 w-full mb-4 lg:hidden">
+        {displayCards.slice(0, 3).map((card, index) => (
+          <motion.div
+            key={card.id}
+            className="bg-white px-4 py-3 rounded-lg shadow-sm border border-gray-200"
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{
+              duration: 0.4,
+              delay: entranceDelay + index * stagger,
+              ease: 'easeOut' as const,
+            }}
+          >
+            {card.from && (
+              <div className="flex items-center gap-2 mb-2">
+                {card.avatarUrl && (
+                  <img src={card.avatarUrl} alt={card.from} className="w-6 h-6 rounded-full" />
+                )}
+                <span className="text-body-sm font-semibold text-primary">{card.from}</span>
+              </div>
+            )}
+            <p className="text-body-sm text-secondary line-clamp-2">{card.content}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Desktop: Scattered absolute positioning */}
+      <div className="absolute inset-0 hidden lg:block">
         {displayCards.map((card, index) => {
           const pos = feedbackCardPositions[index % feedbackCardPositions.length];
           return (
@@ -226,20 +250,12 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
               {card.from && (
                 <div className="flex items-center gap-2 mb-2">
                   {card.avatarUrl && (
-                    <img
-                      src={card.avatarUrl}
-                      alt={card.from}
-                      className="w-6 h-6 rounded-full"
-                    />
+                    <img src={card.avatarUrl} alt={card.from} className="w-6 h-6 rounded-full" />
                   )}
-                  <span className="text-body-sm font-semibold text-primary">
-                    {card.from}
-                  </span>
+                  <span className="text-body-sm font-semibold text-primary">{card.from}</span>
                 </div>
               )}
-              <p className="text-body-sm text-secondary line-clamp-3">
-                {card.content}
-              </p>
+              <p className="text-body-sm text-secondary line-clamp-3">{card.content}</p>
             </motion.div>
           );
         })}

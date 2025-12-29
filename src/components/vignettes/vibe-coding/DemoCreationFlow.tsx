@@ -101,26 +101,26 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
   return (
     <div ref={containerRef} className="w-full">
       {/* Mini Prototype Page Layout */}
-      <div className="bg-white border border-neutral-200 rounded-xl shadow-2xl overflow-hidden" style={{ height: '550px' }}>
+      <div className="bg-white border border-gray-200 rounded-xl shadow-2xl overflow-hidden h-[650px] lg:h-[550px]">
 
         {/* Mini Header */}
-        <div className="h-12 bg-white border-b border-neutral-200 flex items-center justify-between px-4">
+        <div className="h-12 bg-white border-b border-gray-200 flex items-center justify-between px-4">
           <div className="flex items-center space-x-3">
-            <div className="w-2 h-2 rounded-full bg-neutral-400"></div>
-            <span className="text-sm font-medium text-neutral-600">Task Card Demo</span>
+            <div className="w-2 h-2 rounded-full bg-gray-400"></div>
+            <span className="text-sm font-medium text-gray-600">Task Card Demo</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="px-3 py-1 bg-neutral-100 rounded-md text-xs text-neutral-600 font-medium">
+            <div className="px-3 py-1 bg-gray-100 rounded-md text-xs text-gray-600 font-medium">
               Desktop
             </div>
           </div>
         </div>
 
         {/* Main Layout: Command Panel + Preview */}
-        <div className="flex h-[calc(100%-3rem)]">
+        <div className="flex flex-col lg:flex-row w-full h-[calc(100%-3rem)]">
 
           {/* Command Panel (Left Side) - mimics real CommandPanel */}
-          <div className="w-72 border-r border-neutral-200 bg-neutral-50/50 flex flex-col">
+          <div className="w-full lg:w-60 lg:shrink-0 border-b lg:border-b-0 lg:border-r border-gray-200 bg-gray-50/50 flex flex-col max-h-[280px] lg:max-h-none">
 
             {/* Output Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
@@ -145,29 +145,29 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                   }}
                 >
                   {message.type === 'user' && (
-                    <div className="bg-white border border-neutral-200 rounded-lg p-3 shadow-sm">
-                      <div className="text-xs text-neutral-500 font-medium mb-1.5">You</div>
-                      <div className="text-sm text-neutral-900">{message.text}</div>
+                    <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-sm">
+                      <div className="text-xs text-gray-500 font-medium mb-1.5">You</div>
+                      <div className="text-sm text-gray-900">{message.text}</div>
                     </div>
                   )}
 
                   {message.type === 'assistant' && (
-                    <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-3">
-                      <div className="text-xs text-neutral-500 font-medium mb-1.5">Agent</div>
-                      <div className="text-sm text-neutral-700">{message.text}</div>
+                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                      <div className="text-xs text-gray-500 font-medium mb-1.5">Agent</div>
+                      <div className="text-sm text-gray-700">{message.text}</div>
                     </div>
                   )}
 
                   {message.type === 'tool' && (
-                    <div className="flex items-center space-x-2 text-sm text-neutral-400 pl-3">
+                    <div className="flex items-center space-x-2 text-sm text-gray-400 pl-3">
                       <span className="opacity-60">{message.icon}</span>
                       <span>{message.text}</span>
                     </div>
                   )}
 
                   {message.type === 'success' && (
-                    <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-3">
-                      <div className="text-sm text-neutral-700 font-medium">
+                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                      <div className="text-sm text-gray-700 font-medium">
                         {message.text}
                       </div>
                     </div>
@@ -176,69 +176,70 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
               ))}
 
               {isPlaying && visibleMessages.length > 0 && (
-                <div className="flex items-center space-x-2 text-neutral-400 text-sm pl-3">
-                  <div className="w-1.5 h-1.5 bg-neutral-400 rounded-full animate-pulse"></div>
+                <div className="flex items-center space-x-2 text-gray-400 text-sm pl-3">
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-pulse"></div>
                   <span>Generating...</span>
                 </div>
               )}
             </div>
 
             {/* Command Input (Bottom) */}
-            <div className="border-t border-neutral-200 bg-white p-3">
-              <div className="flex items-center space-x-2 px-3 py-2 bg-neutral-100 rounded-lg text-sm text-neutral-400">
+            <div className="border-t border-gray-200 bg-white p-3">
+              <div className="flex items-center space-x-2 px-3 py-2 bg-gray-100 rounded-lg text-sm text-gray-400">
                 <span>Type a command...</span>
               </div>
             </div>
           </div>
 
           {/* Prototype Preview (Right Side) */}
-          <div className="flex-1 bg-neutral-50 flex items-center justify-center p-4">
+          <div className="flex-1 w-full bg-gray-100 flex items-center justify-center p-4 min-h-[300px]">
             <div
-              className={`w-full max-w-sm transition-all duration-700 ${
+              className={`w-full max-w-[240px] transition-all duration-700 ${
                 showResult ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
               }`}
             >
               {showResult ? (
-                <div className="border border-neutral-200 rounded-xl bg-white shadow-xl overflow-hidden">
-                  {/* Task Card Example */}
-                  <div className="p-6 space-y-4">
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-3 flex-1">
-                        <div className="flex items-center space-x-2">
-                          <span className="px-2.5 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">
-                            High Priority
-                          </span>
-                          <span className="px-2.5 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">
-                            Design
-                          </span>
-                        </div>
-                        <h4 className="text-lg font-semibold text-neutral-900">
-                          Update landing page hero
-                        </h4>
-                        <p className="text-neutral-600 text-sm leading-relaxed">
-                          Revise the main headline and add a compelling demo section to showcase the product in action.
-                        </p>
-                      </div>
+                <div className="border border-gray-200 rounded-xl bg-white shadow-xl">
+                  <div className="p-6">
+                    {/* Badges */}
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <span className="px-2.5 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">
+                        High Priority
+                      </span>
+                      <span className="px-2.5 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">
+                        Design
+                      </span>
                     </div>
 
-                    <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
-                      <div className="flex items-center space-x-2 text-sm text-neutral-500">
+                    {/* Title */}
+                    <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                      Update landing page hero
+                    </h4>
+
+                    {/* Description */}
+                    <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                      Revise the main headline and add a compelling demo section to showcase the product in action.
+                    </p>
+
+                    {/* Footer */}
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                      <div className="flex items-center gap-2 text-sm text-gray-500">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                         <span>Due in 3 days</span>
                       </div>
-                      <button className="px-4 py-2 bg-neutral-900 text-white text-sm font-medium rounded-lg hover:bg-neutral-800 transition-colors">
+                      <button className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">
                         View Details
                       </button>
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="border border-neutral-200 rounded-xl bg-white shadow-lg p-8 flex items-center justify-center">
+                <div className="border border-gray-200 rounded-xl bg-white shadow-lg p-8 flex items-center justify-center">
                   <div className="text-center space-y-3">
-                    <div className="w-8 h-8 border-2 border-neutral-300 border-t-neutral-600 rounded-full animate-spin mx-auto"></div>
-                    <p className="text-sm text-neutral-500">Building prototype...</p>
+                    <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mx-auto"></div>
+                    <p className="text-sm text-gray-500">Building prototype...</p>
                   </div>
                 </div>
               )}
