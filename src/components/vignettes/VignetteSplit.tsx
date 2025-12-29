@@ -30,7 +30,7 @@ export default function VignetteSplit({
   const hasTitle = Boolean(title);
   const textStackClass = hasTitle ? 'space-y-4' : 'space-y-3';
 
-  const titleClass = variant === 'hero' ? 'type-h1' : 'type-h2';
+  const titleClass = variant === 'hero' ? 'type-display' : 'type-h2';
   const descriptionClass = 'type-body';
 
   // Animation variants for text column (appears first)

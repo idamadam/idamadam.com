@@ -1,75 +1,119 @@
 'use client';
 
 import Image from 'next/image';
-import HeroShaderPanel from './HeroShaderPanel';
-import VignetteSplit from '@/components/vignettes/VignetteSplit';
+import { motion } from 'framer-motion';
 import { heroContent } from './content';
+import { useReducedMotion } from '@/lib/useReducedMotion';
+import { timing, timingReduced } from '@/lib/animations';
 
 export default function HeroContent() {
-  return (
-    <VignetteSplit
-      title={heroContent.name}
-      description={
-        <span className="space-y-4 block">
-          {/* Role with inline Culture Amp logo */}
-          <span className="flex items-center gap-2 flex-wrap">
-            <span>Lead Product Designer at</span>
-            <span
-              className="inline-flex opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
-              title={heroContent.companies[0].name}
-            >
-              <Image
-                src={heroContent.companies[0].logo}
-                alt={heroContent.companies[0].name}
-                width={100}
-                height={28}
-                className="h-6 w-auto"
-              />
-            </span>
-          </span>
+  const reducedMotion = useReducedMotion();
+  const t = reducedMotion ? timingReduced : timing;
 
-          {/* Previously logos */}
-          <span className="flex items-center gap-3">
-            <span className="text-sm text-tertiary">Previously</span>
-            {heroContent.companies.slice(1).map((company) => (
-              <span
-                key={company.name}
-                className="opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
-                title={company.name}
+  // Split name into characters, preserving spaces
+  const characters = heroContent.name.split('');
+
+  // Calculate when credentials should appear (after name finishes)
+  const nameAnimationEnd = characters.length * t.stagger.tight + t.duration.medium;
+
+  return (
+    <div className="space-y-6">
+      {/* Name with staggered character reveal */}
+      <h1 className="type-display">
+        {reducedMotion ? (
+          heroContent.name
+        ) : (
+          <span aria-label={heroContent.name}>
+            {characters.map((char, index) => (
+              <motion.span
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: t.duration.medium,
+                  delay: t.entrance.text + index * t.stagger.tight,
+                  ease: [0.2, 0.65, 0.3, 0.9],
+                }}
+                className="inline-block"
+                style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
               >
-                <Image
-                  src={company.logo}
-                  alt={company.name}
-                  width={80}
-                  height={24}
-                  className="h-5 w-auto"
-                />
-              </span>
+                {char}
+              </motion.span>
             ))}
           </span>
+        )}
+      </h1>
 
-          {/* Connect link */}
-          <a
-            href="https://www.linkedin.com/in/idamadam/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary font-medium hover:border-gold-500 hover:text-gold-500 transition-colors duration-200"
+      {/* Single row: Role + Previous + LinkedIn */}
+      <motion.p
+        className="flex items-center gap-3 flex-wrap text-secondary"
+        initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: t.duration.medium,
+          delay: nameAnimationEnd,
+          ease: [0.2, 0.65, 0.3, 0.9],
+        }}
+      >
+        {/* Current role */}
+        <span className="flex items-center gap-2">
+          <span>Lead Product Designer at</span>
+          <span
+            className="inline-flex opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
+            title={heroContent.companies[0].name}
           >
-            Connect on
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
+            <Image
+              src={heroContent.companies[0].logo}
+              alt={heroContent.companies[0].name}
+              width={100}
+              height={28}
               className="h-5 w-auto"
-            >
-              <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
-            </svg>
-          </a>
+            />
+          </span>
         </span>
-      }
-      variant="hero"
-    >
-      <HeroShaderPanel />
-    </VignetteSplit>
+
+        <span className="text-tertiary">·</span>
+
+        {/* Previously */}
+        <span className="flex items-center gap-2">
+          <span className="text-tertiary">Previously</span>
+          {heroContent.companies.slice(1).map((company) => (
+            <span
+              key={company.name}
+              className="opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
+              title={company.name}
+            >
+              <Image
+                src={company.logo}
+                alt={company.name}
+                width={80}
+                height={24}
+                className="h-4 w-auto"
+              />
+            </span>
+          ))}
+        </span>
+
+        <span className="text-tertiary">·</span>
+
+        {/* LinkedIn */}
+        <a
+          href="https://www.linkedin.com/in/idamadam/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex text-tertiary hover:text-gold-500 transition-colors duration-200"
+          aria-label="Connect on LinkedIn"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="h-5 w-5"
+          >
+            <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
+          </svg>
+        </a>
+      </motion.p>
+    </div>
   );
 }

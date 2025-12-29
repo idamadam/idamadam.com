@@ -12,6 +12,7 @@ export const timing = {
     text: 0,        // Text column starts immediately
     panel: 0.4,     // Panel waits 400ms for text to settle
     cards: 0.5,     // Cards wait 500ms (after panel wrapper)
+    afterHero: 2.8, // Elements below hero wait for splash + transition
   },
   duration: {
     fast: 0.25,     // Standard transitions
@@ -27,16 +28,21 @@ export const timing = {
     panelDelay: 0.2,      // Panel waits after text starts swapping
     panelDuration: 0.35,  // Panel transition duration
   },
+  splash: {
+    duration: 1.8,        // How long centered splash state lasts (pause after text)
+    transition: 0.8,      // Position animation duration
+  },
 } as const;
 
 /**
  * Reduced motion timing - respects prefers-reduced-motion
  */
 export const timingReduced = {
-  entrance: { text: 0, panel: 0, cards: 0 },
+  entrance: { text: 0, panel: 0, cards: 0, afterHero: 0 },
   duration: { fast: 0.1, medium: 0.15, slow: 0.2 },
   stagger: { tight: 0, normal: 0 },
   stage: { textDuration: 0.1, panelDelay: 0, panelDuration: 0.15 },
+  splash: { duration: 0, transition: 0 },
 } as const;
 
 export const fadeInUp = {
