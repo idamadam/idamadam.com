@@ -106,7 +106,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
         {scatteredCards.map((card, index) => (
           <motion.div
             key={card.id}
-            className="absolute w-[180px] bg-[#F9F9F9] rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.1)]"
+            className="absolute w-[180px] bg-[#F9F9F9] rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.1)] backface-hidden will-change-transform"
             initial={{
               x: card.scattered.x,
               y: card.scattered.y,

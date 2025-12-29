@@ -60,6 +60,7 @@ function AISuggestionsContent() {
 
   return (
     <VignetteSplit
+      compact
       title={
         <div className="space-y-4">
           <StageIndicator stage={stage} onStageChange={setStage} />

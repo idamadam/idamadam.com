@@ -14,6 +14,8 @@ interface VignetteSplitProps {
   variant?: 'default' | 'hero';
   /** Disable entrance animations (useful if parent handles it) */
   animateEntrance?: boolean;
+  /** Force stacked layout (useful for compact containers) */
+  compact?: boolean;
 }
 
 export default function VignetteSplit({
@@ -23,6 +25,7 @@ export default function VignetteSplit({
   children,
   variant = 'default',
   animateEntrance = true,
+  compact = false,
 }: VignetteSplitProps) {
   const reducedMotion = useReducedMotion();
   const t = reducedMotion ? timingReduced : timing;
@@ -30,8 +33,13 @@ export default function VignetteSplit({
   const hasTitle = Boolean(title);
   const textStackClass = hasTitle ? 'space-y-4' : 'space-y-3';
 
-  const titleClass = variant === 'hero' ? 'type-display' : 'type-h2';
+  const titleClass = variant === 'hero' ? 'type-display' : 'type-h3';
   const descriptionClass = 'type-body';
+
+  // Grid classes - compact forces single column, otherwise responsive
+  const gridClass = compact
+    ? 'grid grid-cols-1 gap-8'
+    : 'grid grid-cols-1 xl:grid-cols-[320px_1fr] 2xl:grid-cols-[360px_1fr] gap-8 xl:gap-10 xl:items-center';
 
   // Animation variants for text column (appears first)
   const textVariants = {
@@ -64,7 +72,7 @@ export default function VignetteSplit({
   // When animations are disabled, render static
   if (!animateEntrance) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] xl:grid-cols-[400px_1fr] gap-10 lg:gap-12 lg:items-center">
+      <div className={gridClass}>
         <div className={textStackClass}>
           {title && <h3 className={titleClass}>{title}</h3>}
           {description && <p className={descriptionClass}>{description}</p>}
@@ -80,7 +88,7 @@ export default function VignetteSplit({
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] xl:grid-cols-[400px_1fr] gap-10 lg:gap-12 lg:items-center">
+    <div className={gridClass}>
       {/* Text column - animates first */}
       <motion.div
         className={textStackClass}

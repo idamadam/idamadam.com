@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
@@ -20,6 +20,11 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Idam Adam - Lead Product Designer",
   description: "Portfolio of Idam Adam, Lead Product Designer with 8 years of experience creating intuitive web and mobile products through user-centered design.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FAFAFA",
+  viewportFit: "cover",
 };
 
 // Polyfill localStorage for SSR
