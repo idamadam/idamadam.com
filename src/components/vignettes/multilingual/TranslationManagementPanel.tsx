@@ -79,6 +79,7 @@ export default function TranslationManagementPanel({
         <div
           className="flex flex-col gap-1.5 w-full sm:w-auto relative"
           style={getSectionStyle('language-dropdown')}
+          data-section-id="language-dropdown"
         >
           <SectionMarker
             index={0}
@@ -136,7 +137,7 @@ export default function TranslationManagementPanel({
         </div>
 
         {/* Action Buttons */}
-        <div className="relative" style={getSectionStyle('auto-translate-btn')}>
+        <div className="relative" style={getSectionStyle('auto-translate-btn')} data-section-id="auto-translate-btn">
           <SectionMarker
             index={1}
             noteId="ai-translate"
@@ -213,6 +214,7 @@ export default function TranslationManagementPanel({
             <div
               className="flex items-start gap-2 relative"
               style={getSectionStyle('source-text')}
+              data-section-id="source-text"
             >
               <SectionMarker
                 index={2}

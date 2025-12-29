@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
+import Button from '@/components/Button';
 import type { FeedbackSource } from './content';
 
 type PanelStage = VignetteStage | 'loading';
@@ -184,11 +185,11 @@ function LoadingState() {
 
 // Positions for scattered feedback cards
 const feedbackCardPositions = [
-  { top: '5%', left: '5%', rotate: -4 },
-  { top: '8%', right: '8%', rotate: 3 },
+  { top: '5%', left: '5%', rotate: -3 },
+  { top: '8%', right: '8%', rotate: 2 },
   { top: '35%', left: '8%', rotate: -2 },
-  { top: '38%', right: '5%', rotate: 5 },
-  { top: '62%', left: '12%', rotate: -3 },
+  { top: '38%', right: '5%', rotate: 3 },
+  { top: '62%', left: '12%', rotate: -2 },
 ];
 
 function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
@@ -262,16 +263,13 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
       </div>
 
       {/* CTA */}
-      <motion.button
+      <Button
         onClick={onTransition}
-        className="btn-interactive btn-primary relative z-10"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: ctaDelay, duration: 0.3 }}
+        enterDelay={ctaDelay}
+        className="relative z-10"
       >
-        <span className="material-icons-outlined">auto_awesome</span>
-        Show Highlights and Opportunities
-      </motion.button>
+        Summarise feedback
+      </Button>
     </div>
   );
 }
@@ -312,7 +310,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
     >
       <div className="bg-white rounded-[5px] overflow-visible">
       {/* Header Section */}
-      <div className="border-b-2 border-[#eaeaec] px-6 py-6" style={getSectionStyle('summary')}>
+      <div className="border-b-2 border-[#eaeaec] px-6 py-6" data-section-id="summary" style={getSectionStyle('summary')}>
         <div className="relative">
           <SectionMarker
             index={0}
@@ -345,7 +343,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
       </div>
 
       {/* Highlight Item */}
-      <div className="border-b-2 border-[#eaeaec]" style={getSectionStyle('highlight')}>
+      <div className="border-b-2 border-[#eaeaec]" data-section-id="highlight" style={getSectionStyle('highlight')}>
         <div className="px-6 py-8">
           {/* Header row with marker */}
           <div className="relative">
@@ -439,7 +437,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
       </div>
 
       {/* Opportunity Item */}
-      <div className="border-b-2 border-[#eaeaec]" style={getSectionStyle('opportunity')}>
+      <div className="border-b-2 border-[#eaeaec]" data-section-id="opportunity" style={getSectionStyle('opportunity')}>
         <div className="px-6 py-8">
           {/* Header row with marker */}
           <div className="relative">

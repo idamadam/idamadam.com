@@ -184,6 +184,7 @@ function RecommendationsPanel({
   return (
     <div
       className="recommendation-panel relative rounded-[7px] p-[2px]"
+      data-section-id="gradient-border"
       style={{
         background: isShowingAnimation
           ? undefined
@@ -215,6 +216,7 @@ function RecommendationsPanel({
           {/* Header */}
           <div
             className="flex items-start gap-2"
+            data-section-id="recommendations-header"
             style={getSectionStyle('recommendations-header')}
           >
             <span className="material-icons-outlined text-h3 text-primary mt-0.5">
@@ -301,6 +303,7 @@ export default function SuggestionsPanel({
       {/* Editor with marker - always visible */}
       <div
         className="relative"
+        data-section-id="improve-button"
         style={isSolution ? getSectionStyle('improve-button') : undefined}
       >
         <RichTextEditor

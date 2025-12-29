@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
+import Button from '@/components/Button';
 import type { PrototypingContent } from './content';
 
 type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
@@ -48,10 +49,10 @@ function ProblemState({
       <div className="relative w-full h-36 hidden lg:block">
         {questions.map((q, index) => {
           const positions = [
-            { top: '10%', left: '5%', rotate: -5 },
-            { top: '5%', right: '10%', rotate: 3 },
+            { top: '10%', left: '5%', rotate: -3 },
+            { top: '5%', right: '10%', rotate: 2 },
             { top: '45%', left: '15%', rotate: -2 },
-            { top: '55%', right: '5%', rotate: 4 },
+            { top: '55%', right: '5%', rotate: 3 },
           ];
           const pos = positions[index % positions.length];
 
@@ -78,16 +79,13 @@ function ProblemState({
       </div>
 
       {/* CTA */}
-      <motion.button
+      <Button
         onClick={onTransition}
-        className="btn-interactive btn-primary mt-4 lg:mt-6"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: ctaDelay, duration: 0.3 }}
+        enterDelay={ctaDelay}
+        className="mt-4 lg:mt-6"
       >
-        <span className="material-icons-outlined">auto_awesome</span>
-        See how I enabled this
-      </motion.button>
+        Make it easier
+      </Button>
     </div>
   );
 }

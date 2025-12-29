@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
+import Button from '@/components/Button';
 
 interface ProblemPanelProps {
   onTransition: () => void;
@@ -50,13 +51,13 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
   const ctaDelay = reducedMotion ? 0 : entranceDelay + scatteredInsights.length * stagger + 0.1;
 
   return (
-    <div className="w-full min-h-[300px] lg:min-h-[400px] flex flex-col items-center justify-center p-4 lg:p-0">
+    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[300px] lg:min-h-[360px] flex flex-col items-center justify-center p-4">
       {/* Mobile: Stacked cards */}
       <div className="flex flex-col gap-3 w-full mb-4 lg:hidden">
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}
-            className="w-full bg-[#F9F9F9] rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.1)]"
+            className="w-full bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
@@ -89,11 +90,11 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
       </div>
 
       {/* Desktop: Scattered page cards */}
-      <div className="relative h-[220px] mb-5 w-full hidden lg:block">
+      <div className="relative h-[220px] w-full hidden lg:block">
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}
-            className="absolute w-[180px] bg-[#F9F9F9] rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.1)]"
+            className="absolute w-[180px] bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200"
             style={{
               top: item.position.top,
               right: item.position.right,
@@ -133,17 +134,13 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
       </div>
 
       {/* CTA */}
-      <div className="flex justify-center">
-        <motion.button
+      <div className="flex justify-center mt-4">
+        <Button
           onClick={onTransition}
-          className="btn-interactive btn-primary"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: ctaDelay, duration: 0.3 }}
+          enterDelay={ctaDelay}
         >
-          <span className="material-icons-outlined">auto_awesome</span>
-          What if it was all in one place?
-        </motion.button>
+          Connect them
+        </Button>
       </div>
     </div>
   );
