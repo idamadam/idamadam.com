@@ -48,7 +48,10 @@ export default function HeroContent() {
         {/* Current role */}
         <span className="flex items-center gap-2">
           <span>Lead Product Designer at</span>
-          <span
+          <a
+            href={heroContent.companies[0].url}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
             title={heroContent.companies[0].name}
           >
@@ -59,7 +62,7 @@ export default function HeroContent() {
               height={28}
               className="h-5 w-auto"
             />
-          </span>
+          </a>
         </span>
 
         <span className="text-tertiary">·</span>
@@ -68,9 +71,12 @@ export default function HeroContent() {
         <span className="flex items-center gap-2">
           <span className="text-tertiary">Previously</span>
           {heroContent.companies.slice(1).map((company) => (
-            <span
+            <a
               key={company.name}
-              className="opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
+              href={company.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group/logo relative opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
               title={company.name}
             >
               <Image
@@ -78,9 +84,25 @@ export default function HeroContent() {
                 alt={company.name}
                 width={80}
                 height={24}
-                className="h-4 w-auto"
+                className={`h-4 w-auto ${company.hoverColor ? 'group-hover/logo:opacity-0' : ''}`}
               />
-            </span>
+              {company.hoverColor && (
+                <span
+                  className="absolute inset-0 opacity-0 group-hover/logo:opacity-100 transition-opacity duration-200"
+                  style={{
+                    backgroundColor: company.hoverColor,
+                    maskImage: `url(${company.logo})`,
+                    maskSize: 'contain',
+                    maskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                    WebkitMaskImage: `url(${company.logo})`,
+                    WebkitMaskSize: 'contain',
+                    WebkitMaskRepeat: 'no-repeat',
+                    WebkitMaskPosition: 'center',
+                  }}
+                />
+              )}
+            </a>
           ))}
         </span>
 
@@ -91,7 +113,7 @@ export default function HeroContent() {
           href="https://www.linkedin.com/in/idamadam/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex text-tertiary hover:text-accent-500 transition-colors duration-200"
+          className="inline-flex text-tertiary hover-linkedin transition-colors duration-200"
           aria-label="Connect on LinkedIn"
         >
           <svg

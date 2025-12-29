@@ -502,3 +502,8 @@ a {
     transform: none;
   }
 }
+
+/* Brand hover colors */
+.hover-linkedin:hover {
+  color: #0A66C2;
+}
