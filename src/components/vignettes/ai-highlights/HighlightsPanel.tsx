@@ -223,15 +223,23 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
                 ease: 'easeOut' as const,
               }}
             >
-              <span className="text-2xl text-gray-300 leading-none select-none">&ldquo;</span>
-              <p className="text-body-sm text-primary italic line-clamp-3 -mt-1">
+              {card.from && (
+                <div className="flex items-center gap-2 mb-2">
+                  {card.avatarUrl && (
+                    <img
+                      src={card.avatarUrl}
+                      alt={card.from}
+                      className="w-6 h-6 rounded-full"
+                    />
+                  )}
+                  <span className="text-body-sm font-semibold text-primary">
+                    {card.from}
+                  </span>
+                </div>
+              )}
+              <p className="text-body-sm text-secondary line-clamp-3">
                 {card.content}
               </p>
-              {card.from && (
-                <p className="text-caption text-secondary mt-2">
-                  — {card.from}
-                </p>
-              )}
             </motion.div>
           );
         })}
