@@ -20,33 +20,23 @@ export default function HeroContent() {
     <div className="space-y-6">
       {/* Name with staggered character reveal */}
       <h1 className="type-display">
-        {reducedMotion ? (
-          heroContent.name
-        ) : (
-          <span aria-label={heroContent.name}>
-            {characters.map((char, index) => (
-              <motion.span
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: t.duration.medium,
-                  delay: t.entrance.text + index * t.stagger.tight,
-                  ease: [0.2, 0.65, 0.3, 0.9],
-                }}
-                className="inline-block"
-                style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </span>
-        )}
+        <span aria-label={heroContent.name}>
+          {characters.map((char, index) => (
+            <span
+              key={index}
+              className={reducedMotion ? 'inline-block' : 'hero-char'}
+              style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+            >
+              {char}
+            </span>
+          ))}
+        </span>
       </h1>
 
       {/* Single row: Role + Previous + LinkedIn */}
       <motion.p
         className="flex items-center gap-3 flex-wrap text-secondary"
+        style={{ willChange: 'transform, opacity' }}
         initial={reducedMotion ? false : { opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{

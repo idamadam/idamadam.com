@@ -436,3 +436,44 @@ a:hover {
   flex-direction: column;
   gap: 0.5rem;
 }
+
+/* Hero character reveal animation */
+@keyframes hero-char-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-char {
+  display: inline-block;
+  opacity: 0;
+  animation: hero-char-reveal 0.4s cubic-bezier(0.2, 0.65, 0.3, 0.9) forwards;
+  will-change: transform, opacity;
+}
+
+/* Stagger delays for each character position */
+.hero-char:nth-child(1) { animation-delay: 0s; }
+.hero-char:nth-child(2) { animation-delay: 0.08s; }
+.hero-char:nth-child(3) { animation-delay: 0.16s; }
+.hero-char:nth-child(4) { animation-delay: 0.24s; }
+.hero-char:nth-child(5) { animation-delay: 0.32s; }
+.hero-char:nth-child(6) { animation-delay: 0.40s; }
+.hero-char:nth-child(7) { animation-delay: 0.48s; }
+.hero-char:nth-child(8) { animation-delay: 0.56s; }
+.hero-char:nth-child(9) { animation-delay: 0.64s; }
+.hero-char:nth-child(10) { animation-delay: 0.72s; }
+.hero-char:nth-child(11) { animation-delay: 0.80s; }
+
+/* Reduced motion: instant reveal */
+@media (prefers-reduced-motion: reduce) {
+  .hero-char {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
