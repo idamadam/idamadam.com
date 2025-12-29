@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import ShaderProviderWrapper from "@/components/ShaderProviderWrapper";
 import { GrainBackground } from "@/components/GrainBackground";
 
@@ -50,6 +51,7 @@ export default function RootLayout({
           <GrainBackground />
           {children}
         </ShaderProviderWrapper>
+        <Analytics />
       </body>
     </html>
   );
