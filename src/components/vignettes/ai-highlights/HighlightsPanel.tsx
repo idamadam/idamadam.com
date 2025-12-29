@@ -183,13 +183,13 @@ function LoadingState() {
   );
 }
 
-// Positions for scattered feedback cards
+// Positions for scattered feedback cards - evenly distributed with organic feel
 const feedbackCardPositions = [
-  { top: '5%', left: '5%', rotate: -3 },
-  { top: '8%', right: '8%', rotate: 2 },
-  { top: '35%', left: '8%', rotate: -2 },
-  { top: '38%', right: '5%', rotate: 3 },
-  { top: '62%', left: '12%', rotate: -2 },
+  { top: '5%', left: '5%', rotate: -4, z: 1 },
+  { top: '12%', left: '35%', rotate: 3, z: 2 },
+  { top: '6%', left: '65%', rotate: -2, z: 1 },
+  { top: '38%', left: '18%', rotate: 5, z: 3 },
+  { top: '42%', left: '55%', rotate: -3, z: 2 },
 ];
 
 function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
@@ -216,7 +216,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
             {card.from && (
               <div className="flex items-center gap-2 mb-2">
                 {card.avatarUrl && (
-                  <img src={card.avatarUrl} alt={card.from} className="w-6 h-6 rounded-full" />
+                  <img src={card.avatarUrl} alt={card.from} className="w-6 h-6 rounded-full grayscale" />
                 )}
                 <span className="text-body-sm font-semibold text-primary">{card.from}</span>
               </div>
@@ -233,11 +233,11 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
           return (
             <motion.div
               key={card.id}
-              className="absolute bg-white px-4 py-3 rounded-lg shadow-sm border border-gray-200 max-w-[220px]"
+              className="absolute bg-white px-4 py-3 rounded-lg shadow-sm border border-gray-200 max-w-[220px] backface-hidden will-change-transform"
               style={{
                 top: pos.top,
                 left: pos.left,
-                right: pos.right,
+                zIndex: pos.z,
                 transform: `rotate(${pos.rotate}deg)`,
               }}
               initial={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -251,7 +251,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
               {card.from && (
                 <div className="flex items-center gap-2 mb-2">
                   {card.avatarUrl && (
-                    <img src={card.avatarUrl} alt={card.from} className="w-6 h-6 rounded-full" />
+                    <img src={card.avatarUrl} alt={card.from} className="w-6 h-6 rounded-full grayscale" />
                   )}
                   <span className="text-body-sm font-semibold text-primary">{card.from}</span>
                 </div>
