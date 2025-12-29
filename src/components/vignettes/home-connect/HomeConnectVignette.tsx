@@ -10,8 +10,8 @@ import { homeConnectContent } from './content';
 
 // Map note IDs to the content sections they reference
 const NOTE_TO_SECTION: Record<string, string> = {
-  'progressive-disclosure': 'performance',
-  'visual-cohesion': 'goal',
+  'card-system': 'all-cards',
+  'inactive-goal': 'goal',
 };
 
 export default function HomeConnectVignette() {

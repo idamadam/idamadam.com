@@ -132,8 +132,12 @@ export default function HomeConnectPanel({
   notes = [],
 }: HomeConnectPanelProps) {
   // Get opacity style for a section based on what's highlighted
-  const getSectionStyle = (section: string) => {
+  const getSectionStyle = (section: string, isCard = false) => {
     if (!highlightedSection) return {};
+    // 'all-cards' keeps all cards visible
+    if (highlightedSection === 'all-cards' && isCard) {
+      return { opacity: 1, transition: 'opacity 0.2s ease-in-out' };
+    }
     return {
       opacity: highlightedSection === section ? 1 : 0.3,
       transition: 'opacity 0.2s ease-in-out',
@@ -150,7 +154,7 @@ export default function HomeConnectPanel({
   return (
     <div className="w-full bg-[#F9F9F9] rounded-2xl overflow-visible">
       {/* Purple header */}
-      <div className="bg-[#5F3361] px-5 pt-4 pb-4 relative rounded-t-2xl">
+      <div className="bg-[#5F3361] px-5 pt-4 pb-4 relative rounded-t-2xl" style={getSectionStyle('header')}>
         {/* Culture Amp Logo */}
         <div className="flex items-center gap-1.5 mb-4">
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
@@ -170,8 +174,8 @@ export default function HomeConnectPanel({
         </motion.h1>
       </div>
 
-      {/* Content area with negative margin to overlap header */}
-      <div className="px-5 -mt-10 pb-5">
+      {/* Content area */}
+      <div className="px-5 pt-4 pb-5">
         {/* Your feed section */}
         <motion.div
           className="space-y-2.5"
@@ -179,19 +183,17 @@ export default function HomeConnectPanel({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
         >
-          <h2 className="text-body-sm font-bold text-primary leading-tight mb-2">Your feed</h2>
-
           <FeedDivider label="Upcoming" />
 
           {/* Performance Cycle Card */}
-          <div className="relative" style={getSectionStyle('performance')}>
+          <div className="relative" style={getSectionStyle('performance', true)}>
             <SectionMarker
               index={0}
-              noteId="progressive-disclosure"
+              noteId="card-system"
               side="right"
               isActive={highlightedSection === 'performance'}
               onOpenChange={handleNoteOpen}
-              note={getNote('progressive-disclosure')}
+              note={getNote('card-system')}
             />
             <FeedCard>
               <div className="space-y-2">
@@ -208,7 +210,7 @@ export default function HomeConnectPanel({
           </div>
 
           {/* 1-on-1 Card */}
-          <FeedCard style={getSectionStyle('oneOnOne')}>
+          <FeedCard style={getSectionStyle('oneOnOne', true)}>
             <div className="space-y-2">
               <div className="flex items-center gap-1.5">
                 <Avatar initials="AP" />
@@ -225,14 +227,14 @@ export default function HomeConnectPanel({
           <FeedDivider label="Recent" />
 
           {/* Goal Card */}
-          <div className="relative" style={getSectionStyle('goal')}>
+          <div className="relative" style={getSectionStyle('goal', true)}>
             <SectionMarker
               index={1}
-              noteId="visual-cohesion"
+              noteId="inactive-goal"
               side="left"
               isActive={highlightedSection === 'goal'}
               onOpenChange={handleNoteOpen}
-              note={getNote('visual-cohesion')}
+              note={getNote('inactive-goal')}
             />
             <FeedCard>
               <div className="flex items-center gap-3">

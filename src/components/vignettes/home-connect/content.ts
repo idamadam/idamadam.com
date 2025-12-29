@@ -62,19 +62,19 @@ export const homeConnectContent: HomeConnectContent = {
   designNotes: {
     notes: [
       {
-        id: 'progressive-disclosure',
-        label: 'Progressive disclosure',
+        id: 'card-system',
+        label: 'Card system',
         detail:
-          'Feed items show just enough context at a glance. Details expand on interaction, reducing cognitive load.',
+          'I researched and designed a unified card system to surface updates based around the people you care about at work.',
         x: '104%',
         y: '35%',
         popoverSide: 'right' as const,
       },
       {
-        id: 'visual-cohesion',
-        label: 'Visual cohesion',
+        id: 'inactive-goal',
+        label: 'Inactive goal nudge',
         detail:
-          'Consistent card structure with type-specific accents. Each module retains identity while feeling unified.',
+          'A new notification type I designed to drive adoption. Managers can now see when their reports have stalled goals.',
         x: '-4%',
         y: '80%',
         popoverSide: 'left' as const,
