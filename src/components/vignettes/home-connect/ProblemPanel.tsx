@@ -14,8 +14,9 @@ const scatteredInsights = [
     icon: 'trending_up',
     color: '#5F3361',
     insight: 'Feedback due in 3 days',
-    position: { top: 0, right: 0 },
-    rotate: -2,
+    // Top center, tilted left (card is 180px wide, so offset by 90px)
+    position: { top: 0, left: 'calc(50% - 90px)' },
+    rotate: -3,
     zIndex: 1,
   },
   {
@@ -24,8 +25,9 @@ const scatteredInsights = [
     icon: 'people',
     color: '#10B981',
     insight: "Aisha's wellbeing dropped",
-    position: { top: 70, left: 0 },
-    rotate: 1,
+    // Bottom left
+    position: { bottom: 0, left: '10%' },
+    rotate: 2,
     zIndex: 2,
   },
   {
@@ -34,8 +36,9 @@ const scatteredInsights = [
     icon: 'flag',
     color: '#FFB600',
     insight: "Malik's goal is inactive",
-    position: { bottom: 0, right: 24 },
-    rotate: -1,
+    // Bottom right
+    position: { bottom: 0, right: '10%' },
+    rotate: -2,
     zIndex: 3,
   },
 ];
@@ -47,9 +50,9 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
   const ctaDelay = reducedMotion ? 0 : entranceDelay + scatteredInsights.length * stagger + 0.1;
 
   return (
-    <div className="w-full">
+    <div className="w-full min-h-[400px] flex flex-col items-center justify-center">
       {/* Scattered page cards */}
-      <div className="relative h-[220px] mb-5">
+      <div className="relative h-[220px] mb-5 w-full">
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}
@@ -70,23 +73,23 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
             }}
           >
             {/* Window chrome header */}
-            <div className="px-2.5 py-1.5 flex items-center gap-1 bg-[#F5F5F5] border-b border-gray-200">
+            <div className="px-3 py-2 flex items-center gap-1.5 bg-[#F5F5F5] border-b border-gray-200">
               <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />
               <span
-                className="material-icons-outlined text-[12px] ml-1.5"
+                className="material-icons-outlined text-[14px] ml-1"
                 style={{ color: item.color }}
               >
                 {item.icon}
               </span>
-              <span className="text-label font-medium text-gray-600">
+              <span className="text-caption font-semibold text-primary">
                 {item.page}
               </span>
             </div>
             {/* Page content */}
-            <div className="px-2.5 py-2.5 bg-white">
-              <span className="text-caption text-primary leading-tight block">{item.insight}</span>
+            <div className="px-3 py-3 bg-white">
+              <span className="text-body-sm text-primary leading-snug block">{item.insight}</span>
             </div>
           </motion.div>
         ))}

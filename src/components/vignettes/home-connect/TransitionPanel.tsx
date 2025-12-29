@@ -79,9 +79,19 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
   }, [state, onComplete, reducedMotion]);
 
   return (
-    <div className="w-full bg-[#F9F9F9] rounded-xl overflow-hidden">
+    <motion.div
+      className="w-full bg-[#F9F9F9] rounded-2xl overflow-hidden"
+      initial={{ opacity: 0, scale: 0.95, y: 10 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+    >
       {/* Purple header */}
-      <div className="bg-[#5F3361] px-5 pt-4 pb-4 relative">
+      <motion.div
+        className="bg-[#5F3361] px-5 pt-4 pb-4 relative rounded-t-2xl"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
+      >
         <div className="flex items-center gap-1.5 mb-4">
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
             <circle cx="10" cy="10" r="8" stroke="white" strokeWidth="2" fill="none" />
@@ -89,7 +99,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
           <span className="text-white text-label font-semibold">Culture Amp</span>
         </div>
         <h1 className="text-white text-h3 font-bold leading-tight !m-0">Home</h1>
-      </div>
+      </motion.div>
 
       {/* Cards consolidating area */}
       <div className="relative h-[220px] flex items-center justify-center">
@@ -101,7 +111,6 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
               x: card.scattered.x,
               y: card.scattered.y,
               rotate: card.scattered.rotate,
-              scale: 1,
               opacity: 1,
             }}
             animate={
@@ -110,7 +119,6 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
                     x: 0,
                     y: index * 8 - 8, // Stack them slightly
                     rotate: 0,
-                    scale: state === 'complete' ? 0.9 : 0.95,
                     opacity: state === 'complete' ? 0 : 1,
                   }
                 : undefined
@@ -123,23 +131,23 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
             style={{ zIndex: 3 - index }}
           >
             {/* Window chrome header */}
-            <div className="px-2.5 py-1.5 flex items-center gap-1 bg-[#F5F5F5] border-b border-gray-200">
+            <div className="px-3 py-2 flex items-center gap-1.5 bg-[#F5F5F5] border-b border-gray-200">
               <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />
               <span
-                className="material-icons-outlined text-[12px] ml-1.5"
+                className="material-icons-outlined text-[14px] ml-1"
                 style={{ color: card.color }}
               >
                 {card.icon}
               </span>
-              <span className="text-label font-medium text-gray-600">
+              <span className="text-caption font-semibold text-primary">
                 {card.page}
               </span>
             </div>
             {/* Page content */}
-            <div className="px-2.5 py-2.5 bg-white">
-              <span className="text-caption text-primary leading-tight block">
+            <div className="px-3 py-3 bg-white">
+              <span className="text-body-sm text-primary leading-snug block">
                 {card.insight}
               </span>
             </div>
@@ -172,6 +180,6 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
           />
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
