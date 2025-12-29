@@ -1,5 +1,7 @@
 'use client';
 
+import { ReactNode } from 'react';
+
 interface RichTextEditorProps {
   content: string;
   placeholder?: string;
@@ -7,6 +9,7 @@ interface RichTextEditorProps {
   onImprove?: () => void;
   isImproving?: boolean;
   className?: string;
+  improveButtonMarker?: ReactNode;
 }
 
 export default function RichTextEditor({
@@ -15,7 +18,8 @@ export default function RichTextEditor({
   showImproveButton = false,
   onImprove,
   isImproving = false,
-  className = ''
+  className = '',
+  improveButtonMarker
 }: RichTextEditorProps) {
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
@@ -46,14 +50,17 @@ export default function RichTextEditor({
 
           {/* Improve button */}
           {showImproveButton && (
-            <button
-              onClick={onImprove}
-              disabled={isImproving}
-              className="btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <span className="material-icons-outlined">auto_awesome</span>
-              <span className="text-sm">Improve</span>
-            </button>
+            <div className="relative">
+              {improveButtonMarker}
+              <button
+                onClick={onImprove}
+                disabled={isImproving}
+                className="btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span className="material-icons-outlined">auto_awesome</span>
+                <span className="text-sm">Improve</span>
+              </button>
+            </div>
           )}
         </div>
 

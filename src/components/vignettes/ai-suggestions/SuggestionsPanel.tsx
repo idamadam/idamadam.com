@@ -168,7 +168,7 @@ function RecommendationsPanel({
 
         {/* Footer with marker */}
         <div
-          className="flex items-center justify-between pt-2 relative"
+          className="flex items-center pt-2 relative"
           style={getSectionStyle('feedback-footer')}
         >
           <SectionMarker
@@ -192,9 +192,6 @@ function RecommendationsPanel({
               </span>
             </button>
           </div>
-          <span className="text-sm text-secondary">
-            Review AI-generated suggestions for accuracy
-          </span>
         </div>
       </div>
     </div>
@@ -236,22 +233,24 @@ export default function SuggestionsPanel({
         className="relative"
         style={isSolution ? getSectionStyle('improve-button') : undefined}
       >
-        {isSolution && (
-          <SectionMarker
-            index={0}
-            noteId="editor-integration"
-            side="left"
-            isActive={highlightedSection === 'improve-button'}
-            onOpenChange={handleNoteOpen}
-            note={getNote('editor-integration')}
-          />
-        )}
         <RichTextEditor
           content={content.beforeText}
           placeholder="Write feedback..."
           showImproveButton={true}
           isImproving={isLoading}
           onImprove={isProblem ? onTransition : undefined}
+          improveButtonMarker={
+            isSolution ? (
+              <SectionMarker
+                index={0}
+                noteId="editor-integration"
+                side="right"
+                isActive={highlightedSection === 'improve-button'}
+                onOpenChange={handleNoteOpen}
+                note={getNote('editor-integration')}
+              />
+            ) : undefined
+          }
         />
       </div>
 
