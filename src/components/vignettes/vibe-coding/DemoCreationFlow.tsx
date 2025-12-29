@@ -209,7 +209,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
               }`}
             >
               {showResult ? (
-                <div className="border border-neutral-200 rounded-2xl bg-white shadow-xl overflow-hidden ring-1 ring-amber-500/20">
+                <div className="border border-neutral-200 rounded-2xl bg-white shadow-xl overflow-hidden ring-1 ring-accent-500/20">
                   <div className="p-4">
                     {/* Mini VignetteSplit layout */}
                     <div className="grid grid-cols-[90px_1fr] gap-3 items-start">
@@ -234,14 +234,14 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                           <div className="space-y-1">
                             <div className="h-1.5 bg-gray-200 rounded w-full"></div>
                             <div className="h-1.5 bg-gray-200 rounded w-4/5"></div>
-                            <div className="h-1.5 bg-amber-200 rounded w-3/5"></div>
+                            <div className="h-1.5 bg-accent-200 rounded w-3/5"></div>
                             <div className="h-1.5 bg-gray-200 rounded w-full"></div>
                           </div>
                         </div>
                         {/* Mini suggestion card */}
-                        <div className="bg-white rounded border border-amber-200 p-1.5">
+                        <div className="bg-white rounded border border-accent-200 p-1.5">
                           <div className="flex items-center gap-1">
-                            <div className="w-3 h-3 rounded-full bg-amber-100 flex items-center justify-center">
+                            <div className="w-3 h-3 rounded-full bg-accent-100 flex items-center justify-center">
                               <span className="text-[6px]">💡</span>
                             </div>
                             <div className="h-1 bg-gray-300 rounded flex-1"></div>
@@ -353,7 +353,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 className="w-full h-full bg-gray-100 flex items-center justify-center p-6"
               >
                 <div className="w-full max-w-[280px]">
-                  <div className="border border-neutral-200 rounded-2xl bg-white shadow-xl overflow-hidden ring-1 ring-amber-500/20">
+                  <div className="border border-neutral-200 rounded-2xl bg-white shadow-xl overflow-hidden ring-1 ring-accent-500/20">
                     <div className="p-5">
                       {/* Mini VignetteSplit layout */}
                       <div className="grid grid-cols-[100px_1fr] gap-4 items-start">
@@ -378,14 +378,14 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                             <div className="space-y-1.5">
                               <div className="h-1.5 bg-gray-200 rounded w-full"></div>
                               <div className="h-1.5 bg-gray-200 rounded w-4/5"></div>
-                              <div className="h-1.5 bg-amber-200 rounded w-3/5"></div>
+                              <div className="h-1.5 bg-accent-200 rounded w-3/5"></div>
                               <div className="h-1.5 bg-gray-200 rounded w-full"></div>
                             </div>
                           </div>
                           {/* Mini suggestion card */}
-                          <div className="bg-white rounded border border-amber-200 p-2">
+                          <div className="bg-white rounded border border-accent-200 p-2">
                             <div className="flex items-center gap-1.5">
-                              <div className="w-4 h-4 rounded-full bg-amber-100 flex items-center justify-center">
+                              <div className="w-4 h-4 rounded-full bg-accent-100 flex items-center justify-center">
                                 <span className="text-[8px]">💡</span>
                               </div>
                               <div className="h-1.5 bg-gray-300 rounded flex-1"></div>
