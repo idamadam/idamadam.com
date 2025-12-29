@@ -39,26 +39,26 @@ export const aiSuggestionsContent: AISuggestionsContent = {
       {
         id: 'editor-integration',
         label: 'Contextual placement',
-        detail: 'The Improve button lives inside the editor, right where managers are writing. No context switch needed.',
+        detail: 'Positioned next to familiar formatting controls so it feels native.',
         x: '-4%',
         y: '12%',
         popoverSide: 'left' as const,
       },
       {
+        id: 'loading-state',
+        label: 'AI visual language',
+        detail: 'Designed the gradient border and associated loading animation as a core signifier of AI features at Culture Amp.',
+        x: '-4%',
+        y: '65%',
+        popoverSide: 'left' as const,
+      },
+      {
         id: 'people-science',
         label: 'People science foundation',
-        detail: 'Partnered with org psych to ground suggestions in research. The 4 qualities (specific, impact, actions, objective) are evidence-based.',
+        detail: "Each recommendation explains what's missing. Managers learn to fix their feedback over time through actionable suggestions.",
         x: '104%',
         y: '52%',
         popoverSide: 'right' as const,
-      },
-      {
-        id: 'loading-state',
-        label: 'Processing feedback',
-        detail: 'The animated gradient border signals AI is working. Designed to feel premium and build anticipation for the suggestions.',
-        x: '-4%',
-        y: '88%',
-        popoverSide: 'left' as const,
       }
     ]
   },

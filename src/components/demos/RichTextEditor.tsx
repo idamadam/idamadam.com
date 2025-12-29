@@ -1,12 +1,16 @@
 'use client';
 
+import { ReactNode } from 'react';
+
 interface RichTextEditorProps {
   content: string;
   placeholder?: string;
   showImproveButton?: boolean;
   onImprove?: () => void;
   isImproving?: boolean;
+  isImproveActivated?: boolean;
   className?: string;
+  improveButtonMarker?: ReactNode;
 }
 
 export default function RichTextEditor({
@@ -15,7 +19,9 @@ export default function RichTextEditor({
   showImproveButton = false,
   onImprove,
   isImproving = false,
-  className = ''
+  isImproveActivated = false,
+  className = '',
+  improveButtonMarker
 }: RichTextEditorProps) {
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
@@ -46,14 +52,21 @@ export default function RichTextEditor({
 
           {/* Improve button */}
           {showImproveButton && (
-            <button
-              onClick={onImprove}
-              disabled={isImproving}
-              className="btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <span className="material-icons-outlined">auto_awesome</span>
-              <span className="text-sm">Improve</span>
-            </button>
+            <div className="relative">
+              {improveButtonMarker}
+              <button
+                onClick={onImprove}
+                disabled={isImproving}
+                className={
+                  isImproveActivated
+                    ? "bg-white hover:bg-gray-50 h-10 px-3 py-2 rounded-lg flex items-center gap-1.5 transition-colors"
+                    : "btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                }
+              >
+                <span className={`material-icons-outlined ${isImproveActivated ? 'text-primary' : ''}`}>auto_awesome</span>
+                <span className={`text-sm ${isImproveActivated ? 'text-primary' : ''}`}>Improve</span>
+              </button>
+            </div>
           )}
         </div>
 

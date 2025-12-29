@@ -223,15 +223,23 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
                 ease: 'easeOut' as const,
               }}
             >
-              <span className="text-2xl text-gray-300 leading-none select-none">&ldquo;</span>
-              <p className="text-body-sm text-primary italic line-clamp-3 -mt-1">
+              {card.from && (
+                <div className="flex items-center gap-2 mb-2">
+                  {card.avatarUrl && (
+                    <img
+                      src={card.avatarUrl}
+                      alt={card.from}
+                      className="w-6 h-6 rounded-full"
+                    />
+                  )}
+                  <span className="text-body-sm font-semibold text-primary">
+                    {card.from}
+                  </span>
+                </div>
+              )}
+              <p className="text-body-sm text-secondary line-clamp-3">
                 {card.content}
               </p>
-              {card.from && (
-                <p className="text-caption text-secondary mt-2">
-                  — {card.from}
-                </p>
-              )}
             </motion.div>
           );
         })}
@@ -281,8 +289,12 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
 
   return (
     <div
-      className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-visible ${className}`}
+      className={`relative rounded-[7px] p-[2px] ${className}`}
+      style={{
+        background: 'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
+      }}
     >
+      <div className="bg-white rounded-[5px] overflow-visible">
       {/* Header Section */}
       <div className="border-b-2 border-[#eaeaec] px-6 py-6" style={getSectionStyle('summary')}>
         <div className="relative">
@@ -525,6 +537,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
             thumb_down
           </span>
         </button>
+      </div>
       </div>
     </div>
   );
