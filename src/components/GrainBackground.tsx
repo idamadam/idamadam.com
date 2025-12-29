@@ -9,7 +9,10 @@ export function GrainBackground() {
     <div
       style={{
         position: 'fixed',
-        inset: 0,
+        top: 'calc(-1 * env(safe-area-inset-top, 0px))',
+        right: 'calc(-1 * env(safe-area-inset-right, 0px))',
+        bottom: 'calc(-1 * env(safe-area-inset-bottom, 0px))',
+        left: 'calc(-1 * env(safe-area-inset-left, 0px))',
         zIndex: 0,
         pointerEvents: 'none',
       }}
