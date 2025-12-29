@@ -289,8 +289,12 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
 
   return (
     <div
-      className={`bg-white border-2 border-[#a6e5e7] rounded-lg overflow-visible ${className}`}
+      className={`relative rounded-[7px] p-[2px] ${className}`}
+      style={{
+        background: 'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
+      }}
     >
+      <div className="bg-white rounded-[5px] overflow-visible">
       {/* Header Section */}
       <div className="border-b-2 border-[#eaeaec] px-6 py-6" style={getSectionStyle('summary')}>
         <div className="relative">
@@ -533,6 +537,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
             thumb_down
           </span>
         </button>
+      </div>
       </div>
     </div>
   );
