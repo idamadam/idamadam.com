@@ -185,11 +185,11 @@ function LoadingState() {
 
 // Positions for scattered feedback cards
 const feedbackCardPositions = [
-  { top: '5%', left: '5%', rotate: -4 },
-  { top: '8%', right: '8%', rotate: 3 },
+  { top: '5%', left: '5%', rotate: -3 },
+  { top: '8%', right: '8%', rotate: 2 },
   { top: '35%', left: '8%', rotate: -2 },
-  { top: '38%', right: '5%', rotate: 5 },
-  { top: '62%', left: '12%', rotate: -3 },
+  { top: '38%', right: '5%', rotate: 3 },
+  { top: '62%', left: '12%', rotate: -2 },
 ];
 
 function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
@@ -265,11 +265,10 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
       {/* CTA */}
       <Button
         onClick={onTransition}
-        icon="auto_awesome"
         enterDelay={ctaDelay}
         className="relative z-10"
       >
-        Show Highlights and Opportunities
+        Summarise feedback
       </Button>
     </div>
   );

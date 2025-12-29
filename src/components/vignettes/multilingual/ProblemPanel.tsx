@@ -31,9 +31,9 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
   }, [baseDelay]);
 
   return (
-    <div className="relative">
+    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[360px] flex flex-col items-center justify-center p-4">
       {/* Three fragmented translation panels */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         {languageData.map((lang, index) => (
           <motion.div
             key={lang.code}
@@ -71,7 +71,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
       <AnimatePresence>
         {showCaption && (
           <motion.div
-            className="text-caption text-gray-400 mt-4 mb-5 text-center"
+            className="text-caption text-gray-400 mt-4 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
@@ -84,15 +84,14 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
       {/* CTA Button */}
       <AnimatePresence>
         {showCta && (
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-4">
             <Button
               onClick={onTransition}
-              icon="auto_awesome"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              See the solution
+              Unify them
             </Button>
           </div>
         )}

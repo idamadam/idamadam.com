@@ -109,7 +109,6 @@ function VignetteStagedInner({
                     onClick={goToDesignNotes}
                     className="btn-interactive btn-secondary group"
                   >
-                    <span className="material-icons-outlined">auto_awesome</span>
                     <span>{stages.solution.cta}</span>
                     <motion.span
                       className="material-icons-outlined text-body"

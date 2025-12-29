@@ -49,10 +49,10 @@ function ProblemState({
       <div className="relative w-full h-36 hidden lg:block">
         {questions.map((q, index) => {
           const positions = [
-            { top: '10%', left: '5%', rotate: -5 },
-            { top: '5%', right: '10%', rotate: 3 },
+            { top: '10%', left: '5%', rotate: -3 },
+            { top: '5%', right: '10%', rotate: 2 },
             { top: '45%', left: '15%', rotate: -2 },
-            { top: '55%', right: '5%', rotate: 4 },
+            { top: '55%', right: '5%', rotate: 3 },
           ];
           const pos = positions[index % positions.length];
 
