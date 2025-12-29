@@ -38,7 +38,7 @@ export default function Home() {
         </SectionHeader>
 
         {/* Explorations Vignettes */}
-        <section className="w-full pb-20 lg:pb-28 px-6 lg:px-12">
+        <section className="w-full pb-8 lg:pb-12 px-6 lg:px-12">
           <div className="max-w-5xl mx-auto space-y-12 lg:space-y-14">
             <VibeCodingVignette />
           </div>
