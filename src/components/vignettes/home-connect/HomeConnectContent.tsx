@@ -3,7 +3,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import HomeConnectPanel from './HomeConnectPanel';
-import TransitionPanel from './TransitionPanel';
 import ProblemPanel from './ProblemPanel';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { useVignetteStage } from '@/components/vignettes/VignetteStaged';
@@ -14,7 +13,7 @@ import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
 import { DesignNotesOverlay } from '@/components/vignettes/shared/DesignNotesOverlay';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 
-type PanelStage = 'problem' | 'transition' | 'solution';
+type PanelStage = 'problem' | 'solution';
 
 interface HomeConnectContentProps {
   notes: DesignNote[];
@@ -34,10 +33,6 @@ export default function HomeConnectContent({
   const reducedMotion = useReducedMotion();
 
   const handleTransition = useCallback(() => {
-    setPanelStage('transition');
-  }, []);
-
-  const handleTransitionComplete = useCallback(() => {
     setPanelStage('solution');
     goToSolution();
   }, [goToSolution]);
@@ -83,37 +78,26 @@ export default function HomeConnectContent({
         />
       }
     >
-      <div className="relative" style={{ overflow: 'visible' }}>
-        <AnimatePresence mode="sync">
+      <div className="relative min-h-[400px]" style={{ overflow: 'visible' }}>
+        <AnimatePresence mode="wait">
           {panelStage === 'problem' && (
             <motion.div
               key="problem"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
               <ProblemPanel onTransition={handleTransition} />
-            </motion.div>
-          )}
-          {panelStage === 'transition' && (
-            <motion.div
-              key="transition"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              <TransitionPanel onComplete={handleTransitionComplete} />
             </motion.div>
           )}
           {panelStage === 'solution' && (
             <motion.div
               key="solution"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
             >
               <HomeConnectPanel
                 highlightedSection={highlightedSection}

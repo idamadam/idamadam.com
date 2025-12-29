@@ -148,9 +148,9 @@ export default function HomeConnectPanel({
   const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
-    <div className="w-full bg-[#F9F9F9] rounded-xl overflow-visible">
+    <div className="w-full bg-[#F9F9F9] rounded-2xl overflow-visible">
       {/* Purple header */}
-      <div className="bg-[#5F3361] px-5 pt-4 pb-4 relative">
+      <div className="bg-[#5F3361] px-5 pt-4 pb-4 relative rounded-t-2xl">
         {/* Culture Amp Logo */}
         <div className="flex items-center gap-1.5 mb-4">
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none">

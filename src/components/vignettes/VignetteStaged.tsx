@@ -47,16 +47,11 @@ function VignetteStagedInner({
   const currentStageContent = stages?.[stage];
 
   return (
-    <motion.div
-      layout
-      className={`relative ${className}`}
-      transition={{ layout: { duration: t.stage.panelDuration, ease: 'easeInOut' } }}
-    >
+    <div className={`relative ${className}`}>
       <AnimatePresence mode="wait">
         {stage === 'designNotes' && designNotesPanel ? (
           <motion.div
             key="designNotes"
-            layout
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -93,7 +88,6 @@ function VignetteStagedInner({
         ) : (
           <motion.div
             key="main"
-            layout
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -133,7 +127,7 @@ function VignetteStagedInner({
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
 
