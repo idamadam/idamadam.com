@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Message {
   delay: number;
@@ -30,6 +31,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
   const [showResult, setShowResult] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
+  const [mobileView, setMobileView] = useState<'chat' | 'preview'>('chat');
   const containerRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
   const hasPlayedRef = useRef(false);
@@ -48,6 +50,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
     setVisibleMessages([]);
     setShowResult(false);
     setIsPlaying(true);
+    setMobileView('chat');
 
     // Schedule messages
     DEMO_MESSAGES.forEach((message) => {
@@ -72,6 +75,13 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
     }, RESULT_DELAY);
     timeoutsRef.current.push(resultTimeout);
   };
+
+  // Transition mobile view to preview when result is shown
+  useEffect(() => {
+    if (showResult) {
+      setMobileView('preview');
+    }
+  }, [showResult]);
 
   // Auto-play on scroll into view
   useEffect(() => {
@@ -116,11 +126,11 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
           </div>
         </div>
 
-        {/* Main Layout: Command Panel + Preview */}
-        <div className="flex flex-col lg:flex-row w-full h-[calc(100%-3rem)]">
+        {/* Desktop Layout: Side-by-side Command Panel + Preview */}
+        <div className="hidden lg:flex lg:flex-row w-full h-[calc(100%-3rem)]">
 
           {/* Command Panel (Left Side) - mimics real CommandPanel */}
-          <div className="w-full lg:w-60 lg:shrink-0 border-b lg:border-b-0 lg:border-r border-gray-200 bg-gray-50/50 flex flex-col max-h-[280px] lg:max-h-none">
+          <div className="w-60 shrink-0 border-r border-gray-200 bg-gray-50/50 flex flex-col">
 
             {/* Output Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
@@ -192,7 +202,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
           </div>
 
           {/* Prototype Preview (Right Side) */}
-          <div className="flex-1 w-full bg-gray-100 flex items-center justify-center p-4 min-h-[300px]">
+          <div className="flex-1 w-full bg-gray-100 flex items-center justify-center p-4">
             <div
               className={`w-full max-w-[240px] transition-all duration-700 ${
                 showResult ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
@@ -245,6 +255,138 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
               )}
             </div>
           </div>
+        </div>
+
+        {/* Mobile Layout: Transitioning single view */}
+        <div className="lg:hidden w-full h-[calc(100%-3rem)]">
+          <AnimatePresence mode="wait">
+            {mobileView === 'chat' ? (
+              <motion.div
+                key="chat"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="w-full h-full bg-gray-50/50 flex flex-col"
+              >
+                {/* Output Messages */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                  {visibleMessages.length === 0 && !isPlaying && (
+                    <div className="flex items-center justify-center h-full">
+                      <button
+                        onClick={startDemo}
+                        className="btn-interactive btn-primary"
+                      >
+                        <span className="material-icons-outlined">play_arrow</span>
+                        Start Demo
+                      </button>
+                    </div>
+                  )}
+
+                  {visibleMessages.map((message, index) => (
+                    <div
+                      key={index}
+                      className="animate-fadeIn"
+                      style={{
+                        animation: 'fadeIn 0.3s ease-in-out'
+                      }}
+                    >
+                      {message.type === 'user' && (
+                        <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-sm">
+                          <div className="text-xs text-gray-500 font-medium mb-1.5">You</div>
+                          <div className="text-sm text-gray-900">{message.text}</div>
+                        </div>
+                      )}
+
+                      {message.type === 'assistant' && (
+                        <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                          <div className="text-xs text-gray-500 font-medium mb-1.5">Agent</div>
+                          <div className="text-sm text-gray-700">{message.text}</div>
+                        </div>
+                      )}
+
+                      {message.type === 'tool' && (
+                        <div className="flex items-center space-x-2 text-sm text-gray-400 pl-3">
+                          <span className="opacity-60">{message.icon}</span>
+                          <span>{message.text}</span>
+                        </div>
+                      )}
+
+                      {message.type === 'success' && (
+                        <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                          <div className="text-sm text-gray-700 font-medium">
+                            {message.text}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  {isPlaying && visibleMessages.length > 0 && (
+                    <div className="flex items-center space-x-2 text-gray-400 text-sm pl-3">
+                      <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-pulse"></div>
+                      <span>Generating...</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Command Input (Bottom) */}
+                <div className="border-t border-gray-200 bg-white p-3">
+                  <div className="flex items-center space-x-2 px-3 py-2 bg-gray-100 rounded-lg text-sm text-gray-400">
+                    <span>Type a command...</span>
+                  </div>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="preview"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="w-full h-full bg-gray-100 flex items-center justify-center p-6"
+              >
+                <div className="w-full max-w-[280px]">
+                  <div className="border border-gray-200 rounded-xl bg-white shadow-xl">
+                    <div className="p-6">
+                      {/* Badges */}
+                      <div className="flex flex-wrap items-center gap-2 mb-3">
+                        <span className="px-2.5 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">
+                          High Priority
+                        </span>
+                        <span className="px-2.5 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">
+                          Design
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                        Update landing page hero
+                      </h4>
+
+                      {/* Description */}
+                      <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                        Revise the main headline and add a compelling demo section to showcase the product in action.
+                      </p>
+
+                      {/* Footer */}
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div className="flex items-center gap-2 text-sm text-gray-500">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                          <span>Due in 3 days</span>
+                        </div>
+                        <button className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">
+                          View Details
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
