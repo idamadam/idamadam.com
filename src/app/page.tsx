@@ -20,12 +20,18 @@ export default function Home() {
 
         {/* Vignettes Section */}
         <section className="w-full pb-16 lg:pb-24 px-6 lg:px-12">
-          <div className="max-w-5xl mx-auto space-y-12 lg:space-y-14">
-            <AIHighlightsVignette />
+          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+            <div className="lg:col-span-2">
+              <AIHighlightsVignette />
+            </div>
             <AISuggestionsVignette />
             <PrototypingVignette />
-            <MultilingualVignette />
-            <HomeConnectVignette />
+            <div className="lg:col-span-2">
+              <MultilingualVignette />
+            </div>
+            <div className="lg:col-span-2">
+              <HomeConnectVignette />
+            </div>
           </div>
         </section>
 
@@ -39,7 +45,7 @@ export default function Home() {
 
         {/* Explorations Vignettes */}
         <section className="w-full pb-8 lg:pb-12 px-6 lg:px-12">
-          <div className="max-w-5xl mx-auto space-y-12 lg:space-y-14">
+          <div className="max-w-6xl mx-auto">
             <VibeCodingVignette />
           </div>
         </section>

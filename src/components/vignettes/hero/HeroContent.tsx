@@ -35,7 +35,7 @@ export default function HeroContent() {
 
       {/* Single row: Role + Previous + LinkedIn */}
       <motion.p
-        className="flex items-center gap-3 flex-wrap text-secondary"
+        className="flex items-center gap-3 flex-wrap text-stone-600"
         style={{ willChange: 'transform, opacity' }}
         initial={reducedMotion ? false : { opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -65,11 +65,11 @@ export default function HeroContent() {
           </a>
         </span>
 
-        <span className="text-tertiary">·</span>
+        <span className="text-stone-400">·</span>
 
         {/* Previously */}
         <span className="flex items-center gap-2">
-          <span className="text-tertiary">Previously</span>
+          <span>Previously</span>
           {heroContent.companies.slice(1).map((company) => (
             <a
               key={company.name}
@@ -106,14 +106,14 @@ export default function HeroContent() {
           ))}
         </span>
 
-        <span className="text-tertiary">·</span>
+        <span className="text-stone-400">·</span>
 
         {/* LinkedIn */}
         <a
           href="https://www.linkedin.com/in/idamadam/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex text-tertiary hover-linkedin transition-colors duration-200"
+          className="inline-flex text-stone-500 hover-linkedin transition-colors duration-200"
           aria-label="Connect on LinkedIn"
         >
           <svg
