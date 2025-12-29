@@ -28,27 +28,30 @@ export default function RichTextEditor({
       <div className="bg-white border-2 border-[#878792] rounded-lg overflow-hidden">
         {/* Toolbar */}
         <div className="bg-white flex items-center gap-1.5 p-1.5">
-          {/* Text formatting */}
-          <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-h3 text-primary">format_bold</span>
-          </button>
-          <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-h3 text-primary">format_italic</span>
-          </button>
-          <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-h3 text-primary">format_underlined</span>
-          </button>
+          {/* Formatting buttons - hidden on mobile */}
+          <div className="hidden sm:flex items-center gap-1.5">
+            {/* Text formatting */}
+            <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+              <span className="material-icons-outlined text-h3 text-primary">format_bold</span>
+            </button>
+            <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+              <span className="material-icons-outlined text-h3 text-primary">format_italic</span>
+            </button>
+            <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+              <span className="material-icons-outlined text-h3 text-primary">format_underlined</span>
+            </button>
 
-          {/* Divider */}
-          <div className="h-12 w-px bg-[rgba(82,78,86,0.1)] mx-0.5" />
+            {/* Divider */}
+            <div className="h-12 w-px bg-[rgba(82,78,86,0.1)] mx-0.5" />
 
-          {/* List button */}
-          <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
-            <span className="material-icons-outlined text-h3 text-primary">format_list_bulleted</span>
-          </button>
+            {/* List button */}
+            <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+              <span className="material-icons-outlined text-h3 text-primary">format_list_bulleted</span>
+            </button>
 
-          {/* Divider */}
-          <div className="h-12 w-px bg-[rgba(82,78,86,0.1)] mx-0.5" />
+            {/* Divider */}
+            <div className="h-12 w-px bg-[rgba(82,78,86,0.1)] mx-0.5" />
+          </div>
 
           {/* Improve button */}
           {showImproveButton && (

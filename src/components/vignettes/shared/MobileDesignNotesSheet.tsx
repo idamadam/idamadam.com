@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import type { DesignNote } from '@/components/vignettes/types';
 
 interface MobileDesignNotesSheetProps {
@@ -20,6 +20,7 @@ export function MobileDesignNotesSheet({
   onIndexChange,
 }: MobileDesignNotesSheetProps) {
   const currentNote = notes[currentIndex];
+  const [isDragging, setIsDragging] = useState(false);
 
   // Keyboard navigation
   useEffect(() => {
@@ -43,6 +44,14 @@ export function MobileDesignNotesSheet({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, currentIndex, notes.length, onClose, onIndexChange]);
 
+  const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    setIsDragging(false);
+    // Dismiss if dragged down more than 100px or with high velocity
+    if (info.offset.y > 100 || info.velocity.y > 500) {
+      onClose();
+    }
+  };
+
   if (!currentNote) return null;
 
   return (
@@ -60,14 +69,19 @@ export function MobileDesignNotesSheet({
 
           {/* Sheet */}
           <motion.div
-            className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl z-50 lg:hidden shadow-xl"
+            className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl z-50 lg:hidden shadow-xl touch-none"
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            drag="y"
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={{ top: 0, bottom: 0.6 }}
+            onDragStart={() => setIsDragging(true)}
+            onDragEnd={handleDragEnd}
           >
             {/* Handle */}
-            <div className="flex justify-center pt-3 pb-2">
+            <div className="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing">
               <div className="w-10 h-1 bg-gray-300 rounded-full" />
             </div>
 
@@ -95,9 +109,9 @@ export function MobileDesignNotesSheet({
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentNote.id}
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={isDragging ? undefined : { opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  exit={isDragging ? undefined : { opacity: 0, x: -20 }}
                   transition={{ duration: 0.15 }}
                 >
                   {currentNote.label && (
