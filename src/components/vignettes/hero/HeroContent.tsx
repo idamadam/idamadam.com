@@ -91,7 +91,7 @@ export default function HeroContent() {
           href="https://www.linkedin.com/in/idamadam/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex text-tertiary hover:text-gold-500 transition-colors duration-200"
+          className="inline-flex text-tertiary hover:text-accent-500 transition-colors duration-200"
           aria-label="Connect on LinkedIn"
         >
           <svg

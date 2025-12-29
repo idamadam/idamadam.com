@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStageProvider, useVignetteStage, VignetteStage } from '@/lib/vignette-stage-context';
 import { timing, timingReduced } from '@/lib/animations';
 import { useReducedMotion } from '@/lib/useReducedMotion';
+import Button from '@/components/Button';
 import type { StageContent } from './types';
 
 interface VignetteStagedProps {
@@ -75,15 +76,13 @@ function VignetteStagedInner({
             {designNotesPanel}
 
             {/* Reset button */}
-            <motion.button
+            <Button
+              variant="secondary"
               onClick={reset}
-              className="btn-interactive btn-secondary"
-              whileHover={{ x: -4 }}
-              transition={{ duration: 0.2 }}
+              icon="replay"
             >
-              <span className="material-icons-outlined">replay</span>
               Watch again
-            </motion.button>
+            </Button>
           </motion.div>
         ) : (
           <motion.div

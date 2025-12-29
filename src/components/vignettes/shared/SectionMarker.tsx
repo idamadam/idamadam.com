@@ -30,9 +30,9 @@ export function SectionMarker({ index, noteId, side, isActive, onOpenChange, not
         <Popover.Trigger asChild>
           <button
             className={`w-6 h-6 rounded-full text-xs font-semibold flex items-center justify-center
-                       bg-[var(--gold-500)] text-[var(--neutral-900)] hover:bg-[var(--gold-600)] transition-all cursor-pointer
-                       focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-500)] focus-visible:ring-offset-2
-                       ${isActive ? 'ring-2 ring-[var(--gold-500)] ring-offset-2' : ''}`}
+                       bg-[var(--accent-500)] text-white hover:bg-[var(--accent-600)] transition-all cursor-pointer
+                       focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-500)] focus-visible:ring-offset-2
+                       ${isActive ? 'ring-2 ring-[var(--accent-500)] ring-offset-2' : ''}`}
             aria-label={`Design note ${index + 1}`}
           >
             {index + 1}

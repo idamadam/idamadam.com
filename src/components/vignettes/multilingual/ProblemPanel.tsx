@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
+import Button from '@/components/Button';
 
 interface ProblemPanelProps {
   onTransition: () => void;
@@ -84,16 +85,15 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
       <AnimatePresence>
         {showCta && (
           <div className="flex justify-center">
-            <motion.button
+            <Button
               onClick={onTransition}
-              className="btn-interactive btn-primary"
+              icon="auto_awesome"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <span className="material-icons-outlined">auto_awesome</span>
               See the solution
-            </motion.button>
+            </Button>
           </div>
         )}
       </AnimatePresence>

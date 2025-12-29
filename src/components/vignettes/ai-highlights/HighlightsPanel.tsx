@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
+import Button from '@/components/Button';
 import type { FeedbackSource } from './content';
 
 type PanelStage = VignetteStage | 'loading';
@@ -262,16 +263,14 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
       </div>
 
       {/* CTA */}
-      <motion.button
+      <Button
         onClick={onTransition}
-        className="btn-interactive btn-primary relative z-10"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: ctaDelay, duration: 0.3 }}
+        icon="auto_awesome"
+        enterDelay={ctaDelay}
+        className="relative z-10"
       >
-        <span className="material-icons-outlined">auto_awesome</span>
         Show Highlights and Opportunities
-      </motion.button>
+      </Button>
     </div>
   );
 }

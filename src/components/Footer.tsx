@@ -27,7 +27,7 @@ export default function Footer() {
             href="https://www.linkedin.com/in/idamadam/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary font-medium hover:border-gold-500 hover:text-gold-500 transition-colors duration-200"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-primary font-medium hover:border-accent-500 hover:text-accent-500 transition-colors duration-200"
           >
             Connect on
             <svg

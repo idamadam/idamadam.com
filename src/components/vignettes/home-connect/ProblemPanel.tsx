@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
+import Button from '@/components/Button';
 
 interface ProblemPanelProps {
   onTransition: () => void;
@@ -134,16 +135,13 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
 
       {/* CTA */}
       <div className="flex justify-center">
-        <motion.button
+        <Button
           onClick={onTransition}
-          className="btn-interactive btn-primary"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: ctaDelay, duration: 0.3 }}
+          icon="auto_awesome"
+          enterDelay={ctaDelay}
         >
-          <span className="material-icons-outlined">auto_awesome</span>
           What if it was all in one place?
-        </motion.button>
+        </Button>
       </div>
     </div>
   );
