@@ -20,7 +20,7 @@ type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 const NOTE_TO_SECTION: Record<string, string> = {
   'editor-integration': 'improve-button',
   'people-science': 'recommendations-header',
-  'loading-state': 'feedback-footer',
+  'loading-state': 'gradient-border',
 };
 
 function AISuggestionsContent() {

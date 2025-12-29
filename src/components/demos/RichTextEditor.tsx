@@ -8,6 +8,7 @@ interface RichTextEditorProps {
   showImproveButton?: boolean;
   onImprove?: () => void;
   isImproving?: boolean;
+  isImproveActivated?: boolean;
   className?: string;
   improveButtonMarker?: ReactNode;
 }
@@ -18,6 +19,7 @@ export default function RichTextEditor({
   showImproveButton = false,
   onImprove,
   isImproving = false,
+  isImproveActivated = false,
   className = '',
   improveButtonMarker
 }: RichTextEditorProps) {
@@ -55,10 +57,14 @@ export default function RichTextEditor({
               <button
                 onClick={onImprove}
                 disabled={isImproving}
-                className="btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className={
+                  isImproveActivated
+                    ? "bg-white hover:bg-gray-50 h-10 px-3 py-2 rounded-lg flex items-center gap-1.5 transition-colors"
+                    : "btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                }
               >
-                <span className="material-icons-outlined">auto_awesome</span>
-                <span className="text-sm">Improve</span>
+                <span className={`material-icons-outlined ${isImproveActivated ? 'text-primary' : ''}`}>auto_awesome</span>
+                <span className={`text-sm ${isImproveActivated ? 'text-primary' : ''}`}>Improve</span>
               </button>
             </div>
           )}
