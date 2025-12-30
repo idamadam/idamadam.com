@@ -21,9 +21,9 @@ export default function IntroPanels() {
 
             {/* Currently / Previously / LinkedIn */}
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-secondary">
-              {/* Currently */}
+              {/* Current role */}
               <span className="flex items-center gap-2">
-                <span>Currently</span>
+                <span>Lead Product Designer at</span>
                 <a
                   href={heroContent.companies[0].url}
                   target="_blank"
