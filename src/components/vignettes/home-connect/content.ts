@@ -103,7 +103,7 @@ export const homeConnectContent: HomeConnectContent = {
           type: 'performance',
           title: '2023 Performance Cycle',
           subtitle: 'feedback closes in 3 days',
-          progress: 80
+          progress: 40
         },
         {
           id: 'oneOnOne-1',
@@ -124,7 +124,7 @@ export const homeConnectContent: HomeConnectContent = {
         {
           id: 'goal-1',
           type: 'goal',
-          title: 'Malik Williams',
+          title: 'Malik John Williams',
           subtitle: 'has an inactive goal',
           avatar: { initials: 'MW' },
           progress: 25,

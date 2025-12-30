@@ -93,10 +93,11 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
         transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
       >
         <div className="flex items-center gap-1.5 mb-4">
-          <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-            <circle cx="10" cy="10" r="8" stroke="white" strokeWidth="2" fill="none" />
-          </svg>
-          <span className="text-white text-label font-semibold">Culture Amp</span>
+          <img
+            src="/logos/cultureamp.svg"
+            alt="Culture Amp"
+            className="h-4 brightness-0 invert"
+          />
         </div>
         <h1 className="text-white text-h3 font-bold leading-tight !m-0">Home</h1>
       </motion.div>

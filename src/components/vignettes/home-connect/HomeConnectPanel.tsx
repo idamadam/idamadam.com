@@ -11,19 +11,42 @@ interface HomeConnectPanelProps {
 }
 
 // Avatar component with initials
-function Avatar({ initials, size = 18 }: { initials: string; size?: number }) {
+function Avatar({ initials, size = 20 }: { initials: string; size?: number }) {
   return (
     <div
-      className="rounded-full bg-[#E8E2F0] flex items-center justify-center shrink-0 text-[#2F2438]"
+      className="rounded-full bg-[#FFF0E8] flex items-center justify-center shrink-0 text-[#2F2438]"
       style={{ width: size, height: size }}
     >
-      <span className="font-semibold" style={{ fontSize: size * 0.45 }}>{initials}</span>
+      <span className="font-semibold" style={{ fontSize: size * 0.4 }}>{initials}</span>
+    </div>
+  );
+}
+
+// Grouped avatars component for overlapping avatar display
+function GroupedAvatars({ avatars }: { avatars: Array<{ initials: string }> }) {
+  return (
+    <div className="flex items-center pl-0 pr-[10px]">
+      {avatars.map((avatar, index) => (
+        <div key={index} className="shrink-0" style={{ marginRight: -10 }}>
+          <Avatar initials={avatar.initials} size={20} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Status tag component
+function StatusTag({ label, variant = 'success' }: { label: string; variant?: 'success' }) {
+  const bgColor = variant === 'success' ? 'bg-[#E8F8F4]' : 'bg-gray-100';
+  return (
+    <div className={`${bgColor} px-[9px] py-[3px] rounded-[15px]`}>
+      <span className="text-xs text-primary leading-[18px]">{label}</span>
     </div>
   );
 }
 
 // Progress ring component
-function ProgressRing({ progress, size = 20 }: { progress: number; size?: number }) {
+function ProgressRing({ progress, size = 24 }: { progress: number; size?: number }) {
   const strokeWidth = 2.5;
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
@@ -37,7 +60,7 @@ function ProgressRing({ progress, size = 20 }: { progress: number; size?: number
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="#5F3361"
+        stroke="#44A289"
         strokeWidth={strokeWidth}
         strokeDasharray={circumference}
         strokeDashoffset={strokeDashoffset}
@@ -50,7 +73,7 @@ function ProgressRing({ progress, size = 20 }: { progress: number; size?: number
 // Goal donut component
 function GoalDonut({ percentage }: { percentage: number }) {
   const strokeWidth = 4;
-  const size = 40;
+  const size = 48;
   const radius = (size - strokeWidth * 2) / 2;
   const circumference = radius * 2 * Math.PI;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
@@ -81,8 +104,8 @@ function GoalDonut({ percentage }: { percentage: number }) {
 // Divider with label
 function FeedDivider({ label }: { label: string }) {
   return (
-    <div className="flex items-center gap-4 py-1">
-      <span className="text-caption font-semibold text-primary/60 shrink-0">{label}</span>
+    <div className="flex items-center gap-4 py-1.5">
+      <span className="text-base font-semibold text-primary/70 shrink-0 leading-6">{label}</span>
       <div className="flex-1 h-px bg-[#524E56]/10 rounded-full" />
     </div>
   );
@@ -117,7 +140,7 @@ interface FeedCardProps {
 function FeedCard({ children, style }: FeedCardProps) {
   return (
     <div
-      className="bg-white rounded-md shadow-[0px_1px_3px_0px_rgba(0,0,0,0.08)] px-4 py-3 flex items-center gap-3"
+      className="bg-white rounded-[7px] shadow-[0px_3px_16px_0px_rgba(0,0,0,0.06),0px_1px_3px_0px_rgba(0,0,0,0.1)] p-5 flex items-center gap-4 overflow-clip"
       style={style}
     >
       <div className="flex-1 min-w-0">{children}</div>
@@ -157,10 +180,11 @@ export default function HomeConnectPanel({
       <div className="bg-[#5F3361] px-5 pt-4 pb-4 relative rounded-t-2xl" style={getSectionStyle('header')}>
         {/* Culture Amp Logo */}
         <div className="flex items-center gap-1.5 mb-4">
-          <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-            <circle cx="10" cy="10" r="8" stroke="white" strokeWidth="2" fill="none" />
-          </svg>
-          <span className="text-white text-label font-semibold">Culture Amp</span>
+          <img
+            src="/logos/cultureamp.svg"
+            alt="Culture Amp"
+            className="h-4 brightness-0 invert"
+          />
         </div>
 
         {/* Home title */}
@@ -196,14 +220,25 @@ export default function HomeConnectPanel({
               note={getNote('card-system')}
             />
             <FeedCard>
-              <div className="space-y-2">
-                <p className="text-caption text-primary">
+              <div className="space-y-3">
+                <p className="text-base text-primary leading-6">
                   <span className="font-semibold">2023 Performance Cycle</span> feedback closes in 3 days
                 </p>
-                <div className="flex items-center gap-1.5">
-                  <ProgressRing progress={80} />
-                  <span className="text-body-sm font-bold text-primary">4 of 5</span>
-                  <span className="text-caption text-primary/60">reports with completed feedback</span>
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-1">
+                    <ProgressRing progress={40} size={20} />
+                    <span className="text-xl font-bold text-primary leading-6">2 of 5</span>
+                  </div>
+                  <p className="text-sm text-primary/70 leading-5">Direct reports with completed nominations</p>
+                  <div className="flex items-center gap-1">
+                    <GroupedAvatars avatars={[
+                      { initials: 'MW' },
+                      { initials: 'MN' },
+                      { initials: 'AP' },
+                      { initials: 'JR' },
+                    ]} />
+                    <span className="text-sm text-primary leading-5">Malik Williams, Maya Nguyen and 3 others have not submitted their nominations</span>
+                  </div>
                 </div>
               </div>
             </FeedCard>
@@ -211,15 +246,26 @@ export default function HomeConnectPanel({
 
           {/* 1-on-1 Card */}
           <FeedCard style={getSectionStyle('oneOnOne', true)}>
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex items-center gap-1.5">
-                <Avatar initials="AP" />
-                <span className="text-caption font-semibold text-primary">Aisha Patel</span>
-                <span className="text-caption text-primary">1-on-1 today</span>
+                <Avatar initials="AP" size={18} />
+                <span className="text-base font-semibold text-primary leading-6">Aisha Patel</span>
+                <span className="text-base text-primary leading-6">1-on-1 today</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <DownArrowIcon />
-                <span className="text-caption font-medium text-[#A82433]">Wellbeing has gone down since last 1-on-1</span>
+              <div className="space-y-1.5">
+                <p className="text-xs font-semibold text-primary/70 leading-[18px]">To discuss</p>
+                <div className="flex items-center gap-1.5">
+                  <DownArrowIcon />
+                  <span className="text-sm font-semibold text-[#A82433] leading-5">Wellbeing has gone down since the last 1-on-1</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Avatar initials="AP" size={18} />
+                  <span className="text-sm text-primary leading-5">No topics from Aisha</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Avatar initials="CJ" size={18} />
+                  <span className="text-sm text-primary leading-5">1 topic from you</span>
+                </div>
               </div>
             </div>
           </FeedCard>
@@ -237,15 +283,24 @@ export default function HomeConnectPanel({
               note={getNote('inactive-goal')}
             />
             <FeedCard>
-              <div className="flex items-center gap-3">
-                <GoalDonut percentage={25} />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <Avatar initials="MW" size={16} />
-                    <span className="text-caption font-semibold text-primary">Malik Williams</span>
-                    <span className="text-caption text-primary/60">has an inactive goal</span>
+              <div className="space-y-3">
+                <div className="flex items-center gap-1.5">
+                  <Avatar initials="MW" size={18} />
+                  <span className="text-base font-semibold text-primary leading-6">Malik John Williams</span>
+                  <span className="text-base text-primary leading-6">has an inactive goal</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <GoalDonut percentage={25} />
+                  <div className="flex-1 min-w-0 space-y-1.5">
+                    <p className="text-sm font-semibold text-primary leading-5">Learn how to handle multiple priorities</p>
+                    <div className="flex items-center gap-1 flex-wrap">
+                      <StatusTag label="On track" variant="success" />
+                      <span className="text-xs text-[#CDCDD0] leading-[18px]">•</span>
+                      <span className="text-xs text-primary/70 leading-[18px]">Updated just now</span>
+                      <span className="text-xs text-[#CDCDD0] leading-[18px]">•</span>
+                      <span className="text-xs text-primary/70 leading-[18px]">Due Dec 31, 2023</span>
+                    </div>
                   </div>
-                  <p className="text-caption text-primary">Learn how to handle multiple priorities</p>
                 </div>
               </div>
             </FeedCard>
