@@ -11,6 +11,7 @@ interface RichTextEditorProps {
   isImproveActivated?: boolean;
   className?: string;
   improveButtonMarker?: ReactNode;
+  mobileFormatting?: 'show' | 'dots';
 }
 
 export default function RichTextEditor({
@@ -21,15 +22,25 @@ export default function RichTextEditor({
   isImproving = false,
   isImproveActivated = false,
   className = '',
-  improveButtonMarker
+  improveButtonMarker,
+  mobileFormatting = 'show'
 }: RichTextEditorProps) {
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
       <div className="bg-white border-2 border-[#878792] rounded-lg overflow-hidden">
         {/* Toolbar */}
         <div className="bg-white flex items-center gap-1.5 p-1.5">
-          {/* Formatting buttons - hidden on mobile */}
-          <div className="hidden sm:flex items-center gap-1.5">
+          {/* Mobile placeholder dots - shown when mobileFormatting="dots" */}
+          {mobileFormatting === 'dots' && (
+            <div className="flex sm:hidden items-center gap-1.5 px-2">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="size-2.5 rounded-full bg-gray-300" />
+              ))}
+            </div>
+          )}
+
+          {/* Formatting buttons */}
+          <div className={`${mobileFormatting === 'dots' ? 'hidden sm:flex' : 'flex'} items-center gap-1.5`}>
             {/* Text formatting */}
             <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
               <span className="material-icons-outlined text-h3 text-primary">format_bold</span>

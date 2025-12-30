@@ -313,6 +313,7 @@ export default function SuggestionsPanel({
           isImproving={isLoading}
           isImproveActivated={isSolution}
           onImprove={isProblem ? onTransition : undefined}
+          mobileFormatting="dots"
           improveButtonMarker={
             isSolution ? (
               <SectionMarker
