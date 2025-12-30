@@ -63,7 +63,7 @@ export default function IntroPanel() {
   if (!shouldShow) return null;
 
   return (
-    <div className="bg-white rounded-2xl border border-border/60 shadow-sm p-8 lg:p-10">
+    <div className="bg-white rounded-[6px] border border-border/60 shadow-sm p-8 lg:p-10">
       <div className="space-y-6">
         {/* Role + Company + Tagline */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
