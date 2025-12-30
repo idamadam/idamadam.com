@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
-import { subtlePulse } from '@/lib/animations';
 import { multilingualContent } from '@/components/vignettes/multilingual/content';
 import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
 
@@ -146,10 +145,9 @@ export default function TranslationManagementPanel({
             onOpenChange={handleNoteOpen}
             note={getNote('ai-translate')}
           />
-          <motion.button
+          <button
             onClick={handleTranslate}
             disabled={isAnimating}
-            {...subtlePulse}
             className="bg-[#0168b3] hover:bg-[#015a99] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-body-sm h-9 px-md py-sm rounded-[6px] flex items-center gap-1.5 transition-colors"
           >
             {translationState === 'translating' ? (
@@ -163,7 +161,7 @@ export default function TranslationManagementPanel({
               </svg>
             )}
             Auto translate
-          </motion.button>
+          </button>
         </div>
         <button className="text-[#0168b3] hover:bg-gray-50 font-medium text-body-sm h-9 px-sm py-sm rounded-[6px] flex items-center gap-1.5 transition-colors">
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
