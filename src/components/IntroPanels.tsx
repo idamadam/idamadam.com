@@ -16,10 +16,10 @@ export default function IntroPanels() {
         >
           <div className="space-y-6">
             <div className="space-y-1">
-              <p className="text-4xl lg:text-5xl font-semibold text-primary">
+              <p className="type-h3">
                 8+ years
               </p>
-              <p className="text-lg text-secondary">
+              <p className="type-body text-secondary">
                 designing products
               </p>
             </div>
@@ -70,10 +70,10 @@ export default function IntroPanels() {
           {...fadeInUp}
         >
           <div className="space-y-3">
-            <p className="text-xl lg:text-2xl font-medium text-primary">
+            <p className="type-h3">
               Show, don&apos;t tell
             </p>
-            <p className="text-lg text-secondary">
+            <p className="type-body text-secondary">
               I prototype ideas to get alignment faster than decks.
             </p>
           </div>
