@@ -8,21 +8,29 @@ import { heroContent } from '@/components/vignettes/hero/content';
 export default function IntroPanels() {
   return (
     <section className="w-full pb-12 lg:pb-16 px-6 lg:px-12">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-        {/* Panel 1: Experience */}
+      <div className="max-w-6xl mx-auto">
         <motion.div
           className="bg-white rounded-2xl border border-border/60 shadow-sm p-8 lg:p-10"
           {...fadeInUp}
         >
-          <div className="space-y-5">
+          <div className="space-y-6">
             <p className="type-h3">
-              8+ years designing products
+              Designer, coder, prototyper
             </p>
 
+            <div className="space-y-4">
+              <p className="type-body text-secondary">
+                I think the best product work happens when design, product, and engineering blend together. When you can build what you imagine, you stop compromising on ideas. You just make them real.
+              </p>
+              <p className="type-body text-secondary/70">
+                The case studies below are interactive. Click around and have a play!
+              </p>
+            </div>
+
             {/* Current role + LinkedIn */}
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-secondary">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-secondary pt-2">
               <span className="flex items-center gap-2">
-                <span>Currently at</span>
+                <span>Leading design at</span>
                 <a
                   href={heroContent.companies[0].url}
                   target="_blank"
@@ -60,21 +68,6 @@ export default function IntroPanels() {
                 </svg>
               </a>
             </div>
-          </div>
-        </motion.div>
-
-        {/* Panel 2: Philosophy */}
-        <motion.div
-          className="bg-white rounded-2xl border border-border/60 shadow-sm p-8 lg:p-10"
-          {...fadeInUp}
-        >
-          <div className="space-y-3">
-            <p className="type-h3">
-              Show, don&apos;t tell
-            </p>
-            <p className="type-body text-secondary">
-              I prototype ideas to get alignment faster than decks.
-            </p>
           </div>
         </motion.div>
       </div>
