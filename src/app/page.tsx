@@ -5,6 +5,7 @@ import VibeCodingVignette from '@/components/vignettes/vibe-coding/VibeCodingVig
 import MultilingualVignette from '@/components/vignettes/multilingual/MultilingualVignette';
 import HomeConnectVignette from '@/components/vignettes/home-connect/HomeConnectVignette';
 import HeroVignette from '@/components/vignettes/hero/HeroVignette';
+import IntroPanels from '@/components/IntroPanels';
 import SectionHeader from '@/components/SectionHeader';
 import SectionTitle from '@/components/SectionTitle';
 import Footer from '@/components/Footer';
@@ -14,6 +15,9 @@ export default function Home() {
       <div>
         {/* Hero Section */}
         <HeroVignette />
+
+        {/* Intro Panels */}
+        <IntroPanels />
 
         {/* Vignettes Introduction */}
         <SectionTitle>Selected work from Culture Amp</SectionTitle>
