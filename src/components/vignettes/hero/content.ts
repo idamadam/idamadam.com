@@ -11,6 +11,12 @@ export interface HeroContent {
   companies: Company[];
 }
 
+export interface IntroContent {
+  headline: string;
+  bio: string[];
+  cta: string;
+}
+
 export const heroContent: HeroContent = {
   name: 'Idam Adam',
   companies: [
@@ -18,4 +24,13 @@ export const heroContent: HeroContent = {
     { name: 'MYOB', logo: '/logos/myob.svg', type: 'svg', url: 'https://myob.com', hoverColor: 'oklch(0.5147 0.2738 294.67)' },
     { name: 'Canstar', logo: '/logos/canstar-gold-and-blue-logo.png', type: 'png', url: 'https://canstar.com.au' },
   ],
+};
+
+export const introContent: IntroContent = {
+  headline: 'Designer, coder, prototyper',
+  bio: [
+    'I think the best product work happens when design, product, and engineering blend together. When you can build what you imagine, you stop compromising on ideas. You just make them real.',
+    'The case studies below are interactive. Click around and have a play!',
+  ],
+  cta: 'Leading design at',
 };

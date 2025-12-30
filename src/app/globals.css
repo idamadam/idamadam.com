@@ -535,6 +535,31 @@ a {
   }
 }
 
+/* Intro panel character reveal - simple fade streaming */
+@keyframes intro-char-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.intro-char {
+  display: inline-block;
+  opacity: 0;
+  animation: intro-char-fade 0.25s ease-out forwards;
+}
+
+.intro-char-hidden {
+  display: inline-block;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-char,
+  .intro-char-hidden {
+    animation: none;
+    opacity: 1;
+  }
+}
+
 /* Brand hover colors */
 .hover-linkedin:hover {
   color: #0A66C2;
