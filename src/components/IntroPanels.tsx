@@ -14,54 +14,82 @@ export default function IntroPanels() {
           className="bg-white rounded-2xl border border-border/60 shadow-sm p-8 lg:p-10"
           {...fadeInUp}
         >
-          <div className="space-y-6">
+          <div className="space-y-5">
             <p className="type-h3">
               8+ years designing products
             </p>
 
-            {/* Company logos + LinkedIn */}
-            <div className="flex items-center gap-4">
-              {heroContent.companies.map((company) => (
+            {/* Currently / Previously / LinkedIn */}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-secondary">
+              {/* Currently */}
+              <span className="flex items-center gap-2">
+                <span>Currently</span>
                 <a
-                  key={company.name}
-                  href={company.url}
+                  href={heroContent.companies[0].url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group/logo relative opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
-                  title={company.name}
+                  className="opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
+                  title={heroContent.companies[0].name}
                 >
                   <Image
-                    src={company.logo}
-                    alt={company.name}
-                    width={80}
-                    height={24}
-                    className={`h-5 w-auto ${company.hoverColor ? 'group-hover/logo:opacity-0' : ''}`}
+                    src={heroContent.companies[0].logo}
+                    alt={heroContent.companies[0].name}
+                    width={100}
+                    height={28}
+                    className="h-5 w-auto"
                   />
-                  {company.hoverColor && (
-                    <span
-                      className="absolute inset-0 opacity-0 group-hover/logo:opacity-100 transition-opacity duration-200"
-                      style={{
-                        backgroundColor: company.hoverColor,
-                        maskImage: `url(${company.logo})`,
-                        maskSize: 'contain',
-                        maskRepeat: 'no-repeat',
-                        maskPosition: 'center',
-                        WebkitMaskImage: `url(${company.logo})`,
-                        WebkitMaskSize: 'contain',
-                        WebkitMaskRepeat: 'no-repeat',
-                        WebkitMaskPosition: 'center',
-                      }}
-                    />
-                  )}
                 </a>
-              ))}
+              </span>
+
+              <span className="text-border">·</span>
+
+              {/* Previously */}
+              <span className="flex items-center gap-2">
+                <span>Previously</span>
+                {heroContent.companies.slice(1).map((company) => (
+                  <a
+                    key={company.name}
+                    href={company.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/logo relative opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
+                    title={company.name}
+                  >
+                    <Image
+                      src={company.logo}
+                      alt={company.name}
+                      width={80}
+                      height={24}
+                      className={`h-4 w-auto ${company.hoverColor ? 'group-hover/logo:opacity-0' : ''}`}
+                    />
+                    {company.hoverColor && (
+                      <span
+                        className="absolute inset-0 opacity-0 group-hover/logo:opacity-100 transition-opacity duration-200"
+                        style={{
+                          backgroundColor: company.hoverColor,
+                          maskImage: `url(${company.logo})`,
+                          maskSize: 'contain',
+                          maskRepeat: 'no-repeat',
+                          maskPosition: 'center',
+                          WebkitMaskImage: `url(${company.logo})`,
+                          WebkitMaskSize: 'contain',
+                          WebkitMaskRepeat: 'no-repeat',
+                          WebkitMaskPosition: 'center',
+                        }}
+                      />
+                    )}
+                  </a>
+                ))}
+              </span>
+
+              <span className="text-border">·</span>
 
               {/* LinkedIn */}
               <a
                 href="https://www.linkedin.com/in/idamadam/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-secondary hover-linkedin transition-colors duration-200"
+                className="hover-linkedin transition-colors duration-200"
                 aria-label="Connect on LinkedIn"
               >
                 <svg
