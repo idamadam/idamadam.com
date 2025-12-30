@@ -18,9 +18,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const baseClass = 'btn-interactive';
     const variantClass = variant === 'primary' ? 'btn-primary' : 'btn-secondary';
 
-    // Hover/tap animations (secondary only - primary uses CSS)
-    const hoverAnimation = variant === 'secondary' ? { x: -4 } : undefined;
-    const tapAnimation = variant === 'secondary' ? { x: 0 } : undefined;
+    // Hover/tap handled by CSS - Framer Motion only used for entrance animations
 
     // Entrance animation (can be overridden via props)
     const entranceInitial = initial ?? (enterDelay !== undefined ? { opacity: 0, y: 10 } : undefined);
@@ -37,8 +35,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         initial={entranceInitial}
         animate={entranceAnimate}
         transition={entranceTransition}
-        whileHover={hoverAnimation}
-        whileTap={tapAnimation}
         {...props}
       >
         {icon && <span className="material-icons-outlined">{icon}</span>}

@@ -24,9 +24,9 @@ export const timing = {
     normal: 0.1,    // Standard stagger
   },
   stage: {
-    textDuration: 0.25,   // How long text swap takes
+    textDuration: 0.2,    // How long text swap takes
     panelDelay: 0.2,      // Panel waits after text starts swapping
-    panelDuration: 0.35,  // Panel transition duration
+    panelDuration: 0.25,  // Panel transition duration
   },
   splash: {
     duration: 1.8,        // How long centered splash state lasts (pause after text)
