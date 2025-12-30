@@ -24,7 +24,7 @@ export default function HeroVignette() {
 
   return (
     <motion.section
-      className="w-full px-6 lg:px-12 pt-32 pb-24 lg:pt-32 lg:pb-24"
+      className="w-full px-6 lg:px-12 pt-32 pb-12 lg:pt-32 lg:pb-12"
       initial={false}
       animate={{
         minHeight: isSplash ? '100vh' : 'auto',
