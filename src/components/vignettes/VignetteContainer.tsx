@@ -24,7 +24,7 @@ export default function VignetteContainer({
   return (
     <motion.article
       id={id}
-      className={`w-full h-full bg-white rounded-2xl border border-border/60 shadow-sm ${
+      className={`w-full h-full card-elevated rounded-2xl ${
         allowOverflow ? 'overflow-visible' : 'overflow-hidden'
       } ${className}`}
       {...fadeInUp}
