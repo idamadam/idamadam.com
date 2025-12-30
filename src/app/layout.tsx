@@ -2,8 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
-import ShaderProviderWrapper from "@/components/ShaderProviderWrapper";
-import { GrainBackground } from "@/components/GrainBackground";
+import { CSSGradientBackground } from "@/components/CSSGradientBackground";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -52,10 +51,8 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
       >
-        <ShaderProviderWrapper>
-          <GrainBackground />
+        <CSSGradientBackground />
           {children}
-        </ShaderProviderWrapper>
         <Analytics />
       </body>
     </html>

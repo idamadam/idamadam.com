@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@paper-design/shaders-react": "^0.0.68",
     "@radix-ui/react-popover": "^1.1.15",
     "@vercel/analytics": "^1.6.1",
     "framer-motion": "^12.23.25",
