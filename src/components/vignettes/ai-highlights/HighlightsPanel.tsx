@@ -30,7 +30,7 @@ interface SourceCardProps {
 
 function SourceCard({ name, date, context, feedback, avatarUrl }: SourceCardProps) {
   return (
-    <div className="pt-4 border-t border-[#eaeaec]">
+    <div className="pt-4 border-t border-border">
       <div className="flex items-center gap-2 mb-3">
         <img
           src={avatarUrl}
@@ -100,7 +100,7 @@ function LoadingState() {
 
         .loading-panel-content {
           position: relative;
-          background: white;
+          background: var(--background-elevated);
           width: 100%;
           height: 100%;
           border-radius: 5px;
@@ -119,9 +119,9 @@ function LoadingState() {
         .skeleton-bar {
           background: linear-gradient(
             90deg,
-            rgba(82, 78, 86, 0.1) 25%,
-            rgba(82, 78, 86, 0.05) 50%,
-            rgba(82, 78, 86, 0.1) 75%
+            rgba(255, 255, 255, 0.08) 25%,
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0.08) 75%
           );
           background-size: 200% 100%;
           animation: shimmer 1.5s ease-in-out infinite;
@@ -142,8 +142,8 @@ function LoadingState() {
         <div className="loading-panel-border"></div>
         <div className="loading-panel-content">
           {/* Header Section */}
-          <div className="border-b-2 border-[#eaeaec] px-6 py-8">
-            <p className="text-body-sm font-semibold text-black mb-3">
+          <div className="border-b-2 border-border px-6 py-8">
+            <p className="text-body-sm font-semibold text-primary mb-3">
               Loading highlights and opportunities
             </p>
             <div className="space-y-3">
@@ -157,7 +157,7 @@ function LoadingState() {
           {[0, 1, 2].map((index) => (
             <div
               key={index}
-              className={`px-6 py-8 ${index < 2 ? 'border-b-2 border-[#eaeaec]' : ''}`}
+              className={`px-6 py-8 ${index < 2 ? 'border-b-2 border-border' : ''}`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div className="flex-1 space-y-2">
@@ -198,13 +198,13 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
   const ctaDelay = entranceDelay + displayCards.length * stagger + 0.1;
 
   return (
-    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[300px] lg:min-h-[400px] flex flex-col items-center justify-end p-4 lg:p-8 overflow-hidden">
+    <div className="relative bg-background-subtle border-2 border-dashed border-border rounded-lg min-h-[300px] lg:min-h-[400px] flex flex-col items-center justify-end p-4 lg:p-8 overflow-hidden">
       {/* Mobile: Simple stacked layout */}
       <div className="flex flex-col gap-3 w-full mb-4 lg:hidden">
         {displayCards.slice(0, 3).map((card, index) => (
           <motion.div
             key={card.id}
-            className="bg-white px-4 py-3 rounded-lg shadow-sm border border-gray-200"
+            className="bg-background-elevated px-4 py-3 rounded-lg shadow-sm border border-border"
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{
@@ -233,7 +233,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
           return (
             <motion.div
               key={card.id}
-              className="absolute bg-white px-4 py-3 rounded-lg shadow-sm border border-gray-200 max-w-[220px] backface-hidden will-change-transform"
+              className="absolute bg-background-elevated px-4 py-3 rounded-lg shadow-sm border border-border max-w-[220px] backface-hidden will-change-transform"
               style={{
                 top: pos.top,
                 left: pos.left,
@@ -308,9 +308,9 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
         background: 'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
       }}
     >
-      <div className="bg-white rounded-[5px] overflow-visible">
+      <div className="bg-background-elevated rounded-[5px] overflow-visible">
       {/* Header Section */}
-      <div className="border-b-2 border-[#eaeaec] px-6 py-6" data-section-id="summary" style={getSectionStyle('summary')}>
+      <div className="border-b-2 border-border px-6 py-6" data-section-id="summary" style={getSectionStyle('summary')}>
         <div className="relative">
           <SectionMarker
             index={0}
@@ -343,7 +343,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
       </div>
 
       {/* Highlight Item */}
-      <div className="border-b-2 border-[#eaeaec]" data-section-id="highlight" style={getSectionStyle('highlight')}>
+      <div className="border-b-2 border-border" data-section-id="highlight" style={getSectionStyle('highlight')}>
         <div className="px-6 py-8">
           {/* Header row with marker */}
           <div className="relative">
@@ -376,12 +376,12 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
                   <img
                     src="/avatars/sarah-chen.svg"
                     alt="Source"
-                    className="w-5 h-5 rounded-full border-2 border-white"
+                    className="w-5 h-5 rounded-full border-2 border-background-elevated"
                   />
                   <img
                     src="/avatars/mike-torres.svg"
                     alt="Source"
-                    className="w-5 h-5 rounded-full border-2 border-white"
+                    className="w-5 h-5 rounded-full border-2 border-background-elevated"
                   />
                 </div>
                 <span className="text-body-sm text-secondary">
@@ -390,7 +390,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
               </div>
               <button
                 onClick={() => setHighlightExpanded(!highlightExpanded)}
-                className="p-3 hover:bg-gray-50 rounded-lg transition-colors"
+                className="p-3 hover:bg-white/5 rounded-lg transition-colors"
                 aria-label={highlightExpanded ? 'Collapse highlight' : 'Expand highlight'}
               >
                 <motion.span
@@ -437,7 +437,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
       </div>
 
       {/* Opportunity Item */}
-      <div className="border-b-2 border-[#eaeaec]" data-section-id="opportunity" style={getSectionStyle('opportunity')}>
+      <div className="border-b-2 border-border" data-section-id="opportunity" style={getSectionStyle('opportunity')}>
         <div className="px-6 py-8">
           {/* Header row with marker */}
           <div className="relative">
@@ -470,12 +470,12 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
                   <img
                     src="/avatars/alex-kim.svg"
                     alt="Source"
-                    className="w-5 h-5 rounded-full border-2 border-white"
+                    className="w-5 h-5 rounded-full border-2 border-background-elevated"
                   />
                   <img
                     src="/avatars/jordan-lee.svg"
                     alt="Source"
-                    className="w-5 h-5 rounded-full border-2 border-white"
+                    className="w-5 h-5 rounded-full border-2 border-background-elevated"
                   />
                 </div>
                 <span className="text-body-sm text-secondary">
@@ -484,7 +484,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
               </div>
               <button
                 onClick={() => setOpportunityExpanded(!opportunityExpanded)}
-                className="p-3 hover:bg-gray-50 rounded-lg transition-colors"
+                className="p-3 hover:bg-white/5 rounded-lg transition-colors"
                 aria-label={opportunityExpanded ? 'Collapse opportunity' : 'Expand opportunity'}
               >
                 <motion.span
@@ -536,7 +536,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
           Is this helpful?
         </span>
         <button
-          className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
+          className="p-2 hover:bg-white/5 rounded-lg transition-colors"
           aria-label="Thumbs up"
         >
           <span className="material-icons-outlined text-h2 text-primary">
@@ -544,7 +544,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
           </span>
         </button>
         <button
-          className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
+          className="p-2 hover:bg-white/5 rounded-lg transition-colors"
           aria-label="Thumbs down"
         >
           <span className="material-icons-outlined text-h2 text-primary">

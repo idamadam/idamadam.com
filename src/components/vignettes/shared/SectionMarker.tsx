@@ -44,15 +44,15 @@ export function SectionMarker({ index, noteId, side, isActive, onOpenChange, not
             align="center"
             sideOffset={12}
             collisionPadding={16}
-            className="bg-white rounded-xl px-4 py-3 shadow-lg border border-gray-200 max-w-[280px] z-50"
+            className="bg-background-elevated rounded-xl px-4 py-3 shadow-lg border border-border max-w-[280px] z-50"
           >
             {note.label && (
-              <p className="font-semibold text-sm text-gray-900">{note.label}</p>
+              <p className="font-semibold text-sm text-primary">{note.label}</p>
             )}
-            <p className={`text-sm text-gray-600 leading-relaxed ${note.label ? 'mt-1' : ''}`}>
+            <p className={`text-sm text-secondary leading-relaxed ${note.label ? 'mt-1' : ''}`}>
               {note.detail}
             </p>
-            <Popover.Arrow className="fill-white" />
+            <Popover.Arrow className="fill-background-elevated" />
           </Popover.Content>
         </Popover.Portal>
       </Popover.Root>

@@ -14,7 +14,7 @@ export default function HeroContent() {
   return (
     <div className="flex items-end gap-4 lg:gap-6">
       <motion.div
-        className="bg-white p-2 pb-6 lg:p-3 lg:pb-8 shadow-lg rounded-sm rotate-2 mb-1 lg:mb-3 cursor-pointer"
+        className="bg-neutral-900 p-2 pb-6 lg:p-3 lg:pb-8 shadow-lg rounded-sm rotate-2 mb-1 lg:mb-3 cursor-pointer border border-border"
         whileTap={{ scale: 0.9 }}
         transition={{
           type: 'spring',

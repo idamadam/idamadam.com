@@ -93,12 +93,12 @@ export default function TranslationManagementPanel({
           </label>
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="bg-white border-2 border-[#878792] rounded-[6px] h-9 px-sm py-xs flex items-center justify-between gap-2 hover:border-[#0168b3] transition-colors"
+            className="bg-background-elevated border border-border rounded-[6px] h-9 px-sm py-xs flex items-center justify-between gap-2 hover:border-accent transition-colors"
           >
             <span className="text-body-sm text-primary whitespace-nowrap">
               {content.languages[selectedLanguage].name}
             </span>
-            <svg className="w-4 h-4 text-[#2f2438] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-4 h-4 text-secondary flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
           </button>
@@ -111,7 +111,7 @@ export default function TranslationManagementPanel({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="absolute top-full left-0 mt-1 bg-white border-2 border-[#878792] rounded-[6px] shadow-lg z-10 min-w-full"
+                className="absolute top-full left-0 mt-1 bg-background-elevated border border-border rounded-[6px] shadow-lg z-10 min-w-full"
               >
                 {content.languages.map((lang, index) => (
                   <button
@@ -123,8 +123,8 @@ export default function TranslationManagementPanel({
                         setTranslationState('idle');
                       }
                     }}
-                    className={`w-full px-sm py-sm text-left text-body-sm text-primary hover:bg-gray-50 transition-colors whitespace-nowrap ${
-                      index === selectedLanguage ? 'bg-gray-100 font-semibold' : ''
+                    className={`w-full px-sm py-sm text-left text-body-sm text-primary hover:bg-white/5 transition-colors whitespace-nowrap ${
+                      index === selectedLanguage ? 'bg-white/10 font-semibold' : ''
                     } ${index === 0 ? 'rounded-t-[4px]' : ''} ${index === content.languages.length - 1 ? 'rounded-b-[4px]' : ''}`}
                   >
                     {lang.name}
@@ -172,7 +172,7 @@ export default function TranslationManagementPanel({
             onOpenChange={handleNoteOpen}
             note={getNote('xlsx-import')}
           />
-          <button className="text-[#0168b3] hover:bg-gray-50 font-medium text-body-sm h-9 px-sm py-sm rounded-[6px] flex items-center gap-1.5 transition-colors">
+          <button className="text-[#0168b3] hover:bg-white/5 font-medium text-body-sm h-9 px-sm py-sm rounded-[6px] flex items-center gap-1.5 transition-colors">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
@@ -232,7 +232,7 @@ export default function TranslationManagementPanel({
                 onOpenChange={handleNoteOpen}
                 note={getNote('source-reference')}
               />
-              <span className="inline-flex items-center px-3 py-1 bg-[#eaeaec] rounded-full text-xs text-primary">
+              <span className="inline-flex items-center px-3 py-1 bg-white/10 rounded-full text-xs text-primary">
                 English (English US)
               </span>
               <p className="text-sm text-secondary">

@@ -29,7 +29,7 @@ export default function RichTextEditor({
     <div className={`flex flex-col gap-2 ${className}`}>
       <div className="bg-white border-2 border-[#878792] rounded-lg overflow-hidden">
         {/* Toolbar */}
-        <div className="bg-white flex items-center gap-1.5 p-1.5">
+        <div className="bg-background-elevated flex items-center gap-1.5 p-1.5">
           {/* Mobile placeholder dots - shown when mobileFormatting="dots" */}
           {mobileFormatting === 'dots' && (
             <div className="flex sm:hidden items-center gap-1.5 px-2">
@@ -42,13 +42,13 @@ export default function RichTextEditor({
           {/* Formatting buttons */}
           <div className={`${mobileFormatting === 'dots' ? 'hidden sm:flex' : 'flex'} items-center gap-1.5`}>
             {/* Text formatting */}
-            <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+            <button className="bg-background-elevated hover:bg-white/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
               <span className="material-icons-outlined text-h3 text-primary">format_bold</span>
             </button>
-            <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+            <button className="bg-background-elevated hover:bg-white/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
               <span className="material-icons-outlined text-h3 text-primary">format_italic</span>
             </button>
-            <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+            <button className="bg-background-elevated hover:bg-white/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
               <span className="material-icons-outlined text-h3 text-primary">format_underlined</span>
             </button>
 
@@ -56,7 +56,7 @@ export default function RichTextEditor({
             <div className="h-12 w-px bg-[rgba(82,78,86,0.1)] mx-0.5" />
 
             {/* List button */}
-            <button className="bg-white hover:bg-gray-50 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+            <button className="bg-background-elevated hover:bg-white/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
               <span className="material-icons-outlined text-h3 text-primary">format_list_bulleted</span>
             </button>
 
@@ -73,7 +73,7 @@ export default function RichTextEditor({
                 disabled={isImproving}
                 className={
                   isImproveActivated
-                    ? "bg-white hover:bg-gray-50 h-10 px-3 py-2 rounded-lg flex items-center gap-1.5 transition-colors"
+                    ? "bg-background-elevated hover:bg-white/5 h-10 px-3 py-2 rounded-lg flex items-center gap-1.5 transition-colors"
                     : "btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 }
               >
@@ -88,7 +88,7 @@ export default function RichTextEditor({
         <div className="h-0.5 bg-[#878792] w-full" />
 
         {/* Content Area */}
-        <div className="bg-white p-3.5 min-h-[80px]">
+        <div className="bg-background-elevated p-3.5 min-h-[80px]">
           {content ? (
             <p className="text-base leading-6 text-primary whitespace-pre-wrap">
               {content}

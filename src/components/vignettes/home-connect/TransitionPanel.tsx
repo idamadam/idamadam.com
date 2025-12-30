@@ -80,7 +80,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
 
   return (
     <motion.div
-      className="w-full bg-[#F9F9F9] rounded-2xl overflow-hidden"
+      className="w-full bg-background-subtle rounded-2xl overflow-hidden"
       initial={{ opacity: 0, scale: 0.95, y: 10 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
@@ -107,7 +107,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
         {scatteredCards.map((card, index) => (
           <motion.div
             key={card.id}
-            className="absolute w-[180px] bg-[#F9F9F9] rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.1)] backface-hidden will-change-transform"
+            className="absolute w-[180px] bg-background-subtle rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.1)] backface-hidden will-change-transform"
             initial={{
               x: card.scattered.x,
               y: card.scattered.y,
@@ -132,7 +132,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
             style={{ zIndex: 3 - index }}
           >
             {/* Window chrome header */}
-            <div className="px-3 py-2 flex items-center gap-1.5 bg-[#F5F5F5] border-b border-gray-200">
+            <div className="px-3 py-2 flex items-center gap-1.5 bg-neutral-800 border-b border-border">
               <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />
@@ -147,7 +147,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
               </span>
             </div>
             {/* Page content */}
-            <div className="px-3 py-3 bg-white">
+            <div className="px-3 py-3 bg-background-elevated">
               <span className="text-body-sm text-primary leading-snug block">
                 {card.insight}
               </span>
@@ -159,7 +159,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
       {/* Progress indicator */}
       <div className="px-5 pb-5">
         <motion.div
-          className="flex items-center justify-center gap-2 py-3 text-body-sm text-gray-500"
+          className="flex items-center justify-center gap-2 py-3 text-body-sm text-muted-foreground"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}

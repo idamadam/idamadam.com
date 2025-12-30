@@ -53,7 +53,7 @@ function GradientBorderStyles() {
 
       .suggestions-loading-content {
         position: relative;
-        background: white;
+        background: var(--background-elevated);
         width: 100%;
         height: 100%;
         border-radius: 5px;
@@ -105,7 +105,7 @@ function LoadingPanel() {
 
         .suggestions-loading-content {
           position: relative;
-          background: white;
+          background: var(--background-elevated);
           width: 100%;
           height: 100%;
           border-radius: 5px;
@@ -192,7 +192,7 @@ function RecommendationsPanel({
       }}
     >
       {isShowingAnimation && <div className="suggestions-animated-border" />}
-      <div className="recommendation-content bg-white rounded-[5px] p-6 space-y-4 relative z-10">
+      <div className="recommendation-content bg-background-elevated rounded-[5px] p-6 space-y-4 relative z-10">
         {/* Markers - positioned outside fading content */}
         <SectionMarker
           index={1}
@@ -241,7 +241,7 @@ function RecommendationsPanel({
                   <span className="font-normal"> {rec.description}</span>
                 </p>
                 {index < content.recommendations.length - 1 && (
-                  <div className="h-px bg-[#eaeaec] mt-4" />
+                  <div className="h-px bg-border mt-4" />
                 )}
               </div>
             ))}
@@ -251,12 +251,12 @@ function RecommendationsPanel({
           <div className="flex items-center pt-2">
             <div className="flex items-center gap-4">
               <span className="text-sm text-secondary">Is this helpful?</span>
-              <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+              <button className="p-2 hover:bg-white/5 rounded-lg transition-colors">
                 <span className="material-icons-outlined text-body-sm text-primary">
                   thumb_up
                 </span>
               </button>
-              <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+              <button className="p-2 hover:bg-white/5 rounded-lg transition-colors">
                 <span className="material-icons-outlined text-body-sm text-primary">
                   thumb_down
                 </span>

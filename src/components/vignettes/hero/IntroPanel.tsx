@@ -63,7 +63,7 @@ export default function IntroPanel() {
   if (!shouldShow) return null;
 
   return (
-    <div className="bg-white rounded-[6px] border border-border/60 shadow-sm p-8 lg:p-10">
+    <div className="card-elevated p-8 lg:p-10">
       <div className="space-y-6">
         {/* Role + Company + Tagline */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -79,7 +79,7 @@ export default function IntroPanel() {
               href={heroContent.companies[0].url}
               target="_blank"
               rel="noopener noreferrer"
-              className="opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-200"
+              className="opacity-80 brightness-0 invert hover:opacity-100 transition-all duration-200"
               title={heroContent.companies[0].name}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
