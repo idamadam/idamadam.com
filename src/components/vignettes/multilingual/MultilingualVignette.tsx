@@ -21,6 +21,7 @@ const NOTE_TO_SECTION: Record<string, string> = {
   'unified-cycle': 'language-dropdown',
   'ai-translate': 'auto-translate-btn',
   'source-reference': 'source-text',
+  'xlsx-import': 'xlsx-import-btn',
 };
 
 type PanelStage = 'problem' | 'transition' | 'solution';
@@ -90,7 +91,7 @@ function MultilingualContent() {
         />
       }
     >
-      <div className="relative min-h-[420px]" style={{ overflow: 'visible' }}>
+      <div className="relative min-h-[420px] flex flex-col justify-center" style={{ overflow: 'visible' }}>
         <AnimatePresence mode="wait">
           {panelStage === 'problem' && (
             <motion.div

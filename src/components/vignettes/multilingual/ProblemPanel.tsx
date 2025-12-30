@@ -36,7 +36,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
   return (
     <div className="w-full space-y-4">
       {/* 3 separate browser-like windows stacked */}
-      <div className="flex flex-col gap-3 items-center">
+      <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-col gap-3 items-center">
         {cycleWindows.map((window, index) => (
           <motion.div
             key={window.code}
@@ -80,13 +80,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
             </div>
           </motion.div>
         ))}
-      </div>
 
-      {/* Caption + CTA */}
-      <div className="flex flex-col items-center gap-3 pt-2">
-        <p className="text-caption text-gray-400 text-center">
-          3 separate cycles. 3 separate places to manage.
-        </p>
         <Button onClick={onTransition}>
           Unify them
         </Button>

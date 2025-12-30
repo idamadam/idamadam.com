@@ -66,7 +66,7 @@ export const multilingualContent: MultilingualContent = {
   section1: {
     title: 'Expanded Performance Reviews to 120+ languages',
     description:
-      'This was a milestone for me. I incorporated my native language, Dhivehi, into my work for the first time. I designed a flexible translation workflow that supports three input methods: manual editing for quick tweaks, CSV uploads for translation agencies, and machine translation for speed.'
+      'I designed a flexible translation workflow that supports three input methods: manual editing for quick tweaks, CSV uploads for translation agencies, and machine translation for speed. This was also a milestone for me. I incorporated my native language, Dhivehi, into my work for the first time.'
   },
   section2: {
     title: 'Auto-translate in action',
@@ -83,8 +83,8 @@ export const multilingualContent: MultilingualContent = {
     {
       id: 2,
       icon: 'upload_file',
-      title: 'CSV Import',
-      description: 'Bulk updates from agencies',
+      title: 'XLSX Import',
+      description: 'For admins wanting more control',
       highlighted: false
     },
     {
@@ -124,7 +124,7 @@ export const multilingualContent: MultilingualContent = {
     },
     solution: {
       title: 'Designed a simple way to bring multiple languages into a single cycle',
-      description: 'This was a milestone for me. I incorporated my native language, Dhivehi, into my work for the first time. I designed a flexible translation workflow that supports three input methods: manual editing for quick tweaks, CSV uploads for translation agencies, and machine translation for speed.'
+      description: 'I designed a flexible translation workflow that supports three input methods: manual editing for quick tweaks, XLSX uploads for admins who wanted more control, and machine translation for speed. This was also a milestone for me. I incorporated my native language, Dhivehi, into my work for the first time.'
     }
   },
   designNotes: {
@@ -141,6 +141,14 @@ export const multilingualContent: MultilingualContent = {
         id: 'ai-translate',
         label: 'AI translation placement',
         detail: 'Auto-translate button placed prominently with the language selector. Contextual placement reduces cognitive load.',
+        x: '104%',
+        y: '10%',
+        popoverSide: 'right' as const
+      },
+      {
+        id: 'xlsx-import',
+        label: 'XLSX import from research',
+        detail: 'User research revealed admins were already managing translations in XLSX files. This feature lets them use their existing process.',
         x: '104%',
         y: '10%',
         popoverSide: 'right' as const
