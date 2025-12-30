@@ -25,13 +25,13 @@ function ProblemState({
   const ctaDelay = entranceDelay + questions.length * stagger + 0.1;
 
   return (
-    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[280px] lg:min-h-[320px] flex flex-col items-center justify-center p-4 lg:p-8">
+    <div className="relative bg-background-subtle border-2 border-dashed border-border rounded-lg min-h-[280px] lg:min-h-[320px] flex flex-col items-center justify-center p-4 lg:p-8">
       {/* Mobile: Stacked questions */}
       <div className="flex flex-col gap-2 w-full mb-4 lg:hidden">
         {questions.map((q, index) => (
           <motion.div
             key={q.id}
-            className="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 text-body-sm text-gray-600 font-medium"
+            className="bg-background-elevated px-4 py-2 rounded-lg shadow-sm border border-border text-body-sm text-secondary font-medium"
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{
@@ -59,7 +59,7 @@ function ProblemState({
           return (
             <motion.div
               key={q.id}
-              className="absolute bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 text-body-sm text-gray-600 font-medium"
+              className="absolute bg-background-elevated px-4 py-2 rounded-lg shadow-sm border border-border text-body-sm text-secondary font-medium"
               style={{
                 ...pos,
                 transform: `rotate(${pos.rotate}deg)`,
@@ -103,7 +103,7 @@ function LoadingState({ content }: { content: PrototypingContent }) {
             <div className="w-3 h-3 rounded-full bg-yellow-500" />
             <div className="w-3 h-3 rounded-full bg-green-500" />
           </div>
-          <span className="text-caption text-gray-500 font-mono ml-2">claude-code</span>
+          <span className="text-caption text-muted-foreground font-mono ml-2">claude-code</span>
         </div>
         <span className="text-label text-gray-600 font-mono">~/design-sandbox</span>
       </div>
@@ -135,7 +135,7 @@ function LoadingState({ content }: { content: PrototypingContent }) {
                 ) : (
                   <span className="text-green-400">✓</span>
                 )}
-                <span className={step.isLoading ? 'text-gray-300' : 'text-gray-500'}>
+                <span className={step.isLoading ? 'text-gray-300' : 'text-muted-foreground'}>
                   {step.status}
                 </span>
               </div>
@@ -145,7 +145,7 @@ function LoadingState({ content }: { content: PrototypingContent }) {
       </div>
 
       {/* Status bar */}
-      <div className="absolute bottom-0 left-0 right-0 px-4 py-2 border-t border-[#1f1f23] flex items-center justify-between text-[11px] font-mono text-gray-500">
+      <div className="absolute bottom-0 left-0 right-0 px-4 py-2 border-t border-[#1f1f23] flex items-center justify-between text-[11px] font-mono text-muted-foreground">
         <span>opus 4.5</span>
         <span>1.2k tokens • $0.02</span>
       </div>
@@ -157,14 +157,14 @@ function SolutionState({ content }: { content: PrototypingContent }) {
   return (
     <div className="relative w-full">
       {/* Main Sandbox Container */}
-      <div className="bg-white border border-black rounded-lg p-4 w-full">
+      <div className="bg-background-elevated border border-border rounded-lg p-4 w-full">
         {/* Header */}
         <div className="flex items-center justify-between mb-lg">
           <div>
-            <h3 className="text-body-sm font-bold text-black">
+            <h3 className="text-body-sm font-bold text-primary">
               {content.sandboxTitle}
             </h3>
-            <p className="text-caption text-gray-500 mt-0.5">
+            <p className="text-caption text-muted-foreground mt-0.5">
               {content.adoptionStats.designers} designers • {content.adoptionStats.prototypes}+ prototypes
             </p>
           </div>
@@ -200,7 +200,7 @@ function SolutionState({ content }: { content: PrototypingContent }) {
               <div className="w-3 h-3 rounded-full bg-yellow-500" />
               <div className="w-3 h-3 rounded-full bg-green-500" />
             </div>
-            <span className="text-caption text-gray-500 font-mono ml-2">claude-code</span>
+            <span className="text-caption text-muted-foreground font-mono ml-2">claude-code</span>
           </div>
           <span className="text-label text-gray-600 font-mono">~/.../sandbox</span>
         </div>
@@ -242,7 +242,7 @@ function SolutionState({ content }: { content: PrototypingContent }) {
         </div>
 
         {/* Status bar */}
-        <div className="absolute bottom-0 left-0 right-0 px-4 py-2 border-t border-[#1f1f23] rounded-b-lg flex items-center justify-between text-[11px] font-mono text-gray-500">
+        <div className="absolute bottom-0 left-0 right-0 px-4 py-2 border-t border-[#1f1f23] rounded-b-lg flex items-center justify-between text-[11px] font-mono text-muted-foreground">
           <span>opus 4.5</span>
           <span>2.4k tokens • $0.04</span>
         </div>

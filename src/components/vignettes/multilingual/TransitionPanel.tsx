@@ -82,7 +82,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
           return (
             <motion.div
               key={window.code}
-              className={`absolute w-full max-w-[340px] bg-white rounded-lg border border-gray-200 overflow-hidden transition-shadow duration-300 ease-out ${
+              className={`absolute w-full max-w-[340px] bg-background-elevated rounded-lg border border-border overflow-hidden transition-shadow duration-300 ease-out ${
                 isStacked ? stackedShadows[index] : 'shadow-sm'
               }`}
               style={{
@@ -109,13 +109,13 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
               }}
             >
               {/* Window chrome */}
-              <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 flex items-center gap-2">
+              <div className="px-3 py-2 bg-white/10 border-b border-border flex items-center gap-2">
                 <div className="flex items-center gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
                   <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
                   <span className="w-2.5 h-2.5 rounded-full bg-[#27CA40]" />
                 </div>
-                <span className="text-caption font-medium text-gray-600 ml-2">
+                <span className="text-caption font-medium text-secondary ml-2">
                   {isStacked && index === 0
                     ? 'Q1 Performance Cycle'
                     : window.title}

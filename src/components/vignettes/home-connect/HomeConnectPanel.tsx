@@ -37,7 +37,7 @@ function GroupedAvatars({ avatars }: { avatars: Array<{ initials: string }> }) {
 
 // Status tag component
 function StatusTag({ label, variant = 'success' }: { label: string; variant?: 'success' }) {
-  const bgColor = variant === 'success' ? 'bg-[#E8F8F4]' : 'bg-gray-100';
+  const bgColor = variant === 'success' ? 'bg-emerald-500/20' : 'bg-white/10';
   return (
     <div className={`${bgColor} px-[9px] py-[3px] rounded-[15px]`}>
       <span className="text-xs text-primary leading-[18px]">{label}</span>
@@ -54,7 +54,7 @@ function ProgressRing({ progress, size = 24 }: { progress: number; size?: number
 
   return (
     <svg width={size} height={size} className="transform -rotate-90">
-      <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#E8E2F0" strokeWidth={strokeWidth} />
+      <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={strokeWidth} />
       <circle
         cx={size / 2}
         cy={size / 2}
@@ -81,7 +81,7 @@ function GoalDonut({ percentage }: { percentage: number }) {
   return (
     <div className="relative shrink-0" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="transform -rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#FFF0E8" strokeWidth={strokeWidth} />
+        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={strokeWidth} />
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -115,7 +115,7 @@ function FeedDivider({ label }: { label: string }) {
 function ArrowIcon() {
   return (
     <svg width="8" height="8" viewBox="0 0 10 10" fill="none" className="shrink-0">
-      <path d="M3 1L7 5L3 9" stroke="#2F2438" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M3 1L7 5L3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -123,9 +123,9 @@ function ArrowIcon() {
 // Down arrow icon for alerts
 function DownArrowIcon() {
   return (
-    <div className="w-4 h-4 rounded-full bg-[#A82433]/10 flex items-center justify-center shrink-0">
+    <div className="w-4 h-4 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
       <svg width="8" height="8" viewBox="0 0 10 10" fill="none">
-        <path d="M5 2V8M5 8L2 5M5 8L8 5" stroke="#A82433" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M5 2V8M5 8L2 5M5 8L8 5" stroke="#F87171" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </div>
   );
@@ -140,7 +140,7 @@ interface FeedCardProps {
 function FeedCard({ children, style }: FeedCardProps) {
   return (
     <div
-      className="bg-white rounded-[7px] shadow-[0px_3px_16px_0px_rgba(0,0,0,0.06),0px_1px_3px_0px_rgba(0,0,0,0.1)] p-5 flex items-center gap-4 overflow-clip"
+      className="bg-background-elevated rounded-[7px] shadow-md p-5 flex items-center gap-4 overflow-clip"
       style={style}
     >
       <div className="flex-1 min-w-0">{children}</div>
@@ -175,7 +175,7 @@ export default function HomeConnectPanel({
   const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
-    <div className="w-full bg-[#F9F9F9] rounded-2xl overflow-visible">
+    <div className="w-full bg-background-subtle rounded-2xl overflow-visible">
       {/* Purple header */}
       <div className="bg-[#5F3361] px-5 pt-4 pb-4 relative rounded-t-2xl" style={getSectionStyle('header')}>
         {/* Culture Amp Logo */}
@@ -256,7 +256,7 @@ export default function HomeConnectPanel({
                 <p className="text-xs font-semibold text-primary/70 leading-[18px]">To discuss</p>
                 <div className="flex items-center gap-1.5">
                   <DownArrowIcon />
-                  <span className="text-sm font-semibold text-[#A82433] leading-5">Wellbeing has gone down since the last 1-on-1</span>
+                  <span className="text-sm font-semibold text-red-400 leading-5">Wellbeing has gone down since the last 1-on-1</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Avatar initials="AP" size={18} />

@@ -3,24 +3,40 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import HeroContent from './HeroContent';
+import IntroPanel from './IntroPanel';
 import { timing, timingReduced } from '@/lib/animations';
 import { useReducedMotion } from '@/lib/useReducedMotion';
+import { useIntroSequence } from '@/lib/intro-sequence-context';
 
 export default function HeroVignette() {
   const reducedMotion = useReducedMotion();
   const t = reducedMotion ? timingReduced : timing;
   const [isSplash, setIsSplash] = useState(!reducedMotion);
+  const { setSplashComplete, setStage } = useIntroSequence();
 
-  // Transition from splash to normal layout after splash duration
+  // Transition from splash to normal layout
   useEffect(() => {
-    if (reducedMotion) return;
+    if (reducedMotion) {
+      setSplashComplete();
+      setStage('complete');
+      return;
+    }
 
-    const timer = setTimeout(() => {
+    // End splash state
+    const splashTimer = setTimeout(() => {
       setIsSplash(false);
     }, t.splash.duration * 1000);
 
-    return () => clearTimeout(timer);
-  }, [reducedMotion, t.splash.duration]);
+    // Signal splash complete (position transition done)
+    const transitionTimer = setTimeout(() => {
+      setSplashComplete();
+    }, (t.splash.duration + t.splash.transition) * 1000);
+
+    return () => {
+      clearTimeout(splashTimer);
+      clearTimeout(transitionTimer);
+    };
+  }, [reducedMotion, t, setSplashComplete, setStage]);
 
   return (
     <motion.section
@@ -47,8 +63,9 @@ export default function HeroVignette() {
           ease: [0.33, 1, 0.68, 1],
         }}
       >
-        <article id="hero">
+        <article id="hero" className="space-y-8">
           <HeroContent />
+          <IntroPanel />
         </article>
       </motion.div>
     </motion.section>

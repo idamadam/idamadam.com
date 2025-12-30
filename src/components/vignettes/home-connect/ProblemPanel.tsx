@@ -51,13 +51,13 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
   const ctaDelay = reducedMotion ? 0 : entranceDelay + scatteredInsights.length * stagger + 0.1;
 
   return (
-    <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg min-h-[300px] lg:min-h-[360px] flex flex-col items-center justify-center p-4">
+    <div className="relative bg-background-subtle border-2 border-dashed border-border rounded-lg min-h-[300px] lg:min-h-[360px] flex flex-col items-center justify-center p-4">
       {/* Mobile: Stacked cards */}
       <div className="flex flex-col gap-3 w-full mb-4 lg:hidden">
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}
-            className="w-full bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200"
+            className="w-full bg-background-elevated rounded-lg overflow-hidden shadow-sm border border-border"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
@@ -67,7 +67,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
             }}
           >
             {/* Window chrome header */}
-            <div className="px-3 py-2 flex items-center gap-1.5 bg-[#F5F5F5] border-b border-gray-200">
+            <div className="px-3 py-2 flex items-center gap-1.5 bg-neutral-800 border-b border-border">
               <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />
@@ -82,7 +82,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
               </span>
             </div>
             {/* Page content */}
-            <div className="px-3 py-3 bg-white">
+            <div className="px-3 py-3 bg-background-elevated">
               <span className="text-body-sm text-primary leading-snug block">{item.insight}</span>
             </div>
           </motion.div>
@@ -94,7 +94,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}
-            className="absolute w-[180px] bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200"
+            className="absolute w-[180px] bg-background-elevated rounded-lg overflow-hidden shadow-sm border border-border"
             style={{
               top: item.position.top,
               right: item.position.right,
@@ -111,7 +111,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
             }}
           >
             {/* Window chrome header */}
-            <div className="px-3 py-2 flex items-center gap-1.5 bg-[#F5F5F5] border-b border-gray-200">
+            <div className="px-3 py-2 flex items-center gap-1.5 bg-neutral-800 border-b border-border">
               <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />
@@ -126,7 +126,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
               </span>
             </div>
             {/* Page content */}
-            <div className="px-3 py-3 bg-white">
+            <div className="px-3 py-3 bg-background-elevated">
               <span className="text-body-sm text-primary leading-snug block">{item.insight}</span>
             </div>
           </motion.div>
