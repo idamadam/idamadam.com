@@ -16,6 +16,7 @@ export default function VibeCodingVignette() {
         {/* Section: Vibe Coding Demo */}
         <motion.div {...fadeInUp}>
           <VignetteSplit
+            compact
             title={vibeCodingContent.title}
             description={vibeCodingContent.description}
             actions={(

@@ -9,8 +9,8 @@ export default function Footer() {
   const t = reducedMotion ? timingReduced : timing;
 
   return (
-    <footer className="w-full py-16 lg:py-20 px-6 lg:px-12">
-      <div className="max-w-6xl mx-auto border-t border-border pt-10 lg:pt-12">
+    <footer className="w-full py-16 lg:py-20 px-6 lg:px-12 2xl:px-24">
+      <div className="max-w-[1600px] mx-auto border-t border-border pt-10 lg:pt-12">
         <motion.div
           className="flex flex-col items-center text-center gap-4"
           initial={{ opacity: 0, y: 30 }}

@@ -22,9 +22,11 @@ export default function Home() {
           <SectionHeader title="Side projects" />
 
           {/* Side Projects Vignettes */}
-          <section className="w-full pb-8 lg:pb-12 px-6 lg:px-12">
-            <div className="max-w-6xl mx-auto">
-              <VibeCodingVignette />
+          <section className="w-full pb-8 lg:pb-12 px-6 lg:px-12 2xl:px-24">
+            <div className="max-w-[1600px] mx-auto grid grid-cols-12 gap-6 lg:gap-8">
+              <div className="col-span-12 md:col-span-6">
+                <VibeCodingVignette />
+              </div>
             </div>
           </section>
 

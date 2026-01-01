@@ -7,7 +7,7 @@ import { useReducedMotion } from '@/lib/useReducedMotion';
 
 interface SectionHeaderProps {
   title: string;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export default function SectionHeader({ title, children }: SectionHeaderProps) {
@@ -41,8 +41,8 @@ export default function SectionHeader({ title, children }: SectionHeaderProps) {
   };
 
   return (
-    <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12">
-      <div className="max-w-6xl mx-auto border-t border-border pt-10 lg:pt-12 space-y-3">
+    <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12 2xl:px-24">
+      <div className="max-w-[1600px] mx-auto border-t border-border pt-10 lg:pt-12 space-y-3">
         <motion.h2
           className="type-h2"
           initial="hidden"
@@ -52,14 +52,16 @@ export default function SectionHeader({ title, children }: SectionHeaderProps) {
         >
           {title}
         </motion.h2>
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={descriptionVariants}
-        >
-          {children}
-        </motion.div>
+        {children && (
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={descriptionVariants}
+          >
+            {children}
+          </motion.div>
+        )}
       </div>
     </section>
   );
