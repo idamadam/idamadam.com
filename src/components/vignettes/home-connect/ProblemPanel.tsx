@@ -67,7 +67,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
             }}
           >
             {/* Window chrome header */}
-            <div className="px-3 py-2 flex items-center gap-1.5 bg-neutral-800 border-b border-border">
+            <div className="px-3 py-2 flex items-center gap-1.5 bg-neutral-100 border-b border-border">
               <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />
@@ -111,7 +111,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
             }}
           >
             {/* Window chrome header */}
-            <div className="px-3 py-2 flex items-center gap-1.5 bg-neutral-800 border-b border-border">
+            <div className="px-3 py-2 flex items-center gap-1.5 bg-neutral-100 border-b border-border">
               <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />

@@ -251,12 +251,12 @@ function RecommendationsPanel({
           <div className="flex items-center pt-2">
             <div className="flex items-center gap-4">
               <span className="text-sm text-secondary">Is this helpful?</span>
-              <button className="p-2 hover:bg-white/5 rounded-lg transition-colors">
+              <button className="p-2 hover:bg-black/5 rounded-lg transition-colors">
                 <span className="material-icons-outlined text-body-sm text-primary">
                   thumb_up
                 </span>
               </button>
-              <button className="p-2 hover:bg-white/5 rounded-lg transition-colors">
+              <button className="p-2 hover:bg-black/5 rounded-lg transition-colors">
                 <span className="material-icons-outlined text-body-sm text-primary">
                   thumb_down
                 </span>

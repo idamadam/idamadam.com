@@ -120,7 +120,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
             <span className="text-sm font-medium text-secondary">Vignette Demo</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="px-3 py-1 bg-white/10 rounded-md text-xs text-secondary font-medium">
+            <div className="px-3 py-1 bg-black/5 rounded-md text-xs text-secondary font-medium">
               Desktop
             </div>
           </div>
@@ -195,14 +195,14 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
 
             {/* Command Input (Bottom) */}
             <div className="border-t border-border bg-background-elevated p-3">
-              <div className="flex items-center space-x-2 px-3 py-2 bg-white/10 rounded-lg text-sm text-tertiary">
+              <div className="flex items-center space-x-2 px-3 py-2 bg-black/5 rounded-lg text-sm text-tertiary">
                 <span>Type a command...</span>
               </div>
             </div>
           </div>
 
           {/* Prototype Preview (Right Side) */}
-          <div className="flex-1 w-full bg-white/10 flex items-center justify-center p-4">
+          <div className="flex-1 w-full bg-black/5 flex items-center justify-center p-4">
             <div
               className={`w-full max-w-[240px] transition-all duration-700 ${
                 showResult ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
@@ -232,10 +232,10 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                         {/* Mini text editor area */}
                         <div className="bg-background-elevated rounded border border-border p-2 mb-2">
                           <div className="space-y-1">
-                            <div className="h-1.5 bg-white/10 rounded w-full"></div>
-                            <div className="h-1.5 bg-white/10 rounded w-4/5"></div>
+                            <div className="h-1.5 bg-black/10 rounded w-full"></div>
+                            <div className="h-1.5 bg-black/10 rounded w-4/5"></div>
                             <div className="h-1.5 bg-accent-200 rounded w-3/5"></div>
-                            <div className="h-1.5 bg-white/10 rounded w-full"></div>
+                            <div className="h-1.5 bg-black/10 rounded w-full"></div>
                           </div>
                         </div>
                         {/* Mini suggestion card */}
@@ -244,7 +244,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                             <div className="w-3 h-3 rounded-full bg-accent-100 flex items-center justify-center">
                               <span className="text-[6px]">💡</span>
                             </div>
-                            <div className="h-1 bg-white/20 rounded flex-1"></div>
+                            <div className="h-1 bg-black/10 rounded flex-1"></div>
                           </div>
                         </div>
                       </div>
@@ -338,7 +338,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
 
                 {/* Command Input (Bottom) */}
                 <div className="border-t border-border bg-background-elevated p-3">
-                  <div className="flex items-center space-x-2 px-3 py-2 bg-white/10 rounded-lg text-sm text-tertiary">
+                  <div className="flex items-center space-x-2 px-3 py-2 bg-black/5 rounded-lg text-sm text-tertiary">
                     <span>Type a command...</span>
                   </div>
                 </div>
@@ -350,7 +350,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-white/10 flex items-center justify-center p-6"
+                className="w-full h-full bg-black/5 flex items-center justify-center p-6"
               >
                 <div className="w-full max-w-[280px]">
                   <div className="border border-border rounded-2xl bg-background-elevated shadow-xl overflow-hidden ring-1 ring-accent-500/20">
@@ -376,10 +376,10 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                           {/* Mini text editor area */}
                           <div className="bg-background-elevated rounded border border-border p-2 mb-2">
                             <div className="space-y-1.5">
-                              <div className="h-1.5 bg-white/10 rounded w-full"></div>
-                              <div className="h-1.5 bg-white/10 rounded w-4/5"></div>
+                              <div className="h-1.5 bg-black/10 rounded w-full"></div>
+                              <div className="h-1.5 bg-black/10 rounded w-4/5"></div>
                               <div className="h-1.5 bg-accent-200 rounded w-3/5"></div>
-                              <div className="h-1.5 bg-white/10 rounded w-full"></div>
+                              <div className="h-1.5 bg-black/10 rounded w-full"></div>
                             </div>
                           </div>
                           {/* Mini suggestion card */}
@@ -388,7 +388,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                               <div className="w-4 h-4 rounded-full bg-accent-100 flex items-center justify-center">
                                 <span className="text-[8px]">💡</span>
                               </div>
-                              <div className="h-1.5 bg-white/20 rounded flex-1"></div>
+                              <div className="h-1.5 bg-black/10 rounded flex-1"></div>
                             </div>
                           </div>
                         </div>

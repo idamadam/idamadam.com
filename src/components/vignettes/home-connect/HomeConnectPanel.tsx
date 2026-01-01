@@ -37,7 +37,7 @@ function GroupedAvatars({ avatars }: { avatars: Array<{ initials: string }> }) {
 
 // Status tag component
 function StatusTag({ label, variant = 'success' }: { label: string; variant?: 'success' }) {
-  const bgColor = variant === 'success' ? 'bg-emerald-500/20' : 'bg-white/10';
+  const bgColor = variant === 'success' ? 'bg-emerald-500/20' : 'bg-black/5';
   return (
     <div className={`${bgColor} px-[9px] py-[3px] rounded-[15px]`}>
       <span className="text-xs text-primary leading-[18px]">{label}</span>
@@ -54,7 +54,7 @@ function ProgressRing({ progress, size = 24 }: { progress: number; size?: number
 
   return (
     <svg width={size} height={size} className="transform -rotate-90">
-      <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={strokeWidth} />
+      <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth={strokeWidth} />
       <circle
         cx={size / 2}
         cy={size / 2}
@@ -81,7 +81,7 @@ function GoalDonut({ percentage }: { percentage: number }) {
   return (
     <div className="relative shrink-0" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="transform -rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={strokeWidth} />
+        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth={strokeWidth} />
         <circle
           cx={size / 2}
           cy={size / 2}

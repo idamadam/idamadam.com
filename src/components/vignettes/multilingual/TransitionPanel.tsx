@@ -109,7 +109,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
               }}
             >
               {/* Window chrome */}
-              <div className="px-3 py-2 bg-white/10 border-b border-border flex items-center gap-2">
+              <div className="px-3 py-2 bg-black/5 border-b border-border flex items-center gap-2">
                 <div className="flex items-center gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
                   <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />

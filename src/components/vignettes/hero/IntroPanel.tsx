@@ -79,7 +79,7 @@ export default function IntroPanel() {
               href={heroContent.companies[0].url}
               target="_blank"
               rel="noopener noreferrer"
-              className="opacity-80 brightness-0 invert hover:opacity-100 transition-all duration-200"
+              className="opacity-80 hover:opacity-100 transition-all duration-200"
               title={heroContent.companies[0].name}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

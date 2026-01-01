@@ -123,8 +123,8 @@ export default function TranslationManagementPanel({
                         setTranslationState('idle');
                       }
                     }}
-                    className={`w-full px-sm py-sm text-left text-body-sm text-primary hover:bg-white/5 transition-colors whitespace-nowrap ${
-                      index === selectedLanguage ? 'bg-white/10 font-semibold' : ''
+                    className={`w-full px-sm py-sm text-left text-body-sm text-primary hover:bg-black/5 transition-colors whitespace-nowrap ${
+                      index === selectedLanguage ? 'bg-black/5 font-semibold' : ''
                     } ${index === 0 ? 'rounded-t-[4px]' : ''} ${index === content.languages.length - 1 ? 'rounded-b-[4px]' : ''}`}
                   >
                     {lang.name}
@@ -172,7 +172,7 @@ export default function TranslationManagementPanel({
             onOpenChange={handleNoteOpen}
             note={getNote('xlsx-import')}
           />
-          <button className="text-[#0168b3] hover:bg-white/5 font-medium text-body-sm h-9 px-sm py-sm rounded-[6px] flex items-center gap-1.5 transition-colors">
+          <button className="text-[#0168b3] hover:bg-black/5 font-medium text-body-sm h-9 px-sm py-sm rounded-[6px] flex items-center gap-1.5 transition-colors">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
@@ -232,7 +232,7 @@ export default function TranslationManagementPanel({
                 onOpenChange={handleNoteOpen}
                 note={getNote('source-reference')}
               />
-              <span className="inline-flex items-center px-3 py-1 bg-white/10 rounded-full text-xs text-primary">
+              <span className="inline-flex items-center px-3 py-1 bg-black/5 rounded-full text-xs text-primary">
                 English (English US)
               </span>
               <p className="text-sm text-secondary">
