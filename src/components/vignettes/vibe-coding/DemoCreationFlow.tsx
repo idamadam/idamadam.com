@@ -3,6 +3,55 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Global styles for animated gradient border
+function GradientBorderStyles() {
+  return (
+    <style jsx global>{`
+      @property --gradient-angle {
+        syntax: '<angle>';
+        initial-value: 0deg;
+        inherits: false;
+      }
+
+      @keyframes rotateGradient {
+        to {
+          --gradient-angle: 360deg;
+        }
+      }
+
+      .mini-suggestion-border {
+        position: absolute;
+        inset: 0;
+        border-radius: 6px;
+        background: conic-gradient(
+          from var(--gradient-angle),
+          var(--ai-gradient-1),
+          var(--ai-gradient-2),
+          var(--ai-gradient-3),
+          var(--ai-gradient-2),
+          var(--ai-gradient-1)
+        );
+        animation: rotateGradient 3s linear infinite;
+      }
+
+      .mini-suggestion-content {
+        position: relative;
+        background: var(--background-elevated);
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        z-index: 1;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .mini-suggestion-border {
+          animation: none;
+        }
+      }
+    `}</style>
+  );
+}
+
 interface Message {
   delay: number;
   text: string;
@@ -87,6 +136,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
 
   return (
     <div ref={containerRef} className="w-full">
+      <GradientBorderStyles />
       {/* Mini Prototype Page Layout */}
       <div className="bg-background-elevated border border-border rounded-xl overflow-hidden h-[650px] lg:h-[550px]">
 
@@ -192,10 +242,10 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                       {/* Left: Title + Description */}
                       <div className="space-y-1">
                         <h4 className="text-[11px] font-semibold text-primary leading-tight">
-                          AI Suggestions
+                          AI coaching grounded in people science
                         </h4>
                         <p className="text-[9px] text-muted-foreground leading-relaxed">
-                          Contextual improvements for reviews
+                          Partnered with psychologists to create AI suggestions backed by research.
                         </p>
                         {/* Mini CTA */}
                         <button className="mt-2 px-2 py-1 bg-accent text-white text-[8px] font-medium rounded-md">
@@ -214,13 +264,14 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                             <div className="h-1.5 bg-black/10 rounded w-full"></div>
                           </div>
                         </div>
-                        {/* Mini suggestion card */}
-                        <div className="bg-background-elevated rounded border border-accent-200 p-1.5">
-                          <div className="flex items-center gap-1">
-                            <div className="w-3 h-3 rounded-full bg-accent-100 flex items-center justify-center">
-                              <span className="text-[6px]">💡</span>
+                        {/* Mini suggestion card with gradient border */}
+                        <div className="relative p-[1.5px] rounded-[6px]">
+                          <div className="mini-suggestion-border" />
+                          <div className="mini-suggestion-content p-1.5">
+                            <div className="flex items-center gap-1">
+                              <span className="text-[7px] text-primary">✦</span>
+                              <span className="text-[7px] text-primary font-medium">2 suggested improvements</span>
                             </div>
-                            <div className="h-1 bg-black/10 rounded flex-1"></div>
                           </div>
                         </div>
                       </div>
@@ -346,10 +397,10 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                         {/* Left: Title + Description */}
                         <div className="space-y-1.5">
                           <h4 className="text-xs font-semibold text-primary leading-tight">
-                            AI Suggestions
+                            AI coaching grounded in people science
                           </h4>
                           <p className="text-[10px] text-muted-foreground leading-relaxed">
-                            Contextual improvements for reviews
+                            Partnered with psychologists to create AI suggestions backed by research.
                           </p>
                           {/* Mini CTA */}
                           <button className="mt-2 px-2.5 py-1 bg-accent text-white text-[9px] font-medium rounded-md">
@@ -368,13 +419,14 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                               <div className="h-1.5 bg-black/10 rounded w-full"></div>
                             </div>
                           </div>
-                          {/* Mini suggestion card */}
-                          <div className="bg-background-elevated rounded border border-accent-200 p-2">
-                            <div className="flex items-center gap-1.5">
-                              <div className="w-4 h-4 rounded-full bg-accent-100 flex items-center justify-center">
-                                <span className="text-[8px]">💡</span>
+                          {/* Mini suggestion card with gradient border */}
+                          <div className="relative p-[1.5px] rounded-[6px]">
+                            <div className="mini-suggestion-border" />
+                            <div className="mini-suggestion-content p-2">
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-[8px] text-primary">✦</span>
+                                <span className="text-[8px] text-primary font-medium">2 suggested improvements</span>
                               </div>
-                              <div className="h-1.5 bg-black/10 rounded flex-1"></div>
                             </div>
                           </div>
                         </div>
