@@ -80,12 +80,16 @@
   --radius-lg: 0.5rem;
 }
 
-/* Simplified card treatment - minimal visual weight */
+/* Glassmorphism card treatment */
 .card-elevated {
-  background: #FFFFFF;
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 0.5rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 @theme inline {
@@ -562,8 +566,9 @@ a {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(59, 130, 246, 0.04), transparent),
-    radial-gradient(ellipse 60% 50% at 80% 70%, rgba(139, 92, 246, 0.03), transparent),
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(59, 130, 246, 0.12), transparent),
+    radial-gradient(ellipse 60% 50% at 80% 70%, rgba(139, 92, 246, 0.08), transparent),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(236, 72, 153, 0.06), transparent),
     #F5F7FA;
   pointer-events: none;
 }
