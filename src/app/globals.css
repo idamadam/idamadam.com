@@ -136,9 +136,9 @@
   --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Typography - font sizes with bundled properties (tighter for dark mode) */
-  --text-display: clamp(3.5rem, 12vw, 6rem);
-  --text-display--line-height: 0.85;
-  --text-display--letter-spacing: -0.08em;
+  --text-display: clamp(2.75rem, 10vw, 4.5rem);
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.06em;
   --text-display--font-weight: 800;
 
   --text-h1: clamp(2.75rem, 7vw, 3.5rem);
@@ -200,7 +200,7 @@
 
 /* Composed typography classes */
 .type-display {
-  @apply text-display font-bold;
+  @apply text-display font-medium;
   font-family: var(--font-display), system-ui, sans-serif;
   color: var(--primary);
   text-wrap: balance;

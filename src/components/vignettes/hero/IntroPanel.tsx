@@ -62,14 +62,15 @@ export default function IntroPanel() {
 
   return (
     <div className="card-elevated p-8 lg:p-10">
-      <div className="space-y-4">
+      <div className="space-y-6">
         {/* Role + Company */}
         <div className="flex flex-wrap items-center gap-2">
           <CharacterReveal
             text={introContent.role}
             baseDelay={sectionTiming.role.start}
             charDelay={CHAR_DELAY.role}
-            className="type-h3 inline"
+            className="type-h3 inline !m-0 !leading-none"
+            as="h3"
             isActive={shouldShow}
           />
           <motion.a
@@ -100,7 +101,8 @@ export default function IntroPanel() {
           text={introContent.tagline}
           baseDelay={sectionTiming.tagline.start}
           charDelay={CHAR_DELAY.tagline}
-          className="type-h3 text-secondary/70"
+          className="type-h3 text-secondary/70 !m-0"
+          as="p"
           isActive={shouldShow}
         />
 
@@ -109,7 +111,7 @@ export default function IntroPanel() {
           text={introContent.bio[0]}
           baseDelay={sectionTiming.bio1.start}
           charDelay={CHAR_DELAY.bio}
-          className="type-body text-secondary block"
+          className="type-body text-secondary block !mb-0 !mt-4"
           as="p"
           isActive={shouldShow}
         />
