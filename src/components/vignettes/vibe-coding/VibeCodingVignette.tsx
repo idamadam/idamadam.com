@@ -17,18 +17,12 @@ export default function VibeCodingVignette() {
         <motion.div {...fadeInUp}>
           <VignetteSplit
             compact
-            title={vibeCodingContent.title}
-            actions={(
-              <a
-                href="https://studio.up.railway.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-interactive btn-primary"
-              >
-                Join the waitlist
-                <span className="material-icons-outlined">arrow_forward</span>
-              </a>
-            )}
+            title={
+              <div className="space-y-4">
+                <div className="text-caption text-accent-600 font-medium">Side project</div>
+                <div>{vibeCodingContent.title}</div>
+              </div>
+            }
           >
             <DemoCreationFlow />
           </VignetteSplit>

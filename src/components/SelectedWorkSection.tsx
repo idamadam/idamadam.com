@@ -10,6 +10,7 @@ import AISuggestionsVignette from './vignettes/ai-suggestions/AISuggestionsVigne
 import PrototypingVignette from './vignettes/prototyping/PrototypingVignette';
 import MultilingualVignette from './vignettes/multilingual/MultilingualVignette';
 import HomeConnectVignette from './vignettes/home-connect/HomeConnectVignette';
+import VibeCodingVignette from './vignettes/vibe-coding/VibeCodingVignette';
 
 export default function SelectedWorkSection() {
   const reducedMotion = useReducedMotion();
@@ -29,7 +30,7 @@ export default function SelectedWorkSection() {
         ease: 'easeOut',
       }}
     >
-      <SectionTitle disableScrollTrigger>Selected work from Culture Amp</SectionTitle>
+      <SectionTitle disableScrollTrigger>Work</SectionTitle>
       <section className="w-full pb-16 lg:pb-24 px-6 lg:px-12 2xl:px-24">
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-start">
           <AIHighlightsVignette />
@@ -37,6 +38,7 @@ export default function SelectedWorkSection() {
           <PrototypingVignette />
           <MultilingualVignette />
           <HomeConnectVignette />
+          <VibeCodingVignette />
         </div>
       </section>
     </motion.div>

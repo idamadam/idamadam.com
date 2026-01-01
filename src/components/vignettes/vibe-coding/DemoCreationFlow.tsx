@@ -34,13 +34,8 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
   const [mobileView, setMobileView] = useState<'chat' | 'preview'>('chat');
   const containerRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
-  const hasPlayedRef = useRef(false);
 
   const startDemo = () => {
-    console.log('[DemoCreationFlow] startDemo called');
-
-    // Allow replays
-    hasPlayedRef.current = true;
 
     // Clear any existing timeouts
     timeoutsRef.current.forEach(clearTimeout);
@@ -83,27 +78,9 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
     }
   }, [showResult]);
 
-  // Auto-play on scroll into view
+  // Cleanup timeouts on unmount
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    const element = containerRef.current;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasPlayedRef.current) {
-            console.log('[DemoCreationFlow] Element in view, auto-starting demo');
-            startDemo();
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(element);
-
     return () => {
-      observer.disconnect();
       timeoutsRef.current.forEach(clearTimeout);
     };
   }, []);
@@ -140,8 +117,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                     onClick={startDemo}
                     className="btn-interactive btn-primary"
                   >
-                    <span className="material-icons-outlined">play_arrow</span>
-                    Start Demo
+                    Start demo
                   </button>
                 </div>
               )}
@@ -202,7 +178,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
           </div>
 
           {/* Prototype Preview (Right Side) */}
-          <div className="flex-1 w-full bg-black/5 flex items-center justify-center p-4">
+          <div className="flex-1 w-full bg-black/5 flex flex-col items-center justify-center p-4 gap-4">
             <div
               className={`w-full max-w-[240px] transition-all duration-700 ${
                 showResult ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
@@ -260,6 +236,17 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 </div>
               )}
             </div>
+            {showResult && (
+              <a
+                href="https://studio.up.railway.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-interactive btn-primary animate-fadeIn"
+                style={{ animation: 'fadeIn 0.5s ease-in-out' }}
+              >
+                Join the waitlist
+              </a>
+            )}
           </div>
         </div>
 
@@ -283,8 +270,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                         onClick={startDemo}
                         className="btn-interactive btn-primary"
                       >
-                        <span className="material-icons-outlined">play_arrow</span>
-                        Start Demo
+                        Start demo
                       </button>
                     </div>
                   )}
@@ -350,7 +336,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-black/5 flex items-center justify-center p-6"
+                className="w-full h-full bg-black/5 flex flex-col items-center justify-center p-6 gap-4"
               >
                 <div className="w-full max-w-[280px]">
                   <div className="border border-border rounded-2xl bg-background-elevated shadow-xl overflow-hidden ring-1 ring-accent-500/20">
@@ -396,6 +382,14 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                     </div>
                   </div>
                 </div>
+                <a
+                  href="https://studio.up.railway.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-interactive btn-primary"
+                >
+                  Join the waitlist
+                </a>
               </motion.div>
             )}
           </AnimatePresence>
