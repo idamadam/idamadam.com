@@ -32,7 +32,9 @@ export function SectionMarker({ index, noteId, side, isActive, onOpenChange, not
             className={`w-6 h-6 rounded-full text-xs font-semibold flex items-center justify-center
                        bg-[var(--accent-500)] text-white hover:bg-[var(--accent-600)] transition-all cursor-pointer
                        focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-500)] focus-visible:ring-offset-2
+                       breathe-glow
                        ${isActive ? 'ring-2 ring-[var(--accent-500)] ring-offset-2' : ''}`}
+            style={{ animationDelay: `${index * 0.4}s` }}
             aria-label={`Design note ${index + 1}`}
           >
             {index + 1}
