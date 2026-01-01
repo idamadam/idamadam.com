@@ -29,7 +29,6 @@ export default function IntroPanel() {
     const roleDuration = calculateTextDuration(introContent.role, CHAR_DELAY.role);
     const taglineDuration = calculateTextDuration(introContent.tagline, CHAR_DELAY.tagline);
     const bio1Duration = calculateTextDuration(introContent.bio[0], CHAR_DELAY.bio);
-    const bio2Duration = calculateTextDuration(introContent.bio[1], CHAR_DELAY.bio);
 
     // Tagline starts after role + company fade in
     const taglineStart = roleDuration + 0.5;
@@ -39,8 +38,7 @@ export default function IntroPanel() {
       role: { start: 0, duration: roleDuration },
       tagline: { start: taglineStart, duration: taglineDuration },
       bio1: { start: bioStart, duration: bio1Duration },
-      bio2: { start: bioStart + bio1Duration + 0.1, duration: bio2Duration },
-      total: bioStart + bio1Duration + 0.1 + bio2Duration + 0.3,
+      total: bioStart + bio1Duration + 0.3,
     };
   }, []);
 
@@ -64,78 +62,57 @@ export default function IntroPanel() {
 
   return (
     <div className="card-elevated p-8 lg:p-10">
-      <div className="space-y-6">
-        {/* Role + Company + Tagline */}
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <span className="flex items-center gap-2">
-            <CharacterReveal
-              text={introContent.role}
-              baseDelay={sectionTiming.role.start}
-              charDelay={CHAR_DELAY.role}
-              className="type-h3 inline"
-              isActive={shouldShow}
-            />
-            <motion.a
-              href={heroContent.companies[0].url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="opacity-80 hover:opacity-100 transition-all duration-200"
-              title={heroContent.companies[0].name}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{
-                delay: sectionTiming.role.start + sectionTiming.role.duration,
-                duration: 0.3
-              }}
-            >
-              <Image
-                src={heroContent.companies[0].logo}
-                alt={heroContent.companies[0].name}
-                width={140}
-                height={36}
-                className="h-7 w-auto"
-              />
-            </motion.a>
-          </span>
-          <motion.span
-            className="text-border type-h3"
+      <div className="space-y-4">
+        {/* Role + Company */}
+        <div className="flex flex-wrap items-center gap-2">
+          <CharacterReveal
+            text={introContent.role}
+            baseDelay={sectionTiming.role.start}
+            charDelay={CHAR_DELAY.role}
+            className="type-h3 inline"
+            isActive={shouldShow}
+          />
+          <motion.a
+            href={heroContent.companies[0].url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="opacity-80 hover:opacity-100 transition-all duration-200"
+            title={heroContent.companies[0].name}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{
-              delay: sectionTiming.tagline.start - 0.1,
-              duration: 0.2
+              delay: sectionTiming.role.start + sectionTiming.role.duration,
+              duration: 0.3
             }}
           >
-            ·
-          </motion.span>
-          <CharacterReveal
-            text={introContent.tagline}
-            baseDelay={sectionTiming.tagline.start}
-            charDelay={CHAR_DELAY.tagline}
-            className="type-h3 text-secondary/70 inline"
-            isActive={shouldShow}
-          />
+            <Image
+              src={heroContent.companies[0].logo}
+              alt={heroContent.companies[0].name}
+              width={140}
+              height={36}
+              className="h-7 w-auto"
+            />
+          </motion.a>
         </div>
 
-        {/* Bio paragraphs */}
-        <div className="space-y-4">
-          <CharacterReveal
-            text={introContent.bio[0]}
-            baseDelay={sectionTiming.bio1.start}
-            charDelay={CHAR_DELAY.bio}
-            className="type-body text-secondary block"
-            as="p"
-            isActive={shouldShow}
-          />
-          <CharacterReveal
-            text={introContent.bio[1]}
-            baseDelay={sectionTiming.bio2.start}
-            charDelay={CHAR_DELAY.bio}
-            className="type-body text-secondary/70 block"
-            as="p"
-            isActive={shouldShow}
-          />
-        </div>
+        {/* Tagline */}
+        <CharacterReveal
+          text={introContent.tagline}
+          baseDelay={sectionTiming.tagline.start}
+          charDelay={CHAR_DELAY.tagline}
+          className="type-h3 text-secondary/70"
+          isActive={shouldShow}
+        />
+
+        {/* Bio */}
+        <CharacterReveal
+          text={introContent.bio[0]}
+          baseDelay={sectionTiming.bio1.start}
+          charDelay={CHAR_DELAY.bio}
+          className="type-body text-secondary block"
+          as="p"
+          isActive={shouldShow}
+        />
       </div>
     </div>
   );
