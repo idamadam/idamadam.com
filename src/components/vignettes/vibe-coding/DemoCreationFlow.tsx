@@ -111,7 +111,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
   return (
     <div ref={containerRef} className="w-full">
       {/* Mini Prototype Page Layout */}
-      <div className="bg-background-elevated border border-border rounded-xl shadow-2xl overflow-hidden h-[650px] lg:h-[550px]">
+      <div className="bg-background-elevated border border-border rounded-xl overflow-hidden h-[650px] lg:h-[550px]">
 
         {/* Mini Header */}
         <div className="h-12 bg-background-elevated border-b border-border flex items-center justify-between px-4">
