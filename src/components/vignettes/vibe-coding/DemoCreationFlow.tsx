@@ -402,19 +402,6 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
         </div>
       </div>
 
-      {/* Replay button */}
-      {hasPlayed && !isPlaying && (
-        <div className="mt-6 text-center">
-          <button
-            onClick={startDemo}
-            className="btn-interactive btn-primary mx-auto"
-          >
-            <span className="material-icons-outlined">replay</span>
-            Replay
-          </button>
-        </div>
-      )}
-
       <style jsx>{`
         @keyframes fadeIn {
           from {

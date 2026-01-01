@@ -18,15 +18,10 @@ export default function Home() {
           {/* Selected Work Section - fades in after intro */}
           <SelectedWorkSection />
 
-          {/* Explorations Section Header */}
-          <SectionHeader title="Explorations">
-            <p className="type-body">
-              Personal products I design and build end-to-end. These projects help me
-              understand technology at a deeper level while exploring entrepreneurial ideas.
-            </p>
-          </SectionHeader>
+          {/* Side Projects Section Header */}
+          <SectionHeader title="Side projects" />
 
-          {/* Explorations Vignettes */}
+          {/* Side Projects Vignettes */}
           <section className="w-full pb-8 lg:pb-12 px-6 lg:px-12">
             <div className="max-w-6xl mx-auto">
               <VibeCodingVignette />
