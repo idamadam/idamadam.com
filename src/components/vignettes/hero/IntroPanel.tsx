@@ -61,7 +61,7 @@ export default function IntroPanel() {
   if (!shouldShow) return null;
 
   return (
-    <div className="card-elevated p-8 lg:p-10">
+    <div>
       <div className="space-y-6">
         {/* Role + Company */}
         <div className="flex flex-wrap items-center gap-2">
