@@ -40,7 +40,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         {cycleWindows.map((window, index) => (
           <motion.div
             key={window.code}
-            className="w-full max-w-[340px] bg-background-elevated rounded-lg border border-border shadow-sm overflow-hidden"
+            className="w-full max-w-[340px] bg-background-elevated rounded-lg border border-border overflow-hidden"
             style={{ willChange: 'transform, opacity' }}
             initial={{ opacity: 0, y: 20, rotate: 0 }}
             animate={{

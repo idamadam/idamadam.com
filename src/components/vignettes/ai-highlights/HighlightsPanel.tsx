@@ -204,7 +204,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
         {displayCards.slice(0, 3).map((card, index) => (
           <motion.div
             key={card.id}
-            className="bg-background-elevated px-4 py-3 rounded-lg shadow-sm border border-border"
+            className="bg-background-elevated px-4 py-3 rounded-lg"
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{
@@ -233,7 +233,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
           return (
             <motion.div
               key={card.id}
-              className="absolute bg-background-elevated px-4 py-3 rounded-lg shadow-sm border border-border max-w-[220px] backface-hidden will-change-transform"
+              className="absolute bg-background-elevated px-4 py-3 rounded-lg max-w-[220px] backface-hidden will-change-transform"
               style={{
                 top: pos.top,
                 left: pos.left,

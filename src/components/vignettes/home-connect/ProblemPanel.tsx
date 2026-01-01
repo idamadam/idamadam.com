@@ -57,7 +57,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}
-            className="w-full bg-background-elevated rounded-lg overflow-hidden shadow-sm border border-border"
+            className="w-full bg-background-elevated rounded-lg overflow-hidden"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
@@ -94,7 +94,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}
-            className="absolute w-[180px] bg-background-elevated rounded-lg overflow-hidden shadow-sm border border-border"
+            className="absolute w-[180px] bg-background-elevated rounded-lg overflow-hidden"
             style={{
               top: item.position.top,
               right: item.position.right,

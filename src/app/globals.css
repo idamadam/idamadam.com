@@ -80,15 +80,12 @@
   --radius-lg: 0.5rem;
 }
 
-/* Sophisticated card treatment - Light mode aesthetic */
+/* Simplified card treatment - minimal visual weight */
 .card-elevated {
   background: #FFFFFF;
   border: 1px solid var(--border);
   border-radius: 0.5rem;
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.03),
-    0 4px 24px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 @theme inline {
