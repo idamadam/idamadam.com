@@ -13,7 +13,6 @@ export interface HeroContent {
 
 export interface IntroContent {
   role: string;
-  bio: string[];
   tagline: string;
 }
 
@@ -28,8 +27,5 @@ export const heroContent: HeroContent = {
 
 export const introContent: IntroContent = {
   role: 'Lead Product Designer at',
-  bio: [
-    'The case studies below are interactive. Click around and have a play!',
-  ],
   tagline: 'Designer, coder, prototyper',
 };
