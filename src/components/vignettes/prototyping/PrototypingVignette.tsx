@@ -30,7 +30,6 @@ function PrototypingContent() {
     : prototypingContent.stages.solution;
 
   const title = currentStageContent.title;
-  const description = currentStageContent.description;
 
   return (
     <VignetteSplit
@@ -45,15 +44,6 @@ function PrototypingContent() {
             reducedMotion={reducedMotion}
           />
         </div>
-      }
-      description={
-        <AnimatedStageText
-          stage={stage}
-          text={description}
-          isLoading={isLoading}
-          reducedMotion={reducedMotion}
-          delay={0.05}
-        />
       }
     >
       <SandboxPanel

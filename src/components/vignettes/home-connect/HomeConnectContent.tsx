@@ -55,7 +55,6 @@ export default function HomeConnectContent({
     : homeConnectContent.stages.solution;
 
   const title = currentStageContent.title;
-  const description = currentStageContent.description;
 
   return (
     <VignetteSplit
@@ -69,14 +68,6 @@ export default function HomeConnectContent({
             reducedMotion={reducedMotion}
           />
         </div>
-      }
-      description={
-        <AnimatedStageText
-          stage={stage}
-          text={description}
-          reducedMotion={reducedMotion}
-          delay={0.05}
-        />
       }
     >
       <div className="relative min-h-[400px]" style={{ overflow: 'visible' }}>

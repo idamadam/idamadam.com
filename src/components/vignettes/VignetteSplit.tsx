@@ -8,7 +8,6 @@ import { VignetteEntranceProvider } from '@/lib/vignette-entrance-context';
 
 interface VignetteSplitProps {
   title?: ReactNode;
-  description?: ReactNode;
   actions?: ReactNode;
   children: ReactNode;
   variant?: 'default' | 'hero';
@@ -20,7 +19,6 @@ interface VignetteSplitProps {
 
 export default function VignetteSplit({
   title,
-  description,
   actions,
   children,
   variant = 'default',
@@ -34,7 +32,6 @@ export default function VignetteSplit({
   const textStackClass = hasTitle ? 'space-y-4' : 'space-y-3';
 
   const titleClass = variant === 'hero' ? 'type-display' : 'type-h3';
-  const descriptionClass = 'type-body';
 
   // Grid classes - compact forces single column, otherwise responsive
   const gridClass = compact
@@ -75,7 +72,6 @@ export default function VignetteSplit({
       <div className={gridClass}>
         <div className={textStackClass}>
           {title && <h3 className={titleClass}>{title}</h3>}
-          {description && <p className={descriptionClass}>{description}</p>}
           {actions}
         </div>
         <div className="w-full">
@@ -98,7 +94,6 @@ export default function VignetteSplit({
         variants={textVariants}
       >
         {title && <h3 className={titleClass}>{title}</h3>}
-        {description && <p className={descriptionClass}>{description}</p>}
         {actions}
       </motion.div>
 

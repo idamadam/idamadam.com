@@ -18,7 +18,6 @@ export default function VibeCodingVignette() {
           <VignetteSplit
             compact
             title={vibeCodingContent.title}
-            description={vibeCodingContent.description}
             actions={(
               <a
                 href="https://studio.up.railway.app/"
