@@ -31,7 +31,7 @@ function ProblemState({
         {questions.map((q, index) => (
           <motion.div
             key={q.id}
-            className="bg-background-elevated px-4 py-2 rounded-lg shadow-sm border border-border text-body-sm text-secondary font-medium"
+            className="bg-background-elevated px-4 py-2 rounded-lg text-body-sm text-secondary font-medium"
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{

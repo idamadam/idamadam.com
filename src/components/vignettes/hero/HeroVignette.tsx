@@ -40,7 +40,7 @@ export default function HeroVignette() {
 
   return (
     <motion.section
-      className="w-full px-6 lg:px-12 pt-32 pb-12 lg:pt-32 lg:pb-12"
+      className="w-full px-6 lg:px-12 2xl:px-24 pt-32 pb-12 lg:pt-32 lg:pb-12"
       initial={false}
       animate={{
         minHeight: isSplash ? '100vh' : 'auto',
@@ -52,7 +52,7 @@ export default function HeroVignette() {
       }}
     >
       <motion.div
-        className="max-w-6xl w-full mx-auto"
+        className="max-w-[1600px] w-full mx-auto"
         style={{ willChange: 'transform' }}
         initial={false}
         animate={{

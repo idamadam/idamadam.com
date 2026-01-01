@@ -13,7 +13,6 @@ export interface HeroContent {
 
 export interface IntroContent {
   role: string;
-  bio: string[];
   tagline: string;
 }
 
@@ -28,9 +27,5 @@ export const heroContent: HeroContent = {
 
 export const introContent: IntroContent = {
   role: 'Lead Product Designer at',
-  bio: [
-    'I think the best product work happens when design, product, and engineering blend together. When you can build what you imagine, you stop compromising on ideas. You just make them real.',
-    'The case studies below are interactive. Click around and have a play!',
-  ],
   tagline: 'Designer, coder, prototyper',
 };

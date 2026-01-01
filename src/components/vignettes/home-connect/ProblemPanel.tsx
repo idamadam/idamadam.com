@@ -57,7 +57,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}
-            className="w-full bg-background-elevated rounded-lg overflow-hidden shadow-sm border border-border"
+            className="w-full bg-background-elevated rounded-lg overflow-hidden"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
@@ -67,7 +67,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
             }}
           >
             {/* Window chrome header */}
-            <div className="px-3 py-2 flex items-center gap-1.5 bg-neutral-800 border-b border-border">
+            <div className="px-3 py-2 flex items-center gap-1.5 bg-neutral-100 border-b border-border">
               <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />
@@ -94,7 +94,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}
-            className="absolute w-[180px] bg-background-elevated rounded-lg overflow-hidden shadow-sm border border-border"
+            className="absolute w-[180px] bg-background-elevated rounded-lg overflow-hidden"
             style={{
               top: item.position.top,
               right: item.position.right,
@@ -111,7 +111,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
             }}
           >
             {/* Window chrome header */}
-            <div className="px-3 py-2 flex items-center gap-1.5 bg-neutral-800 border-b border-border">
+            <div className="px-3 py-2 flex items-center gap-1.5 bg-neutral-100 border-b border-border">
               <span className="w-[6px] h-[6px] rounded-full bg-[#FF5F56]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#FFBD2E]" />
               <span className="w-[6px] h-[6px] rounded-full bg-[#27CA40]" />

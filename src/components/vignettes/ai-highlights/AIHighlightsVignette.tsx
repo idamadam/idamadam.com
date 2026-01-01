@@ -51,7 +51,6 @@ function AIHighlightsContent() {
     : aiHighlightsContent.stages.solution;
 
   const title = currentStageContent.title;
-  const description = currentStageContent.description;
 
   // Get the section to highlight based on active note
   const highlightedSection = activeNoteId ? NOTE_TO_SECTION[activeNoteId] ?? null : null;
@@ -62,6 +61,7 @@ function AIHighlightsContent() {
 
   return (
     <VignetteSplit
+      compact
       title={
         <div className="space-y-4">
           <StageIndicator stage={stage} onStageChange={setStage} />
@@ -72,15 +72,6 @@ function AIHighlightsContent() {
             reducedMotion={reducedMotion}
           />
         </div>
-      }
-      description={
-        <AnimatedStageText
-          stage={stage}
-          text={description}
-          isLoading={isLoading}
-          reducedMotion={reducedMotion}
-          delay={0.05}
-        />
       }
     >
       <div className="relative" style={{ overflow: 'visible' }}>

@@ -42,13 +42,13 @@ export default function RichTextEditor({
           {/* Formatting buttons */}
           <div className={`${mobileFormatting === 'dots' ? 'hidden sm:flex' : 'flex'} items-center gap-1.5`}>
             {/* Text formatting */}
-            <button className="bg-background-elevated hover:bg-white/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+            <button className="bg-background-elevated hover:bg-black/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
               <span className="material-icons-outlined text-h3 text-primary">format_bold</span>
             </button>
-            <button className="bg-background-elevated hover:bg-white/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+            <button className="bg-background-elevated hover:bg-black/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
               <span className="material-icons-outlined text-h3 text-primary">format_italic</span>
             </button>
-            <button className="bg-background-elevated hover:bg-white/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+            <button className="bg-background-elevated hover:bg-black/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
               <span className="material-icons-outlined text-h3 text-primary">format_underlined</span>
             </button>
 
@@ -56,7 +56,7 @@ export default function RichTextEditor({
             <div className="h-12 w-px bg-[rgba(82,78,86,0.1)] mx-0.5" />
 
             {/* List button */}
-            <button className="bg-background-elevated hover:bg-white/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
+            <button className="bg-background-elevated hover:bg-black/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
               <span className="material-icons-outlined text-h3 text-primary">format_list_bulleted</span>
             </button>
 
@@ -73,7 +73,7 @@ export default function RichTextEditor({
                 disabled={isImproving}
                 className={
                   isImproveActivated
-                    ? "bg-background-elevated hover:bg-white/5 h-10 px-3 py-2 rounded-lg flex items-center gap-1.5 transition-colors"
+                    ? "bg-background-elevated hover:bg-black/5 h-10 px-3 py-2 rounded-lg flex items-center gap-1.5 transition-colors"
                     : "btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 }
               >

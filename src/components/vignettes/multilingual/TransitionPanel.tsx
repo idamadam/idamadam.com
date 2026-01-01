@@ -29,11 +29,11 @@ const cycleWindows = [
   }
 ];
 
-// Pre-defined shadow classes for each card depth (avoids animating boxShadow)
+// Reduced shadow classes for stacked cards (avoids animating boxShadow)
 const stackedShadows = [
-  'shadow-[0_4px_10px_rgba(0,0,0,0.1)]',
-  'shadow-[0_7px_15px_rgba(0,0,0,0.13)]',
-  'shadow-[0_10px_20px_rgba(0,0,0,0.16)]'
+  'shadow-[0_2px_6px_rgba(0,0,0,0.06)]',
+  'shadow-[0_4px_8px_rgba(0,0,0,0.08)]',
+  'shadow-[0_6px_10px_rgba(0,0,0,0.1)]'
 ];
 
 export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
@@ -83,7 +83,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
             <motion.div
               key={window.code}
               className={`absolute w-full max-w-[340px] bg-background-elevated rounded-lg border border-border overflow-hidden transition-shadow duration-300 ease-out ${
-                isStacked ? stackedShadows[index] : 'shadow-sm'
+                isStacked ? stackedShadows[index] : ''
               }`}
               style={{
                 zIndex: 3 - index,
@@ -109,7 +109,7 @@ export default function TransitionPanel({ onComplete }: TransitionPanelProps) {
               }}
             >
               {/* Window chrome */}
-              <div className="px-3 py-2 bg-white/10 border-b border-border flex items-center gap-2">
+              <div className="px-3 py-2 bg-black/5 border-b border-border flex items-center gap-2">
                 <div className="flex items-center gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
                   <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />

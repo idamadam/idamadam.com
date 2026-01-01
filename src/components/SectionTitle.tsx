@@ -27,8 +27,8 @@ export default function SectionTitle({ children, disableScrollTrigger = false }:
   const motionProps = disableScrollTrigger ? staticProps : scrollTriggeredProps;
 
   return (
-    <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12">
-      <div className="max-w-6xl mx-auto border-t border-border pt-10 lg:pt-12">
+    <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12 2xl:px-24">
+      <div className="max-w-[1600px] mx-auto border-t border-border pt-10 lg:pt-12">
         <motion.h2
           className="type-h2"
           {...motionProps}

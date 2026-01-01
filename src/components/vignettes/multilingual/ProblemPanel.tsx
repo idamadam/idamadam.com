@@ -40,7 +40,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         {cycleWindows.map((window, index) => (
           <motion.div
             key={window.code}
-            className="w-full max-w-[340px] bg-background-elevated rounded-lg border border-border shadow-sm overflow-hidden"
+            className="w-full max-w-[340px] bg-background-elevated rounded-lg border border-border overflow-hidden"
             style={{ willChange: 'transform, opacity' }}
             initial={{ opacity: 0, y: 20, rotate: 0 }}
             animate={{
@@ -56,7 +56,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
             }}
           >
             {/* Window chrome - browser-like header */}
-            <div className="px-3 py-2 bg-white/10 border-b border-border flex items-center gap-2">
+            <div className="px-3 py-2 bg-black/5 border-b border-border flex items-center gap-2">
               {/* Traffic lights */}
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />

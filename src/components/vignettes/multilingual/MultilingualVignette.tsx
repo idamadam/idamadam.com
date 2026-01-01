@@ -54,7 +54,6 @@ function MultilingualContent() {
     : multilingualContent.stages.solution;
 
   const title = currentStageContent.title;
-  const description = currentStageContent.description;
 
   // Get the section to highlight based on active note
   const highlightedSection = activeNoteId ? NOTE_TO_SECTION[activeNoteId] ?? null : null;
@@ -72,6 +71,7 @@ function MultilingualContent() {
 
   return (
     <VignetteSplit
+      compact
       title={
         <div className="space-y-4">
           <StageIndicator stage={stage} onStageChange={setStage} />
@@ -81,14 +81,6 @@ function MultilingualContent() {
             reducedMotion={reducedMotion}
           />
         </div>
-      }
-      description={
-        <AnimatedStageText
-          stage={stage}
-          text={description}
-          reducedMotion={reducedMotion}
-          delay={0.05}
-        />
       }
     >
       <div className="relative min-h-[420px] flex flex-col justify-center" style={{ overflow: 'visible' }}>

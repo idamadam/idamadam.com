@@ -119,9 +119,9 @@ function LoadingState() {
         .skeleton-bar {
           background: linear-gradient(
             90deg,
-            rgba(255, 255, 255, 0.08) 25%,
-            rgba(255, 255, 255, 0.15) 50%,
-            rgba(255, 255, 255, 0.08) 75%
+            rgba(0, 0, 0, 0.06) 25%,
+            rgba(0, 0, 0, 0.10) 50%,
+            rgba(0, 0, 0, 0.06) 75%
           );
           background-size: 200% 100%;
           animation: shimmer 1.5s ease-in-out infinite;
@@ -204,7 +204,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
         {displayCards.slice(0, 3).map((card, index) => (
           <motion.div
             key={card.id}
-            className="bg-background-elevated px-4 py-3 rounded-lg shadow-sm border border-border"
+            className="bg-background-elevated px-4 py-3 rounded-lg"
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{
@@ -233,7 +233,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
           return (
             <motion.div
               key={card.id}
-              className="absolute bg-background-elevated px-4 py-3 rounded-lg shadow-sm border border-border max-w-[220px] backface-hidden will-change-transform"
+              className="absolute bg-background-elevated px-4 py-3 rounded-lg max-w-[220px] backface-hidden will-change-transform"
               style={{
                 top: pos.top,
                 left: pos.left,
@@ -390,7 +390,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
               </div>
               <button
                 onClick={() => setHighlightExpanded(!highlightExpanded)}
-                className="p-3 hover:bg-white/5 rounded-lg transition-colors"
+                className="p-3 hover:bg-black/5 rounded-lg transition-colors"
                 aria-label={highlightExpanded ? 'Collapse highlight' : 'Expand highlight'}
               >
                 <motion.span
@@ -484,7 +484,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
               </div>
               <button
                 onClick={() => setOpportunityExpanded(!opportunityExpanded)}
-                className="p-3 hover:bg-white/5 rounded-lg transition-colors"
+                className="p-3 hover:bg-black/5 rounded-lg transition-colors"
                 aria-label={opportunityExpanded ? 'Collapse opportunity' : 'Expand opportunity'}
               >
                 <motion.span
@@ -536,7 +536,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
           Is this helpful?
         </span>
         <button
-          className="p-2 hover:bg-white/5 rounded-lg transition-colors"
+          className="p-2 hover:bg-black/5 rounded-lg transition-colors"
           aria-label="Thumbs up"
         >
           <span className="material-icons-outlined text-h2 text-primary">
@@ -544,7 +544,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
           </span>
         </button>
         <button
-          className="p-2 hover:bg-white/5 rounded-lg transition-colors"
+          className="p-2 hover:bg-black/5 rounded-lg transition-colors"
           aria-label="Thumbs down"
         >
           <span className="material-icons-outlined text-h2 text-primary">

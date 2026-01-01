@@ -3,6 +3,55 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Global styles for animated gradient border
+function GradientBorderStyles() {
+  return (
+    <style jsx global>{`
+      @property --gradient-angle {
+        syntax: '<angle>';
+        initial-value: 0deg;
+        inherits: false;
+      }
+
+      @keyframes rotateGradient {
+        to {
+          --gradient-angle: 360deg;
+        }
+      }
+
+      .mini-suggestion-border {
+        position: absolute;
+        inset: 0;
+        border-radius: 6px;
+        background: conic-gradient(
+          from var(--gradient-angle),
+          var(--ai-gradient-1),
+          var(--ai-gradient-2),
+          var(--ai-gradient-3),
+          var(--ai-gradient-2),
+          var(--ai-gradient-1)
+        );
+        animation: rotateGradient 3s linear infinite;
+      }
+
+      .mini-suggestion-content {
+        position: relative;
+        background: var(--background-elevated);
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        z-index: 1;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .mini-suggestion-border {
+          animation: none;
+        }
+      }
+    `}</style>
+  );
+}
+
 interface Message {
   delay: number;
   text: string;
@@ -34,13 +83,8 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
   const [mobileView, setMobileView] = useState<'chat' | 'preview'>('chat');
   const containerRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
-  const hasPlayedRef = useRef(false);
 
   const startDemo = () => {
-    console.log('[DemoCreationFlow] startDemo called');
-
-    // Allow replays
-    hasPlayedRef.current = true;
 
     // Clear any existing timeouts
     timeoutsRef.current.forEach(clearTimeout);
@@ -83,35 +127,18 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
     }
   }, [showResult]);
 
-  // Auto-play on scroll into view
+  // Cleanup timeouts on unmount
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    const element = containerRef.current;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasPlayedRef.current) {
-            console.log('[DemoCreationFlow] Element in view, auto-starting demo');
-            startDemo();
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(element);
-
     return () => {
-      observer.disconnect();
       timeoutsRef.current.forEach(clearTimeout);
     };
   }, []);
 
   return (
     <div ref={containerRef} className="w-full">
+      <GradientBorderStyles />
       {/* Mini Prototype Page Layout */}
-      <div className="bg-background-elevated border border-border rounded-xl shadow-2xl overflow-hidden h-[650px] lg:h-[550px]">
+      <div className="bg-background-elevated border border-border rounded-xl overflow-hidden h-[650px] lg:h-[550px]">
 
         {/* Mini Header */}
         <div className="h-12 bg-background-elevated border-b border-border flex items-center justify-between px-4">
@@ -120,7 +147,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
             <span className="text-sm font-medium text-secondary">Vignette Demo</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="px-3 py-1 bg-white/10 rounded-md text-xs text-secondary font-medium">
+            <div className="px-3 py-1 bg-black/5 rounded-md text-xs text-secondary font-medium">
               Desktop
             </div>
           </div>
@@ -140,8 +167,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                     onClick={startDemo}
                     className="btn-interactive btn-primary"
                   >
-                    <span className="material-icons-outlined">play_arrow</span>
-                    Start Demo
+                    Start demo
                   </button>
                 </div>
               )}
@@ -195,14 +221,14 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
 
             {/* Command Input (Bottom) */}
             <div className="border-t border-border bg-background-elevated p-3">
-              <div className="flex items-center space-x-2 px-3 py-2 bg-white/10 rounded-lg text-sm text-tertiary">
+              <div className="flex items-center space-x-2 px-3 py-2 bg-black/5 rounded-lg text-sm text-tertiary">
                 <span>Type a command...</span>
               </div>
             </div>
           </div>
 
           {/* Prototype Preview (Right Side) */}
-          <div className="flex-1 w-full bg-white/10 flex items-center justify-center p-4">
+          <div className="flex-1 w-full bg-black/5 flex flex-col items-center justify-center p-4 gap-4">
             <div
               className={`w-full max-w-[240px] transition-all duration-700 ${
                 showResult ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
@@ -216,10 +242,10 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                       {/* Left: Title + Description */}
                       <div className="space-y-1">
                         <h4 className="text-[11px] font-semibold text-primary leading-tight">
-                          AI Suggestions
+                          AI coaching grounded in people science
                         </h4>
                         <p className="text-[9px] text-muted-foreground leading-relaxed">
-                          Contextual improvements for reviews
+                          Partnered with psychologists to create AI suggestions backed by research.
                         </p>
                         {/* Mini CTA */}
                         <button className="mt-2 px-2 py-1 bg-accent text-white text-[8px] font-medium rounded-md">
@@ -232,19 +258,20 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                         {/* Mini text editor area */}
                         <div className="bg-background-elevated rounded border border-border p-2 mb-2">
                           <div className="space-y-1">
-                            <div className="h-1.5 bg-white/10 rounded w-full"></div>
-                            <div className="h-1.5 bg-white/10 rounded w-4/5"></div>
+                            <div className="h-1.5 bg-black/10 rounded w-full"></div>
+                            <div className="h-1.5 bg-black/10 rounded w-4/5"></div>
                             <div className="h-1.5 bg-accent-200 rounded w-3/5"></div>
-                            <div className="h-1.5 bg-white/10 rounded w-full"></div>
+                            <div className="h-1.5 bg-black/10 rounded w-full"></div>
                           </div>
                         </div>
-                        {/* Mini suggestion card */}
-                        <div className="bg-background-elevated rounded border border-accent-200 p-1.5">
-                          <div className="flex items-center gap-1">
-                            <div className="w-3 h-3 rounded-full bg-accent-100 flex items-center justify-center">
-                              <span className="text-[6px]">💡</span>
+                        {/* Mini suggestion card with gradient border */}
+                        <div className="relative p-[1.5px] rounded-[6px]">
+                          <div className="mini-suggestion-border" />
+                          <div className="mini-suggestion-content p-1.5">
+                            <div className="flex items-center gap-1">
+                              <span className="text-[7px] text-primary">✦</span>
+                              <span className="text-[7px] text-primary font-medium">2 suggested improvements</span>
                             </div>
-                            <div className="h-1 bg-white/20 rounded flex-1"></div>
                           </div>
                         </div>
                       </div>
@@ -260,6 +287,17 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 </div>
               )}
             </div>
+            {showResult && (
+              <a
+                href="https://studio.up.railway.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-interactive btn-primary animate-fadeIn"
+                style={{ animation: 'fadeIn 0.5s ease-in-out' }}
+              >
+                Join the waitlist
+              </a>
+            )}
           </div>
         </div>
 
@@ -283,8 +321,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                         onClick={startDemo}
                         className="btn-interactive btn-primary"
                       >
-                        <span className="material-icons-outlined">play_arrow</span>
-                        Start Demo
+                        Start demo
                       </button>
                     </div>
                   )}
@@ -338,7 +375,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
 
                 {/* Command Input (Bottom) */}
                 <div className="border-t border-border bg-background-elevated p-3">
-                  <div className="flex items-center space-x-2 px-3 py-2 bg-white/10 rounded-lg text-sm text-tertiary">
+                  <div className="flex items-center space-x-2 px-3 py-2 bg-black/5 rounded-lg text-sm text-tertiary">
                     <span>Type a command...</span>
                   </div>
                 </div>
@@ -350,7 +387,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full bg-white/10 flex items-center justify-center p-6"
+                className="w-full h-full bg-black/5 flex flex-col items-center justify-center p-6 gap-4"
               >
                 <div className="w-full max-w-[280px]">
                   <div className="border border-border rounded-2xl bg-background-elevated shadow-xl overflow-hidden ring-1 ring-accent-500/20">
@@ -360,10 +397,10 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                         {/* Left: Title + Description */}
                         <div className="space-y-1.5">
                           <h4 className="text-xs font-semibold text-primary leading-tight">
-                            AI Suggestions
+                            AI coaching grounded in people science
                           </h4>
                           <p className="text-[10px] text-muted-foreground leading-relaxed">
-                            Contextual improvements for reviews
+                            Partnered with psychologists to create AI suggestions backed by research.
                           </p>
                           {/* Mini CTA */}
                           <button className="mt-2 px-2.5 py-1 bg-accent text-white text-[9px] font-medium rounded-md">
@@ -376,19 +413,20 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                           {/* Mini text editor area */}
                           <div className="bg-background-elevated rounded border border-border p-2 mb-2">
                             <div className="space-y-1.5">
-                              <div className="h-1.5 bg-white/10 rounded w-full"></div>
-                              <div className="h-1.5 bg-white/10 rounded w-4/5"></div>
+                              <div className="h-1.5 bg-black/10 rounded w-full"></div>
+                              <div className="h-1.5 bg-black/10 rounded w-4/5"></div>
                               <div className="h-1.5 bg-accent-200 rounded w-3/5"></div>
-                              <div className="h-1.5 bg-white/10 rounded w-full"></div>
+                              <div className="h-1.5 bg-black/10 rounded w-full"></div>
                             </div>
                           </div>
-                          {/* Mini suggestion card */}
-                          <div className="bg-background-elevated rounded border border-accent-200 p-2">
-                            <div className="flex items-center gap-1.5">
-                              <div className="w-4 h-4 rounded-full bg-accent-100 flex items-center justify-center">
-                                <span className="text-[8px]">💡</span>
+                          {/* Mini suggestion card with gradient border */}
+                          <div className="relative p-[1.5px] rounded-[6px]">
+                            <div className="mini-suggestion-border" />
+                            <div className="mini-suggestion-content p-2">
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-[8px] text-primary">✦</span>
+                                <span className="text-[8px] text-primary font-medium">2 suggested improvements</span>
                               </div>
-                              <div className="h-1.5 bg-white/20 rounded flex-1"></div>
                             </div>
                           </div>
                         </div>
@@ -396,24 +434,19 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                     </div>
                   </div>
                 </div>
+                <a
+                  href="https://studio.up.railway.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-interactive btn-primary"
+                >
+                  Join the waitlist
+                </a>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
-
-      {/* Replay button */}
-      {hasPlayed && !isPlaying && (
-        <div className="mt-6 text-center">
-          <button
-            onClick={startDemo}
-            className="btn-interactive btn-primary mx-auto"
-          >
-            <span className="material-icons-outlined">replay</span>
-            Replay
-          </button>
-        </div>
-      )}
 
       <style jsx>{`
         @keyframes fadeIn {
