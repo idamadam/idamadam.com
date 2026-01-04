@@ -297,8 +297,7 @@ p {
 
 /* Selection styling */
 ::selection {
-  background-color: rgba(59, 130, 246, 0.4);
-  color: var(--neutral-50);
+  background-color: rgba(59, 130, 246, 0.2);
 }
 
 /* Improved link styling */
