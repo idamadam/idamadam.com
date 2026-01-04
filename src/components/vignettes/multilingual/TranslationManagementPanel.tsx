@@ -73,7 +73,7 @@ export default function TranslationManagementPanel({
   return (
     <div className={`w-full space-y-6 ${className}`}>
       {/* Language & Action Buttons */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3">
+      <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3 sm:gap-12">
         {/* Language Dropdown */}
         <div
           className="flex flex-col gap-1.5 w-full sm:w-auto relative"

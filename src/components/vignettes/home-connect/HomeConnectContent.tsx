@@ -100,14 +100,14 @@ export default function HomeConnectContent({
           )}
         </AnimatePresence>
 
-        {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
-        {stage === 'solution' && (
-          <DesignNotesOverlay
-            notes={notes}
-            onActiveNoteChange={onActiveNoteChange}
-          />
-        )}
       </div>
+      {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
+      {stage === 'solution' && (
+        <DesignNotesOverlay
+          notes={notes}
+          onActiveNoteChange={onActiveNoteChange}
+        />
+      )}
     </VignetteSplit>
   );
 }

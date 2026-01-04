@@ -11,6 +11,8 @@ interface RichTextEditorProps {
   isImproveActivated?: boolean;
   className?: string;
   improveButtonMarker?: ReactNode;
+  improveButtonStyle?: React.CSSProperties;
+  editorContentStyle?: React.CSSProperties;
   mobileFormatting?: 'show' | 'dots';
 }
 
@@ -23,6 +25,8 @@ export default function RichTextEditor({
   isImproveActivated = false,
   className = '',
   improveButtonMarker,
+  improveButtonStyle,
+  editorContentStyle,
   mobileFormatting = 'show'
 }: RichTextEditorProps) {
   return (
@@ -32,7 +36,7 @@ export default function RichTextEditor({
         <div className="bg-background-elevated flex items-center gap-1.5 p-1.5">
           {/* Mobile placeholder dots - shown when mobileFormatting="dots" */}
           {mobileFormatting === 'dots' && (
-            <div className="flex sm:hidden items-center gap-1.5 px-2">
+            <div className="flex sm:hidden items-center gap-1.5 px-2" style={editorContentStyle}>
               {[...Array(4)].map((_, i) => (
                 <div key={i} className="size-2.5 rounded-full bg-gray-300" />
               ))}
@@ -40,7 +44,7 @@ export default function RichTextEditor({
           )}
 
           {/* Formatting buttons */}
-          <div className={`${mobileFormatting === 'dots' ? 'hidden sm:flex' : 'flex'} items-center gap-1.5`}>
+          <div className={`${mobileFormatting === 'dots' ? 'hidden sm:flex' : 'flex'} items-center gap-1.5`} style={editorContentStyle}>
             {/* Text formatting */}
             <button className="bg-background-elevated hover:bg-black/5 p-3.5 rounded-lg size-12 flex items-center justify-center transition-colors">
               <span className="material-icons-outlined text-h3 text-primary">format_bold</span>
@@ -66,7 +70,7 @@ export default function RichTextEditor({
 
           {/* Improve button */}
           {showImproveButton && (
-            <div className="relative">
+            <div className="relative" style={improveButtonStyle}>
               {improveButtonMarker}
               <button
                 onClick={onImprove}
@@ -88,7 +92,7 @@ export default function RichTextEditor({
         <div className="h-0.5 bg-[#878792] w-full" />
 
         {/* Content Area */}
-        <div className="bg-background-elevated p-3.5 min-h-[80px]">
+        <div className="bg-background-elevated p-3.5 min-h-[80px]" style={editorContentStyle}>
           {content ? (
             <p className="text-base leading-6 text-primary whitespace-pre-wrap">
               {content}

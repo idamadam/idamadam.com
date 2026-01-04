@@ -20,7 +20,7 @@ type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 // Map note IDs to the content sections they reference
 const NOTE_TO_SECTION: Record<string, string> = {
   'editor-integration': 'improve-button',
-  'people-science': 'recommendations-header',
+  'people-science': 'recommendations-list',
   'loading-state': 'gradient-border',
 };
 
@@ -81,14 +81,14 @@ function AISuggestionsContent() {
           onNoteOpenChange={handleNoteOpenChange}
           notes={aiSuggestionsContent.designNotes.notes}
         />
-        {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
-        {stage === 'solution' && (
-          <DesignNotesOverlay
-            notes={aiSuggestionsContent.designNotes.notes}
-            onActiveNoteChange={handleActiveNoteChange}
-          />
-        )}
       </div>
+      {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
+      {stage === 'solution' && (
+        <DesignNotesOverlay
+          notes={aiSuggestionsContent.designNotes.notes}
+          onActiveNoteChange={handleActiveNoteChange}
+        />
+      )}
     </VignetteSplit>
   );
 }

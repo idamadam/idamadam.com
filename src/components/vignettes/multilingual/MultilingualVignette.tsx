@@ -125,14 +125,14 @@ function MultilingualContent() {
           )}
         </AnimatePresence>
 
-        {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
-        {panelStage === 'solution' && (
-          <DesignNotesOverlay
-            notes={multilingualContent.designNotes.notes}
-            onActiveNoteChange={handleActiveNoteChange}
-          />
-        )}
       </div>
+      {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
+      {panelStage === 'solution' && (
+        <DesignNotesOverlay
+          notes={multilingualContent.designNotes.notes}
+          onActiveNoteChange={handleActiveNoteChange}
+        />
+      )}
     </VignetteSplit>
   );
 }

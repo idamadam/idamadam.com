@@ -322,9 +322,9 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
           />
           <div className="flex items-center gap-3 mb-2">
           <img
-            src="/avatars/idam.svg"
+            src="/avatars/headshot.jpg"
             alt="Idam Adam"
-            className="w-12 h-12 rounded-full shadow-sm"
+            className="w-12 h-12 rounded-full shadow-sm object-cover"
           />
           <div>
             <p className="text-h3 font-normal text-primary" style={{ marginBottom: '0px' }}>
@@ -437,7 +437,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
       </div>
 
       {/* Opportunity Item */}
-      <div className="border-b-2 border-border" data-section-id="opportunity" style={getSectionStyle('opportunity')}>
+      <div className="border-b-2 border-border" data-section-id="opportunity">
         <div className="px-6 py-8">
           {/* Header row with marker */}
           <div className="relative">
@@ -445,12 +445,13 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
               index={2}
               noteId="sources"
               side="right"
-              isActive={highlightedSection === 'opportunity'}
+              isActive={highlightedSection === 'sources-expand'}
               onOpenChange={handleNoteOpen}
               note={getNote('sources')}
             />
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <div className="flex-1">
+              {/* Title and description - dims when sources highlighted */}
+              <div className="flex-1" style={getSectionStyle('opportunity-title')}>
                 <div className="flex items-center gap-1 mb-2">
                   <span className="material-icons-outlined text-h3" style={{ color: 'rgba(135, 100, 0, 1)' }}>
                   lightbulb
@@ -464,7 +465,12 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
               </p>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            {/* Sources row - highlighted when sources note is active */}
+            <div
+              className="flex items-center gap-2 shrink-0"
+              data-section-id="sources-expand"
+              style={getSectionStyle('sources-expand')}
+            >
               <div className="flex items-center gap-1">
                 <div className="flex -space-x-2">
                   <img
@@ -507,6 +513,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
                 className="overflow-hidden"
+                style={getSectionStyle('sources-expand')}
               >
                 <div className="mt-4 space-y-4">
                   <SourceCard
@@ -531,7 +538,7 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
       </div>
 
       {/* Footer with Feedback Buttons */}
-      <div className="px-6 py-4 flex items-center gap-2">
+      <div className="px-6 py-4 flex items-center gap-2" style={getSectionStyle('footer')}>
         <span className="text-body-sm text-secondary">
           Is this helpful?
         </span>

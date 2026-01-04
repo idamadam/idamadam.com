@@ -21,7 +21,7 @@ type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 const NOTE_TO_SECTION: Record<string, string> = {
   'context-first': 'summary',
   'verification': 'highlight',
-  'sources': 'opportunity',
+  'sources': 'sources-expand',
 };
 
 function AIHighlightsContent() {
@@ -83,14 +83,14 @@ function AIHighlightsContent() {
           onNoteOpenChange={handleNoteOpenChange}
           notes={aiHighlightsContent.designNotes.notes}
         />
-        {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
-        {stage === 'solution' && (
-          <DesignNotesOverlay
-            notes={aiHighlightsContent.designNotes.notes}
-            onActiveNoteChange={handleActiveNoteChange}
-          />
-        )}
       </div>
+      {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
+      {stage === 'solution' && (
+        <DesignNotesOverlay
+          notes={aiHighlightsContent.designNotes.notes}
+          onActiveNoteChange={handleActiveNoteChange}
+        />
+      )}
     </VignetteSplit>
   );
 }
