@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
+import { ProblemStack } from '@/components/vignettes/shared/ProblemStack';
+import { ProblemStateLayout } from '@/components/vignettes/shared/ProblemStateLayout';
 import Button from '@/components/Button';
 import type { FeedbackSource } from './content';
 
@@ -183,30 +185,41 @@ function LoadingState() {
   );
 }
 
-// Positions for scattered feedback cards - evenly distributed with organic feel
-const feedbackCardPositions = [
-  { top: '5%', left: '5%', rotate: -4, z: 1 },
-  { top: '12%', left: '35%', rotate: 3, z: 2 },
-  { top: '6%', left: '65%', rotate: -2, z: 1 },
-  { top: '38%', left: '18%', rotate: 5, z: 3 },
-  { top: '42%', left: '55%', rotate: -3, z: 2 },
-];
-
 function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
   const { entranceDelay, stagger } = useVignetteEntrance();
-  const displayCards = cards.slice(0, 5);
-  const ctaDelay = entranceDelay + displayCards.length * stagger + 0.1;
+  const visibleCards = cards.slice(0, 5);
+  const ctaDelay = entranceDelay + visibleCards.length * stagger + 0.2;
+
+  const renderCard = (card: FeedbackSource) => (
+    <>
+      {card.from && (
+        <div className="flex items-center gap-2 mb-2">
+          {card.avatarUrl && (
+            <img src={card.avatarUrl} alt={card.from} className="w-6 h-6 rounded-full grayscale" />
+          )}
+          <span className="text-body-sm font-semibold text-primary">{card.from}</span>
+        </div>
+      )}
+      <p className="text-body-sm text-secondary line-clamp-3">{card.content}</p>
+    </>
+  );
 
   return (
-    <div className="relative min-h-[300px] lg:min-h-[400px] flex flex-col items-center justify-end p-4 lg:p-8 overflow-hidden">
+    <ProblemStateLayout
+      button={
+        <Button onClick={onTransition} enterDelay={ctaDelay}>
+          Summarise feedback
+        </Button>
+      }
+    >
       {/* Mobile: Simple stacked layout */}
-      <div className="flex flex-col gap-3 w-full mb-4 lg:hidden">
-        {displayCards.slice(0, 3).map((card, index) => (
+      <div className="flex flex-col gap-3 w-full lg:hidden">
+        {visibleCards.slice(0, 3).map((card, index) => (
           <motion.div
             key={card.id}
             className="bg-background-elevated px-4 py-3 rounded-lg border border-border-strong"
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.4,
               delay: entranceDelay + index * stagger,
@@ -226,51 +239,15 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
         ))}
       </div>
 
-      {/* Desktop: Scattered absolute positioning */}
-      <div className="absolute inset-0 hidden lg:block">
-        {displayCards.map((card, index) => {
-          const pos = feedbackCardPositions[index % feedbackCardPositions.length];
-          return (
-            <motion.div
-              key={card.id}
-              className="absolute bg-background-elevated px-4 py-3 rounded-lg border border-border-strong max-w-[220px] backface-hidden will-change-transform"
-              style={{
-                top: pos.top,
-                left: pos.left,
-                zIndex: pos.z,
-                transform: `rotate(${pos.rotate}deg)`,
-              }}
-              initial={{ opacity: 0, y: 20, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{
-                duration: 0.4,
-                delay: entranceDelay + index * stagger,
-                ease: 'easeOut' as const,
-              }}
-            >
-              {card.from && (
-                <div className="flex items-center gap-2 mb-2">
-                  {card.avatarUrl && (
-                    <img src={card.avatarUrl} alt={card.from} className="w-6 h-6 rounded-full grayscale" />
-                  )}
-                  <span className="text-body-sm font-semibold text-primary">{card.from}</span>
-                </div>
-              )}
-              <p className="text-body-sm text-secondary line-clamp-3">{card.content}</p>
-            </motion.div>
-          );
-        })}
+      {/* Desktop: Cascading stack */}
+      <div className="hidden lg:block w-full">
+        <ProblemStack
+          items={cards}
+          keyExtractor={(card) => card.id}
+          renderItem={renderCard}
+        />
       </div>
-
-      {/* CTA */}
-      <Button
-        onClick={onTransition}
-        enterDelay={ctaDelay}
-        className="relative z-10"
-      >
-        Summarise feedback
-      </Button>
-    </div>
+    </ProblemStateLayout>
   );
 }
 
