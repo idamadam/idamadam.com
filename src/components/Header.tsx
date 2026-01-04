@@ -43,7 +43,7 @@ export default function Header() {
             ease: [0.33, 1, 0.68, 1],
           }}
         >
-          <div className="max-w-[1600px] mx-auto h-16 flex items-center justify-between">
+          <div className="max-w-[1280px] mx-auto h-16 flex items-center justify-between">
             {/* Name */}
             <span className="type-h3 !font-bold">{heroContent.name}</span>
 

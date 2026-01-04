@@ -138,7 +138,7 @@ function LoadingState({ content }: { content: PrototypingContent }) {
 
 function SolutionState({ content }: { content: PrototypingContent }) {
   return (
-    <div className="relative w-full">
+    <div className="w-full space-y-4">
       {/* Main Sandbox Container */}
       <div className="bg-background-elevated border border-border rounded-lg p-4 w-full">
         {/* Header */}
@@ -170,12 +170,12 @@ function SolutionState({ content }: { content: PrototypingContent }) {
         </div>
       </div>
 
-      {/* Claude Code TUI Overlay */}
+      {/* Claude Code TUI */}
       <motion.div
-        initial={{ opacity: 0, y: '95%', scale: 0.95 }}
-        animate={{ opacity: 1, y: '85%', scale: 1 }}
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.3, ease: 'easeOut', delay: 0.2 }}
-        className="absolute bottom-0 right-0 left-0 sm:left-auto sm:right-4 bg-[#09090B] rounded-lg w-full sm:w-[340px] lg:w-[420px] shadow-2xl border border-[#1f1f23] overflow-hidden"
+        className="relative bg-[#09090B] rounded-lg w-full shadow-2xl border border-[#1f1f23] overflow-hidden"
       >
         {/* TUI Header */}
         <div className="bg-[#111113] px-4 py-2 rounded-t-lg border-b border-[#1f1f23] flex items-center justify-between">

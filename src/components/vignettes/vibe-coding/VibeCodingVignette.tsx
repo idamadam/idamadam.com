@@ -16,7 +16,6 @@ export default function VibeCodingVignette() {
         {/* Section: Vibe Coding Demo */}
         <motion.div {...fadeInUp}>
           <VignetteSplit
-            compact
             title={
               <div className="space-y-4">
                 <div className="text-caption text-accent-600 font-medium">Side project</div>

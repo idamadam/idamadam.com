@@ -36,7 +36,7 @@ export default function VignetteSplit({
   // Grid classes - compact forces single column, otherwise responsive
   const gridClass = compact
     ? 'grid grid-cols-1 gap-8'
-    : 'grid grid-cols-1 xl:grid-cols-[320px_1fr] 2xl:grid-cols-[360px_1fr] gap-8 xl:gap-10 xl:items-center';
+    : 'grid grid-cols-1 xl:grid-cols-[320px_1fr] 2xl:grid-cols-[360px_1fr] gap-8 xl:gap-12 xl:items-center';
 
   // Animation variants for text column (appears first)
   const textVariants = {

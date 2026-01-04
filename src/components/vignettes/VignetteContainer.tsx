@@ -29,7 +29,7 @@ export default function VignetteContainer({
       } ${className}`}
       {...fadeInUp}
     >
-      <div className="p-7 lg:p-10 space-y-10">
+      <div className="p-6 lg:p-10 space-y-8">
         {/* Title Section - Only show if title is provided */}
         {title && (
           <div className="space-y-3">
