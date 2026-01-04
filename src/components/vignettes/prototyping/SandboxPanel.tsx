@@ -46,13 +46,15 @@ function ProblemState({
       </div>
 
       {/* Desktop: Scattered floating questions */}
-      <div className="relative w-full h-36 hidden lg:block">
+      <div className="relative w-full h-44 hidden lg:block">
         {questions.map((q, index) => {
           const positions = [
-            { top: '10%', left: '5%', rotate: -3 },
-            { top: '5%', right: '10%', rotate: 2 },
-            { top: '45%', left: '15%', rotate: -2 },
-            { top: '55%', right: '5%', rotate: 3 },
+            { top: '0%', left: '5%', rotate: -2 },
+            { top: '5%', right: '8%', rotate: 2 },
+            { top: '35%', left: '25%', rotate: -1 },
+            { top: '40%', right: '20%', rotate: 1 },
+            { top: '70%', left: '8%', rotate: 2 },
+            { top: '65%', right: '5%', rotate: -2 },
           ];
           const pos = positions[index % positions.length];
 
@@ -84,7 +86,7 @@ function ProblemState({
         enterDelay={ctaDelay}
         className="mt-4 lg:mt-6"
       >
-        Make it easier
+        See how it works
       </Button>
     </div>
   );
@@ -171,26 +173,28 @@ function SolutionState({ content }: { content: PrototypingContent }) {
           <div className="w-[50px] h-[50px] bg-[#d9d9d9] rounded-full" />
         </div>
 
-        {/* Prototype Grid */}
+        {/* Designer Directory */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-lg">
-          {content.prototypes.map((item) => (
+          {content.designers.map((designer) => (
             <div
-              key={item.id}
-              className="rounded-[7px] h-[60px] sm:h-[78px]"
-              style={{ backgroundColor: item.thumbnail }}
-              aria-label={item.name}
-            />
+              key={designer.id}
+              className="flex items-center gap-2 bg-background-subtle rounded-lg p-2 sm:p-3"
+            >
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#d9d9d9] rounded-full flex-shrink-0" />
+              <span className="text-caption sm:text-body-sm text-primary font-medium truncate">
+                {designer.name}
+              </span>
+            </div>
           ))}
         </div>
       </div>
 
       {/* Claude Code TUI Overlay */}
       <motion.div
-        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
+        initial={{ opacity: 0, y: '95%', scale: 0.95 }}
+        animate={{ opacity: 1, y: '85%', scale: 1 }}
         transition={{ duration: 0.3, ease: 'easeOut', delay: 0.2 }}
-        className="absolute bottom-0 right-0 left-0 sm:left-auto bg-[#09090B] rounded-lg w-full sm:w-[340px] lg:w-[420px] shadow-2xl border border-[#1f1f23] overflow-hidden"
-        style={{ transform: 'translate(0, 50%)' }}
+        className="absolute bottom-0 right-0 left-0 sm:left-auto sm:right-4 bg-[#09090B] rounded-lg w-full sm:w-[340px] lg:w-[420px] shadow-2xl border border-[#1f1f23] overflow-hidden"
       >
         {/* TUI Header */}
         <div className="bg-[#111113] px-4 py-2 rounded-t-lg border-b border-[#1f1f23] flex items-center justify-between">
@@ -207,26 +211,24 @@ function SolutionState({ content }: { content: PrototypingContent }) {
 
         {/* TUI Content */}
         <div className="p-4 pb-10 font-mono text-caption leading-relaxed">
-          {/* Command prompt */}
-          <div className="flex items-start gap-2 mb-3">
+          {/* Command: /add-prototype with remix */}
+          <div className="flex items-start gap-2 mb-2">
             <span className="text-[#D4A27F] select-none">&gt;</span>
-            <span className="text-gray-100">/remix Idam&apos;s prototype and make it my own</span>
+            <span className="text-gray-100">/add-prototype --from @idam/feedback-helper</span>
           </div>
-
-          {/* Command output */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="space-y-2 text-gray-400"
+            transition={{ delay: 0.3 }}
+            className="space-y-1 text-gray-400 pl-4"
           >
             <div className="flex items-center gap-2">
               <span className="text-green-400">✓</span>
-              <span>Found prototype in repository</span>
+              <span>Forked from Idam&apos;s prototype</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-green-400">✓</span>
-              <span>Creating your workspace...</span>
+              <span>Copied components &amp; styles</span>
             </div>
             <div className="flex items-center gap-2">
               <motion.span
@@ -236,7 +238,7 @@ function SolutionState({ content }: { content: PrototypingContent }) {
               >
                 ⟳
               </motion.span>
-              <span className="text-gray-300">Customizing components...</span>
+              <span className="text-gray-300">Opening your remix...</span>
             </div>
           </motion.div>
         </div>
