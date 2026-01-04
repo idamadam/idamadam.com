@@ -36,11 +36,11 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
   return (
     <div className="w-full space-y-4">
       {/* 3 separate browser-like windows stacked */}
-      <div className="bg-background-subtle border-2 border-dashed border-border rounded-lg p-4 flex flex-col gap-3 items-center">
+      <div className="p-4 flex flex-col gap-3 items-center">
         {cycleWindows.map((window, index) => (
           <motion.div
             key={window.code}
-            className="w-full max-w-[340px] bg-background-elevated rounded-lg border border-border overflow-hidden"
+            className="w-full max-w-[340px] bg-background-elevated rounded-lg border border-border-strong overflow-hidden"
             style={{ willChange: 'transform, opacity' }}
             initial={{ opacity: 0, y: 20, rotate: 0 }}
             animate={{

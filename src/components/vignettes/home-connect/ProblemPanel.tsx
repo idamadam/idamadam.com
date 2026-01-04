@@ -51,13 +51,13 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
   const ctaDelay = reducedMotion ? 0 : entranceDelay + scatteredInsights.length * stagger + 0.1;
 
   return (
-    <div className="relative bg-background-subtle border-2 border-dashed border-border rounded-lg min-h-[300px] lg:min-h-[360px] flex flex-col items-center justify-center p-4">
+    <div className="relative min-h-[300px] lg:min-h-[360px] flex flex-col items-center justify-center p-4">
       {/* Mobile: Stacked cards */}
       <div className="flex flex-col gap-3 w-full mb-4 lg:hidden">
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}
-            className="w-full bg-background-elevated rounded-lg overflow-hidden"
+            className="w-full bg-background-elevated rounded-lg overflow-hidden border border-border-strong"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
@@ -94,7 +94,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
         {scatteredInsights.map((item, i) => (
           <motion.div
             key={item.id}
-            className="absolute w-[180px] bg-background-elevated rounded-lg overflow-hidden"
+            className="absolute w-[180px] bg-background-elevated rounded-lg overflow-hidden border border-border-strong"
             style={{
               top: item.position.top,
               right: item.position.right,
