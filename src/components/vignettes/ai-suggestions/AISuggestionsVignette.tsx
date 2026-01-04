@@ -81,14 +81,14 @@ function AISuggestionsContent() {
           onNoteOpenChange={handleNoteOpenChange}
           notes={aiSuggestionsContent.designNotes.notes}
         />
-        {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
-        {stage === 'solution' && (
-          <DesignNotesOverlay
-            notes={aiSuggestionsContent.designNotes.notes}
-            onActiveNoteChange={handleActiveNoteChange}
-          />
-        )}
       </div>
+      {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
+      {stage === 'solution' && (
+        <DesignNotesOverlay
+          notes={aiSuggestionsContent.designNotes.notes}
+          onActiveNoteChange={handleActiveNoteChange}
+        />
+      )}
     </VignetteSplit>
   );
 }

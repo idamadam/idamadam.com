@@ -83,14 +83,14 @@ function AIHighlightsContent() {
           onNoteOpenChange={handleNoteOpenChange}
           notes={aiHighlightsContent.designNotes.notes}
         />
-        {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
-        {stage === 'solution' && (
-          <DesignNotesOverlay
-            notes={aiHighlightsContent.designNotes.notes}
-            onActiveNoteChange={handleActiveNoteChange}
-          />
-        )}
       </div>
+      {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
+      {stage === 'solution' && (
+        <DesignNotesOverlay
+          notes={aiHighlightsContent.designNotes.notes}
+          onActiveNoteChange={handleActiveNoteChange}
+        />
+      )}
     </VignetteSplit>
   );
 }

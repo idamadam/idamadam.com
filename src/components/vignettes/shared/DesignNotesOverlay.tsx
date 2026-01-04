@@ -32,9 +32,9 @@ export function DesignNotesOverlay({ notes, onActiveNoteChange }: DesignNotesOve
 
   return (
     <>
-      {/* Mobile: Single button to open notes sheet */}
+      {/* Mobile: Button below panel to open notes sheet */}
       <motion.button
-        className="lg:hidden absolute bottom-4 right-4 z-20 flex items-center gap-2 px-4 py-2.5
+        className="lg:hidden mt-4 ml-auto z-20 flex items-center gap-2 px-4 py-2.5
                    bg-[var(--accent-500)] text-white text-sm font-medium rounded-full shadow-lg
                    hover:bg-[var(--accent-600)] transition-colors"
         onClick={() => openMobileSheet(0)}
