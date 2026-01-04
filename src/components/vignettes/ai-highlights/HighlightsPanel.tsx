@@ -198,13 +198,13 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
   const ctaDelay = entranceDelay + displayCards.length * stagger + 0.1;
 
   return (
-    <div className="relative bg-background-subtle border-2 border-dashed border-border rounded-lg min-h-[300px] lg:min-h-[400px] flex flex-col items-center justify-end p-4 lg:p-8 overflow-hidden">
+    <div className="relative min-h-[300px] lg:min-h-[400px] flex flex-col items-center justify-end p-4 lg:p-8 overflow-hidden">
       {/* Mobile: Simple stacked layout */}
       <div className="flex flex-col gap-3 w-full mb-4 lg:hidden">
         {displayCards.slice(0, 3).map((card, index) => (
           <motion.div
             key={card.id}
-            className="bg-background-elevated px-4 py-3 rounded-lg"
+            className="bg-background-elevated px-4 py-3 rounded-lg border border-border-strong"
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{
@@ -233,7 +233,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
           return (
             <motion.div
               key={card.id}
-              className="absolute bg-background-elevated px-4 py-3 rounded-lg max-w-[220px] backface-hidden will-change-transform"
+              className="absolute bg-background-elevated px-4 py-3 rounded-lg border border-border-strong max-w-[220px] backface-hidden will-change-transform"
               style={{
                 top: pos.top,
                 left: pos.left,

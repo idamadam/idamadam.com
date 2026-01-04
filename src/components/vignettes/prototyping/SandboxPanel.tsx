@@ -25,13 +25,13 @@ function ProblemState({
   const ctaDelay = entranceDelay + questions.length * stagger + 0.1;
 
   return (
-    <div className="relative bg-background-subtle border-2 border-dashed border-border rounded-lg min-h-[280px] lg:min-h-[320px] flex flex-col items-center justify-center p-4 lg:p-8">
+    <div className="relative min-h-[280px] lg:min-h-[320px] flex flex-col items-center justify-center p-4 lg:p-8">
       {/* Mobile: Stacked questions */}
       <div className="flex flex-col gap-2 w-full mb-4 lg:hidden">
         {questions.map((q, index) => (
           <motion.div
             key={q.id}
-            className="bg-background-elevated px-4 py-2 rounded-lg text-body-sm text-secondary font-medium"
+            className="bg-background-elevated px-4 py-2 rounded-lg border border-border-strong text-body-sm text-secondary font-medium"
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{
@@ -59,7 +59,7 @@ function ProblemState({
           return (
             <motion.div
               key={q.id}
-              className="absolute bg-background-elevated px-4 py-2 rounded-lg shadow-sm border border-border text-body-sm text-secondary font-medium"
+              className="absolute bg-background-elevated px-4 py-2 rounded-lg border border-border-strong text-body-sm text-secondary font-medium"
               style={{
                 ...pos,
                 transform: `rotate(${pos.rotate}deg)`,
