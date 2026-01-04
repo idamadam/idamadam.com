@@ -21,7 +21,7 @@ type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 const NOTE_TO_SECTION: Record<string, string> = {
   'context-first': 'summary',
   'verification': 'highlight',
-  'sources': 'opportunity',
+  'sources': 'sources-expand',
 };
 
 function AIHighlightsContent() {
