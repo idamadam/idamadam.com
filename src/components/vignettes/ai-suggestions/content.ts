@@ -21,17 +21,13 @@ export interface AISuggestionsContent {
 export const aiSuggestionsContent: AISuggestionsContent = {
   stages: {
     problem: {
-      title: 'Managers struggled to write constructive, actionable feedback',
-      description: ''
+      title: 'Managers struggled to write constructive, actionable feedback'
     },
     solution: {
-      title: 'Designed AI coaching grounded in people science',
-      description:
-        'I partnered with organizational psychologists to create AI suggestions backed by research. The system scans for specific, impactful, objective, and actionable qualities, giving managers structured guidance to improve their feedback.'
+      title: 'Designed AI coaching grounded in people science'
     },
     designNotes: {
-      title: 'Design notes',
-      description: 'Annotated notes showing the thinking behind the design.'
+      title: 'Design notes'
     }
   },
   designNotes: {
@@ -47,7 +43,7 @@ export const aiSuggestionsContent: AISuggestionsContent = {
       {
         id: 'loading-state',
         label: 'AI visual language',
-        detail: 'Designed the gradient border and associated loading animation as a core signifier of AI features at Culture Amp.',
+        detail: 'The gradient border and loading animation became a core signifier of AI features at Culture Amp.',
         x: '-4%',
         y: '65%',
         popoverSide: 'left' as const,

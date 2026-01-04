@@ -36,16 +36,6 @@ interface ProblemCard {
 
 
 export interface MultilingualContent {
-  title: string;
-  description: string;
-  section1: {
-    title: string;
-    description: string;
-  };
-  section2: {
-    title: string;
-    description: string;
-  };
   workflows: TranslationWorkflow[];
   translationFields: TranslationField[];
   languages: LanguageOption[];
@@ -60,18 +50,6 @@ export interface MultilingualContent {
 }
 
 export const multilingualContent: MultilingualContent = {
-  title: 'Expanded Performance Reviews to 120+ languages',
-  description:
-    "Global customers ran separate performance cycles for each language, creating massive admin burden. When a $1M+ ARR customer needed multilingual support or they'd churn, I researched workflows and advocated for XLSX uploads and machine translation - expanding scope beyond the original ask. The system enables a single cycle with multiple languages, eliminating operational overhead. $1M+ ARR retained, 4,000+ employees supported.",
-  section1: {
-    title: 'Expanded Performance Reviews to 120+ languages',
-    description:
-      'I designed a flexible translation workflow that supports three input methods: manual editing for quick tweaks, CSV uploads for translation agencies, and machine translation for speed. This was also a milestone for me. I incorporated my native language, Dhivehi, into my work for the first time.'
-  },
-  section2: {
-    title: 'Auto-translate in action',
-    description: 'Machine translation enables managers to launch multilingual performance cycles in minutes.'
-  },
   workflows: [
     {
       id: 1,
@@ -119,12 +97,10 @@ export const multilingualContent: MultilingualContent = {
   stages: {
     problem: {
       title: 'Supporting multiple languages required a separate workflow for each language',
-      description: '',
       cta: 'Show the solution'
     },
     solution: {
-      title: 'Designed a simple way to bring multiple languages into a single cycle',
-      description: 'I designed a flexible translation workflow that supports three input methods: manual editing for quick tweaks, XLSX uploads for admins who wanted more control, and machine translation for speed. This was also a milestone for me. I incorporated my native language, Dhivehi, into my work for the first time.'
+      title: 'Designed a simple way to bring multiple languages into a single cycle'
     }
   },
   designNotes: {

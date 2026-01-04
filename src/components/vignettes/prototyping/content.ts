@@ -6,6 +6,11 @@ export interface PrototypeItem {
   thumbnail: string;
 }
 
+export interface DesignerItem {
+  id: number;
+  name: string;
+}
+
 export interface ProblemQuestion {
   id: string;
   text: string;
@@ -25,6 +30,7 @@ export interface PrototypingContent {
   stages: VignetteStages;
   sandboxTitle: string;
   prototypes: PrototypeItem[];
+  designers: DesignerItem[];
   problemQuestions: ProblemQuestion[];
   transitionSteps: TransitionStep[];
   adoptionStats: {
@@ -36,13 +42,11 @@ export interface PrototypingContent {
 export const prototypingContent: PrototypingContent = {
   stages: {
     problem: {
-      title: 'Designers & PMs did not know where to start with coding agents',
-      description: '',
-      cta: 'See how I enabled this'
+      title: 'Designers had no shared foundation for AI prototyping',
+      cta: 'See how it works'
     },
     solution: {
-      title: 'Created shared infrastructure to unlock AI prototyping at Culture Amp',
-      description: 'I built a common repository that made it easy for designers and PMs to create, share, and remix React prototypes using coding agents. The sandbox removed technical barriers and established a new prototyping discipline.'
+      title: 'A shared sandbox that makes AI prototyping easy'
     }
   },
   sandboxTitle: 'Culture Amp Design Sandbox',
@@ -54,18 +58,28 @@ export const prototypingContent: PrototypingContent = {
     { id: 5, name: 'Review Writer', thumbnail: '#d9d9d9' },
     { id: 6, name: '1-on-1 Prep', thumbnail: '#d9d9d9' }
   ],
+  designers: [
+    { id: 1, name: 'Sarah Chen' },
+    { id: 2, name: 'Marcus Johnson' },
+    { id: 3, name: 'Priya Patel' },
+    { id: 4, name: 'Alex Kim' },
+    { id: 5, name: 'Jordan Rivera' },
+    { id: 6, name: 'Taylor Brooks' }
+  ],
   problemQuestions: [
-    { id: 'q1', text: 'Where do I start?', delay: 0 },
-    { id: 'q2', text: 'What tools do I use?', delay: 0.15 },
-    { id: 'q3', text: 'How do I set up an environment?', delay: 0.3 },
-    { id: 'q4', text: 'How do I share this?', delay: 0.45 }
+    { id: 'q1', text: 'Everyone starting from scratch', delay: 0 },
+    { id: 'q2', text: 'No shared components', delay: 0.1 },
+    { id: 'q3', text: "Can't build on others' work", delay: 0.2 },
+    { id: 'q4', text: 'Complex setup every time', delay: 0.3 },
+    { id: 'q5', text: 'Hours lost on configuration', delay: 0.4 },
+    { id: 'q6', text: 'Knowledge siloed in individuals', delay: 0.5 }
   ],
   transitionSteps: [
     { id: 'clone-cmd', type: 'command', command: 'git clone culture-amp/design-sandbox', delay: 0 },
     { id: 'clone-status', type: 'status', status: 'Cloned — Components ready', delay: 0.8 },
-    { id: 'prototype-cmd', type: 'command', command: '/new-prototype "My feature idea"', delay: 1.8 },
-    { id: 'prototype-status', type: 'status', status: 'Created workspace', delay: 2.6 },
-    { id: 'opening-status', type: 'status', status: 'Opening your prototype...', isLoading: true, delay: 3.4 },
+    { id: 'designer-cmd', type: 'command', command: '/add-designer "Sarah Chen"', delay: 1.8 },
+    { id: 'designer-status', type: 'status', status: 'Created designer profile', delay: 2.6 },
+    { id: 'homepage-status', type: 'status', status: 'Generating personal homepage...', isLoading: true, delay: 3.4 },
   ],
   adoptionStats: {
     designers: 12,
