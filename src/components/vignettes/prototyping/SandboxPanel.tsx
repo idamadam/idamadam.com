@@ -2,6 +2,8 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
+import { ProblemStack } from '@/components/vignettes/shared/ProblemStack';
+import { ProblemStateLayout } from '@/components/vignettes/shared/ProblemStateLayout';
 import Button from '@/components/Button';
 import type { PrototypingContent } from './content';
 
@@ -22,18 +24,24 @@ function ProblemState({
   onTransition?: () => void;
 }) {
   const { entranceDelay, stagger } = useVignetteEntrance();
-  const ctaDelay = entranceDelay + questions.length * stagger + 0.1;
+  const ctaDelay = entranceDelay + Math.min(questions.length, 5) * stagger + 0.1;
 
   return (
-    <div className="relative min-h-[280px] lg:min-h-[320px] flex flex-col items-center justify-center p-4 lg:p-8">
+    <ProblemStateLayout
+      button={
+        <Button onClick={onTransition} enterDelay={ctaDelay}>
+          See how it works
+        </Button>
+      }
+    >
       {/* Mobile: Stacked questions */}
-      <div className="flex flex-col gap-2 w-full mb-4 lg:hidden">
-        {questions.map((q, index) => (
+      <div className="flex flex-col gap-2 w-full lg:hidden">
+        {questions.slice(0, 4).map((q, index) => (
           <motion.div
             key={q.id}
             className="bg-background-elevated px-4 py-2 rounded-lg border border-border-strong text-body-sm text-secondary font-medium"
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.4,
               delay: entranceDelay + index * stagger,
@@ -45,50 +53,23 @@ function ProblemState({
         ))}
       </div>
 
-      {/* Desktop: Scattered floating questions */}
-      <div className="relative w-full h-44 hidden lg:block">
-        {questions.map((q, index) => {
-          const positions = [
-            { top: '0%', left: '5%', rotate: -2 },
-            { top: '5%', right: '8%', rotate: 2 },
-            { top: '35%', left: '25%', rotate: -1 },
-            { top: '40%', right: '20%', rotate: 1 },
-            { top: '70%', left: '8%', rotate: 2 },
-            { top: '65%', right: '5%', rotate: -2 },
-          ];
-          const pos = positions[index % positions.length];
-
-          return (
-            <motion.div
-              key={q.id}
-              className="absolute bg-background-elevated px-4 py-2 rounded-lg border border-border-strong text-body-sm text-secondary font-medium"
-              style={{
-                ...pos,
-                transform: `rotate(${pos.rotate}deg)`,
-              }}
-              initial={{ opacity: 0, y: 20, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{
-                duration: 0.4,
-                delay: entranceDelay + index * stagger,
-                ease: 'easeOut' as const,
-              }}
-            >
-              {q.text}
-            </motion.div>
-          );
-        })}
+      {/* Desktop: Cascading stack */}
+      <div className="hidden lg:block w-full">
+        <ProblemStack
+          items={questions}
+          keyExtractor={(q) => q.id}
+          renderItem={(q) => (
+            <span className="text-body-sm text-secondary font-medium line-clamp-2">{q.text}</span>
+          )}
+          config={{
+            maxVisible: 5,
+            cardWidth: 260,
+            xOffset: 56,
+            yOffset: 28,
+          }}
+        />
       </div>
-
-      {/* CTA */}
-      <Button
-        onClick={onTransition}
-        enterDelay={ctaDelay}
-        className="mt-4 lg:mt-6"
-      >
-        See how it works
-      </Button>
-    </div>
+    </ProblemStateLayout>
   );
 }
 
@@ -157,7 +138,7 @@ function LoadingState({ content }: { content: PrototypingContent }) {
 
 function SolutionState({ content }: { content: PrototypingContent }) {
   return (
-    <div className="relative w-full">
+    <div className="w-full space-y-4">
       {/* Main Sandbox Container */}
       <div className="bg-background-elevated border border-border rounded-lg p-4 w-full">
         {/* Header */}
@@ -189,12 +170,12 @@ function SolutionState({ content }: { content: PrototypingContent }) {
         </div>
       </div>
 
-      {/* Claude Code TUI Overlay */}
+      {/* Claude Code TUI */}
       <motion.div
-        initial={{ opacity: 0, y: '95%', scale: 0.95 }}
-        animate={{ opacity: 1, y: '85%', scale: 1 }}
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.3, ease: 'easeOut', delay: 0.2 }}
-        className="absolute bottom-0 right-0 left-0 sm:left-auto sm:right-4 bg-[#09090B] rounded-lg w-full sm:w-[340px] lg:w-[420px] shadow-2xl border border-[#1f1f23] overflow-hidden"
+        className="relative bg-[#09090B] rounded-lg w-full shadow-2xl border border-[#1f1f23] overflow-hidden"
       >
         {/* TUI Header */}
         <div className="bg-[#111113] px-4 py-2 rounded-t-lg border-b border-[#1f1f23] flex items-center justify-between">
