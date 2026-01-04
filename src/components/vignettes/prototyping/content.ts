@@ -37,12 +37,10 @@ export const prototypingContent: PrototypingContent = {
   stages: {
     problem: {
       title: 'Designers & PMs did not know where to start with coding agents',
-      description: '',
-      cta: 'See how I enabled this'
+      cta: 'See the solution'
     },
     solution: {
-      title: 'Created shared infrastructure to unlock AI prototyping at Culture Amp',
-      description: 'I built a common repository that made it easy for designers and PMs to create, share, and remix React prototypes using coding agents. The sandbox removed technical barriers and established a new prototyping discipline.'
+      title: 'Shared infrastructure unlocked AI prototyping across the team'
     }
   },
   sandboxTitle: 'Culture Amp Design Sandbox',

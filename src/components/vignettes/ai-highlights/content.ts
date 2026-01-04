@@ -24,18 +24,14 @@ interface AIHighlightsContent {
 export const aiHighlightsContent: AIHighlightsContent = {
   stages: {
     problem: {
-      title: 'Collating and synthesizing feedback was one of the most time-intensive tasks of writing a performance review',
-      description: '',
+      title: 'Synthesizing feedback was the most time-intensive part of performance reviews',
       cta: 'See how AI helped'
     },
     solution: {
-      title: 'Designed AI summaries managers could verify and trust',
-      description:
-        "I designed an AI system that surfaces key highlights and opportunities from feedback. Managers can expand to see direct quotes, verifying AI outputs while saving significant time during review season."
+      title: 'Designed AI summaries managers could verify and trust'
     },
     designNotes: {
-      title: 'Design notes',
-      description: 'Sharpie-style redlines that show the messy thinking behind the polished surface.'
+      title: 'Design notes'
     }
   },
   iterations: [
@@ -93,7 +89,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
     {
       id: 'feedback1',
       channel: 'feedback',
-      content: "Idam's user research uncovered the core trust issue with AI summaries. This insight shaped our entire product direction.",
+      content: "Idam's user research helped us understand why managers weren't trusting the AI summaries. That insight shaped how we approached the whole feature.",
       from: 'Sarah Chen',
       avatarUrl: '/avatars/sarah-chen.svg'
     },
@@ -101,7 +97,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       id: 'feedback2',
       channel: 'feedback',
       content:
-        'Outstanding collaboration across design and engineering. The verification UX is both elegant and technically feasible.',
+        'Good collaboration between design and engineering on the verification UX. The solution worked within our technical constraints.',
       from: 'Mike Torres',
       avatarUrl: '/avatars/mike-torres.svg'
     },
@@ -109,7 +105,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       id: 'feedback3',
       channel: 'feedback',
       content:
-        "Idam ran the most rigorous AI testing process I've seen. Real feedback, real managers, real insights about trust.",
+        "Idam ran thorough testing with real managers and real feedback. The insights about trust were valuable for the team.",
       from: 'Alex Kim',
       avatarUrl: '/avatars/alex-kim.svg'
     },
@@ -117,7 +113,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       id: 'feedback4',
       channel: 'feedback',
       content:
-        'The inline source expansion is brilliant. Managers can verify AI output without leaving their flow. This will save hours.',
+        'The inline source expansion lets managers verify AI output without breaking their flow. Useful addition to the feature.',
       from: 'Jordan Lee',
       avatarUrl: '/avatars/jordan-lee.svg'
     },
@@ -125,14 +121,14 @@ export const aiHighlightsContent: AIHighlightsContent = {
       id: 'feedback5',
       channel: 'feedback',
       content:
-        'Idam advocated strongly for verification features when we wanted to ship faster. That user-first mindset prevented a trust disaster.',
+        'Idam pushed for verification features when we were considering cutting scope. Turned out to be the right call for user trust.',
       from: 'Sarah Chen',
       avatarUrl: '/avatars/sarah-chen.svg'
     },
     {
       id: 'feedback6',
       channel: 'feedback',
-      content: "Built custom prototyping infrastructure to iterate faster. This unlocked velocity we didn't know was possible.",
+      content: "Built prototyping tools that helped the team iterate faster. Other designers have started using them too.",
       from: 'Mike Torres',
       avatarUrl: '/avatars/mike-torres.svg'
     },
@@ -140,7 +136,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       id: 'feedback7',
       channel: 'feedback',
       content:
-        "Every design iteration was grounded in user testing data. No ego, just evidence. That's how you ship AI features people trust.",
+        "Design decisions were backed by user testing data. Idam was open to changing direction when the research pointed elsewhere.",
       from: 'Alex Kim',
       avatarUrl: '/avatars/alex-kim.svg'
     },
@@ -148,7 +144,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       id: 'feedback8',
       channel: 'feedback',
       content:
-        "Idam's attention to the verification interaction details made the difference. AI summaries are worthless if managers don't trust them.",
+        "Idam paid close attention to the details of the verification interaction. Small things like showing avatars helped managers trust the sources.",
       from: 'Jordan Lee',
       avatarUrl: '/avatars/jordan-lee.svg'
     }

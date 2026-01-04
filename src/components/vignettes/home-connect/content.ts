@@ -31,8 +31,6 @@ interface FeedSection {
 }
 
 export interface HomeConnectContent {
-  title: string;
-  description: string;
   stages: VignetteStages;
   designNotes: {
     notes: DesignNote[];
@@ -42,20 +40,13 @@ export interface HomeConnectContent {
 }
 
 export const homeConnectContent: HomeConnectContent = {
-  title: 'Created a cohesive homepage system to bring all of Culture Amp into one place',
-  description:
-    "A centralized navigation hub that reduced platform fragmentation and improved feature discoverability across Culture Amp's product suite.",
-
   stages: {
     problem: {
       title: 'Valuable context was scattered across Culture Amp\'s products',
-      description: 'Performance reviews, 1-on-1s, Goals, and Surveys each lived in their own silo. To piece together what was happening with your team, you had to hunt across four different tools.',
       cta: 'Show the solution'
     },
     solution: {
-      title: 'A unified feed that surfaces what matters',
-      description:
-        'Performance, goals, surveys, and 1-on-1s brought together in one place. Context about your team, without the hunt.'
+      title: 'A unified feed that surfaces what matters'
     }
   },
 
@@ -65,7 +56,7 @@ export const homeConnectContent: HomeConnectContent = {
         id: 'card-system',
         label: 'Card system',
         detail:
-          'I researched and designed a unified card system to surface updates based around the people you care about at work.',
+          'A unified card system surfaces updates based around the people you care about at work.',
         x: '104%',
         y: '35%',
         popoverSide: 'right' as const,
@@ -74,7 +65,7 @@ export const homeConnectContent: HomeConnectContent = {
         id: 'inactive-goal',
         label: 'Inactive goal nudge',
         detail:
-          'A new notification type I designed to drive adoption. Managers can now see when their reports have stalled goals.',
+          'A new notification type to drive adoption. Managers see when their reports have stalled goals.',
         x: '-4%',
         y: '80%',
         popoverSide: 'left' as const,
