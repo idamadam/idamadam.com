@@ -32,7 +32,7 @@ export default function SelectedWorkSection() {
     >
       <SectionTitle disableScrollTrigger>Work</SectionTitle>
       <section className="w-full pb-16 lg:pb-24 px-6 lg:px-12 2xl:px-24">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 gap-12 lg:gap-16 xl:gap-20 items-start">
+        <div className="max-w-[1280px] mx-auto grid grid-cols-1 gap-10 lg:gap-12 xl:gap-16 items-start">
           <AIHighlightsVignette />
           <AISuggestionsVignette />
           <PrototypingVignette />

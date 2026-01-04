@@ -192,7 +192,7 @@ function RecommendationsPanel({
       }}
     >
       {isShowingAnimation && <div className="suggestions-animated-border" />}
-      <div className="recommendation-content bg-background-elevated rounded-[5px] p-6 space-y-4 relative z-10">
+      <div className="recommendation-content bg-background-elevated rounded-[5px] p-8 space-y-5 relative z-10">
         {/* Markers - positioned outside fading content */}
         <SectionMarker
           index={1}
@@ -212,7 +212,7 @@ function RecommendationsPanel({
         />
 
         {/* Content that fades */}
-        <div style={getInnerContentStyle()} className="space-y-4">
+        <div style={getInnerContentStyle()} className="space-y-5">
           {/* Header */}
           <div
             className="flex items-start gap-2"
@@ -234,7 +234,7 @@ function RecommendationsPanel({
 
           {/* Recommendations */}
           <div
-            className="space-y-4"
+            className="space-y-5"
             data-section-id="recommendations-list"
             style={getSectionStyle('recommendations-list')}
           >
@@ -306,7 +306,7 @@ export default function SuggestionsPanel({
   const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 min-h-[340px] flex flex-col justify-center">
       <GradientBorderStyles />
       {/* Editor with marker - always visible */}
       <div className="relative" data-section-id="improve-button">
