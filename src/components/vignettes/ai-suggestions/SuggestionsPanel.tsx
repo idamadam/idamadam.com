@@ -206,7 +206,7 @@ function RecommendationsPanel({
           index={2}
           noteId="people-science"
           side="right"
-          isActive={highlightedSection === 'recommendations-header'}
+          isActive={highlightedSection === 'recommendations-list'}
           onOpenChange={handleNoteOpen}
           note={getNote('people-science')}
         />
@@ -233,7 +233,11 @@ function RecommendationsPanel({
           </div>
 
           {/* Recommendations */}
-          <div className="space-y-4">
+          <div
+            className="space-y-4"
+            data-section-id="recommendations-list"
+            style={getSectionStyle('recommendations-list')}
+          >
             {content.recommendations.map((rec, index) => (
               <div key={index}>
                 <p className="text-base leading-6 text-primary">
@@ -248,7 +252,11 @@ function RecommendationsPanel({
           </div>
 
           {/* Footer */}
-          <div className="flex items-center pt-2">
+          <div
+            className="flex items-center pt-2"
+            data-section-id="recommendations-footer"
+            style={getSectionStyle('recommendations-footer')}
+          >
             <div className="flex items-center gap-4">
               <span className="text-sm text-secondary">Is this helpful?</span>
               <button className="p-2 hover:bg-black/5 rounded-lg transition-colors">
@@ -301,11 +309,7 @@ export default function SuggestionsPanel({
     <div className="space-y-2">
       <GradientBorderStyles />
       {/* Editor with marker - always visible */}
-      <div
-        className="relative"
-        data-section-id="improve-button"
-        style={isSolution ? getSectionStyle('improve-button') : undefined}
-      >
+      <div className="relative" data-section-id="improve-button">
         <RichTextEditor
           content={content.beforeText}
           placeholder="Write feedback..."
@@ -314,6 +318,8 @@ export default function SuggestionsPanel({
           isImproveActivated={isSolution}
           onImprove={isProblem ? onTransition : undefined}
           mobileFormatting="dots"
+          improveButtonStyle={isSolution ? getSectionStyle('improve-button') : undefined}
+          editorContentStyle={isSolution ? getSectionStyle('editor-content') : undefined}
           improveButtonMarker={
             isSolution ? (
               <SectionMarker
