@@ -33,7 +33,26 @@ interface SourceCardProps {
 function SourceCard({ name, date, context, feedback, avatarUrl }: SourceCardProps) {
   return (
     <div className="pt-4 border-t border-border">
-      <div className="flex items-center gap-2 mb-3">
+      {/* Mobile: stacked layout */}
+      <div className="flex flex-col gap-1 mb-3 sm:hidden">
+        <div className="flex items-center gap-2">
+          <img
+            src={avatarUrl}
+            alt={name}
+            className="w-6 h-6 rounded-full"
+          />
+          <span className="text-body-sm font-semibold text-primary">
+            {name}
+          </span>
+        </div>
+        <div className="flex items-center gap-2 text-caption text-secondary">
+          <span>{date}</span>
+          <span>•</span>
+          <span>{context}</span>
+        </div>
+      </div>
+      {/* Desktop: horizontal layout */}
+      <div className="hidden sm:flex items-center gap-2 mb-3">
         <img
           src={avatarUrl}
           alt={name}
@@ -55,10 +74,7 @@ function SourceCard({ name, date, context, feedback, avatarUrl }: SourceCardProp
       <p className="text-body-sm text-primary mb-3">
         {feedback}
       </p>
-      <div className="flex items-center justify-between">
-        <span className="text-caption text-secondary">
-          Not shared with Idam Adam
-        </span>
+      <div className="flex items-center justify-end">
         <a href="#" className="text-body-sm text-primary hover:underline inline-flex items-center gap-1">
           View feedback
           <span className="material-icons-outlined text-body-sm">arrow_forward</span>
