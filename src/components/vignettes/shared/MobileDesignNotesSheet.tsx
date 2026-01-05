@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import type { DesignNote } from '@/components/vignettes/types';
 
@@ -21,6 +22,13 @@ export function MobileDesignNotesSheet({
 }: MobileDesignNotesSheetProps) {
   const currentNote = notes[currentIndex];
   const [isDragging, setIsDragging] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Track mount state for portal (SSR safety)
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   // Keyboard navigation
   useEffect(() => {
@@ -52,9 +60,10 @@ export function MobileDesignNotesSheet({
     }
   };
 
-  if (!currentNote) return null;
+  if (!currentNote || !mounted) return null;
 
-  return (
+  // Use portal to render outside vignette stacking contexts
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
@@ -151,6 +160,7 @@ export function MobileDesignNotesSheet({
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
