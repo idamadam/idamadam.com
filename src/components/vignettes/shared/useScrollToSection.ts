@@ -3,11 +3,15 @@
 import { useCallback } from 'react';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 
+// Estimated height of the mobile design notes sheet
+const MOBILE_SHEET_HEIGHT = 280;
+
 /**
  * Hook for scrolling to a section when a design note is activated on mobile.
  * Only scrolls on mobile (< 1024px viewport) to avoid interfering with desktop popovers.
+ * Centers the element in the visible area above the bottom sheet.
  */
-export function useScrollToSection(topPadding = 24) {
+export function useScrollToSection() {
   const prefersReducedMotion = useReducedMotion();
 
   const scrollToSection = useCallback(
@@ -23,14 +27,24 @@ export function useScrollToSection(topPadding = 24) {
       if (!element) return;
 
       const rect = element.getBoundingClientRect();
-      const scrollTarget = window.scrollY + rect.top - topPadding;
+      const viewportHeight = window.innerHeight;
+
+      // Calculate visible area above the sheet
+      const visibleAreaHeight = viewportHeight - MOBILE_SHEET_HEIGHT;
+
+      // Center the element in the visible area
+      const elementCenter = rect.top + rect.height / 2;
+      const targetCenter = visibleAreaHeight / 2;
+      const scrollOffset = elementCenter - targetCenter;
+
+      const scrollTarget = window.scrollY + scrollOffset;
 
       window.scrollTo({
         top: scrollTarget,
         behavior: prefersReducedMotion ? 'auto' : 'smooth',
       });
     },
-    [topPadding, prefersReducedMotion]
+    [prefersReducedMotion]
   );
 
   return { scrollToSection };
