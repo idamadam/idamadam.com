@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { trackVignetteInteracted, type VignetteId } from './analytics';
 
 export type VignetteStage = 'problem' | 'solution' | 'designNotes';
 
@@ -11,6 +12,7 @@ interface VignetteStageContextValue {
   goToDesignNotes: () => void;
   reset: () => void;
   hasSeenSolution: boolean;
+  vignetteId: VignetteId;
 }
 
 const VignetteStageContext = createContext<VignetteStageContextValue | null>(null);
@@ -18,11 +20,13 @@ const VignetteStageContext = createContext<VignetteStageContextValue | null>(nul
 interface VignetteStageProviderProps {
   children: ReactNode;
   initialStage?: VignetteStage;
+  vignetteId: VignetteId;
 }
 
 export function VignetteStageProvider({
   children,
-  initialStage = 'problem'
+  initialStage = 'problem',
+  vignetteId,
 }: VignetteStageProviderProps) {
   const [stage, setStageInternal] = useState<VignetteStage>(initialStage);
   const [hasSeenSolution, setHasSeenSolution] = useState(initialStage === 'solution' || initialStage === 'designNotes');
@@ -39,13 +43,15 @@ export function VignetteStageProvider({
 
   const goToSolution = useCallback(() => {
     setStage('solution');
-  }, [setStage]);
+    trackVignetteInteracted(vignetteId, 'solution');
+  }, [setStage, vignetteId]);
 
   const goToDesignNotes = useCallback(() => {
     if (hasSeenSolution) {
       setStage('designNotes');
+      trackVignetteInteracted(vignetteId, 'designNotes');
     }
-  }, [hasSeenSolution, setStage]);
+  }, [hasSeenSolution, setStage, vignetteId]);
 
   const reset = useCallback(() => {
     setStageInternal('problem');
@@ -61,6 +67,7 @@ export function VignetteStageProvider({
         goToDesignNotes,
         reset,
         hasSeenSolution,
+        vignetteId,
       }}
     >
       {children}

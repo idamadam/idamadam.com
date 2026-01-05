@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { DesignNote } from '@/components/vignettes/types';
 import { MobileDesignNotesSheet } from './MobileDesignNotesSheet';
+import { useVignetteStage } from '@/lib/vignette-stage-context';
 
 interface DesignNotesOverlayProps {
   notes: DesignNote[];
@@ -11,6 +12,7 @@ interface DesignNotesOverlayProps {
 }
 
 export function DesignNotesOverlay({ notes, onActiveNoteChange }: DesignNotesOverlayProps) {
+  const { vignetteId } = useVignetteStage();
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
   const [mobileIndex, setMobileIndex] = useState(0);
 
@@ -55,6 +57,7 @@ export function DesignNotesOverlay({ notes, onActiveNoteChange }: DesignNotesOve
         notes={notes}
         currentIndex={mobileIndex}
         onIndexChange={handleMobileIndexChange}
+        vignetteId={vignetteId}
       />
     </>
   );

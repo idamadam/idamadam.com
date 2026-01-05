@@ -99,7 +99,7 @@ export default function AIHighlightsVignette() {
     <VignetteContainer id="ai-highlights" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
         <motion.div {...fadeInUp}>
-          <VignetteStaged stages={aiHighlightsContent.stages}>
+          <VignetteStaged stages={aiHighlightsContent.stages} vignetteId="ai-highlights">
             <AIHighlightsContent />
           </VignetteStaged>
         </motion.div>

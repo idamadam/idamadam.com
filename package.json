@@ -13,6 +13,7 @@
     "@vercel/analytics": "^1.6.1",
     "framer-motion": "^12.23.25",
     "next": "^16.0.10",
+    "posthog-js": "^1.313.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-intersection-observer": "^10.0.0"
