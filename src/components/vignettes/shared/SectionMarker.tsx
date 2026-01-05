@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import * as Popover from '@radix-ui/react-popover';
+import { useVignetteStage } from '@/lib/vignette-stage-context';
+import { trackDesignNoteViewed } from '@/lib/analytics';
 
 interface SectionMarkerProps {
   index: number;
@@ -14,10 +16,14 @@ interface SectionMarkerProps {
 
 export function SectionMarker({ index, noteId, side, isActive, onOpenChange, note }: SectionMarkerProps) {
   const [open, setOpen] = useState(false);
+  const { vignetteId } = useVignetteStage();
 
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
     onOpenChange(noteId, isOpen);
+    if (isOpen) {
+      trackDesignNoteViewed(vignetteId, noteId);
+    }
   };
 
   return (

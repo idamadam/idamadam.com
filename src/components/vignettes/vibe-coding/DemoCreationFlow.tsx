@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { trackExternalLinkClicked } from '@/lib/analytics';
 
 // Global styles for animated gradient border
 function GradientBorderStyles() {
@@ -294,6 +295,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 rel="noopener noreferrer"
                 className="btn-interactive btn-primary animate-fadeIn"
                 style={{ animation: 'fadeIn 0.5s ease-in-out' }}
+                onClick={() => trackExternalLinkClicked('vibe-coding-waitlist', 'https://studio.up.railway.app/')}
               >
                 Join the waitlist
               </a>
@@ -439,6 +441,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-interactive btn-primary"
+                  onClick={() => trackExternalLinkClicked('vibe-coding-waitlist', 'https://studio.up.railway.app/')}
                 >
                   Join the waitlist
                 </a>

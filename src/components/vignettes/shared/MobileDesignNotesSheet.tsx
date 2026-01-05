@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import type { DesignNote } from '@/components/vignettes/types';
+import { trackDesignNoteViewed, type VignetteId } from '@/lib/analytics';
 
 interface MobileDesignNotesSheetProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface MobileDesignNotesSheetProps {
   notes: DesignNote[];
   currentIndex: number;
   onIndexChange: (index: number) => void;
+  vignetteId: VignetteId;
 }
 
 export function MobileDesignNotesSheet({
@@ -19,16 +21,26 @@ export function MobileDesignNotesSheet({
   notes,
   currentIndex,
   onIndexChange,
+  vignetteId,
 }: MobileDesignNotesSheetProps) {
   const currentNote = notes[currentIndex];
   const [isDragging, setIsDragging] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const trackedNotesRef = useRef<Set<string>>(new Set());
 
   // Track mount state for portal (SSR safety)
   useEffect(() => {
     setMounted(true);
     return () => setMounted(false);
   }, []);
+
+  // Track design note views (only once per note per session)
+  useEffect(() => {
+    if (isOpen && currentNote && !trackedNotesRef.current.has(currentNote.id)) {
+      trackDesignNoteViewed(vignetteId, currentNote.id);
+      trackedNotesRef.current.add(currentNote.id);
+    }
+  }, [isOpen, currentNote, vignetteId]);
 
   // Keyboard navigation
   useEffect(() => {

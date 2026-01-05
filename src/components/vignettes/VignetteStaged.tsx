@@ -3,6 +3,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStageProvider, useVignetteStage, VignetteStage } from '@/lib/vignette-stage-context';
+import type { VignetteId } from '@/lib/analytics';
 import { timing, timingReduced } from '@/lib/animations';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import Button from '@/components/Button';
@@ -17,6 +18,7 @@ interface VignetteStagedProps {
   };
   designNotesPanel?: ReactNode;
   className?: string;
+  vignetteId: VignetteId;
 }
 
 function VignetteStagedInner({
@@ -131,7 +133,7 @@ function VignetteStagedInner({
 
 export default function VignetteStaged(props: VignetteStagedProps) {
   return (
-    <VignetteStageProvider initialStage="problem">
+    <VignetteStageProvider initialStage="problem" vignetteId={props.vignetteId}>
       <VignetteStagedInner {...props} />
     </VignetteStageProvider>
   );

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { timing, timingReduced } from '@/lib/animations';
 import { useReducedMotion } from '@/lib/useReducedMotion';
+import { trackExternalLinkClicked } from '@/lib/analytics';
 
 export default function Footer() {
   const reducedMotion = useReducedMotion();
@@ -28,6 +29,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn-interactive btn-primary text-lg px-6 py-3 gap-3"
+            onClick={() => trackExternalLinkClicked('footer-linkedin', 'https://www.linkedin.com/in/idamadam/')}
           >
             Connect on
             <svg

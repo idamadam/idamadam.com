@@ -59,7 +59,7 @@ export default function PrototypingVignette() {
     <VignetteContainer id="prototyping">
       <div className="w-full space-y-10 lg:space-y-12">
         <motion.div {...fadeInUp}>
-          <VignetteStaged stages={prototypingContent.stages}>
+          <VignetteStaged stages={prototypingContent.stages} vignetteId="prototyping">
             <PrototypingContent />
           </VignetteStaged>
         </motion.div>

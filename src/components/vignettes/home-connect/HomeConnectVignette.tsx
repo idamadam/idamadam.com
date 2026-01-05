@@ -37,7 +37,7 @@ export default function HomeConnectVignette() {
     <VignetteContainer id="home-connect" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
         <motion.div {...fadeInUp}>
-          <VignetteStaged stages={homeConnectContent.stages}>
+          <VignetteStaged stages={homeConnectContent.stages} vignetteId="home-connect">
             <HomeConnectContent
               notes={homeConnectContent.designNotes.notes}
               highlightedSection={highlightedSection}

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { heroContent } from './vignettes/hero/content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
+import { trackExternalLinkClicked } from '@/lib/analytics';
 
 export default function Header() {
   const reducedMotion = useReducedMotion();
@@ -53,6 +54,7 @@ export default function Header() {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center hover-linkedin transition-colors duration-200"
+              onClick={() => trackExternalLinkClicked('header-linkedin', 'https://www.linkedin.com/in/idamadam/')}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

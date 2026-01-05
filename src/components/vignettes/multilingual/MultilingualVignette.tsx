@@ -141,7 +141,7 @@ export default function MultilingualVignette() {
     <VignetteContainer id="multilingual" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
         <motion.div {...fadeInUp}>
-          <VignetteStaged stages={multilingualContent.stages}>
+          <VignetteStaged stages={multilingualContent.stages} vignetteId="multilingual">
             <MultilingualContent />
           </VignetteStaged>
         </motion.div>
