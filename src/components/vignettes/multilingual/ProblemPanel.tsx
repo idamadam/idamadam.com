@@ -4,11 +4,6 @@ import { motion } from 'framer-motion';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import { ProblemStack } from '@/components/vignettes/shared/ProblemStack';
 import { ProblemStateLayout } from '@/components/vignettes/shared/ProblemStateLayout';
-import Button from '@/components/Button';
-
-interface ProblemPanelProps {
-  onTransition: () => void;
-}
 
 interface CycleWindow {
   code: string;
@@ -35,7 +30,7 @@ const cycleWindows: CycleWindow[] = [
   }
 ];
 
-export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
+export default function ProblemPanel() {
   const { entranceDelay, stagger, reducedMotion } = useVignetteEntrance();
 
   const renderCycleWindow = (window: CycleWindow) => (
@@ -66,16 +61,8 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
     </>
   );
 
-  const ctaDelay = entranceDelay + cycleWindows.length * stagger + 0.1;
-
   return (
-    <ProblemStateLayout
-      button={
-        <Button onClick={onTransition} enterDelay={ctaDelay}>
-          Unify them
-        </Button>
-      }
-    >
+    <ProblemStateLayout>
       {/* Mobile: Stacked windows */}
       <div className="flex flex-col gap-3 w-full lg:hidden">
         {cycleWindows.map((window, index) => (

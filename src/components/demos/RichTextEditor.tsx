@@ -78,11 +78,11 @@ export default function RichTextEditor({
                 className={
                   isImproveActivated
                     ? "bg-background-elevated hover:bg-black/5 h-10 px-3 py-2 rounded-lg flex items-center gap-1.5 transition-colors"
-                    : "btn-interactive btn-primary h-10 px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    : "btn-interactive btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 }
               >
                 <span className={`material-icons-outlined ${isImproveActivated ? 'text-primary' : ''}`}>auto_awesome</span>
-                <span className={`text-sm ${isImproveActivated ? 'text-primary' : ''}`}>Improve</span>
+                <span className={isImproveActivated ? 'text-primary' : ''}>Improve</span>
               </button>
             </div>
           )}

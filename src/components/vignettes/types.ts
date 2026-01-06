@@ -7,7 +7,6 @@ export interface DesignIteration {
 
 export interface DesignNote {
   id: string;
-  label?: string;
   detail: string;
   x?: string; // e.g., '85%' - percentage from left of container
   y?: string; // e.g., '20%' - percentage from top of container

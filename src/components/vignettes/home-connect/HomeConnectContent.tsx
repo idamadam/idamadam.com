@@ -12,6 +12,7 @@ import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
 import { DesignNotesOverlay } from '@/components/vignettes/shared/DesignNotesOverlay';
 import { useReducedMotion } from '@/lib/useReducedMotion';
+import Button from '@/components/Button';
 
 type PanelStage = 'problem' | 'solution';
 
@@ -68,6 +69,13 @@ export default function HomeConnectContent({
           />
         </div>
       }
+      actions={
+        stage === 'problem' && panelStage === 'problem' && currentStageContent.cta ? (
+          <Button onClick={handleTransition} enterDelay={0.3}>
+            {currentStageContent.cta}
+          </Button>
+        ) : null
+      }
     >
       <div className="relative min-h-[400px]" style={{ overflow: 'visible' }}>
         <AnimatePresence mode="wait">
@@ -79,7 +87,7 @@ export default function HomeConnectContent({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
-              <ProblemPanel onTransition={handleTransition} />
+              <ProblemPanel />
             </motion.div>
           )}
           {panelStage === 'solution' && (

@@ -10,12 +10,9 @@ export interface AISuggestionsContent {
   designNotes: {
     notes: DesignNote[];
   };
-  questionNumber: number;
   questionText: string;
-  instructionText: string;
   beforeText: string;
   recommendations: AISuggestionsRecommendation[];
-  sharingNote: string;
 }
 
 export const aiSuggestionsContent: AISuggestionsContent = {
@@ -34,34 +31,28 @@ export const aiSuggestionsContent: AISuggestionsContent = {
     notes: [
       {
         id: 'editor-integration',
-        label: 'Contextual placement',
-        detail: 'Positioned next to familiar formatting controls so it feels native.',
+        detail: "The button is placed as an extension of the text editor controls, so it's easy to find and use.",
         x: '-4%',
         y: '12%',
         popoverSide: 'left' as const,
       },
       {
         id: 'loading-state',
-        label: 'AI visual language',
-        detail: 'The gradient border and loading animation became a core signifier of AI features at Culture Amp.',
+        detail: 'I designed the gradient border and animation as a way to signify AI, it became the standard across Culture Amp.',
         x: '-4%',
         y: '65%',
         popoverSide: 'left' as const,
       },
       {
         id: 'people-science',
-        label: 'People science foundation',
-        detail: "Each recommendation explains what's missing. Managers learn to fix their feedback over time through actionable suggestions.",
+        detail: "Each recommendation explains what's missing. Managers learn to fix their feedback over time through understanding what makes for good feedback.",
         x: '104%',
         y: '52%',
         popoverSide: 'right' as const,
       }
     ]
   },
-  questionNumber: 2,
   questionText: 'How has this person progressed over this review period?',
-  instructionText:
-    "Explain how this growth has helped this person achieve their goals...",
   beforeText:
     "Alex Johnson has made some progress, but it's not really enough. They still have a long way to go. Their performance hasn't improved much, and they haven't met their goals in a meaningful way. They should try to be better next review period.",
   recommendations: [
@@ -75,6 +66,5 @@ export const aiSuggestionsContent: AISuggestionsContent = {
       description:
         'The feedback is vague and does not provide specific, actionable steps for improvement. It states that Alex should "try to be better" but doesn\'t offer concrete suggestions on how to achieve that.'
     }
-  ],
-  sharingNote: 'May be shared with Lena'
+  ]
 };

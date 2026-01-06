@@ -135,12 +135,7 @@ export function MobileDesignNotesSheet({
                   exit={isDragging ? undefined : { opacity: 0, x: -20 }}
                   transition={{ duration: 0.15 }}
                 >
-                  {currentNote.label && (
-                    <h3 className="text-lg font-semibold text-primary mb-2">
-                      {currentNote.label}
-                    </h3>
-                  )}
-                  <p className="text-secondary leading-relaxed">
+                  <p className="text-lg text-secondary leading-relaxed">
                     {currentNote.detail}
                   </p>
                 </motion.div>

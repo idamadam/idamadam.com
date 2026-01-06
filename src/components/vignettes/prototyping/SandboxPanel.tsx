@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import { ProblemStack } from '@/components/vignettes/shared/ProblemStack';
 import { ProblemStateLayout } from '@/components/vignettes/shared/ProblemStateLayout';
-import Button from '@/components/Button';
 import type { PrototypingContent } from './content';
 
 type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
@@ -13,27 +12,17 @@ interface SandboxPanelProps {
   className?: string;
   content: PrototypingContent;
   stage?: PanelStage;
-  onTransition?: () => void;
 }
 
 function ProblemState({
   questions,
-  onTransition
 }: {
   questions: PrototypingContent['problemQuestions'];
-  onTransition?: () => void;
 }) {
   const { entranceDelay, stagger } = useVignetteEntrance();
-  const ctaDelay = entranceDelay + Math.min(questions.length, 5) * stagger + 0.1;
 
   return (
-    <ProblemStateLayout
-      button={
-        <Button onClick={onTransition} enterDelay={ctaDelay}>
-          See how it works
-        </Button>
-      }
-    >
+    <ProblemStateLayout>
       {/* Mobile: Stacked questions */}
       <div className="flex flex-col gap-2 w-full lg:hidden">
         {questions.slice(0, 4).map((q, index) => (
@@ -238,7 +227,6 @@ export default function SandboxPanel({
   className = '',
   content,
   stage = 'solution',
-  onTransition
 }: SandboxPanelProps) {
   const renderStage = () => {
     switch (stage) {
@@ -253,7 +241,6 @@ export default function SandboxPanel({
           >
             <ProblemState
               questions={content.problemQuestions}
-              onTransition={onTransition}
             />
           </motion.div>
         );
