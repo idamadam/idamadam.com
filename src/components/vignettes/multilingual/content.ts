@@ -1,13 +1,5 @@
 import { DesignNote, VignetteStages } from '../types';
 
-interface TranslationWorkflow {
-  id: number;
-  icon: string;
-  title: string;
-  description: string;
-  highlighted: boolean;
-}
-
 interface TranslationField {
   id: number;
   label: string;
@@ -21,12 +13,6 @@ interface LanguageOption {
   text: string;
 }
 
-interface LanguagePair {
-  from: string;
-  to: string;
-  code: string;
-}
-
 interface ProblemCard {
   code: string;
   name: string;
@@ -34,14 +20,9 @@ interface ProblemCard {
   cycleNumber: number;
 }
 
-
 export interface MultilingualContent {
-  workflows: TranslationWorkflow[];
   translationFields: TranslationField[];
   languages: LanguageOption[];
-  englishText: string;
-  spanishText: string;
-  languagePairs: LanguagePair[];
   stages: VignetteStages;
   designNotes: {
     notes: DesignNote[];
@@ -50,29 +31,6 @@ export interface MultilingualContent {
 }
 
 export const multilingualContent: MultilingualContent = {
-  workflows: [
-    {
-      id: 1,
-      icon: 'edit',
-      title: 'Manual Editing',
-      description: 'Quick edits for small changes',
-      highlighted: false
-    },
-    {
-      id: 2,
-      icon: 'upload_file',
-      title: 'XLSX Import',
-      description: 'For admins wanting more control',
-      highlighted: false
-    },
-    {
-      id: 3,
-      icon: 'bolt',
-      title: 'Auto Translate',
-      description: 'Launch cycles in minutes',
-      highlighted: true
-    }
-  ],
   translationFields: [
     {
       id: 1,
@@ -85,14 +43,6 @@ export const multilingualContent: MultilingualContent = {
     { code: 'fr', name: 'Français (French)', text: "Comment cette personne a-t-elle performé au cours de cette période d'évaluation?" },
     { code: 'es', name: 'Español (Spanish)', text: '¿Cómo se desempeñó esta persona durante este período de evaluación?' },
     { code: 'dv', name: 'ދިވެހި (Dhivehi)', text: 'މި މީހާ މި ރިވިއު ތެރޭގައި ކިހިނެއް ކުރިއަރައިފި؟' }
-  ],
-  englishText: 'How did this person perform?',
-  spanishText: '¿Cómo se desempeñó esta persona?',
-  languagePairs: [
-    { from: 'English', to: 'Spanish', code: 'es' },
-    { from: 'English', to: 'French', code: 'fr' },
-    { from: 'English', to: 'German', code: 'de' },
-    { from: 'English', to: 'Japanese', code: 'ja' }
   ],
   stages: {
     problem: {
@@ -107,7 +57,6 @@ export const multilingualContent: MultilingualContent = {
     notes: [
       {
         id: 'unified-cycle',
-        label: 'Single unified cycle',
         detail: 'Instead of managing separate cycles per language, everything lives in one dropdown.',
         x: '-4%',
         y: '10%',
@@ -115,7 +64,6 @@ export const multilingualContent: MultilingualContent = {
       },
       {
         id: 'ai-translate',
-        label: 'AI translation placement',
         detail: 'A primary button for translating in one click. Research showed this was already a core process, I just made it easier.',
         x: '104%',
         y: '10%',
@@ -123,7 +71,6 @@ export const multilingualContent: MultilingualContent = {
       },
       {
         id: 'xlsx-import',
-        label: 'XLSX import from research',
         detail: 'User research revealed admins were already managing translations in XLSX files. This feature lets them use their existing process.',
         x: '104%',
         y: '10%',
@@ -131,7 +78,6 @@ export const multilingualContent: MultilingualContent = {
       },
       {
         id: 'source-reference',
-        label: 'Source text reference',
         detail: 'Original language is placed within easy reach to reduce the need to switch between languages.',
         x: '-4%',
         y: '75%',

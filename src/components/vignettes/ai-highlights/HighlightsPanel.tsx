@@ -558,12 +558,12 @@ export default function HighlightsPanel({
 }: HighlightsPanelProps) {
   // Default problem cards if none provided
   const defaultProblemCards: FeedbackSource[] = [
-    { id: 'feedback1', channel: 'feedback', content: 'Excellent collaboration on cross-team projects', from: 'Peer review' },
-    { id: 'feedback2', channel: 'feedback', content: 'Great job on the API redesign!', from: 'Sarah Chen', time: '2 weeks ago' },
-    { id: 'feedback3', channel: 'feedback', content: 'Could use more documentation', from: 'Mike Torres', time: '3 weeks ago' },
-    { id: 'feedback4', channel: 'feedback', content: 'Discussed career growth, interested in tech lead path', date: 'Oct 15' },
-    { id: 'feedback5', channel: 'feedback', content: 'Q3: Improve API response time by 40%', status: 'completed' },
-    { id: 'feedback6', channel: 'feedback', content: '1-on-1 with Idam', date: 'Oct 22' },
+    { id: 'feedback1', content: 'Excellent collaboration on cross-team projects', from: 'Peer review' },
+    { id: 'feedback2', content: 'Great job on the API redesign!', from: 'Sarah Chen' },
+    { id: 'feedback3', content: 'Could use more documentation', from: 'Mike Torres' },
+    { id: 'feedback4', content: 'Discussed career growth, interested in tech lead path' },
+    { id: 'feedback5', content: 'Q3: Improve API response time by 40%' },
+    { id: 'feedback6', content: '1-on-1 with Idam' },
   ];
 
   const cards = problemCards.length > 0 ? problemCards : defaultProblemCards;
