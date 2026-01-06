@@ -72,7 +72,11 @@ export default function VignetteSplit({
       <div className={gridClass}>
         <div className={textStackClass}>
           {title && <h3 className={titleClass}>{title}</h3>}
-          {actions}
+          {actions && (
+            <div className="flex justify-center xl:justify-start">
+              {actions}
+            </div>
+          )}
         </div>
         <div className="w-full">
           <VignetteEntranceProvider delay={0}>
@@ -94,7 +98,11 @@ export default function VignetteSplit({
         variants={textVariants}
       >
         {title && <h3 className={titleClass}>{title}</h3>}
-        {actions}
+        {actions && (
+          <div className="flex justify-center xl:justify-start">
+            {actions}
+          </div>
+        )}
       </motion.div>
 
       {/* Panel column - animates after text */}

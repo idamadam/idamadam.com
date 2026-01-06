@@ -7,7 +7,6 @@ import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
 import { ProblemStack } from '@/components/vignettes/shared/ProblemStack';
 import { ProblemStateLayout } from '@/components/vignettes/shared/ProblemStateLayout';
-import Button from '@/components/Button';
 import type { FeedbackSource } from './content';
 
 type PanelStage = VignetteStage | 'loading';
@@ -15,7 +14,6 @@ type PanelStage = VignetteStage | 'loading';
 interface HighlightsPanelProps {
   className?: string;
   stage?: PanelStage;
-  onTransition?: () => void;
   problemCards?: FeedbackSource[];
   highlightedSection?: string | null;
   onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
@@ -201,10 +199,9 @@ function LoadingState() {
   );
 }
 
-function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTransition?: () => void }) {
+function ProblemState({ cards }: { cards: FeedbackSource[] }) {
   const { entranceDelay, stagger } = useVignetteEntrance();
   const visibleCards = cards.slice(0, 5);
-  const ctaDelay = entranceDelay + visibleCards.length * stagger + 0.2;
 
   const renderCard = (card: FeedbackSource) => (
     <>
@@ -221,13 +218,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
   );
 
   return (
-    <ProblemStateLayout
-      button={
-        <Button onClick={onTransition} enterDelay={ctaDelay}>
-          Distill
-        </Button>
-      }
-    >
+    <ProblemStateLayout>
       {/* Mobile: Simple stacked layout */}
       <div className="flex flex-col gap-3 w-full lg:hidden">
         {visibleCards.slice(0, 3).map((card, index) => (
@@ -560,7 +551,6 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
 export default function HighlightsPanel({
   className = '',
   stage = 'solution',
-  onTransition,
   problemCards = [],
   highlightedSection = null,
   onNoteOpenChange,
@@ -589,7 +579,7 @@ export default function HighlightsPanel({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <ProblemState cards={cards} onTransition={onTransition} />
+            <ProblemState cards={cards} />
           </motion.div>
         );
       case 'loading':

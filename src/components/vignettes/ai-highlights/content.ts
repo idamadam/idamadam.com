@@ -25,7 +25,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
   stages: {
     problem: {
       title: 'Synthesizing feedback was the most time-intensive part of performance reviews',
-      cta: 'See how AI helped'
+      cta: 'Show me the summary'
     },
     solution: {
       title: 'Designed AI summaries managers could verify and trust'

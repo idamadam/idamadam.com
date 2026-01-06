@@ -4,11 +4,6 @@ import { motion } from 'framer-motion';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import { ProblemStack } from '@/components/vignettes/shared/ProblemStack';
 import { ProblemStateLayout } from '@/components/vignettes/shared/ProblemStateLayout';
-import Button from '@/components/Button';
-
-interface ProblemPanelProps {
-  onTransition: () => void;
-}
 
 interface InsightItem {
   id: string;
@@ -42,11 +37,8 @@ const insights: InsightItem[] = [
   },
 ];
 
-export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
+export default function ProblemPanel() {
   const { entranceDelay, stagger, reducedMotion } = useVignetteEntrance();
-
-  // CTA appears after all cards have animated in
-  const ctaDelay = reducedMotion ? 0 : entranceDelay + insights.length * stagger + 0.1;
 
   const renderInsightCard = (item: InsightItem) => (
     <>
@@ -73,13 +65,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
   );
 
   return (
-    <ProblemStateLayout
-      button={
-        <Button onClick={onTransition} enterDelay={ctaDelay}>
-          Connect
-        </Button>
-      }
-    >
+    <ProblemStateLayout>
       {/* Mobile: Stacked cards */}
       <div className="flex flex-col gap-3 w-full lg:hidden">
         {insights.map((item, i) => (

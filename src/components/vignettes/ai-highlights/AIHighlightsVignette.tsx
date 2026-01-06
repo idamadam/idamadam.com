@@ -14,6 +14,7 @@ import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
 import { useLoadingTransition } from '@/components/vignettes/shared/useLoadingTransition';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useScrollToSection } from '@/components/vignettes/shared/useScrollToSection';
+import Button from '@/components/Button';
 
 type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 
@@ -72,11 +73,17 @@ function AIHighlightsContent() {
           />
         </div>
       }
+      actions={
+        stage === 'problem' && !isLoading && currentStageContent.cta ? (
+          <Button onClick={startTransition} enterDelay={0.3}>
+            {currentStageContent.cta}
+          </Button>
+        ) : null
+      }
     >
       <div className="relative" style={{ overflow: 'visible' }}>
         <HighlightsPanel
           stage={panelStage}
-          onTransition={startTransition}
           problemCards={aiHighlightsContent.problemCards}
           highlightedSection={highlightedSection}
           onNoteOpenChange={handleNoteOpenChange}

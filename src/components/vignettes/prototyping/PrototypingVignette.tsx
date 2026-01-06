@@ -11,6 +11,7 @@ import { useLoadingTransition } from '@/components/vignettes/shared/useLoadingTr
 import { fadeInUp } from '@/lib/animations';
 import { prototypingContent } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
+import Button from '@/components/Button';
 
 type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 
@@ -44,11 +45,17 @@ function PrototypingContent() {
           />
         </div>
       }
+      actions={
+        stage === 'problem' && !isLoading && currentStageContent.cta ? (
+          <Button onClick={startTransition} enterDelay={0.3}>
+            {currentStageContent.cta}
+          </Button>
+        ) : null
+      }
     >
       <SandboxPanel
         content={prototypingContent}
         stage={panelStage}
-        onTransition={startTransition}
       />
     </VignetteSplit>
   );

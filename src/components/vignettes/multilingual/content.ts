@@ -97,7 +97,7 @@ export const multilingualContent: MultilingualContent = {
   stages: {
     problem: {
       title: 'Supporting multiple languages required a separate workflow for each language',
-      cta: 'Show the solution'
+      cta: 'Unify the workflow'
     },
     solution: {
       title: 'Designed a simple way to bring multiple languages into a single cycle'

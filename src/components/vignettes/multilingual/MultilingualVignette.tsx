@@ -15,6 +15,7 @@ import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useScrollToSection } from '@/components/vignettes/shared/useScrollToSection';
+import Button from '@/components/Button';
 
 // Map note IDs to the content sections they reference
 const NOTE_TO_SECTION: Record<string, string> = {
@@ -81,6 +82,13 @@ function MultilingualContent() {
           />
         </div>
       }
+      actions={
+        stage === 'problem' && panelStage === 'problem' && currentStageContent.cta ? (
+          <Button onClick={handleTransition} enterDelay={0.3}>
+            {currentStageContent.cta}
+          </Button>
+        ) : null
+      }
     >
       <div className="relative min-h-[420px] flex flex-col justify-center" style={{ overflow: 'visible' }}>
         <AnimatePresence mode="wait">
@@ -92,7 +100,7 @@ function MultilingualContent() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15, ease: 'easeOut' }}
             >
-              <ProblemPanel onTransition={handleTransition} />
+              <ProblemPanel />
             </motion.div>
           )}
           {panelStage === 'transition' && (
