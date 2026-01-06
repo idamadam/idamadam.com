@@ -52,12 +52,9 @@ export function SectionMarker({ index, noteId, side, isActive, onOpenChange, not
             align="center"
             sideOffset={12}
             collisionPadding={16}
-            className="bg-background-elevated rounded-xl px-4 py-3 shadow-lg border border-border max-w-[280px] z-50"
+            className="bg-background-elevated rounded-xl px-4 pt-3 pb-2 shadow-lg border border-border max-w-[280px] z-50"
           >
-            {note.label && (
-              <p className="font-semibold text-sm text-primary">{note.label}</p>
-            )}
-            <p className={`text-sm text-secondary leading-relaxed ${note.label ? 'mt-1' : ''}`}>
+            <p className="text-base text-secondary leading-relaxed">
               {note.detail}
             </p>
             <Popover.Arrow className="fill-background-elevated" />
