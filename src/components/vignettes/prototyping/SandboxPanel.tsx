@@ -30,7 +30,7 @@ function ProblemState({
     <ProblemStateLayout
       button={
         <Button onClick={onTransition} enterDelay={ctaDelay}>
-          See how it works
+          Bootstrap
         </Button>
       }
     >

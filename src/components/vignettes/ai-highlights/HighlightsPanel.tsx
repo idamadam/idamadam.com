@@ -224,7 +224,7 @@ function ProblemState({ cards, onTransition }: { cards: FeedbackSource[]; onTran
     <ProblemStateLayout
       button={
         <Button onClick={onTransition} enterDelay={ctaDelay}>
-          Summarise feedback
+          Distill
         </Button>
       }
     >

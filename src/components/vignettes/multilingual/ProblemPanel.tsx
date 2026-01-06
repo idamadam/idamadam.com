@@ -72,7 +72,7 @@ export default function ProblemPanel({ onTransition }: ProblemPanelProps) {
     <ProblemStateLayout
       button={
         <Button onClick={onTransition} enterDelay={ctaDelay}>
-          Unify them
+          Simplify
         </Button>
       }
     >
