@@ -62,7 +62,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       {
         id: 'context-first',
         label: 'Summary paragraph',
-        detail: 'The summary orients the managers before diving into the details below.',
+        detail: 'Managers are busy so the summary lets them know the key details before diving in.',
         x: '-4%',
         y: '18%',
         popoverSide: 'left' as const,
@@ -70,7 +70,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       {
         id: 'verification',
         label: 'AI generated themes',
-        detail: "Design research revealed opportunities to refine the model output. Managers wanted richer summaries that show when a behaviour occurred, e.g. project names.",
+        detail: "Tuned the prompts to include specifics like project names, based on user feedback.",
         x: '-4%',
         y: '45%',
         popoverSide: 'left' as const,

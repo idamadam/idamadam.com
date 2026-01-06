@@ -35,7 +35,7 @@ export const aiSuggestionsContent: AISuggestionsContent = {
       {
         id: 'editor-integration',
         label: 'Contextual placement',
-        detail: 'Positioned next to familiar formatting controls so it feels native.',
+        detail: "The button is placed as an extension of the text editor controls, so it's easy to find and use.",
         x: '-4%',
         y: '12%',
         popoverSide: 'left' as const,
@@ -43,7 +43,7 @@ export const aiSuggestionsContent: AISuggestionsContent = {
       {
         id: 'loading-state',
         label: 'AI visual language',
-        detail: 'The gradient border and loading animation became a core signifier of AI features at Culture Amp.',
+        detail: 'I designed the gradient border and animation as a way to signify AI, it became the standard across Culture Amp.',
         x: '-4%',
         y: '65%',
         popoverSide: 'left' as const,
@@ -51,7 +51,7 @@ export const aiSuggestionsContent: AISuggestionsContent = {
       {
         id: 'people-science',
         label: 'People science foundation',
-        detail: "Each recommendation explains what's missing. Managers learn to fix their feedback over time through actionable suggestions.",
+        detail: "Each recommendation explains what's missing. Managers learn to fix their feedback over time through understanding what makes for good feedback.",
         x: '104%',
         y: '52%',
         popoverSide: 'right' as const,

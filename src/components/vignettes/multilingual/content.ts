@@ -108,7 +108,7 @@ export const multilingualContent: MultilingualContent = {
       {
         id: 'unified-cycle',
         label: 'Single unified cycle',
-        detail: 'All languages share one performance cycle. Eliminates duplicate setup and parallel admin work.',
+        detail: 'Instead of managing separate cycles per language, everything lives in one dropdown.',
         x: '-4%',
         y: '10%',
         popoverSide: 'left' as const
@@ -116,7 +116,7 @@ export const multilingualContent: MultilingualContent = {
       {
         id: 'ai-translate',
         label: 'AI translation placement',
-        detail: 'Auto-translate button placed prominently with the language selector. Contextual placement reduces cognitive load.',
+        detail: 'A primary button for translating in one click. Research showed this was already a core process, I just made it easier.',
         x: '104%',
         y: '10%',
         popoverSide: 'right' as const
@@ -132,7 +132,7 @@ export const multilingualContent: MultilingualContent = {
       {
         id: 'source-reference',
         label: 'Source text reference',
-        detail: 'English source text displayed below each field so translators have full context without switching screens.',
+        detail: 'Original language is placed within easy reach to reduce the need to switch between languages.',
         x: '-4%',
         y: '75%',
         popoverSide: 'left' as const

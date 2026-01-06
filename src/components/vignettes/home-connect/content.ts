@@ -56,7 +56,7 @@ export const homeConnectContent: HomeConnectContent = {
         id: 'card-system',
         label: 'Card system',
         detail:
-          'A unified card system surfaces updates based around the people you care about at work.',
+          'I designed a system of cards to bring critical updates from across the app to a single, unified feed.',
         x: '104%',
         y: '35%',
         popoverSide: 'right' as const,
@@ -65,7 +65,7 @@ export const homeConnectContent: HomeConnectContent = {
         id: 'inactive-goal',
         label: 'Inactive goal nudge',
         detail:
-          'A new notification type to drive adoption. Managers see when their reports have stalled goals.',
+          "This notification didn't exist before, I designed it to nudge managers when their reports' goals have stalled.",
         x: '-4%',
         y: '80%',
         popoverSide: 'left' as const,
