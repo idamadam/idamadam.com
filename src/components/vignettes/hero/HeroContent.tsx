@@ -12,26 +12,26 @@ export default function HeroContent() {
   const characters = heroContent.name.split('');
 
   return (
-    <div className="flex items-center gap-[60px]">
+    <div className="flex items-center gap-12 lg:gap-14">
       {/* Photo with layered shadow effect */}
       <motion.div
-        className="relative shrink-0 w-[109px] h-[109px] cursor-pointer"
-        whileTap={{ scale: 0.9 }}
+        className="relative shrink-0 w-[105px] h-[105px] cursor-pointer"
+        whileTap={{ scale: 0.92 }}
         transition={{
           type: 'spring',
-          stiffness: 500,
-          damping: 15,
+          stiffness: 400,
+          damping: 20,
         }}
       >
         {/* Shadow layer */}
-        <div className="absolute top-[3px] left-[3px] w-24 h-24 bg-[#1e293b] rounded-[2px]" />
+        <div className="absolute top-[3px] left-[3px] w-[92px] h-[92px] bg-neutral-800 rounded-[3px]" />
         {/* Photo layer */}
-        <div className="absolute top-[13px] left-[13px] w-24 h-24 rounded-[2px] overflow-hidden">
+        <div className="absolute top-[12px] left-[12px] w-[92px] h-[92px] rounded-[3px] overflow-hidden">
           <Image
             src="/avatars/headshot.jpg"
             alt={heroContent.name}
-            width={96}
-            height={96}
+            width={92}
+            height={92}
             className="w-full h-full object-cover"
           />
         </div>

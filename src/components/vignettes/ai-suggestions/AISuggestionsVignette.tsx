@@ -71,7 +71,7 @@ function AISuggestionsContent() {
         </div>
       }
     >
-      <div className="relative" style={{ overflow: 'visible' }}>
+      <div className="relative w-full max-w-[672px] mx-auto" style={{ overflow: 'visible' }}>
         <SuggestionsPanel
           content={aiSuggestionsContent}
           stage={panelStage}
@@ -95,13 +95,11 @@ function AISuggestionsContent() {
 export default function AISuggestionsVignette() {
   return (
     <VignetteContainer id="ai-suggestions" allowOverflow>
-      <div className="w-full space-y-10 lg:space-y-12">
-        <motion.div {...fadeInUp}>
-          <VignetteStaged stages={aiSuggestionsContent.stages} vignetteId="ai-suggestions">
-            <AISuggestionsContent />
-          </VignetteStaged>
-        </motion.div>
-      </div>
+      <motion.div {...fadeInUp}>
+        <VignetteStaged stages={aiSuggestionsContent.stages} vignetteId="ai-suggestions">
+          <AISuggestionsContent />
+        </VignetteStaged>
+      </motion.div>
     </VignetteContainer>
   );
 }

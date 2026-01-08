@@ -52,14 +52,14 @@ export default function IntroPanel() {
   if (!shouldShow) return null;
 
   return (
-    <div className="flex flex-col justify-center shrink-0">
+    <div className="flex flex-col justify-center shrink-0 gap-0.5">
       {/* Role + Company */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2.5">
         <CharacterReveal
           text={introContent.role}
           baseDelay={sectionTiming.role.start}
           charDelay={CHAR_DELAY.role}
-          className="type-h3 inline !m-0 !leading-[24px]"
+          className="text-[1.125rem] font-medium text-primary tracking-[-0.01em] inline !m-0 !leading-[1.4]"
           as="h3"
           isActive={shouldShow}
         />
@@ -67,13 +67,14 @@ export default function IntroPanel() {
           href={heroContent.companies[0].url}
           target="_blank"
           rel="noopener noreferrer"
-          className="opacity-80 hover:opacity-100 transition-all duration-200"
+          className="opacity-75 hover:opacity-100 transition-opacity duration-200"
           title={heroContent.companies[0].name}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={{ opacity: 0.75 }}
+          whileHover={{ opacity: 1 }}
           transition={{
             delay: sectionTiming.role.start + sectionTiming.role.duration,
-            duration: 0.3
+            duration: 0.25
           }}
         >
           <Image
@@ -81,7 +82,7 @@ export default function IntroPanel() {
             alt={heroContent.companies[0].name}
             width={103}
             height={15}
-            className="h-[15px] w-auto"
+            className="h-[14px] w-auto"
           />
         </motion.a>
       </div>
@@ -91,7 +92,7 @@ export default function IntroPanel() {
         text={introContent.tagline}
         baseDelay={sectionTiming.tagline.start}
         charDelay={CHAR_DELAY.tagline}
-        className="type-h3 !m-0 !leading-[30px]"
+        className="text-[1.125rem] font-medium text-secondary tracking-[-0.01em] !m-0 !leading-[1.5]"
         as="p"
         isActive={shouldShow}
       />

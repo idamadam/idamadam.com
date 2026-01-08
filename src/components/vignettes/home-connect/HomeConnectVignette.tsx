@@ -35,18 +35,16 @@ export default function HomeConnectVignette() {
 
   return (
     <VignetteContainer id="home-connect" allowOverflow>
-      <div className="w-full space-y-10 lg:space-y-12">
-        <motion.div {...fadeInUp}>
-          <VignetteStaged stages={homeConnectContent.stages} vignetteId="home-connect">
-            <HomeConnectContent
-              notes={homeConnectContent.designNotes.notes}
-              highlightedSection={highlightedSection}
-              onNoteOpenChange={handleNoteOpenChange}
-              onActiveNoteChange={handleActiveNoteChange}
-            />
-          </VignetteStaged>
-        </motion.div>
-      </div>
+      <motion.div {...fadeInUp}>
+        <VignetteStaged stages={homeConnectContent.stages} vignetteId="home-connect">
+          <HomeConnectContent
+            notes={homeConnectContent.designNotes.notes}
+            highlightedSection={highlightedSection}
+            onNoteOpenChange={handleNoteOpenChange}
+            onActiveNoteChange={handleActiveNoteChange}
+          />
+        </VignetteStaged>
+      </motion.div>
     </VignetteContainer>
   );
 }

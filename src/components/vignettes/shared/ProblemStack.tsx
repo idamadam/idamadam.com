@@ -68,12 +68,12 @@ export function ProblemStack<T>({
         return (
           <motion.div
             key={keyExtractor(item)}
-            className={`absolute rounded-lg border border-border-strong shadow-sm cursor-default overflow-hidden ${cardClassName || 'bg-background-elevated px-4 py-3'}`}
+            className={`absolute rounded-xl border border-border/60 shadow-sm cursor-default overflow-hidden ${cardClassName || 'bg-background-elevated px-4 py-3'}`}
             style={{
               width: mergedConfig.cardWidth,
               zIndex: mergedConfig.maxVisible - depth,
             }}
-            initial={{ opacity: 0, y: yOffset + 20, x: xOffset, scale: scale * 0.9 }}
+            initial={{ opacity: 0, y: yOffset + 16, x: xOffset, scale: scale * 0.95 }}
             animate={{
               opacity: opacity,
               y: yOffset,
@@ -81,19 +81,19 @@ export function ProblemStack<T>({
               scale: scale,
             }}
             whileHover={{
-              scale: 1.02,
-              y: yOffset - 8,
+              scale: 1.015,
+              y: yOffset - 6,
               opacity: 1,
               zIndex: 10,
-              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
             }}
             transition={
               entranceComplete
-                ? { duration: 0.15, ease: 'easeOut' }
+                ? { duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }
                 : {
-                    duration: 0.4,
+                    duration: 0.45,
                     delay: entranceDelay + index * stagger,
-                    ease: 'easeOut' as const,
+                    ease: [0.25, 0.1, 0.25, 1],
                   }
             }
           >

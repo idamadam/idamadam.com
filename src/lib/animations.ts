@@ -51,19 +51,32 @@ export const timingReduced = {
   intro: { nameReveal: 0, stageDelay: 0.1, stageDuration: 0.15 },
 } as const;
 
+/**
+ * Custom easing curves for premium feel
+ * Inspired by Apple's easing
+ */
+export const easings = {
+  // Natural deceleration - feels like physical object slowing down
+  decel: [0.25, 0.1, 0.25, 1] as const,
+  // Subtle bounce at end
+  softBounce: [0.34, 1.56, 0.64, 1] as const,
+  // Standard ease out
+  out: [0, 0, 0.2, 1] as const,
+} as const;
+
 export const fadeInUp = {
-  initial: { opacity: 0, y: 60 },
+  initial: { opacity: 0, y: 32 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-100px" },
-  transition: { duration: 0.6, ease: "easeOut" as const }
+  viewport: { once: true, margin: "-80px" },
+  transition: { duration: 0.55, ease: easings.decel }
 };
 
 export const subtlePulse = {
   initial: { scale: 1 },
   animate: {
-    scale: [1, 1.03, 1],
+    scale: [1, 1.02, 1],
     transition: {
-      duration: 2,
+      duration: 2.5,
       repeat: 2,
       ease: "easeInOut" as const
     }
@@ -75,10 +88,10 @@ export const subtlePulse = {
  * Use with Framer Motion for consistent interactive feel
  */
 export const buttonAnimations = {
-  whileHover: { scale: 1.02 },
-  whileTap: { scale: 0.98 },
-  initial: { opacity: 0, y: 10 },
+  whileHover: { scale: 1.015 },
+  whileTap: { scale: 0.985 },
+  initial: { opacity: 0, y: 8 },
   animate: { opacity: 1, y: 0 },
-  transition: { opacity: { duration: 0.3 }, y: { duration: 0.3 } },
+  transition: { opacity: { duration: 0.25 }, y: { duration: 0.25, ease: easings.decel } },
 };
 

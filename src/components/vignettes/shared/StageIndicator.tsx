@@ -9,19 +9,37 @@ interface StageIndicatorProps {
 
 export default function StageIndicator({ stage, onStageChange }: StageIndicatorProps) {
   return (
-    <div className="flex items-center gap-1.5 text-caption select-none">
+    <div className="flex items-center gap-2 text-[0.8125rem] select-none">
       <button
         onClick={() => onStageChange('problem')}
-        className={`transition-colors ${stage === 'problem' ? 'text-accent-600 font-medium' : 'text-muted-tertiary hover:text-accent-500'}`}
+        className={`transition-all duration-200 ${
+          stage === 'problem'
+            ? 'text-primary font-medium'
+            : 'text-tertiary hover:text-secondary'
+        }`}
       >
         Problem
       </button>
-      <span className={`w-2 h-2 rounded-full transition-colors ${stage === 'problem' ? 'bg-accent-500' : 'bg-border'}`} />
-      <span className="w-6 h-px bg-border" />
-      <span className={`w-2 h-2 rounded-full transition-colors ${stage === 'solution' ? 'bg-accent-500' : 'bg-border'}`} />
+      <div className="flex items-center gap-1.5">
+        <span
+          className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+            stage === 'problem' ? 'bg-accent-600' : 'bg-border-strong'
+          }`}
+        />
+        <span className="w-5 h-px bg-border-strong" />
+        <span
+          className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+            stage === 'solution' ? 'bg-accent-600' : 'bg-border-strong'
+          }`}
+        />
+      </div>
       <button
         onClick={() => onStageChange('solution')}
-        className={`transition-colors ${stage === 'solution' ? 'text-accent-600 font-medium' : 'text-muted-tertiary hover:text-accent-500'}`}
+        className={`transition-all duration-200 ${
+          stage === 'solution'
+            ? 'text-primary font-medium'
+            : 'text-tertiary hover:text-secondary'
+        }`}
       >
         Solution
       </button>

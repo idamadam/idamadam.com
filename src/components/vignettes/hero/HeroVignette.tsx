@@ -40,7 +40,7 @@ export default function HeroVignette() {
 
   return (
     <motion.section
-      className="w-full px-6 lg:px-12 2xl:px-24 pt-32 pb-12 lg:pt-32 lg:pb-12"
+      className="w-full px-5 lg:px-10 2xl:px-16 pt-28 pb-10 lg:pt-32 lg:pb-14"
       initial={false}
       animate={{
         minHeight: isSplash ? '100vh' : 'auto',
@@ -48,11 +48,11 @@ export default function HeroVignette() {
       transition={{
         duration: 0.3,
         delay: isSplash ? 0 : t.splash.transition + 0.3,
-        ease: [0.33, 1, 0.68, 1],
+        ease: [0.25, 0.1, 0.25, 1],
       }}
     >
       <motion.div
-        className="max-w-[1280px] w-full mx-auto"
+        className="max-w-[1200px] w-full mx-auto"
         style={{ willChange: 'transform' }}
         initial={false}
         animate={{
@@ -60,10 +60,10 @@ export default function HeroVignette() {
         }}
         transition={{
           duration: t.splash.transition,
-          ease: [0.33, 1, 0.68, 1],
+          ease: [0.25, 0.1, 0.25, 1],
         }}
       >
-        <article id="hero" className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-[60px]">
+        <article id="hero" className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-14">
           <HeroContent />
           <IntroPanel />
         </article>

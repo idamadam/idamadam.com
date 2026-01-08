@@ -29,39 +29,39 @@ export default function VignetteSplit({
   const t = reducedMotion ? timingReduced : timing;
 
   const hasTitle = Boolean(title);
-  const textStackClass = hasTitle ? 'space-y-4' : 'space-y-3';
+  const textStackClass = hasTitle ? 'space-y-5' : 'space-y-4';
 
   const titleClass = variant === 'hero' ? 'type-display' : 'type-h3';
 
-  // Grid classes - compact forces single column, otherwise responsive
+  // Grid classes - refined spacing for premium feel
   const gridClass = compact
-    ? 'grid grid-cols-1 gap-8'
-    : 'grid grid-cols-1 xl:grid-cols-[320px_1fr] 2xl:grid-cols-[360px_1fr] gap-8 xl:gap-12 xl:items-center';
+    ? 'grid grid-cols-1 gap-5'
+    : 'grid grid-cols-1 xl:grid-cols-[300px_1fr] 2xl:grid-cols-[340px_1fr] gap-5 xl:gap-8 xl:items-start';
 
   // Animation variants for text column (appears first)
   const textVariants = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 24 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: t.duration.slow,
         delay: t.entrance.text,
-        ease: 'easeOut' as const,
+        ease: [0.25, 0.1, 0.25, 1] as const,
       },
     },
   };
 
   // Animation variants for panel column (appears after text)
   const panelVariants = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 24 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: t.duration.slow,
         delay: t.entrance.panel,
-        ease: 'easeOut' as const,
+        ease: [0.25, 0.1, 0.25, 1] as const,
       },
     },
   };
@@ -71,9 +71,9 @@ export default function VignetteSplit({
     return (
       <div className={gridClass}>
         <div className={textStackClass}>
-          {title && <h3 className={titleClass}>{title}</h3>}
+          {title && <div className={titleClass}>{title}</div>}
           {actions && (
-            <div className="flex justify-center xl:justify-start">
+            <div className="flex justify-center xl:justify-start pt-1">
               {actions}
             </div>
           )}
@@ -94,12 +94,12 @@ export default function VignetteSplit({
         className={textStackClass}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: '-100px' }}
+        viewport={{ once: true, margin: '-80px' }}
         variants={textVariants}
       >
-        {title && <h3 className={titleClass}>{title}</h3>}
+        {title && <div className={titleClass}>{title}</div>}
         {actions && (
-          <div className="flex justify-center xl:justify-start">
+          <div className="flex justify-center xl:justify-start pt-1">
             {actions}
           </div>
         )}
@@ -110,7 +110,7 @@ export default function VignetteSplit({
         className="w-full"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: '-100px' }}
+        viewport={{ once: true, margin: '-80px' }}
         variants={panelVariants}
       >
         <VignetteEntranceProvider>
