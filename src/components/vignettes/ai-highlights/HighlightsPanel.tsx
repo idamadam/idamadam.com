@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { VignetteStage } from '@/lib/vignette-stage-context';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
-import { ProblemStack } from '@/components/vignettes/shared/ProblemStack';
 import { ProblemStateLayout } from '@/components/vignettes/shared/ProblemStateLayout';
 import type { FeedbackSource } from './content';
 
@@ -200,59 +199,110 @@ function LoadingState() {
 }
 
 function ProblemState({ cards }: { cards: FeedbackSource[] }) {
-  const { entranceDelay, stagger } = useVignetteEntrance();
-  const visibleCards = cards.slice(0, 5);
+  const { entranceDelay, stagger, reducedMotion } = useVignetteEntrance();
+  const visibleCards = cards.slice(0, 8);
 
-  const renderCard = (card: FeedbackSource) => (
-    <>
-      {card.from && (
-        <div className="flex items-center gap-2 mb-2">
-          {card.avatarUrl && (
-            <img src={card.avatarUrl} alt={card.from} className="w-6 h-6 rounded-full grayscale" />
-          )}
-          <span className="text-body-sm font-semibold text-primary">{card.from}</span>
-        </div>
-      )}
-      <p className="text-body-sm text-secondary line-clamp-3">{card.content}</p>
-    </>
-  );
+  // Scattered positions for desktop chaos layout
+  const scatterPositions = [
+    { x: '5%', y: '8%', rotate: -3, scale: 1 },
+    { x: '52%', y: '2%', rotate: 2, scale: 0.95 },
+    { x: '28%', y: '45%', rotate: -1, scale: 0.98 },
+    { x: '60%', y: '38%', rotate: 3, scale: 0.92 },
+    { x: '8%', y: '68%', rotate: -2, scale: 0.96 },
+    { x: '45%', y: '72%', rotate: 1, scale: 0.94 },
+    { x: '72%', y: '65%', rotate: -4, scale: 0.9 },
+    { x: '35%', y: '18%', rotate: 2, scale: 0.93 },
+  ];
 
   return (
     <ProblemStateLayout>
-      {/* Mobile: Simple stacked layout */}
-      <div className="flex flex-col gap-3 w-full lg:hidden">
-        {visibleCards.slice(0, 3).map((card, index) => (
+      {/* Mobile: Overlapping cards suggesting overwhelm */}
+      <div className="relative w-full h-[280px] lg:hidden">
+        {visibleCards.slice(0, 4).map((card, index) => (
           <motion.div
             key={card.id}
-            className="bg-background-elevated px-4 py-3 rounded-lg border border-border-strong"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            className="absolute bg-background-elevated px-4 py-3 rounded-lg border border-border shadow-sm w-[85%] max-w-[280px]"
+            style={{
+              left: `${index * 8}%`,
+              top: `${index * 24}px`,
+              zIndex: 4 - index,
+            }}
+            initial={{ opacity: 0, y: 30, rotate: (index % 2 === 0 ? -2 : 2) }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              rotate: (index % 2 === 0 ? -2 : 2)
+            }}
             transition={{
-              duration: 0.4,
-              delay: entranceDelay + index * stagger,
-              ease: 'easeOut' as const,
+              duration: 0.5,
+              delay: reducedMotion ? 0 : entranceDelay + index * stagger,
+              ease: [0.25, 0.1, 0.25, 1],
             }}
           >
             {card.from && (
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-1.5">
                 {card.avatarUrl && (
-                  <img src={card.avatarUrl} alt={card.from} className="w-6 h-6 rounded-full grayscale" />
+                  <img src={card.avatarUrl} alt={card.from} className="w-5 h-5 rounded-full grayscale" />
                 )}
-                <span className="text-body-sm font-semibold text-primary">{card.from}</span>
+                <span className="text-caption font-medium text-secondary">{card.from}</span>
               </div>
             )}
-            <p className="text-body-sm text-secondary line-clamp-2">{card.content}</p>
+            <p className="text-body-sm text-primary line-clamp-2 leading-snug">{card.content}</p>
           </motion.div>
         ))}
       </div>
 
-      {/* Desktop: Cascading stack */}
-      <div className="hidden lg:block w-full">
-        <ProblemStack
-          items={cards}
-          keyExtractor={(card) => card.id}
-          renderItem={renderCard}
-        />
+      {/* Desktop: Chaotic scattered layout */}
+      <div className="hidden lg:block relative w-full h-[340px]">
+        {visibleCards.map((card, index) => {
+          const pos = scatterPositions[index % scatterPositions.length];
+          return (
+            <motion.div
+              key={card.id}
+              className="absolute bg-background-elevated px-4 py-3 rounded-lg border border-border/60 shadow-sm cursor-default"
+              style={{
+                width: 220,
+                left: pos.x,
+                top: pos.y,
+                zIndex: index,
+              }}
+              initial={{
+                opacity: 0,
+                scale: 0.8,
+                rotate: pos.rotate * 2,
+                y: 20
+              }}
+              animate={{
+                opacity: 1,
+                scale: pos.scale,
+                rotate: pos.rotate,
+                y: 0
+              }}
+              whileHover={{
+                scale: 1.02,
+                opacity: 1,
+                zIndex: 20,
+                rotate: 0,
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+              }}
+              transition={{
+                duration: 0.5,
+                delay: reducedMotion ? 0 : entranceDelay + index * 0.08,
+                ease: [0.25, 0.1, 0.25, 1],
+              }}
+            >
+              {card.from && (
+                <div className="flex items-center gap-2 mb-1.5">
+                  {card.avatarUrl && (
+                    <img src={card.avatarUrl} alt={card.from} className="w-5 h-5 rounded-full grayscale" />
+                  )}
+                  <span className="text-caption font-medium text-secondary">{card.from}</span>
+                </div>
+              )}
+              <p className="text-body-sm text-primary line-clamp-2 leading-snug">{card.content}</p>
+            </motion.div>
+          );
+        })}
       </div>
     </ProblemStateLayout>
   );
