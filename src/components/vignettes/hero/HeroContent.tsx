@@ -12,9 +12,10 @@ export default function HeroContent() {
   const characters = heroContent.name.split('');
 
   return (
-    <div className="flex items-end gap-4 lg:gap-6">
+    <div className="flex items-center gap-[60px]">
+      {/* Photo with layered shadow effect */}
       <motion.div
-        className="bg-white p-2 pb-6 lg:p-3 lg:pb-8 shadow-lg rounded-sm rotate-2 mb-1 lg:mb-3 cursor-pointer border border-border"
+        className="relative shrink-0 w-[109px] h-[109px] cursor-pointer"
         whileTap={{ scale: 0.9 }}
         transition={{
           type: 'spring',
@@ -22,15 +23,21 @@ export default function HeroContent() {
           damping: 15,
         }}
       >
-        <Image
-          src="/avatars/headshot.jpg"
-          alt={heroContent.name}
-          width={120}
-          height={120}
-          className="w-20 h-20 lg:w-24 lg:h-24 object-cover rounded-[2px]"
-        />
+        {/* Shadow layer */}
+        <div className="absolute top-[3px] left-[3px] w-24 h-24 bg-[#1e293b] rounded-[2px]" />
+        {/* Photo layer */}
+        <div className="absolute top-[13px] left-[13px] w-24 h-24 rounded-[2px] overflow-hidden">
+          <Image
+            src="/avatars/headshot.jpg"
+            alt={heroContent.name}
+            width={96}
+            height={96}
+            className="w-full h-full object-cover"
+          />
+        </div>
       </motion.div>
-      <h1 className="type-display">
+      {/* Name with pixel font */}
+      <h1 className="type-pixel whitespace-nowrap !m-0">
         <span aria-label={heroContent.name}>
           {characters.map((char, index) => (
             <span

@@ -63,7 +63,7 @@ export default function HeroVignette() {
           ease: [0.33, 1, 0.68, 1],
         }}
       >
-        <article id="hero" className="space-y-8">
+        <article id="hero" className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-[60px]">
           <HeroContent />
           <IntroPanel />
         </article>

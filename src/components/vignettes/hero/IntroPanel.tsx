@@ -52,14 +52,14 @@ export default function IntroPanel() {
   if (!shouldShow) return null;
 
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col justify-center shrink-0">
       {/* Role + Company */}
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex items-center gap-2">
         <CharacterReveal
           text={introContent.role}
           baseDelay={sectionTiming.role.start}
           charDelay={CHAR_DELAY.role}
-          className="type-h3 inline !m-0 !leading-none"
+          className="type-h3 inline !m-0 !leading-[24px]"
           as="h3"
           isActive={shouldShow}
         />
@@ -79,9 +79,9 @@ export default function IntroPanel() {
           <Image
             src={heroContent.companies[0].logo}
             alt={heroContent.companies[0].name}
-            width={140}
-            height={36}
-            className="h-7 w-auto"
+            width={103}
+            height={15}
+            className="h-[15px] w-auto"
           />
         </motion.a>
       </div>
@@ -91,7 +91,7 @@ export default function IntroPanel() {
         text={introContent.tagline}
         baseDelay={sectionTiming.tagline.start}
         charDelay={CHAR_DELAY.tagline}
-        className="type-h3 text-secondary/70 !m-0"
+        className="type-h3 !m-0 !leading-[30px]"
         as="p"
         isActive={shouldShow}
       />

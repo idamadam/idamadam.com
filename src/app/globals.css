@@ -204,6 +204,14 @@
   text-wrap: balance;
 }
 
+.type-pixel {
+  font-family: var(--font-pixel), monospace;
+  font-size: 72px;
+  line-height: 1;
+  letter-spacing: -4.32px;
+  color: var(--primary);
+}
+
 .type-h1 {
   @apply text-h1 font-semibold;
   font-family: var(--font-display), system-ui, sans-serif;
