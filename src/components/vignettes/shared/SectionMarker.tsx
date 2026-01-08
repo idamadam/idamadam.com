@@ -35,12 +35,12 @@ export function SectionMarker({ index, noteId, side, isActive, onOpenChange, not
       <Popover.Root open={open} onOpenChange={handleOpenChange}>
         <Popover.Trigger asChild>
           <button
-            className={`w-6 h-6 rounded-full text-xs font-semibold flex items-center justify-center
-                       bg-[var(--accent-500)] text-white hover:bg-[var(--accent-600)] transition-all cursor-pointer
-                       focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-500)] focus-visible:ring-offset-2
+            className={`w-6 h-6 rounded-full text-[11px] font-medium flex items-center justify-center
+                       bg-accent-600 text-white hover:bg-accent-700 transition-all duration-200 cursor-pointer
+                       focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-600 focus-visible:ring-offset-2
                        breathe-glow
-                       ${isActive ? 'ring-2 ring-[var(--accent-500)] ring-offset-2' : ''}`}
-            style={{ animationDelay: `${index * 0.4}s` }}
+                       ${isActive ? 'ring-2 ring-accent-600 ring-offset-2' : ''}`}
+            style={{ animationDelay: `${index * 0.5}s` }}
             aria-label={`Design note ${index + 1}`}
           >
             {index + 1}
@@ -52,9 +52,9 @@ export function SectionMarker({ index, noteId, side, isActive, onOpenChange, not
             align="center"
             sideOffset={12}
             collisionPadding={16}
-            className="bg-background-elevated rounded-xl px-4 pt-3 pb-2 shadow-lg border border-border max-w-[280px] z-50"
+            className="bg-background-elevated rounded-xl px-4 py-3 shadow-lg border border-border/60 max-w-[280px] z-50"
           >
-            <p className="text-base text-secondary leading-relaxed">
+            <p className="text-[0.9375rem] text-secondary leading-relaxed">
               {note.detail}
             </p>
             <Popover.Arrow className="fill-background-elevated" />

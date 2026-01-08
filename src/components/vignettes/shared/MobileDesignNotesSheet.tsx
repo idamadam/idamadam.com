@@ -81,42 +81,43 @@ export function MobileDesignNotesSheet({
         <>
           {/* Backdrop - lighter to keep highlighted element visible */}
           <motion.div
-            className="fixed inset-0 bg-black/30 z-40 lg:hidden"
+            className="fixed inset-0 bg-black/25 z-40 lg:hidden backdrop-blur-[2px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose}
           />
 
           {/* Sheet */}
           <motion.div
-            className="fixed inset-x-0 bottom-0 bg-background-elevated rounded-t-2xl border-t border-border z-50 lg:hidden shadow-xl touch-none"
+            className="fixed inset-x-0 bottom-0 bg-background-elevated rounded-t-2xl border-t border-border/60 z-50 lg:hidden shadow-xl touch-none"
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            transition={{ type: 'spring', damping: 28, stiffness: 350 }}
             drag="y"
             dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={{ top: 0, bottom: 0.6 }}
+            dragElastic={{ top: 0, bottom: 0.5 }}
             onDragStart={() => setIsDragging(true)}
             onDragEnd={handleDragEnd}
           >
             {/* Handle */}
             <div className="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing">
-              <div className="w-10 h-1 bg-neutral-600 rounded-full" />
+              <div className="w-9 h-1 bg-neutral-300 rounded-full" />
             </div>
 
             {/* Progress dots */}
             <div className="px-6 pb-3 flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">
+              <span className="text-[0.8125rem] text-tertiary">
                 {currentIndex + 1} of {notes.length}
               </span>
               <div className="flex gap-1.5">
                 {notes.map((_, i) => (
                   <button
                     key={i}
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      i === currentIndex ? 'bg-primary' : 'bg-neutral-600'
+                    className={`w-1.5 h-1.5 rounded-full transition-colors duration-200 ${
+                      i === currentIndex ? 'bg-primary' : 'bg-neutral-300'
                     }`}
                     onClick={() => onIndexChange(i)}
                     aria-label={`Go to note ${i + 1}`}
@@ -130,12 +131,12 @@ export function MobileDesignNotesSheet({
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentNote.id}
-                  initial={isDragging ? undefined : { opacity: 0, x: 20 }}
+                  initial={isDragging ? undefined : { opacity: 0, x: 16 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={isDragging ? undefined : { opacity: 0, x: -20 }}
-                  transition={{ duration: 0.15 }}
+                  exit={isDragging ? undefined : { opacity: 0, x: -16 }}
+                  transition={{ duration: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
                 >
-                  <p className="text-lg text-secondary leading-relaxed">
+                  <p className="text-[1rem] text-secondary leading-relaxed">
                     {currentNote.detail}
                   </p>
                 </motion.div>
@@ -145,14 +146,14 @@ export function MobileDesignNotesSheet({
             {/* Navigation */}
             <div className="px-6 pb-6 flex gap-3">
               <button
-                className="flex-1 py-3 px-4 rounded-xl border border-border text-secondary font-medium disabled:opacity-40"
+                className="flex-1 py-3 px-4 rounded-xl border border-border/60 text-secondary text-[0.9375rem] font-medium disabled:opacity-40 transition-colors hover:bg-muted"
                 onClick={() => onIndexChange(currentIndex - 1)}
                 disabled={currentIndex === 0}
               >
                 Previous
               </button>
               <button
-                className="flex-1 py-3 px-4 rounded-xl bg-accent text-white font-medium"
+                className="flex-1 py-3 px-4 rounded-xl bg-accent-600 hover:bg-accent-700 text-white text-[0.9375rem] font-medium transition-colors"
                 onClick={() => {
                   if (currentIndex === notes.length - 1) {
                     onClose();

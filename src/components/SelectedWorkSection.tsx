@@ -22,17 +22,17 @@ export default function SelectedWorkSection() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={shouldShow ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 32 }}
+      animate={shouldShow ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
       transition={{
         duration: t.duration.slow,
-        delay: shouldShow ? 0.6 : 0,
-        ease: 'easeOut',
+        delay: shouldShow ? 0.5 : 0,
+        ease: [0.25, 0.1, 0.25, 1],
       }}
     >
       <SectionTitle disableScrollTrigger>Work</SectionTitle>
-      <section className="w-full pb-16 lg:pb-24 px-6 lg:px-12 2xl:px-24">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 gap-10 lg:gap-12 xl:gap-16 items-start">
+      <section className="w-full pb-12 lg:pb-20 px-5 lg:px-10 2xl:px-16">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 gap-12 lg:gap-16 items-start">
           <AIHighlightsVignette />
           <AISuggestionsVignette />
           <PrototypingVignette />

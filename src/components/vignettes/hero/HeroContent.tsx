@@ -12,25 +12,32 @@ export default function HeroContent() {
   const characters = heroContent.name.split('');
 
   return (
-    <div className="flex items-end gap-4 lg:gap-6">
+    <div className="flex items-center gap-12 lg:gap-14">
+      {/* Photo with layered shadow effect */}
       <motion.div
-        className="bg-white p-2 pb-6 lg:p-3 lg:pb-8 shadow-lg rounded-sm rotate-2 mb-1 lg:mb-3 cursor-pointer border border-border"
-        whileTap={{ scale: 0.9 }}
+        className="relative shrink-0 w-[105px] h-[105px] cursor-pointer"
+        whileTap={{ scale: 0.92 }}
         transition={{
           type: 'spring',
-          stiffness: 500,
-          damping: 15,
+          stiffness: 400,
+          damping: 20,
         }}
       >
-        <Image
-          src="/avatars/headshot.jpg"
-          alt={heroContent.name}
-          width={120}
-          height={120}
-          className="w-20 h-20 lg:w-24 lg:h-24 object-cover rounded-[2px]"
-        />
+        {/* Shadow layer */}
+        <div className="absolute top-[3px] left-[3px] w-[92px] h-[92px] bg-neutral-800 rounded-[3px]" />
+        {/* Photo layer */}
+        <div className="absolute top-[12px] left-[12px] w-[92px] h-[92px] rounded-[3px] overflow-hidden">
+          <Image
+            src="/avatars/headshot.jpg"
+            alt={heroContent.name}
+            width={92}
+            height={92}
+            className="w-full h-full object-cover"
+          />
+        </div>
       </motion.div>
-      <h1 className="type-display">
+      {/* Name with pixel font */}
+      <h1 className="type-pixel whitespace-nowrap !m-0">
         <span aria-label={heroContent.name}>
           {characters.map((char, index) => (
             <span

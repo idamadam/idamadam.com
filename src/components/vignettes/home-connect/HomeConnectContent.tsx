@@ -77,7 +77,7 @@ export default function HomeConnectContent({
         ) : null
       }
     >
-      <div className="relative min-h-[400px]" style={{ overflow: 'visible' }}>
+      <div className="relative w-full max-w-[672px] mx-auto min-h-[400px]" style={{ overflow: 'visible' }}>
         <AnimatePresence mode="wait">
           {panelStage === 'problem' && (
             <motion.div

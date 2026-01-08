@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
-import { ProblemStack } from '@/components/vignettes/shared/ProblemStack';
 import { ProblemStateLayout } from '@/components/vignettes/shared/ProblemStateLayout';
 import type { PrototypingContent } from './content';
 
@@ -19,44 +18,113 @@ function ProblemState({
 }: {
   questions: PrototypingContent['problemQuestions'];
 }) {
-  const { entranceDelay, stagger } = useVignetteEntrance();
+  const { entranceDelay, stagger, reducedMotion } = useVignetteEntrance();
+
+  // Scattered positions for desktop - isolated "islands" of pain
+  const scatterPositions = [
+    { x: '8%', y: '5%', rotate: -2 },
+    { x: '55%', y: '2%', rotate: 3 },
+    { x: '25%', y: '38%', rotate: -1 },
+    { x: '62%', y: '42%', rotate: 2 },
+    { x: '5%', y: '68%', rotate: 1 },
+    { x: '48%', y: '72%', rotate: -3 },
+  ];
+
+  // Icons for each pain point
+  const painIcons = [
+    'restart_alt',      // Everyone starting from scratch
+    'dashboard',        // No shared components
+    'block',            // Can't build on others' work
+    'settings',         // Complex setup every time
+    'schedule',         // Hours lost on configuration
+    'person',           // Knowledge siloed
+  ];
 
   return (
     <ProblemStateLayout>
-      {/* Mobile: Stacked questions */}
-      <div className="flex flex-col gap-2 w-full lg:hidden">
+      {/* Mobile: Scattered pain points */}
+      <div className="relative w-full h-[280px] lg:hidden">
         {questions.slice(0, 4).map((q, index) => (
           <motion.div
             key={q.id}
-            className="bg-background-elevated px-4 py-2 rounded-lg border border-border-strong text-body-sm text-secondary font-medium"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            className="absolute bg-background-elevated px-3 py-2.5 rounded-lg border border-border shadow-sm"
+            style={{
+              left: `${(index % 2) * 45 + 5}%`,
+              top: `${Math.floor(index / 2) * 35 + 5}%`,
+              width: '48%',
+              maxWidth: '180px',
+            }}
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: 0
+            }}
             transition={{
               duration: 0.4,
-              delay: entranceDelay + index * stagger,
+              delay: reducedMotion ? 0 : entranceDelay + index * stagger,
               ease: 'easeOut' as const,
             }}
           >
-            {q.text}
+            <div className="flex items-start gap-2">
+              <span className="material-icons-outlined text-[16px] text-tertiary mt-0.5">
+                {painIcons[index]}
+              </span>
+              <span className="text-body-sm text-primary leading-snug">{q.text}</span>
+            </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Desktop: Cascading stack */}
-      <div className="hidden lg:block w-full">
-        <ProblemStack
-          items={questions}
-          keyExtractor={(q) => q.id}
-          renderItem={(q) => (
-            <span className="text-body-sm text-secondary font-medium line-clamp-2">{q.text}</span>
-          )}
-          config={{
-            maxVisible: 5,
-            cardWidth: 260,
-            xOffset: 56,
-            yOffset: 28,
-          }}
-        />
+      {/* Desktop: Scattered islands of pain */}
+      <div className="hidden lg:block relative w-full h-[300px]">
+        {questions.map((q, index) => {
+          const pos = scatterPositions[index % scatterPositions.length];
+          return (
+            <motion.div
+              key={q.id}
+              className="absolute bg-background-elevated px-4 py-3 rounded-lg border border-border/60 shadow-sm cursor-default"
+              style={{
+                width: 180,
+                left: pos.x,
+                top: pos.y,
+                zIndex: index + 1,
+              }}
+              initial={{
+                opacity: 0,
+                scale: 0.85,
+                rotate: pos.rotate * 1.5,
+                y: 15
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                rotate: pos.rotate,
+                y: 0
+              }}
+              whileHover={{
+                scale: 1.04,
+                rotate: 0,
+                zIndex: 10,
+                opacity: 1,
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
+              }}
+              transition={{
+                duration: 0.45,
+                delay: reducedMotion ? 0 : entranceDelay + index * 0.1,
+                ease: [0.25, 0.1, 0.25, 1],
+              }}
+            >
+              <div className="flex items-start gap-2">
+                <span className="material-icons-outlined text-[18px] text-tertiary mt-0.5">
+                  {painIcons[index]}
+                </span>
+                <span className="text-body-sm text-primary leading-snug">{q.text}</span>
+              </div>
+            </motion.div>
+          );
+        })}
+
       </div>
     </ProblemStateLayout>
   );

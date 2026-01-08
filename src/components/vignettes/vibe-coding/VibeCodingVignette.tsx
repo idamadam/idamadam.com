@@ -9,24 +9,21 @@ import { vibeCodingContent } from './content';
 
 export default function VibeCodingVignette() {
   return (
-    <VignetteContainer
-      id="vibe-coding"
-    >
-      <div className="w-full space-y-10 lg:space-y-12">
-        {/* Section: Vibe Coding Demo */}
-        <motion.div {...fadeInUp}>
-          <VignetteSplit
-            title={
-              <div className="space-y-4">
-                <div className="text-caption text-accent-600 font-medium">Side project</div>
-                <div>{vibeCodingContent.title}</div>
-              </div>
-            }
-          >
+    <VignetteContainer id="vibe-coding">
+      <motion.div {...fadeInUp}>
+        <VignetteSplit
+          title={
+            <div className="space-y-3">
+              <span className="text-[0.75rem] text-accent-600 font-medium tracking-wide uppercase">Side project</span>
+              <div>{vibeCodingContent.title}</div>
+            </div>
+          }
+        >
+          <div className="relative w-full max-w-[672px] mx-auto">
             <DemoCreationFlow />
-          </VignetteSplit>
-        </motion.div>
-      </div>
+          </div>
+        </VignetteSplit>
+      </motion.div>
     </VignetteContainer>
   );
 }

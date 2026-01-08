@@ -306,7 +306,7 @@ export default function SuggestionsPanel({
   const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
-    <div className="space-y-2 min-h-[340px] flex flex-col justify-center">
+    <div className="space-y-2 flex flex-col">
       <GradientBorderStyles />
       {/* Editor with marker - always visible */}
       <div className="relative" data-section-id="improve-button">

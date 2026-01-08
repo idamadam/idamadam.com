@@ -24,20 +24,20 @@ export default function VignetteContainer({
   return (
     <motion.article
       id={id}
-      className={`w-full h-full card-elevated ${
+      className={`w-full h-full ${
         allowOverflow ? 'overflow-visible' : 'overflow-hidden'
       } ${className}`}
       {...fadeInUp}
     >
-      <div className="p-6 lg:p-10 space-y-8">
+      <div className="space-y-5">
         {/* Title Section - Only show if title is provided */}
         {title && (
-          <div className="space-y-3">
+          <div className="space-y-2">
             <h2 className="type-h2">
               {title}
             </h2>
             {subtitle && (
-              <p className="type-body-sm">
+              <p className="type-body text-secondary">
                 {subtitle}
               </p>
             )}

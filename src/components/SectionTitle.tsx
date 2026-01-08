@@ -27,14 +27,14 @@ export default function SectionTitle({ children, disableScrollTrigger = false }:
   const motionProps = disableScrollTrigger ? staticProps : scrollTriggeredProps;
 
   return (
-    <section className="w-full pb-10 lg:pb-12 px-6 lg:px-12 2xl:px-24">
-      <div className="max-w-[1280px] mx-auto border-t border-border pt-10 lg:pt-12">
+    <section className="w-full pb-8 lg:pb-10 px-5 lg:px-10 2xl:px-16">
+      <div className="max-w-[1200px] mx-auto border-t border-border/60 pt-10 lg:pt-14">
         <motion.h2
-          className="type-h2"
+          className="text-[1.5rem] font-semibold text-primary tracking-[-0.02em]"
           {...motionProps}
           transition={{
             duration: t.duration.slow,
-            ease: 'easeOut',
+            ease: [0.25, 0.1, 0.25, 1],
           }}
         >
           {children}

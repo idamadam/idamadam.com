@@ -27,5 +27,5 @@ export const heroContent: HeroContent = {
 
 export const introContent: IntroContent = {
   role: 'Lead Product Designer at',
-  tagline: 'Designer, coder, prototyper',
+  tagline: 'Designer, prototyper, coder',
 };
