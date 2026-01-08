@@ -90,7 +90,7 @@ function MultilingualContent() {
         ) : null
       }
     >
-      <div className="relative min-h-[420px] flex flex-col justify-center" style={{ overflow: 'visible' }}>
+      <div className="relative w-full max-w-[672px] mx-auto min-h-[420px] flex flex-col justify-center" style={{ overflow: 'visible' }}>
         <AnimatePresence mode="wait">
           {panelStage === 'problem' && (
             <motion.div

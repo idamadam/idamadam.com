@@ -19,7 +19,9 @@ export default function VibeCodingVignette() {
             </div>
           }
         >
-          <DemoCreationFlow />
+          <div className="relative w-full max-w-[672px] mx-auto">
+            <DemoCreationFlow />
+          </div>
         </VignetteSplit>
       </motion.div>
     </VignetteContainer>

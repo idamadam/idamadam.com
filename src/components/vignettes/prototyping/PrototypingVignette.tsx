@@ -53,10 +53,12 @@ function PrototypingContent() {
         ) : null
       }
     >
-      <SandboxPanel
-        content={prototypingContent}
-        stage={panelStage}
-      />
+      <div className="relative w-full max-w-[672px] mx-auto">
+        <SandboxPanel
+          content={prototypingContent}
+          stage={panelStage}
+        />
+      </div>
     </VignetteSplit>
   );
 }

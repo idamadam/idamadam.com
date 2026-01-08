@@ -81,7 +81,7 @@ function AIHighlightsContent() {
         ) : null
       }
     >
-      <div className="relative" style={{ overflow: 'visible' }}>
+      <div className="relative w-full max-w-[672px] mx-auto" style={{ overflow: 'visible' }}>
         <HighlightsPanel
           stage={panelStage}
           problemCards={aiHighlightsContent.problemCards}
