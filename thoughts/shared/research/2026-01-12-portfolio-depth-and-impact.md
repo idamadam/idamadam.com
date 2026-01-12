@@ -179,21 +179,58 @@ Fill this out for each vignette to identify what's missing.
 
 **Context:**
 - Who experienced this problem? (Role, company type)
+    - Managers who were completing performance reviews.
+    - This was generally professional managers doing performance reviews.
+    - For managers who complete reviews, this came up as one of the most time
+        consuming and cognitively intense parts of the process.
 - What triggered this work? Why now?
+    - I don't have a great answer for this but basically the company wanted to
+        do AI features.
+    - We basically undertook a search for AI problems that could be solved and
+        this was done.
+    - I wasn't part of the team that did the initial discovery, rather I
+        polished it .
 - What constraint most shaped the solution?
+    - We thought a lot about how much human judgement would play into this.
+    - Even though we knew that this would make managers lazy, we wanted to build
+        in affordances for people to verify that the AI reported the right
+        information. That's why we prioritised the easy access to the actual
+        sources.
 - How long did you have? Team size?
+    - Can't remember but it was over a couple of months.
+    - Standard team of Product Manager, Product Designer (myself), Data
+        Scientist, FE engineers & BE engineers.
+    - There was also a lot of exec oversight and approvals since this was a hot
+        project.
 
 **Decisions:**
 - What alternatives did you consider?
+    - This was a project that had layers and layers of exec indecision.
+    - The core of the feature was not changed too much.
+    - What I did was refine it, and basically do a lot of exec presentations to
+    make sure that this went through.
 - What did you advocate for that wasn't obvious?
+    - The previous designer who worked on it just did generic screens of the
+        interface. E.g. a theme, a summary, etc
+    - What I did was really think about the way that it was presented. E.g.
+        "Highlights and Opportunities" instead of just "Feedback summary". I
+        also paid close attention to the way that the content was
+        structured,e.g. making sure it had a narrative angle.
+    - I also brought a more human feel to the summaries. e.g how we use avatars
+        to indicate that the sources are people rather than just "sources".
 - What research changed your direction?
-- What did you decide against, and why?
+    - Customer feedback indicated that the ai insights were too generic, so i
+        worked with the data scientist to make them specific. This is what one
+        of the design notes is trying to say.
 
 **Impact:**
 - What's the strongest outcome you can claim?
-- If no metrics, what observable change happened?
+    - Great customer feedback, one quote said that for the type of task, it's
+        "just the right amount of AI"
+    - 100% positive feedback when using the thumbs
 - Did this influence anything beyond the feature?
-- Did this become a pattern others adopted?
+    - The strucuture of "highligths and opportunities" was then adopted by
+        Coach, our conversational AI assistant.
 
 ---
 
@@ -207,21 +244,38 @@ Fill this out for each vignette to identify what's missing.
 
 **Context:**
 - Who experienced this problem?
+    - We knew that managers were not great at feedback, and we know that the way
+        feedback is written is very important.
+    - However, like the previous one, this was an exec driven AI feature that we
+        released.
 - What triggered this work?
+    - See above
 - What constraint shaped the solution?
+    - Again, trying to respect agency of the manager, how do we design somthing
+        that encourages critical thinking, not just having the AI do it all.
 - Timeline / team size?
+    - Same as the previous.
 
 **Decisions:**
 - What alternatives did you consider?
+    - We considered more active and not active methods of doing suggestions.
+    - But again, exec indecision made this project very hard.
 - What did you advocate for?
-- What research informed this?
-- What did you decide against?
+    - I advocated for the simple way to activate the feature.
+    - E.g. how the improve button is placed in the rich text editor.
 
 **Impact:**
 - Strongest outcome?
+    - ~80% of people who pressed the Improve button made a change to their
+        feedback after use.
 - Observable change?
+    - See above
 - Influence beyond the feature?
+    - I designed the AI gradient pattern as a signiifer of AI features at
+        Culture Amp.
+    - This spread to other features.
 - Pattern others adopted?
+    - See above
 
 ---
 
@@ -238,20 +292,35 @@ Fill this out for each vignette to identify what's missing.
 
 **Context:**
 - Who experienced this problem?
+    - I experienced this problem first, I was doing a lot of vibe-coded
+        prototypes and found that I was missing an organisational layer for it.
+    - I also couldn't figure out a way to deploy this to our infra so that it
+        can be shared with people
 - What triggered this work?
+    - My own experience
 - What constraint shaped the solution?
+    - I was a single designer who solved problems for myself.
 - Timeline / team size?
+    - Mostly myself with some support from the developer experience team.
 
 **Decisions:**
 - What alternatives did you consider?
+    - Things like Gemini, Replit etc but our existing AI tools were nothing
+        compared to an actual coding agent. And we didn't have budget for things
+        like Replit but we did have access to coding agents.
 - What did you advocate for?
-- What research informed this?
-- What did you decide against?
+    - I just did it
 
 **Impact:**
 - Beyond adoption numbers, what changed?
+    - This is a bit high-horsey but I do think I kicked off a bigger culture of
+        Ai prototyoing at Culture Amp. I did a lot of sharing, documentation
+        and walking through the team to onboard this tool.
 - Did this influence team process?
+    - Yes, a singificant feature for another team was prototypes using this
+        feature.
 - Did this become org-wide?
+    - Kinda, everyone can use it!
 
 ---
 
@@ -265,20 +334,36 @@ Fill this out for each vignette to identify what's missing.
 
 **Context:**
 - Who experienced this problem?
+    - Multinational orgs that used Culture Amp had to manage like multiple
+        cycles in order to run their performance cycles.
 - What triggered this work?
+    - It was a significant blocker for our larger customers. It was a painpoint
+        for a significant amount of ARR.
 - What constraint shaped the solution?
+    - We had to make it feel familiar to the existing performance cycles
+        workflow. So it fits in with the flow and feels like a natural extension
+        of it rather than a new flow.
 - Timeline / team size?
+    - A couple of months of discovery, testing & iterating.
+    - PM, Tech Lead, Design (me) and devs
 
 **Decisions:**
-- What alternatives did you consider?
 - What did you advocate for?
+    - Machine translation and Excel were not in the original scope.
 - What research informed this?
-- What did you decide against?
+    - Because we found that these two things were an established part of their
+        processes.
 
 **Impact:**
 - Strongest outcome?
+    - Ongoing active usage of a significant feature with 0 support tickets. I
+        think thhat this was because it was super easy to use.
 - Observable change?
+    - People were using it.
 - Influence beyond the feature?
+    - Our Multilingual implemntation was so good that it set the benchmark for
+        customers. They asked for the same process in other parts of the
+        product.
 
 ---
 
