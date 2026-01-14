@@ -1,18 +1,19 @@
 'use client';
 
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
 import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
+import { useReducedMotion } from '@/lib/useReducedMotion';
+import { useIntroSequence } from '@/lib/intro-sequence-context';
 import type { AISuggestionsContent } from './content';
-import type { VignetteStage } from '@/lib/vignette-stage-context';
 
-type PanelStage = VignetteStage | 'loading';
+type PanelStage = 'loading' | 'solution' | 'designNotes';
 
 interface SuggestionsPanelProps {
   className?: string;
   content: AISuggestionsContent;
   stage?: PanelStage;
-  onTransition?: () => void;
   highlightedSection?: string | null;
   onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
   notes?: Array<{ id: string; label?: string; detail: string }>;
@@ -280,14 +281,34 @@ function RecommendationsPanel({
 export default function SuggestionsPanel({
   content,
   stage = 'solution',
-  onTransition,
   highlightedSection = null,
   onNoteOpenChange,
   notes = [],
 }: SuggestionsPanelProps) {
-  const isProblem = stage === 'problem';
-  const isLoading = stage === 'loading';
-  const isSolution = stage === 'solution' || stage === 'designNotes';
+  const reducedMotion = useReducedMotion();
+  const { isComplete } = useIntroSequence();
+  const [showLoading, setShowLoading] = useState(true);
+  const hasStartedRef = useRef(false);
+
+  useEffect(() => {
+    // Only start timer once intro is complete AND we haven't started yet
+    if (isComplete && showLoading && stage === 'solution' && !hasStartedRef.current) {
+      hasStartedRef.current = true;
+      // Small delay for fadeInUp to complete, then show loading for 1.5s
+      const entranceDelay = reducedMotion ? 0 : 600;
+      const loadingDuration = reducedMotion ? 0 : 1500;
+
+      setTimeout(() => {
+        setTimeout(() => {
+          setShowLoading(false);
+        }, loadingDuration);
+      }, entranceDelay);
+    }
+  }, [isComplete, showLoading, stage, reducedMotion]);
+
+  // Show loading if either the stage is 'loading' OR we're in internal loading state
+  const isLoading = stage === 'loading' || (stage === 'solution' && showLoading);
+  const isSolution = (stage === 'solution' && !showLoading) || stage === 'designNotes';
 
   // Get opacity style for a section based on what's highlighted
   const getSectionStyle = (section: string) => {
@@ -316,7 +337,6 @@ export default function SuggestionsPanel({
           showImproveButton={true}
           isImproving={isLoading}
           isImproveActivated={isSolution}
-          onImprove={isProblem ? onTransition : undefined}
           mobileFormatting="dots"
           improveButtonStyle={isSolution ? getSectionStyle('improve-button') : undefined}
           editorContentStyle={isSolution ? getSectionStyle('editor-content') : undefined}

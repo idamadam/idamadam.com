@@ -6,19 +6,18 @@ import { VignetteStageProvider, useVignetteStage, VignetteStage } from '@/lib/vi
 import type { VignetteId } from '@/lib/analytics';
 import { timing, timingReduced } from '@/lib/animations';
 import { useReducedMotion } from '@/lib/useReducedMotion';
-import Button from '@/components/Button';
 import type { StageContent } from './types';
 
 interface VignetteStagedProps {
   children: ReactNode;
   stages?: {
-    problem?: StageContent;
     solution?: StageContent;
     designNotes?: StageContent;
   };
   designNotesPanel?: ReactNode;
   className?: string;
   vignetteId: VignetteId;
+  initialStage?: VignetteStage;
 }
 
 function VignetteStagedInner({
@@ -26,28 +25,25 @@ function VignetteStagedInner({
   stages,
   designNotesPanel,
   className = ''
-}: VignetteStagedProps) {
-  const { stage, goToDesignNotes, hasSeenSolution, reset } = useVignetteStage();
+}: Omit<VignetteStagedProps, 'vignetteId' | 'initialStage'>) {
+  const { stage, goToDesignNotes } = useVignetteStage();
   const [showDesignNotesCta, setShowDesignNotesCta] = useState(false);
   const reducedMotion = useReducedMotion();
   const t = reducedMotion ? timingReduced : timing;
 
-  // CTA delay: wait for text + panel transitions to complete
-  const ctaDelayMs = (t.stage.textDuration + t.stage.panelDuration + 0.2) * 1000;
-
-  // Show design notes CTA after solution is revealed (with delay for animation to complete)
+  // Show design notes CTA when in solution stage (with small delay for entrance animation)
   useEffect(() => {
-    if (stage === 'solution' && hasSeenSolution) {
+    if (stage === 'solution') {
       const timer = setTimeout(() => {
         setShowDesignNotesCta(true);
-      }, ctaDelayMs);
+      }, 300);
       return () => clearTimeout(timer);
-    } else if (stage !== 'solution') {
+    } else {
       setShowDesignNotesCta(false);
     }
-  }, [stage, hasSeenSolution, ctaDelayMs]);
+  }, [stage]);
 
-  const currentStageContent = stages?.[stage];
+  const currentStageContent = stages?.[stage as 'solution' | 'designNotes'];
 
   return (
     <div className={`relative ${className}`}>
@@ -76,15 +72,6 @@ function VignetteStagedInner({
             )}
 
             {designNotesPanel}
-
-            {/* Reset button */}
-            <Button
-              variant="secondary"
-              onClick={reset}
-              icon="replay"
-            >
-              Watch again
-            </Button>
           </motion.div>
         ) : (
           <motion.div
@@ -97,7 +84,7 @@ function VignetteStagedInner({
           >
             {children}
 
-            {/* Design notes CTA - appears after solution reveal */}
+            {/* Design notes CTA - appears when in solution stage */}
             <AnimatePresence>
               {showDesignNotesCta && stages?.solution?.cta && (
                 <motion.div
@@ -133,7 +120,7 @@ function VignetteStagedInner({
 
 export default function VignetteStaged(props: VignetteStagedProps) {
   return (
-    <VignetteStageProvider initialStage="problem" vignetteId={props.vignetteId}>
+    <VignetteStageProvider initialStage={props.initialStage ?? 'solution'} vignetteId={props.vignetteId}>
       <VignetteStagedInner {...props} />
     </VignetteStageProvider>
   );

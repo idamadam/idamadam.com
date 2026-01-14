@@ -5,59 +5,32 @@ import SandboxPanel from './SandboxPanel';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
-import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
-import { useLoadingTransition } from '@/components/vignettes/shared/useLoadingTransition';
 import { fadeInUp } from '@/lib/animations';
 import { prototypingContent } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
-import Button from '@/components/Button';
-
-type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
 
 function PrototypingContent() {
-  const { stage, goToSolution, setStage } = useVignetteStage();
+  const { stage } = useVignetteStage();
   const reducedMotion = useReducedMotion();
 
-  const { isLoading, startTransition } = useLoadingTransition({
-    duration: 4000,
-    onComplete: goToSolution,
-  });
-
-  const panelStage: PanelStage = isLoading ? 'loading' : stage;
-
-  const currentStageContent = stage === 'problem'
-    ? prototypingContent.stages.problem
-    : prototypingContent.stages.solution;
-
-  const title = currentStageContent.title;
+  const title = prototypingContent.stages.solution.title;
 
   return (
     <VignetteSplit
       title={
         <div className="space-y-4">
-          <StageIndicator stage={stage} onStageChange={setStage} />
           <AnimatedStageText
             stage={stage}
             text={title}
-            isLoading={isLoading}
+            isLoading={false}
             reducedMotion={reducedMotion}
           />
         </div>
       }
-      actions={
-        stage === 'problem' && !isLoading && currentStageContent.cta ? (
-          <Button onClick={startTransition} enterDelay={0.3}>
-            {currentStageContent.cta}
-          </Button>
-        ) : null
-      }
     >
       <div className="relative w-full max-w-[672px] mx-auto">
-        <SandboxPanel
-          content={prototypingContent}
-          stage={panelStage}
-        />
+        <SandboxPanel content={prototypingContent} />
       </div>
     </VignetteSplit>
   );

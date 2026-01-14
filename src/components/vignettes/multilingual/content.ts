@@ -45,10 +45,6 @@ export const multilingualContent: MultilingualContent = {
     { code: 'dv', name: 'ދިވެހި (Dhivehi)', text: 'މި މީހާ މި ރިވިއު ތެރޭގައި ކިހިނެއް ކުރިއަރައިފި؟' }
   ],
   stages: {
-    problem: {
-      title: 'Supporting multiple languages required a separate workflow for each language',
-      cta: 'Unify the workflow'
-    },
     solution: {
       title: 'Designed a simple way to bring multiple languages into a single cycle'
     }

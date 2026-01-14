@@ -1,19 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { VignetteStage } from '@/lib/vignette-stage-context';
-import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
 import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
-import { ProblemStateLayout } from '@/components/vignettes/shared/ProblemStateLayout';
-import type { FeedbackSource } from './content';
+import { useReducedMotion } from '@/lib/useReducedMotion';
+import { useIntroSequence } from '@/lib/intro-sequence-context';
 
-type PanelStage = VignetteStage | 'loading';
+type PanelStage = 'loading' | 'solution' | 'designNotes';
 
 interface HighlightsPanelProps {
   className?: string;
   stage?: PanelStage;
-  problemCards?: FeedbackSource[];
   highlightedSection?: string | null;
   onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
   notes?: Array<{ id: string; label?: string; detail: string }>;
@@ -195,116 +192,6 @@ function LoadingState() {
         </div>
       </div>
     </>
-  );
-}
-
-function ProblemState({ cards }: { cards: FeedbackSource[] }) {
-  const { entranceDelay, stagger, reducedMotion } = useVignetteEntrance();
-  const visibleCards = cards.slice(0, 8);
-
-  // Scattered positions for desktop chaos layout
-  const scatterPositions = [
-    { x: '5%', y: '8%', rotate: -3, scale: 1 },
-    { x: '52%', y: '2%', rotate: 2, scale: 0.95 },
-    { x: '28%', y: '45%', rotate: -1, scale: 0.98 },
-    { x: '60%', y: '38%', rotate: 3, scale: 0.92 },
-    { x: '8%', y: '68%', rotate: -2, scale: 0.96 },
-    { x: '45%', y: '72%', rotate: 1, scale: 0.94 },
-    { x: '72%', y: '65%', rotate: -4, scale: 0.9 },
-    { x: '35%', y: '18%', rotate: 2, scale: 0.93 },
-  ];
-
-  return (
-    <ProblemStateLayout>
-      {/* Mobile: Overlapping cards suggesting overwhelm */}
-      <div className="relative w-full h-[280px] lg:hidden">
-        {visibleCards.slice(0, 4).map((card, index) => (
-          <motion.div
-            key={card.id}
-            className="absolute bg-background-elevated px-4 py-3 rounded-lg border border-border shadow-sm w-[85%] max-w-[280px]"
-            style={{
-              left: `${index * 8}%`,
-              top: `${index * 24}px`,
-              zIndex: 4 - index,
-            }}
-            initial={{ opacity: 0, y: 30, rotate: (index % 2 === 0 ? -2 : 2) }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              rotate: (index % 2 === 0 ? -2 : 2)
-            }}
-            transition={{
-              duration: 0.5,
-              delay: reducedMotion ? 0 : entranceDelay + index * stagger,
-              ease: [0.25, 0.1, 0.25, 1],
-            }}
-          >
-            {card.from && (
-              <div className="flex items-center gap-2 mb-1.5">
-                {card.avatarUrl && (
-                  <img src={card.avatarUrl} alt={card.from} className="w-5 h-5 rounded-full grayscale" />
-                )}
-                <span className="text-caption font-medium text-secondary">{card.from}</span>
-              </div>
-            )}
-            <p className="text-body-sm text-primary line-clamp-2 leading-snug">{card.content}</p>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Desktop: Chaotic scattered layout */}
-      <div className="hidden lg:block relative w-full h-[340px]">
-        {visibleCards.map((card, index) => {
-          const pos = scatterPositions[index % scatterPositions.length];
-          return (
-            <motion.div
-              key={card.id}
-              className="absolute bg-background-elevated px-4 py-3 rounded-lg border border-border/60 shadow-sm cursor-default"
-              style={{
-                width: 220,
-                left: pos.x,
-                top: pos.y,
-                zIndex: index,
-              }}
-              initial={{
-                opacity: 0,
-                scale: 0.8,
-                rotate: pos.rotate * 2,
-                y: 20
-              }}
-              animate={{
-                opacity: 1,
-                scale: pos.scale,
-                rotate: pos.rotate,
-                y: 0
-              }}
-              whileHover={{
-                scale: 1.02,
-                opacity: 1,
-                zIndex: 20,
-                rotate: 0,
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
-              }}
-              transition={{
-                duration: 0.5,
-                delay: reducedMotion ? 0 : entranceDelay + index * 0.08,
-                ease: [0.25, 0.1, 0.25, 1],
-              }}
-            >
-              {card.from && (
-                <div className="flex items-center gap-2 mb-1.5">
-                  {card.avatarUrl && (
-                    <img src={card.avatarUrl} alt={card.from} className="w-5 h-5 rounded-full grayscale" />
-                  )}
-                  <span className="text-caption font-medium text-secondary">{card.from}</span>
-                </div>
-              )}
-              <p className="text-body-sm text-primary line-clamp-2 leading-snug">{card.content}</p>
-            </motion.div>
-          );
-        })}
-      </div>
-    </ProblemStateLayout>
   );
 }
 
@@ -601,67 +488,77 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
 export default function HighlightsPanel({
   className = '',
   stage = 'solution',
-  problemCards = [],
   highlightedSection = null,
   onNoteOpenChange,
   notes = [],
 }: HighlightsPanelProps) {
-  // Default problem cards if none provided
-  const defaultProblemCards: FeedbackSource[] = [
-    { id: 'feedback1', content: 'Excellent collaboration on cross-team projects', from: 'Peer review' },
-    { id: 'feedback2', content: 'Great job on the API redesign!', from: 'Sarah Chen' },
-    { id: 'feedback3', content: 'Could use more documentation', from: 'Mike Torres' },
-    { id: 'feedback4', content: 'Discussed career growth, interested in tech lead path' },
-    { id: 'feedback5', content: 'Q3: Improve API response time by 40%' },
-    { id: 'feedback6', content: '1-on-1 with Idam' },
-  ];
+  const reducedMotion = useReducedMotion();
+  const { isComplete } = useIntroSequence();
+  const [showLoading, setShowLoading] = useState(true);
+  const hasStartedRef = useRef(false);
 
-  const cards = problemCards.length > 0 ? problemCards : defaultProblemCards;
+  useEffect(() => {
+    // Only start timer once intro is complete AND we haven't started yet
+    if (isComplete && showLoading && stage === 'solution' && !hasStartedRef.current) {
+      hasStartedRef.current = true;
+      // Small delay for fadeInUp to complete, then show loading for 1.5s
+      const entranceDelay = reducedMotion ? 0 : 600;
+      const loadingDuration = reducedMotion ? 0 : 1500;
+
+      setTimeout(() => {
+        setTimeout(() => {
+          setShowLoading(false);
+        }, loadingDuration);
+      }, entranceDelay);
+    }
+  }, [isComplete, showLoading, stage, reducedMotion]);
 
   const renderStage = () => {
-    switch (stage) {
-      case 'problem':
-        return (
-          <motion.div
-            key="problem"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <ProblemState cards={cards} />
-          </motion.div>
-        );
-      case 'loading':
-        return (
-          <motion.div
-            key="loading"
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.3 }}
-          >
-            <LoadingState />
-          </motion.div>
-        );
-      default:
-        return (
-          <motion.div
-            key="solution"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <SolutionState
-              className={className}
-              highlightedSection={highlightedSection}
-              onNoteOpenChange={onNoteOpenChange}
-              notes={notes}
-            />
-          </motion.div>
-        );
+    // Show loading animation until timer completes
+    if (stage === 'solution' && showLoading) {
+      return (
+        <motion.div
+          key="loading"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.3 }}
+        >
+          <LoadingState />
+        </motion.div>
+      );
     }
+
+    if (stage === 'loading') {
+      return (
+        <motion.div
+          key="loading"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.3 }}
+        >
+          <LoadingState />
+        </motion.div>
+      );
+    }
+
+    return (
+      <motion.div
+        key="solution"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        <SolutionState
+          className={className}
+          highlightedSection={highlightedSection}
+          onNoteOpenChange={onNoteOpenChange}
+          notes={notes}
+        />
+      </motion.div>
+    );
   };
 
   return (

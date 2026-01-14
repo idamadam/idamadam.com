@@ -41,10 +41,6 @@ export interface PrototypingContent {
 
 export const prototypingContent: PrototypingContent = {
   stages: {
-    problem: {
-      title: 'Designers had no shared foundation for AI prototyping',
-      cta: 'Open the sandbox'
-    },
     solution: {
       title: 'A shared sandbox that makes AI prototyping easy'
     }

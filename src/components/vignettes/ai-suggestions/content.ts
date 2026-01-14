@@ -17,9 +17,6 @@ export interface AISuggestionsContent {
 
 export const aiSuggestionsContent: AISuggestionsContent = {
   stages: {
-    problem: {
-      title: 'Managers struggled to write constructive, actionable feedback'
-    },
     solution: {
       title: 'Designed AI coaching grounded in people science'
     },

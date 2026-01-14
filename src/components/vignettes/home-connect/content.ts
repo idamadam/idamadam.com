@@ -9,10 +9,6 @@ export interface HomeConnectContent {
 
 export const homeConnectContent: HomeConnectContent = {
   stages: {
-    problem: {
-      title: 'Valuable context was scattered across Culture Amp\'s products',
-      cta: 'Connect the dots'
-    },
     solution: {
       title: 'A unified feed that surfaces what matters'
     }

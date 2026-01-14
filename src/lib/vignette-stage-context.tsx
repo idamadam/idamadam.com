@@ -3,15 +3,14 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { trackVignetteInteracted, type VignetteId } from './analytics';
 
-export type VignetteStage = 'problem' | 'solution' | 'designNotes';
+// 'loading' is used by AI vignettes for auto-play loading animation
+export type VignetteStage = 'loading' | 'solution' | 'designNotes';
 
 interface VignetteStageContextValue {
   stage: VignetteStage;
   setStage: (stage: VignetteStage) => void;
   goToSolution: () => void;
   goToDesignNotes: () => void;
-  reset: () => void;
-  hasSeenSolution: boolean;
   vignetteId: VignetteId;
 }
 
@@ -25,21 +24,14 @@ interface VignetteStageProviderProps {
 
 export function VignetteStageProvider({
   children,
-  initialStage = 'problem',
+  initialStage = 'solution',
   vignetteId,
 }: VignetteStageProviderProps) {
   const [stage, setStageInternal] = useState<VignetteStage>(initialStage);
-  const [hasSeenSolution, setHasSeenSolution] = useState(initialStage === 'solution' || initialStage === 'designNotes');
 
-  const setStage = useCallback(
-    (newStage: VignetteStage) => {
-      setStageInternal(newStage);
-      if (newStage === 'solution' || newStage === 'designNotes') {
-        setHasSeenSolution(true);
-      }
-    },
-    []
-  );
+  const setStage = useCallback((newStage: VignetteStage) => {
+    setStageInternal(newStage);
+  }, []);
 
   const goToSolution = useCallback(() => {
     setStage('solution');
@@ -47,16 +39,9 @@ export function VignetteStageProvider({
   }, [setStage, vignetteId]);
 
   const goToDesignNotes = useCallback(() => {
-    if (hasSeenSolution) {
-      setStage('designNotes');
-      trackVignetteInteracted(vignetteId, 'designNotes');
-    }
-  }, [hasSeenSolution, setStage, vignetteId]);
-
-  const reset = useCallback(() => {
-    setStageInternal('problem');
-    setHasSeenSolution(false);
-  }, []);
+    setStage('designNotes');
+    trackVignetteInteracted(vignetteId, 'designNotes');
+  }, [setStage, vignetteId]);
 
   return (
     <VignetteStageContext.Provider
@@ -65,8 +50,6 @@ export function VignetteStageProvider({
         setStage,
         goToSolution,
         goToDesignNotes,
-        reset,
-        hasSeenSolution,
         vignetteId,
       }}
     >

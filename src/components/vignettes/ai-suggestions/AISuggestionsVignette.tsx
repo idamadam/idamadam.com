@@ -9,13 +9,11 @@ import VignetteStaged, { useVignetteStage } from '@/components/vignettes/Vignett
 import { fadeInUp } from '@/lib/animations';
 import { aiSuggestionsContent } from './content';
 import { DesignNotesOverlay } from '@/components/vignettes/shared/DesignNotesOverlay';
-import StageIndicator from '@/components/vignettes/shared/StageIndicator';
 import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
-import { useLoadingTransition } from '@/components/vignettes/shared/useLoadingTransition';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useScrollToSection } from '@/components/vignettes/shared/useScrollToSection';
 
-type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
+type PanelStage = 'loading' | 'solution' | 'designNotes';
 
 // Map note IDs to the content sections they reference
 const NOTE_TO_SECTION: Record<string, string> = {
@@ -25,30 +23,10 @@ const NOTE_TO_SECTION: Record<string, string> = {
 };
 
 function AISuggestionsContent() {
-  const { stage, goToSolution, setStage } = useVignetteStage();
+  const { stage } = useVignetteStage();
   const reducedMotion = useReducedMotion();
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
   const { scrollToSection } = useScrollToSection();
-
-  const { isLoading, startTransition } = useLoadingTransition({
-    duration: 1500,
-    onComplete: goToSolution,
-  });
-
-  const panelStage: PanelStage = isLoading ? 'loading' : stage;
-
-  const currentStageContent = stage === 'problem'
-    ? aiSuggestionsContent.stages.problem
-    : aiSuggestionsContent.stages.solution;
-
-  const title = currentStageContent.title;
-
-  // Get the section to highlight based on active note
-  const highlightedSection = activeNoteId ? NOTE_TO_SECTION[activeNoteId] ?? null : null;
-
-  const handleNoteOpenChange = (noteId: string, isOpen: boolean) => {
-    setActiveNoteId(isOpen ? noteId : null);
-  };
 
   const handleActiveNoteChange = useCallback((noteId: string | null) => {
     setActiveNoteId(noteId);
@@ -57,15 +35,21 @@ function AISuggestionsContent() {
     }
   }, [scrollToSection]);
 
+  const panelStage: PanelStage = stage as PanelStage;
+  const title = aiSuggestionsContent.stages.solution.title;
+  const highlightedSection = activeNoteId ? NOTE_TO_SECTION[activeNoteId] ?? null : null;
+
+  const handleNoteOpenChange = (noteId: string, isOpen: boolean) => {
+    setActiveNoteId(isOpen ? noteId : null);
+  };
+
   return (
     <VignetteSplit
       title={
         <div className="space-y-4">
-          <StageIndicator stage={stage} onStageChange={setStage} />
           <AnimatedStageText
             stage={stage}
             text={title}
-            isLoading={isLoading}
             reducedMotion={reducedMotion}
           />
         </div>
@@ -75,13 +59,11 @@ function AISuggestionsContent() {
         <SuggestionsPanel
           content={aiSuggestionsContent}
           stage={panelStage}
-          onTransition={startTransition}
           highlightedSection={highlightedSection}
           onNoteOpenChange={handleNoteOpenChange}
           notes={aiSuggestionsContent.designNotes.notes}
         />
       </div>
-      {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
       {stage === 'solution' && (
         <DesignNotesOverlay
           notes={aiSuggestionsContent.designNotes.notes}
