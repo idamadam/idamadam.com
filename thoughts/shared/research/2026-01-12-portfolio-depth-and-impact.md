@@ -178,59 +178,24 @@ Fill this out for each vignette to identify what's missing.
 > Designed AI summaries managers could verify and trust
 
 **Context:**
-- Who experienced this problem? (Role, company type)
-    - Managers who were completing performance reviews.
-    - This was generally professional managers doing performance reviews.
-    - For managers who complete reviews, this came up as one of the most time
-        consuming and cognitively intense parts of the process.
-- What triggered this work? Why now?
-    - I don't have a great answer for this but basically the company wanted to
-        do AI features.
-    - We basically undertook a search for AI problems that could be solved and
-        this was done.
-    - I wasn't part of the team that did the initial discovery, rather I
-        polished it .
-- What constraint most shaped the solution?
-    - We thought a lot about how much human judgement would play into this.
-    - Even though we knew that this would make managers lazy, we wanted to build
-        in affordances for people to verify that the AI reported the right
-        information. That's why we prioritised the easy access to the actual
-        sources.
-- How long did you have? Team size?
-    - Can't remember but it was over a couple of months.
-    - Standard team of Product Manager, Product Designer (myself), Data
-        Scientist, FE engineers & BE engineers.
-    - There was also a lot of exec oversight and approvals since this was a hot
-        project.
+- **Who:** Managers doing performance reviews. Feedback synthesis came up as one of the most time-consuming and mentally draining parts of the process.
+- **Why now:** Competitive pressure. Others were shipping AI features, we needed to move. This problem came out of earlier discovery as a good fit.
+- **Constraint:** From the start, we wanted to keep human judgment central. Managers needed to be able to verify what the AI reported, not just trust it blindly.
+- **Team/timeline:** ~2 months. Sole designer, working with PM, data scientist, FE/BE engineers. Lots of exec oversight since it was a hot project.
 
 **Decisions:**
-- What alternatives did you consider?
-    - This was a project that had layers and layers of exec indecision.
-    - The core of the feature was not changed too much.
-    - What I did was refine it, and basically do a lot of exec presentations to
-    make sure that this went through.
-- What did you advocate for that wasn't obvious?
-    - The previous designer who worked on it just did generic screens of the
-        interface. E.g. a theme, a summary, etc
-    - What I did was really think about the way that it was presented. E.g.
-        "Highlights and Opportunities" instead of just "Feedback summary". I
-        also paid close attention to the way that the content was
-        structured,e.g. making sure it had a narrative angle.
-    - I also brought a more human feel to the summaries. e.g how we use avatars
-        to indicate that the sources are people rather than just "sources".
-- What research changed your direction?
-    - Customer feedback indicated that the ai insights were too generic, so i
-        worked with the data scientist to make them specific. This is what one
-        of the design notes is trying to say.
+- **What I owned:** Took over after initial discovery. Owned the design through validation, iteration, and launch — defining how the feature looked, felt, and behaved.
+- **Design direction:** AI features fail when they feel like black boxes. I focused on transparency (showing sources), specificity (concrete examples over generic summaries), and narrative structure ("Highlights and Opportunities" framing).
+  - Defined how themes surfaced and the information hierarchy
+  - Set the interaction model for AI-generated content
+  - Worked with data scientist to tune prompts so insights were specific (project names, concrete examples) — not generic
+- **Friction:** Early versions didn't land with execs. Lots of feedback, felt like the framing wasn't right. I had to refine the storytelling until it clicked. My improvements to the framing and how I presented the work eventually got buy-in.
+- **Stakeholder work:** High-visibility project. Did exec presentations to build alignment and get approval.
 
 **Impact:**
-- What's the strongest outcome you can claim?
-    - Great customer feedback, one quote said that for the type of task, it's
-        "just the right amount of AI"
-    - 100% positive feedback when using the thumbs
-- Did this influence anything beyond the feature?
-    - The strucuture of "highligths and opportunities" was then adopted by
-        Coach, our conversational AI assistant.
+- The Coach team (our conversational AI assistant) adopted the "Highlights and Opportunities" structure for their product.
+- Customer feedback validated the approach: "just the right amount of AI"
+- 100% positive thumbs feedback
 
 ---
 
@@ -243,39 +208,20 @@ Fill this out for each vignette to identify what's missing.
 > (Fill in from content.ts)
 
 **Context:**
-- Who experienced this problem?
-    - We knew that managers were not great at feedback, and we know that the way
-        feedback is written is very important.
-    - However, like the previous one, this was an exec driven AI feature that we
-        released.
-- What triggered this work?
-    - See above
-- What constraint shaped the solution?
-    - Again, trying to respect agency of the manager, how do we design somthing
-        that encourages critical thinking, not just having the AI do it all.
-- Timeline / team size?
-    - Same as the previous.
+- **Who:** Managers writing feedback. We knew feedback quality varied widely, and how feedback is written really matters.
+- **Why now:** Competitive pressure. Others were shipping AI features, we needed to move. This was the first AI feature I worked on at Culture Amp.
+- **Constraint:** Respect the manager's agency. Encourage critical thinking, not just "let the AI do it."
+- **Team/timeline:** ~2 months. Sole designer, working with PM, data scientist, FE/BE engineers.
 
 **Decisions:**
-- What alternatives did you consider?
-    - We considered more active and not active methods of doing suggestions.
-    - But again, exec indecision made this project very hard.
-- What did you advocate for?
-    - I advocated for the simple way to activate the feature.
-    - E.g. how the improve button is placed in the rich text editor.
+- **Design direction:** We were focused on maintaining agency from the start. The question wasn't whether to be proactive or reactive. It was how to make AI assistance feel like a tool you reach for, not something imposed on you.
+- **Trade-off:** This was early 2024. The models simply weren't that good yet. That's why the approach was more minimal. We didn't trust the LLMs enough to be more aggressive.
+- **What I owned:** Inline activation. The Improve button lives directly in the text editor, not buried in a menu or behind a separate mode.
+- **Visual language:** I designed the AI gradient pattern as a way to signal "AI is helping here" without being intrusive. This became Culture Amp's standard signifier for AI features.
 
 **Impact:**
-- Strongest outcome?
-    - ~80% of people who pressed the Improve button made a change to their
-        feedback after use.
-- Observable change?
-    - See above
-- Influence beyond the feature?
-    - I designed the AI gradient pattern as a signiifer of AI features at
-        Culture Amp.
-    - This spread to other features.
-- Pattern others adopted?
-    - See above
+- 80% of managers who used Improve made changes to their feedback.
+- The AI gradient pattern I created here spread to other AI features across the product, including AI Highlights.
 
 ---
 
@@ -291,36 +237,20 @@ Fill this out for each vignette to identify what's missing.
 > 12 designers, 30 prototypes
 
 **Context:**
-- Who experienced this problem?
-    - I experienced this problem first, I was doing a lot of vibe-coded
-        prototypes and found that I was missing an organisational layer for it.
-    - I also couldn't figure out a way to deploy this to our infra so that it
-        can be shared with people
-- What triggered this work?
-    - My own experience
-- What constraint shaped the solution?
-    - I was a single designer who solved problems for myself.
-- Timeline / team size?
-    - Mostly myself with some support from the developer experience team.
+- **Who:** I was leading the way on AI prototyping at Culture Amp. As more designers started exploring this space, I could see we'd hit a wall. No way to deploy or share prototypes internally.
+- **Why now:** No one asked me to build this. I saw the gap coming and filled it before it became a blocker.
+- **Constraint:** Evaluated Replit but there was no budget. We had access to Claude Code, so I built around that.
+- **Team/timeline:** Mostly solo, with some support from the DevEx team for infrastructure.
 
 **Decisions:**
-- What alternatives did you consider?
-    - Things like Gemini, Replit etc but our existing AI tools were nothing
-        compared to an actual coding agent. And we didn't have budget for things
-        like Replit but we did have access to coding agents.
-- What did you advocate for?
-    - I just did it
+- **What I did:** No roadmap slot, no formal project. I just built it.
+- **Adoption work:** Built the tool, then did the harder work of driving adoption. Documentation, onboarding sessions, walking teams through how to use it. That's what made it stick.
 
 **Impact:**
-- Beyond adoption numbers, what changed?
-    - This is a bit high-horsey but I do think I kicked off a bigger culture of
-        Ai prototyoing at Culture Amp. I did a lot of sharing, documentation
-        and walking through the team to onboard this tool.
-- Did this influence team process?
-    - Yes, a singificant feature for another team was prototypes using this
-        feature.
-- Did this become org-wide?
-    - Kinda, everyone can use it!
+- 12 designers across the org now actively use it. 30+ prototypes created.
+- Before this, AI-assisted prototyping wasn't happening. We didn't have the infrastructure.
+- One team used it to prototype a significant feature. The prototypes were how the team and executives got bought in on a significant company release.
+- This shifted how designers at Culture Amp think about prototyping. From static mocks to functional code.
 
 ---
 
@@ -333,37 +263,19 @@ Fill this out for each vignette to identify what's missing.
 > Designed a simple way to bring multiple languages into a single cycle
 
 **Context:**
-- Who experienced this problem?
-    - Multinational orgs that used Culture Amp had to manage like multiple
-        cycles in order to run their performance cycles.
-- What triggered this work?
-    - It was a significant blocker for our larger customers. It was a painpoint
-        for a significant amount of ARR.
-- What constraint shaped the solution?
-    - We had to make it feel familiar to the existing performance cycles
-        workflow. So it fits in with the flow and feels like a natural extension
-        of it rather than a new flow.
-- Timeline / team size?
-    - A couple of months of discovery, testing & iterating.
-    - PM, Tech Lead, Design (me) and devs
+- **Who:** Enterprise customers running performance reviews across multiple countries. They were managing separate cycles per language. One customer was running twelve parallel cycles for what should have been one review period.
+- **Why now:** Major blocker for our largest customers. Tied to significant ARR.
+- **Constraint:** Integration, not invention. Admins already had a mental model for how performance cycles worked. The translation layer had to slot into that flow without requiring them to learn a new system.
+- **Team/timeline:** A couple months of discovery, testing, and iterating. PM, Tech Lead, me, and devs.
 
 **Decisions:**
-- What did you advocate for?
-    - Machine translation and Excel were not in the original scope.
-- What research informed this?
-    - Because we found that these two things were an established part of their
-        processes.
+- **What I advocated for:** Original scope was a basic translation upload flow. I pushed to include machine translation and Excel export based on what we saw in research. These weren't nice-to-haves. They were the actual workflow.
+- **Discovery gap:** Before research, everyone assumed it was just translation management. No one knew machine translation and Excel were core to the workflow. Research revealed the actual process.
+- **Research:** Customer interviews showed the same pattern across accounts. HR teams were already using machine translation as a first pass, then cleaning it up in Excel before uploading. We weren't introducing new tools. We were removing the manual steps around tools they already trusted.
 
 **Impact:**
-- Strongest outcome?
-    - Ongoing active usage of a significant feature with 0 support tickets. I
-        think thhat this was because it was super easy to use.
-- Observable change?
-    - People were using it.
-- Influence beyond the feature?
-    - Our Multilingual implemntation was so good that it set the benchmark for
-        customers. They asked for the same process in other parts of the
-        product.
+- Zero support tickets since launch.
+- After launch, customers started asking for the same translation workflow in other parts of the product. The pattern we built became the reference for how Culture Amp should handle multilingual content.
 
 ---
 
@@ -376,21 +288,19 @@ Fill this out for each vignette to identify what's missing.
 > (Fill in from content.ts)
 
 **Context:**
-- Who experienced this problem?
-- What triggered this work?
-- What constraint shaped the solution?
-- Timeline / team size?
+- **Who:** Managers using Culture Amp. They were missing signals about their direct reports. Goals going stale. Feedback sitting unread. The information existed in the product. It just wasn't surfaced where managers could act on it.
+- **Why now:** Adoption numbers didn't match the value we knew was in the product. The homepage was the highest-traffic page. If managers weren't finding what they needed there, they weren't finding it.
+- **Constraint:** We were limited to the data we could pull. The homepage could only surface a subset of Culture Amp, not everything. Had to design around what was available.
+- **Team/timeline:** Standard team. PM, me, engineers.
 
 **Decisions:**
-- What alternatives did you consider?
-- What did you advocate for?
-- What research informed this?
-- What did you decide against?
+- **What I advocated for:** The original approach was engineering-led. A dashboard where each product team gets their section. Goals here, feedback there, 1-on-1s somewhere else. It made sense from an org chart perspective. But it didn't match how managers think. They don't think in features. They think in people.
+- **How I convinced stakeholders:** I had to deviate from the engineering-led approach. To get buy-in, we ran a small experiment first. That's where the 1-on-1 stats came from. The data convinced people.
+- **The approach:** Instead of feature cards, the homepage shows your people. Direct reports with goals that need attention. Team members who received feedback. The actions you need to take show up in context of who they're about.
 
 **Impact:**
-- Strongest outcome?
-- Observable change?
-- Influence beyond the feature?
+- 255% increase in the weekly number of managers scheduling a 1-on-1 for the first time. We weren't expecting something of that magnitude. The experiment validated the approach was working.
+- Customer quote: "I think as a leader, you want things here that are gonna prompt you to ask questions. And this does that. Seeing people that have received feedback and seeing that someone has an inactive goal gives me the prompt to ask a question. This is great."
 
 ---
 
@@ -403,16 +313,17 @@ Fill this out for each vignette to identify what's missing.
 > (Fill in from content.ts)
 
 **Context:**
-- What motivated this personal project?
-- What were you trying to learn/prove?
+- **What motivated this:** Learning new tech. Figuring out how to build things on my own. I love exploring new tools, and I've got an eye on doing my own thing at some point.
+- **What I built:** A prototyping tool. You give it an idea and it builds out a prototype for you. It has versioning for different ideas, and a prototype "scrubber" that lets you play prototypes like a movie. Like a v0/Lovable clone, but one I built for myself.
+- **Technical challenges:** Figured out how to bring a coding agent CLI into a browser context. Designed a whole set of interactions around bringing that behavior to life in a web app. Also designed the "Scrubber" because a real prototype isn't as observable as a bunch of Figma sheets. You can't easily review or compare states. The scrubber lets you play through a prototype like a movie, making the work reviewable again.
 
-**Decisions:**
-- What approach did you take?
-- What surprised you?
+**What I learned:**
+- You can do so much in a short amount of time. It's time to raise the ambition of what we can do.
+- Actual time building with the tools is the most critical thing in the AI world. You have to tinker, learn, and experiment.
+- This is how I learned to build the Design Sandbox at work. The personal project was the proving ground.
 
-**Impact:**
-- What did you learn?
-- How does this connect to your professional work?
+**Takeaway:**
+- I can design and build. I learn new things on my own. I have deep fluency in these tools that comes from actual experience, not just curiosity.
 
 ---
 
@@ -420,11 +331,14 @@ Fill this out for each vignette to identify what's missing.
 
 Reviewer 3: "I want to know more about you and your unique approach to design."
 
-- Why AI? What draws you to this space?
-- What's your design philosophy in one sentence?
-- What do you believe that most designers don't?
-- What's a hill you'd die on?
-- What kind of problems energize you?
+**Why AI? What draws you to this space?**
+AI fundamentally reworks software. We are still so early in figuring out how to really help people use these tools. It also reworks how we build software. People like me can effectively research, wireframe, prototype and then also have a hand in building the software.
+
+**What do you believe that most designers don't?**
+With these tools I'm designing in the material itself: code, rather than an approximation via traditional design tools. By material I mean code running in a browser that I can click, break, and fix. Direct contact with the material lets me feel what's working, what isn't, and where to push. I notice pacing and rhythm, pick up awkward moments earlier, and judge how it feels to use.
+
+**What kind of problems energize you?**
+Pairing software with real people problems. I strive to design things that just feel right. And I know how much work that requires. It's not about interaction challenges in the abstract. It's about making complex systems feel obvious to the people using them. Strategy matters, but so does execution. Both.
 
 ---
 
