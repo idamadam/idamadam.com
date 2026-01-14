@@ -272,30 +272,32 @@
 
 .type-body {
   @apply text-body;
-  color: var(--secondary);
+  font-family: var(--font-inter), system-ui, sans-serif;
   line-height: 1.65;
 }
 
 .type-body-medium {
   @apply text-body;
+  font-family: var(--font-inter), system-ui, sans-serif;
   font-weight: 500;
-  color: var(--secondary);
 }
 
 .type-body-sm {
   @apply text-body-sm;
-  color: var(--secondary);
+  font-family: var(--font-inter), system-ui, sans-serif;
   line-height: 1.6;
 }
 
 .type-caption {
   @apply text-caption;
+  font-family: var(--font-inter), system-ui, sans-serif;
   color: var(--tertiary);
   line-height: 1.5;
 }
 
 .type-label {
   @apply text-label;
+  font-family: var(--font-inter), system-ui, sans-serif;
   color: var(--tertiary);
   letter-spacing: 0.04em;
   text-transform: uppercase;
