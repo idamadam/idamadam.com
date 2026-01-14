@@ -39,9 +39,9 @@ interface AIHighlightsContent {
 export const aiHighlightsContent: AIHighlightsContent = {
   // Left panel content
   category: 'Highlights and Opportunities',
-  title: 'AI feedback summarisation that encouraged verification',
+  title: 'AI summaries built for verification',
   description:
-    'During Performance Review time, managers spent a large amount of time manually reviewing feedback. Highlights and opportunities solves this problem by generating a summary of their direct report\'s feedback.',
+    'Managers spent hours reading feedback during performance reviews. This generates summaries they can verify against the source feedback.',
   designDetailsLabel: 'Design details',
   designDetails: [
     {
@@ -54,7 +54,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
     },
     {
       number: 3,
-      text: 'Every theme traces back to source quotes. Try expanding to see them.',
+      text: 'Themes link back to source quotes, expand one to see.',
     },
   ],
 
