@@ -37,9 +37,15 @@ export default function AIHighlightsVignette() {
   const [activeNumber, setActiveNumber] = useState<number | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [sheetIndex, setSheetIndex] = useState(0);
+  const [showProcessNotes, setShowProcessNotes] = useState(false);
   const clearTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isMobile = useIsMobile();
   const { scrollToSection } = useScrollToSection();
+
+  // Handle toggle between design details and process notes
+  const handleToggleView = useCallback(() => {
+    setShowProcessNotes((prev) => !prev);
+  }, []);
 
   // Handle number click (mobile only - opens sheet)
   const handleNumberClick = useCallback(
@@ -117,6 +123,8 @@ export default function AIHighlightsVignette() {
                 activeNumber={activeNumber}
                 onNumberClick={handleNumberClick}
                 onNumberHover={handleNumberHover}
+                showProcessNotes={showProcessNotes}
+                onToggleView={handleToggleView}
               />
             }
           >
@@ -128,6 +136,7 @@ export default function AIHighlightsVignette() {
                 highlightedSection={activeNumber}
                 onMarkerClick={handleNumberClick}
                 onMarkerHover={handleNumberHover}
+                hideMarkers={showProcessNotes}
               />
             </div>
           </VignetteSplit>

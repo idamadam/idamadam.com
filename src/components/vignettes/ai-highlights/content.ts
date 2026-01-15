@@ -16,6 +16,10 @@ export interface DesignDetail {
   text: string;
 }
 
+export interface ProcessNote {
+  text: string;
+}
+
 interface AIHighlightsContent {
   // Left panel content
   category: string;
@@ -23,6 +27,8 @@ interface AIHighlightsContent {
   description: string;
   designDetailsLabel: string;
   designDetails: DesignDetail[];
+  processNotesLabel: string;
+  processNotes: ProcessNote[];
 
   // Right panel content (fictional employee review)
   employee: {
@@ -55,6 +61,21 @@ export const aiHighlightsContent: AIHighlightsContent = {
     {
       number: 3,
       text: 'Themes link back to source quotes, expand one to see.',
+    },
+  ],
+  processNotesLabel: 'Process notes',
+  processNotes: [
+    {
+      text: 'Focused on making AI trustworthy. That meant showing sources, surfacing concrete examples, and keeping humans in the loop.',
+    },
+    {
+      text: 'Joined after discovery and owned design through launch. Defined the interaction model and worked with data science on prompt quality.',
+    },
+    {
+      text: 'High visibility meant heavy exec feedback. I refined the storytelling until the concept clicked.',
+    },
+    {
+      text: "User feedback: 'just the right amount of AI.'",
     },
   ],
 
