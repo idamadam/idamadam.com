@@ -13,18 +13,14 @@ interface HighlightsTextPanelProps {
   onToggleView?: () => void;
 }
 
-function CategoryBreadcrumb() {
+function ProjectName() {
   return (
     <div className="flex items-center gap-1.5 mb-4">
-      {/* Orange dot */}
       <div className="size-1.5 rounded-full bg-accent-600" />
-      {/* Line */}
       <div className="w-5 h-px bg-black/10" />
-      {/* Gray dot */}
       <div className="size-1.5 rounded-full bg-black/10" />
-      {/* Category text */}
       <span className="ml-1.5 text-[13px] font-medium tracking-tight text-primary">
-        {aiHighlightsContent.category}
+        {aiHighlightsContent.projectName}
       </span>
     </div>
   );
@@ -42,15 +38,14 @@ export default function HighlightsTextPanel({
 
   return (
     <div className="flex flex-col">
-      {/* Category breadcrumb */}
-      <CategoryBreadcrumb />
+      <ProjectName />
 
-      {/* Title */}
-      <h3 className="type-h2 text-primary">{aiHighlightsContent.title}</h3>
+      {/* Headline */}
+      <h3 className="type-h2 text-primary">{aiHighlightsContent.headline}</h3>
 
-      {/* Description */}
+      {/* Body */}
       <p className="type-body text-primary mt-4">
-        {aiHighlightsContent.description}
+        {aiHighlightsContent.body}
       </p>
 
       {/* Toggle between Design details and Process notes */}

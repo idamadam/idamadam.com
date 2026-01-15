@@ -22,9 +22,9 @@ export interface ProcessNote {
 
 interface AIHighlightsContent {
   // Left panel content
-  category: string;
-  title: string;
-  description: string;
+  projectName: string;
+  headline: string;
+  body: string;
   designDetailsLabel: string;
   designDetails: DesignDetail[];
   processNotesLabel: string;
@@ -44,9 +44,9 @@ interface AIHighlightsContent {
 
 export const aiHighlightsContent: AIHighlightsContent = {
   // Left panel content
-  category: 'Highlights and Opportunities',
-  title: 'AI summaries built for verification',
-  description:
+  projectName: 'Highlights and Opportunities',
+  headline: 'AI summaries built for verification',
+  body:
     'Managers spent hours reading feedback during performance reviews. This generates summaries they can verify against the source feedback.',
   designDetailsLabel: 'Design details',
   designDetails: [
