@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import NumberedMarker from './NumberedMarker';
 import { aiHighlightsContent } from './content';
+import { easings } from '@/lib/animations';
 
 interface HighlightsTextPanelProps {
   activeNumber: number | null;
@@ -58,36 +59,58 @@ export default function HighlightsTextPanel({
         <div className="flex items-center gap-1 mb-3">
           <button
             onClick={() => showProcessNotes && onToggleView?.()}
-            className={`px-3 py-1.5 text-[13px] font-medium tracking-tight rounded-lg transition-colors ${
-              !showProcessNotes
-                ? 'bg-accent-100 text-accent-700'
-                : 'text-secondary hover:text-primary hover:bg-black/5'
-            }`}
+            className="relative px-3 py-1.5 text-[13px] font-medium tracking-tight rounded-lg transition-colors"
           >
-            {designDetailsLabel}
+            {!showProcessNotes && (
+              <motion.div
+                layoutId="toggle-pill"
+                className="absolute inset-0 bg-accent-200 border border-accent-700/25 rounded-lg"
+                transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
+              />
+            )}
+            <span
+              className={`relative z-10 transition-colors duration-200 ${
+                !showProcessNotes
+                  ? 'text-accent-700'
+                  : 'text-secondary hover:text-primary'
+              }`}
+            >
+              {designDetailsLabel}
+            </span>
           </button>
           <button
             onClick={() => !showProcessNotes && onToggleView?.()}
-            className={`px-3 py-1.5 text-[13px] font-medium tracking-tight rounded-lg transition-colors ${
-              showProcessNotes
-                ? 'bg-accent-100 text-accent-700'
-                : 'text-secondary hover:text-primary hover:bg-black/5'
-            }`}
+            className="relative px-3 py-1.5 text-[13px] font-medium tracking-tight rounded-lg transition-colors"
           >
-            {processNotesLabel}
+            {showProcessNotes && (
+              <motion.div
+                layoutId="toggle-pill"
+                className="absolute inset-0 bg-accent-200 border border-accent-700/25 rounded-lg"
+                transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
+              />
+            )}
+            <span
+              className={`relative z-10 transition-colors duration-200 ${
+                showProcessNotes
+                  ? 'text-accent-700'
+                  : 'text-secondary hover:text-primary'
+              }`}
+            >
+              {processNotesLabel}
+            </span>
           </button>
         </div>
 
         {/* Animated content switch */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="popLayout">
           {!showProcessNotes ? (
             <motion.ul
               key="design-details"
               className="flex flex-col gap-1"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, ease: easings.decel }}
             >
               {designDetails.map((detail) => (
                 <motion.li
@@ -120,10 +143,10 @@ export default function HighlightsTextPanel({
             <motion.ul
               key="process-notes"
               className="flex flex-col gap-2"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, ease: easings.decel }}
             >
               {processNotes.map((note, index) => (
                 <li
