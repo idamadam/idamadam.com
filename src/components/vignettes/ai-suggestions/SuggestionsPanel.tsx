@@ -3,23 +3,21 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
-import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
+import NumberedMarker from '../ai-highlights/NumberedMarker';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
 import type { AISuggestionsContent } from './content';
 
-type PanelStage = 'loading' | 'solution' | 'designNotes';
-
 interface SuggestionsPanelProps {
   className?: string;
   content: AISuggestionsContent;
-  stage?: PanelStage;
-  highlightedSection?: string | null;
-  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
-  notes?: Array<{ id: string; label?: string; detail: string }>;
+  highlightedSection?: number | null;
+  onMarkerClick?: (number: number) => void;
+  onMarkerHover?: (number: number | null) => void;
+  hideMarkers?: boolean;
 }
 
-// Global styles for animated gradient border - rendered at module level
+// Global styles for animated gradient border
 function GradientBorderStyles() {
   return (
     <style jsx global>{`
@@ -74,53 +72,7 @@ function GradientBorderStyles() {
 function LoadingPanel() {
   return (
     <>
-      <style jsx global>{`
-        @property --gradient-angle {
-          syntax: '<angle>';
-          initial-value: 0deg;
-          inherits: false;
-        }
-
-        @keyframes rotateGradient {
-          to {
-            --gradient-angle: 360deg;
-          }
-        }
-
-        .suggestions-loading-border,
-        .suggestions-animated-border {
-          position: absolute;
-          inset: 0;
-          border-radius: 7px;
-          background: conic-gradient(
-            from var(--gradient-angle),
-            var(--ai-gradient-1),
-            var(--ai-gradient-2),
-            var(--ai-gradient-3),
-            var(--ai-gradient-2),
-            var(--ai-gradient-1)
-          );
-          animation: rotateGradient 3s linear infinite;
-          filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.5));
-        }
-
-        .suggestions-loading-content {
-          position: relative;
-          background: var(--background-elevated);
-          width: 100%;
-          height: 100%;
-          border-radius: 5px;
-          z-index: 1;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .suggestions-loading-border,
-          .suggestions-animated-border {
-            animation: none;
-          }
-        }
-      `}</style>
-
+      <GradientBorderStyles />
       <div className="relative p-[2px] rounded-[7px]">
         <div className="suggestions-loading-border"></div>
         <div className="suggestions-loading-content p-5">
@@ -140,137 +92,170 @@ function LoadingPanel() {
 
 interface RecommendationsPanelProps {
   content: AISuggestionsContent;
-  highlightedSection?: string | null;
-  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
-  notes?: Array<{ id: string; label?: string; detail: string }>;
+  highlightedSection?: number | null;
+  onMarkerClick?: (number: number) => void;
+  onMarkerHover?: (number: number | null) => void;
+  hideMarkers?: boolean;
 }
 
 function RecommendationsPanel({
   content,
   highlightedSection = null,
-  onNoteOpenChange,
-  notes = [],
+  onMarkerClick,
+  onMarkerHover,
+  hideMarkers = false,
 }: RecommendationsPanelProps) {
-  // Get opacity style for a section based on what's highlighted
-  const getSectionStyle = (section: string) => {
-    if (!highlightedSection) return {};
-    return {
-      opacity: highlightedSection === section ? 1 : 0.3,
-      transition: 'opacity 0.2s ease-in-out',
-    };
-  };
-
-  const handleNoteOpen = (noteId: string, isOpen: boolean) => {
-    onNoteOpenChange?.(noteId, isOpen);
-  };
-
-  // Find notes by ID
-  const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
-
-  // Get style for inner content when gradient border is highlighted
-  const getInnerContentStyle = () => {
-    if (highlightedSection === 'gradient-border') {
+  // Get highlight style for a section
+  const getSectionHighlightStyle = (sectionNumber: number) => {
+    if (highlightedSection === sectionNumber) {
       return {
-        opacity: 0.3,
-        transition: 'opacity 0.2s ease-in-out',
+        backgroundColor: 'rgba(240, 217, 200, 0.3)',
+        borderRadius: '8px',
+        transition: 'background-color 0.3s ease-in-out',
       };
     }
     return {
-      transition: 'opacity 0.2s ease-in-out',
+      transition: 'background-color 0.3s ease-in-out',
     };
   };
 
-  const isShowingAnimation = highlightedSection === 'gradient-border';
-
   return (
     <div
-      className="recommendation-panel relative rounded-[7px] p-[2px]"
+      className="relative rounded-[7px] p-[2px]"
       data-section-id="gradient-border"
       style={{
-        background: isShowingAnimation
-          ? undefined
-          : 'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
+        background:
+          'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
       }}
     >
-      {isShowingAnimation && <div className="suggestions-animated-border" />}
-      <div className="recommendation-content bg-background-elevated rounded-[5px] p-8 space-y-5 relative z-10">
-        {/* Markers - positioned outside fading content */}
-        <SectionMarker
-          index={1}
-          noteId="loading-state"
-          side="left"
-          isActive={highlightedSection === 'gradient-border'}
-          onOpenChange={handleNoteOpen}
-          note={getNote('loading-state')}
-        />
-        <SectionMarker
-          index={2}
-          noteId="people-science"
-          side="right"
-          isActive={highlightedSection === 'recommendations-list'}
-          onOpenChange={handleNoteOpen}
-          note={getNote('people-science')}
-        />
+      {/* Marker 2 - AI gradient border - desktop: left side, mobile: left edge */}
+      <AnimatePresence>
+        {!hideMarkers && (
+          <>
+            <motion.div
+              key="marker-2-desktop"
+              className="absolute -left-8 top-6 hidden xl:block z-20"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, delay: 0.05 }}
+              onMouseEnter={() => onMarkerHover?.(2)}
+              onMouseLeave={() => onMarkerHover?.(null)}
+            >
+              <NumberedMarker
+                number={2}
+                onClick={() => onMarkerClick?.(2)}
+                isActive={highlightedSection === 2}
+              />
+            </motion.div>
+            <motion.div
+              key="marker-2-mobile"
+              className="absolute -left-3 top-6 xl:hidden z-20"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, delay: 0.05 }}
+            >
+              <NumberedMarker
+                number={2}
+                onClick={() => onMarkerClick?.(2)}
+                isActive={highlightedSection === 2}
+              />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
-        {/* Content that fades */}
-        <div style={getInnerContentStyle()} className="space-y-5">
-          {/* Header */}
-          <div
-            className="flex items-start gap-2"
-            data-section-id="recommendations-header"
-            style={getSectionStyle('recommendations-header')}
-          >
-            <span className="material-icons-outlined text-h3 text-primary mt-0.5">
-              auto_awesome
+      <div
+        className="bg-background-elevated rounded-[5px] p-8 space-y-5 relative z-10"
+        style={getSectionHighlightStyle(2)}
+      >
+        {/* Header */}
+        <div className="flex items-start gap-2">
+          <span className="material-icons-outlined text-h3 text-primary mt-0.5">
+            auto_awesome
+          </span>
+          <div className="flex flex-col">
+            <span className="text-lg font-semibold text-primary leading-6">
+              {content.recommendations.length} suggested improvements
             </span>
-            <div className="flex flex-col">
-              <span className="text-lg font-semibold text-primary leading-6">
-                {content.recommendations.length} suggested improvements
-              </span>
-              <span className="text-sm font-normal text-secondary leading-5">
-                based on Culture Amp People Science
-              </span>
-            </div>
+            <span className="text-sm font-normal text-secondary leading-5">
+              based on Culture Amp People Science
+            </span>
           </div>
+        </div>
 
-          {/* Recommendations */}
-          <div
-            className="space-y-5"
-            data-section-id="recommendations-list"
-            style={getSectionStyle('recommendations-list')}
-          >
-            {content.recommendations.map((rec, index) => (
-              <div key={index}>
-                <p className="text-base leading-6 text-primary">
-                  <span className="font-semibold">{rec.title}</span>
-                  <span className="font-normal"> {rec.description}</span>
-                </p>
-                {index < content.recommendations.length - 1 && (
-                  <div className="h-px bg-border mt-4" />
-                )}
-              </div>
-            ))}
-          </div>
+        {/* Recommendations with Marker 3 */}
+        <div
+          className="space-y-5 relative"
+          data-section-id="recommendations"
+          style={getSectionHighlightStyle(3)}
+        >
+          {/* Marker 3 - Recommendations - desktop: right side, mobile: right edge */}
+          <AnimatePresence>
+            {!hideMarkers && (
+              <>
+                <motion.div
+                  key="marker-3-desktop"
+                  className="absolute -right-14 top-4 hidden xl:block"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
+                  onMouseEnter={() => onMarkerHover?.(3)}
+                  onMouseLeave={() => onMarkerHover?.(null)}
+                >
+                  <NumberedMarker
+                    number={3}
+                    onClick={() => onMarkerClick?.(3)}
+                    isActive={highlightedSection === 3}
+                  />
+                </motion.div>
+                <motion.div
+                  key="marker-3-mobile"
+                  className="absolute -right-3 top-4 xl:hidden"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
+                >
+                  <NumberedMarker
+                    number={3}
+                    onClick={() => onMarkerClick?.(3)}
+                    isActive={highlightedSection === 3}
+                  />
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
 
-          {/* Footer */}
-          <div
-            className="flex items-center pt-2"
-            data-section-id="recommendations-footer"
-            style={getSectionStyle('recommendations-footer')}
-          >
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-secondary">Is this helpful?</span>
-              <button className="p-2 hover:bg-black/5 rounded-lg transition-colors">
-                <span className="material-icons-outlined text-body-sm text-primary">
-                  thumb_up
-                </span>
-              </button>
-              <button className="p-2 hover:bg-black/5 rounded-lg transition-colors">
-                <span className="material-icons-outlined text-body-sm text-primary">
-                  thumb_down
-                </span>
-              </button>
+          {content.recommendations.map((rec, index) => (
+            <div key={index}>
+              <p className="text-base leading-6 text-primary">
+                <span className="font-semibold">{rec.title}</span>
+                <span className="font-normal"> {rec.description}</span>
+              </p>
+              {index < content.recommendations.length - 1 && (
+                <div className="h-px bg-border mt-4" />
+              )}
             </div>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center pt-2">
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-secondary">Is this helpful?</span>
+            <button className="p-2 hover:bg-black/5 rounded-lg transition-colors">
+              <span className="material-icons-outlined text-body-sm text-primary">
+                thumb_up
+              </span>
+            </button>
+            <button className="p-2 hover:bg-black/5 rounded-lg transition-colors">
+              <span className="material-icons-outlined text-body-sm text-primary">
+                thumb_down
+              </span>
+            </button>
           </div>
         </div>
       </div>
@@ -280,10 +265,10 @@ function RecommendationsPanel({
 
 export default function SuggestionsPanel({
   content,
-  stage = 'solution',
   highlightedSection = null,
-  onNoteOpenChange,
-  notes = [],
+  onMarkerClick,
+  onMarkerHover,
+  hideMarkers = false,
 }: SuggestionsPanelProps) {
   const reducedMotion = useReducedMotion();
   const { isComplete } = useIntroSequence();
@@ -292,7 +277,7 @@ export default function SuggestionsPanel({
 
   useEffect(() => {
     // Only start timer once intro is complete AND we haven't started yet
-    if (isComplete && showLoading && stage === 'solution' && !hasStartedRef.current) {
+    if (isComplete && showLoading && !hasStartedRef.current) {
       hasStartedRef.current = true;
       // Small delay for fadeInUp to complete, then show loading for 1.5s
       const entranceDelay = reducedMotion ? 0 : 600;
@@ -304,60 +289,82 @@ export default function SuggestionsPanel({
         }, loadingDuration);
       }, entranceDelay);
     }
-  }, [isComplete, showLoading, stage, reducedMotion]);
+  }, [isComplete, showLoading, reducedMotion]);
 
-  // Show loading if either the stage is 'loading' OR we're in internal loading state
-  const isLoading = stage === 'loading' || (stage === 'solution' && showLoading);
-  const isSolution = (stage === 'solution' && !showLoading) || stage === 'designNotes';
-
-  // Get opacity style for a section based on what's highlighted
-  const getSectionStyle = (section: string) => {
-    if (!highlightedSection) return {};
+  // Get highlight style for a section
+  const getSectionHighlightStyle = (sectionNumber: number) => {
+    if (highlightedSection === sectionNumber) {
+      return {
+        backgroundColor: 'rgba(240, 217, 200, 0.3)',
+        borderRadius: '8px',
+        transition: 'background-color 0.3s ease-in-out',
+      };
+    }
     return {
-      opacity: highlightedSection === section ? 1 : 0.3,
-      transition: 'opacity 0.2s ease-in-out',
+      transition: 'background-color 0.3s ease-in-out',
     };
   };
-
-  const handleNoteOpen = (noteId: string, isOpen: boolean) => {
-    onNoteOpenChange?.(noteId, isOpen);
-  };
-
-  // Find notes by ID
-  const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
     <div className="space-y-2 flex flex-col">
       <GradientBorderStyles />
       {/* Editor with marker - always visible */}
-      <div className="relative" data-section-id="improve-button">
+      <div
+        className="relative"
+        data-section-id="improve-button"
+        style={getSectionHighlightStyle(1)}
+      >
+        {/* Marker 1 - Improve button - desktop: left side, mobile: left edge */}
+        <AnimatePresence>
+          {!hideMarkers && !showLoading && (
+            <>
+              <motion.div
+                key="marker-1-desktop"
+                className="absolute -left-8 top-1/2 -translate-y-1/2 hidden xl:block z-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                onMouseEnter={() => onMarkerHover?.(1)}
+                onMouseLeave={() => onMarkerHover?.(null)}
+              >
+                <NumberedMarker
+                  number={1}
+                  onClick={() => onMarkerClick?.(1)}
+                  isActive={highlightedSection === 1}
+                />
+              </motion.div>
+              <motion.div
+                key="marker-1-mobile"
+                className="absolute -left-3 top-1/2 -translate-y-1/2 xl:hidden z-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <NumberedMarker
+                  number={1}
+                  onClick={() => onMarkerClick?.(1)}
+                  isActive={highlightedSection === 1}
+                />
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
         <RichTextEditor
           content={content.beforeText}
           placeholder="Write feedback..."
           showImproveButton={true}
-          isImproving={isLoading}
-          isImproveActivated={isSolution}
+          isImproving={showLoading}
+          isImproveActivated={!showLoading}
           mobileFormatting="dots"
-          improveButtonStyle={isSolution ? getSectionStyle('improve-button') : undefined}
-          editorContentStyle={isSolution ? getSectionStyle('editor-content') : undefined}
-          improveButtonMarker={
-            isSolution ? (
-              <SectionMarker
-                index={0}
-                noteId="editor-integration"
-                side="right"
-                isActive={highlightedSection === 'improve-button'}
-                onOpenChange={handleNoteOpen}
-                note={getNote('editor-integration')}
-              />
-            ) : undefined
-          }
         />
       </div>
 
       {/* Panel below - animates between loading and recommendations */}
       <AnimatePresence mode="wait">
-        {isLoading && (
+        {showLoading && (
           <motion.div
             key="loading"
             initial={{ opacity: 0, y: -10 }}
@@ -368,7 +375,7 @@ export default function SuggestionsPanel({
             <LoadingPanel />
           </motion.div>
         )}
-        {isSolution && (
+        {!showLoading && (
           <motion.div
             key="recommendations"
             initial={{ opacity: 0, y: -10 }}
@@ -379,8 +386,9 @@ export default function SuggestionsPanel({
             <RecommendationsPanel
               content={content}
               highlightedSection={highlightedSection}
-              onNoteOpenChange={onNoteOpenChange}
-              notes={notes}
+              onMarkerClick={onMarkerClick}
+              onMarkerHover={onMarkerHover}
+              hideMarkers={hideMarkers}
             />
           </motion.div>
         )}

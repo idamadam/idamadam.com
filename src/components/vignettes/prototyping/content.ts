@@ -1,4 +1,11 @@
-import type { VignetteStages } from '../types';
+export interface DesignDetail {
+  number: number;
+  text: string;
+}
+
+export interface ProcessNote {
+  text: string;
+}
 
 export interface PrototypeItem {
   id: number;
@@ -11,28 +18,20 @@ export interface DesignerItem {
   name: string;
 }
 
-export interface ProblemQuestion {
-  id: string;
-  text: string;
-  delay: number; // stagger delay for animation
-}
-
-export interface TransitionStep {
-  id: string;
-  type: 'command' | 'status' | 'tip';
-  command?: string;
-  status?: string;
-  isLoading?: boolean;
-  delay: number;
-}
-
 export interface PrototypingContent {
-  stages: VignetteStages;
+  // Left panel content
+  projectName: string;
+  headline: string;
+  body: string;
+  designDetailsLabel: string;
+  designDetails: DesignDetail[];
+  processNotesLabel: string;
+  processNotes: ProcessNote[];
+
+  // Right panel content
   sandboxTitle: string;
   prototypes: PrototypeItem[];
   designers: DesignerItem[];
-  problemQuestions: ProblemQuestion[];
-  transitionSteps: TransitionStep[];
   adoptionStats: {
     designers: number;
     prototypes: number;
@@ -40,11 +39,42 @@ export interface PrototypingContent {
 }
 
 export const prototypingContent: PrototypingContent = {
-  stages: {
-    solution: {
-      title: 'A shared sandbox that makes AI prototyping easy'
-    }
-  },
+  // Left panel content
+  projectName: 'Design Sandbox',
+  headline: 'AI prototyping infrastructure I built from scratch',
+  body: 'Designers had no way to deploy or share AI prototypes internally. I saw the gap coming and filled it before it became a blocker.',
+  designDetailsLabel: 'Design details',
+  designDetails: [
+    {
+      number: 1,
+      text: 'Shared library shows all prototypes across the org',
+    },
+    {
+      number: 2,
+      text: 'Each designer gets a personal homepage for their work',
+    },
+    {
+      number: 3,
+      text: 'Fork command lets you build on existing prototypes',
+    },
+  ],
+  processNotesLabel: 'Process notes',
+  processNotes: [
+    {
+      text: 'No roadmap slot, no formal project. I just built it.',
+    },
+    {
+      text: 'Evaluated Replit but there was no budget. We had access to Claude Code, so I built around that.',
+    },
+    {
+      text: 'Built the tool, then did the harder work of driving adoption. Documentation, onboarding sessions, walking teams through how to use it.',
+    },
+    {
+      text: '12 designers now actively use it. One team used it to prototype a significant feature that got executives bought in on a major company release.',
+    },
+  ],
+
+  // Right panel content
   sandboxTitle: 'Culture Amp Design Sandbox',
   prototypes: [
     { id: 1, name: 'Performance AI', thumbnail: '#d9d9d9' },
@@ -52,7 +82,7 @@ export const prototypingContent: PrototypingContent = {
     { id: 3, name: 'Goals Assistant', thumbnail: '#d9d9d9' },
     { id: 4, name: 'Feedback Helper', thumbnail: '#d9d9d9' },
     { id: 5, name: 'Review Writer', thumbnail: '#d9d9d9' },
-    { id: 6, name: '1-on-1 Prep', thumbnail: '#d9d9d9' }
+    { id: 6, name: '1-on-1 Prep', thumbnail: '#d9d9d9' },
   ],
   designers: [
     { id: 1, name: 'Sarah Chen' },
@@ -60,25 +90,10 @@ export const prototypingContent: PrototypingContent = {
     { id: 3, name: 'Priya Patel' },
     { id: 4, name: 'Alex Kim' },
     { id: 5, name: 'Jordan Rivera' },
-    { id: 6, name: 'Taylor Brooks' }
-  ],
-  problemQuestions: [
-    { id: 'q1', text: 'Everyone starting from scratch', delay: 0 },
-    { id: 'q2', text: 'No shared components', delay: 0.1 },
-    { id: 'q3', text: "Can't build on others' work", delay: 0.2 },
-    { id: 'q4', text: 'Complex setup every time', delay: 0.3 },
-    { id: 'q5', text: 'Hours lost on configuration', delay: 0.4 },
-    { id: 'q6', text: 'Knowledge siloed in individuals', delay: 0.5 }
-  ],
-  transitionSteps: [
-    { id: 'clone-cmd', type: 'command', command: 'git clone culture-amp/design-sandbox', delay: 0 },
-    { id: 'clone-status', type: 'status', status: 'Cloned — Components ready', delay: 0.8 },
-    { id: 'designer-cmd', type: 'command', command: '/add-designer "Sarah Chen"', delay: 1.8 },
-    { id: 'designer-status', type: 'status', status: 'Created designer profile', delay: 2.6 },
-    { id: 'homepage-status', type: 'status', status: 'Generating personal homepage...', isLoading: true, delay: 3.4 },
+    { id: 6, name: 'Taylor Brooks' },
   ],
   adoptionStats: {
     designers: 12,
-    prototypes: 30
-  }
+    prototypes: 30,
+  },
 };

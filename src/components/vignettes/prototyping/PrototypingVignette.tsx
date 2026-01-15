@@ -1,51 +1,159 @@
 'use client';
 
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import SandboxPanel from './SandboxPanel';
+import PrototypingTextPanel from './PrototypingTextPanel';
+import { MobilePrototypingSheet } from './MobilePrototypingSheet';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
-import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
-import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
+import { useScrollToSection } from '@/components/vignettes/shared/useScrollToSection';
 import { fadeInUp } from '@/lib/animations';
 import { prototypingContent } from './content';
-import { useReducedMotion } from '@/lib/useReducedMotion';
 
-function PrototypingContent() {
-  const { stage } = useVignetteStage();
-  const reducedMotion = useReducedMotion();
+// Hook to detect mobile viewport
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
 
-  const title = prototypingContent.stages.solution.title;
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 1279px)');
+    setIsMobile(mediaQuery.matches);
 
-  return (
-    <VignetteSplit
-      title={
-        <div className="space-y-4">
-          <AnimatedStageText
-            stage={stage}
-            text={title}
-            isLoading={false}
-            reducedMotion={reducedMotion}
-          />
-        </div>
-      }
-    >
-      <div className="relative w-full max-w-[672px] mx-auto">
-        <SandboxPanel content={prototypingContent} />
-      </div>
-    </VignetteSplit>
-  );
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
+  return isMobile;
 }
 
+// Map from 1-based number to section id
+const sectionMap: Record<number, string> = {
+  1: 'sandbox-container',
+  2: 'designer-directory',
+  3: 'fork-command',
+};
+
 export default function PrototypingVignette() {
+  const [activeNumber, setActiveNumber] = useState<number | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetIndex, setSheetIndex] = useState(0);
+  const [showProcessNotes, setShowProcessNotes] = useState(false);
+  const clearTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isMobile = useIsMobile();
+  const { scrollToSection } = useScrollToSection();
+
+  // Handle toggle between design details and process notes
+  const handleToggleView = useCallback(() => {
+    setShowProcessNotes((prev) => !prev);
+  }, []);
+
+  // Handle number click (mobile only - opens sheet)
+  const handleNumberClick = useCallback(
+    (number: number) => {
+      // Only handle clicks on mobile
+      if (!isMobile) return;
+
+      // Clear any pending timeout
+      if (clearTimeoutRef.current) {
+        clearTimeout(clearTimeoutRef.current);
+      }
+
+      setSheetIndex(number - 1); // Convert 1-based to 0-based index
+      setSheetOpen(true);
+      setActiveNumber(number);
+      // Scroll after a brief delay to let sheet animate in
+      setTimeout(() => {
+        scrollToSection(sectionMap[number]);
+      }, 100);
+    },
+    [isMobile, scrollToSection]
+  );
+
+  // Handle hover (desktop only - highlights)
+  const handleNumberHover = useCallback(
+    (number: number | null) => {
+      if (isMobile) return;
+
+      // Clear any pending timeout
+      if (clearTimeoutRef.current) {
+        clearTimeout(clearTimeoutRef.current);
+      }
+
+      setActiveNumber(number);
+    },
+    [isMobile]
+  );
+
+  // Handle sheet close
+  const handleSheetClose = useCallback(() => {
+    setSheetOpen(false);
+    setActiveNumber(null);
+  }, []);
+
+  // Handle sheet index change - also update active number and scroll
+  const handleSheetIndexChange = useCallback(
+    (index: number) => {
+      setSheetIndex(index);
+      const number = index + 1; // Convert 0-based to 1-based
+      setActiveNumber(number);
+
+      // Scroll to center element in visible area above sheet
+      const sectionId = sectionMap[number];
+      if (sectionId) {
+        scrollToSection(sectionId);
+      }
+    },
+    [scrollToSection]
+  );
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (clearTimeoutRef.current) {
+        clearTimeout(clearTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <VignetteContainer id="prototyping">
+    <VignetteContainer id="prototyping" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
         <motion.div {...fadeInUp}>
-          <VignetteStaged stages={prototypingContent.stages} vignetteId="prototyping">
-            <PrototypingContent />
-          </VignetteStaged>
+          <VignetteSplit
+            title={
+              <PrototypingTextPanel
+                activeNumber={activeNumber}
+                onNumberClick={handleNumberClick}
+                onNumberHover={handleNumberHover}
+                showProcessNotes={showProcessNotes}
+                onToggleView={handleToggleView}
+              />
+            }
+          >
+            <div
+              className="relative w-full max-w-[672px] mx-auto"
+              style={{ overflow: 'visible' }}
+            >
+              <SandboxPanel
+                content={prototypingContent}
+                highlightedSection={activeNumber}
+                onMarkerClick={handleNumberClick}
+                onMarkerHover={handleNumberHover}
+                hideMarkers={showProcessNotes}
+              />
+            </div>
+          </VignetteSplit>
         </motion.div>
       </div>
+
+      {/* Mobile sheet for design details */}
+      <MobilePrototypingSheet
+        isOpen={sheetOpen}
+        onClose={handleSheetClose}
+        currentIndex={sheetIndex}
+        onIndexChange={handleSheetIndexChange}
+      />
     </VignetteContainer>
   );
 }

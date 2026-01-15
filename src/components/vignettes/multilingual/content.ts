@@ -1,4 +1,11 @@
-import { DesignNote, VignetteStages } from '../types';
+export interface DesignDetail {
+  number: number;
+  text: string;
+}
+
+export interface ProcessNote {
+  text: string;
+}
 
 interface TranslationField {
   id: number;
@@ -13,24 +20,58 @@ interface LanguageOption {
   text: string;
 }
 
-interface ProblemCard {
-  code: string;
-  name: string;
-  flag: string;
-  cycleNumber: number;
-}
-
 export interface MultilingualContent {
+  // Left panel content
+  projectName: string;
+  headline: string;
+  body: string;
+  designDetailsLabel: string;
+  designDetails: DesignDetail[];
+  processNotesLabel: string;
+  processNotes: ProcessNote[];
+
+  // Right panel content
   translationFields: TranslationField[];
   languages: LanguageOption[];
-  stages: VignetteStages;
-  designNotes: {
-    notes: DesignNote[];
-  };
-  problemCards: ProblemCard[];
 }
 
 export const multilingualContent: MultilingualContent = {
+  // Left panel content
+  projectName: 'Translation Management',
+  headline: 'Multiple languages in a single cycle',
+  body: 'Enterprise customers were managing separate performance cycles per language. One customer ran twelve parallel cycles for what should have been one review period.',
+  designDetailsLabel: 'Design details',
+  designDetails: [
+    {
+      number: 1,
+      text: 'Unified dropdown replaces separate cycles per language',
+    },
+    {
+      number: 2,
+      text: 'One-click translation built on tools admins already trusted',
+    },
+    {
+      number: 3,
+      text: 'Excel export matches the actual workflow we observed',
+    },
+  ],
+  processNotesLabel: 'Process notes',
+  processNotes: [
+    {
+      text: 'Original scope was a basic translation upload flow. I pushed to include machine translation and Excel export based on what we saw in research. These were the actual workflow.',
+    },
+    {
+      text: 'Before research, everyone assumed it was just translation management. Customer interviews revealed HR teams were already using machine translation as a first pass, then cleaning it up in Excel.',
+    },
+    {
+      text: 'The constraint was integration, not invention. The translation layer had to slot into existing mental models without requiring admins to learn a new system.',
+    },
+    {
+      text: 'Zero support tickets since launch. The pattern we built became the reference for how Culture Amp handles multilingual content.',
+    },
+  ],
+
+  // Right panel content
   translationFields: [
     {
       id: 1,
@@ -44,46 +85,4 @@ export const multilingualContent: MultilingualContent = {
     { code: 'es', name: 'Español (Spanish)', text: '¿Cómo se desempeñó esta persona durante este período de evaluación?' },
     { code: 'dv', name: 'ދިވެހި (Dhivehi)', text: 'މި މީހާ މި ރިވިއު ތެރޭގައި ކިހިނެއް ކުރިއަރައިފި؟' }
   ],
-  stages: {
-    solution: {
-      title: 'Designed a simple way to bring multiple languages into a single cycle'
-    }
-  },
-  designNotes: {
-    notes: [
-      {
-        id: 'unified-cycle',
-        detail: 'Instead of managing separate cycles per language, everything lives in one dropdown.',
-        x: '-4%',
-        y: '10%',
-        popoverSide: 'left' as const
-      },
-      {
-        id: 'ai-translate',
-        detail: 'A primary button for translating in one click. Research showed this was already a core process, I just made it easier.',
-        x: '104%',
-        y: '10%',
-        popoverSide: 'right' as const
-      },
-      {
-        id: 'xlsx-import',
-        detail: 'User research revealed admins were already managing translations in XLSX files. This feature lets them use their existing process.',
-        x: '104%',
-        y: '10%',
-        popoverSide: 'right' as const
-      },
-      {
-        id: 'source-reference',
-        detail: 'Original language is placed within easy reach to reduce the need to switch between languages.',
-        x: '-4%',
-        y: '75%',
-        popoverSide: 'left' as const
-      }
-    ]
-  },
-  problemCards: [
-    { code: 'fr', name: 'French', flag: '🇫🇷', cycleNumber: 1 },
-    { code: 'es', name: 'Spanish', flag: '🇪🇸', cycleNumber: 2 },
-    { code: 'dv', name: 'Dhivehi', flag: '🇲🇻', cycleNumber: 3 }
-  ]
 };
