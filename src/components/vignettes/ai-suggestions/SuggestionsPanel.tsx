@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
 import NumberedMarker from '../ai-highlights/NumberedMarker';
+import DesktopMarkerTooltip from '../shared/DesktopMarkerTooltip';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
 import type { AISuggestionsContent } from './content';
@@ -147,6 +148,12 @@ function RecommendationsPanel({
                 onClick={() => onMarkerClick?.(2)}
                 isActive={highlightedSection === 2}
               />
+              <DesktopMarkerTooltip
+                number={2}
+                text={content.designDetails[1].text}
+                isVisible={highlightedSection === 2}
+                position="left"
+              />
             </motion.div>
             <motion.div
               key="marker-2-mobile"
@@ -209,6 +216,12 @@ function RecommendationsPanel({
                     number={3}
                     onClick={() => onMarkerClick?.(3)}
                     isActive={highlightedSection === 3}
+                  />
+                  <DesktopMarkerTooltip
+                    number={3}
+                    text={content.designDetails[2].text}
+                    isVisible={highlightedSection === 3}
+                    position="right"
                   />
                 </motion.div>
                 <motion.div
@@ -332,6 +345,12 @@ export default function SuggestionsPanel({
                   number={1}
                   onClick={() => onMarkerClick?.(1)}
                   isActive={highlightedSection === 1}
+                />
+                <DesktopMarkerTooltip
+                  number={1}
+                  text={content.designDetails[0].text}
+                  isVisible={highlightedSection === 1}
+                  position="left"
                 />
               </motion.div>
               <motion.div

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
 import NumberedMarker from './NumberedMarker';
+import DesktopMarkerTooltip from '../shared/DesktopMarkerTooltip';
 import { aiHighlightsContent, FeedbackSource } from './content';
 
 interface HighlightsPanelProps {
@@ -12,7 +13,6 @@ interface HighlightsPanelProps {
   highlightedSection?: number | null;
   onMarkerClick?: (number: number) => void;
   onMarkerHover?: (number: number | null) => void;
-  hideMarkers?: boolean;
 }
 
 interface SourceCardProps {
@@ -202,7 +202,6 @@ interface SolutionStateProps {
   highlightedSection?: number | null;
   onMarkerClick?: (number: number) => void;
   onMarkerHover?: (number: number | null) => void;
-  hideMarkers?: boolean;
 }
 
 function SolutionState({
@@ -210,7 +209,6 @@ function SolutionState({
   highlightedSection = null,
   onMarkerClick,
   onMarkerHover,
-  hideMarkers = false,
 }: SolutionStateProps) {
   const [highlightExpanded, setHighlightExpanded] = useState(false);
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
@@ -249,42 +247,38 @@ function SolutionState({
           style={getSectionHighlightStyle(1)}
         >
           {/* Marker 1 - desktop: left side, mobile: left edge */}
-          <AnimatePresence>
-            {!hideMarkers && (
-              <>
-                <motion.div
-                  key="marker-1-desktop"
-                  className="absolute -left-8 top-1/2 -translate-y-1/2 hidden xl:block"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  onMouseEnter={() => onMarkerHover?.(1)}
-                  onMouseLeave={() => onMarkerHover?.(null)}
-                >
-                  <NumberedMarker
-                    number={1}
-                    onClick={() => onMarkerClick?.(1)}
-                    isActive={highlightedSection === 1}
-                  />
-                </motion.div>
-                <motion.div
-                  key="marker-1-mobile"
-                  className="absolute -left-3 top-1/2 -translate-y-1/2 xl:hidden"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <NumberedMarker
-                    number={1}
-                    onClick={() => onMarkerClick?.(1)}
-                    isActive={highlightedSection === 1}
-                  />
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
+          <motion.div
+            className="absolute -left-8 top-1/2 -translate-y-1/2 hidden xl:block"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+            onMouseEnter={() => onMarkerHover?.(1)}
+            onMouseLeave={() => onMarkerHover?.(null)}
+          >
+            <NumberedMarker
+              number={1}
+              onClick={() => onMarkerClick?.(1)}
+              isActive={highlightedSection === 1}
+            />
+            <DesktopMarkerTooltip
+              number={1}
+              text={aiHighlightsContent.designDetails[0].text}
+              isVisible={highlightedSection === 1}
+              position="left"
+            />
+          </motion.div>
+          <motion.div
+            className="absolute -left-3 top-1/2 -translate-y-1/2 xl:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            <NumberedMarker
+              number={1}
+              onClick={() => onMarkerClick?.(1)}
+              isActive={highlightedSection === 1}
+            />
+          </motion.div>
 
           <div className="flex items-center gap-3 mb-2">
             <div
@@ -313,42 +307,38 @@ function SolutionState({
           style={getSectionHighlightStyle(2)}
         >
           {/* Marker 2 - desktop: left side, mobile: left edge */}
-          <AnimatePresence>
-            {!hideMarkers && (
-              <>
-                <motion.div
-                  key="marker-2-desktop"
-                  className="absolute -left-8 top-8 hidden xl:block"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, delay: 0.05 }}
-                  onMouseEnter={() => onMarkerHover?.(2)}
-                  onMouseLeave={() => onMarkerHover?.(null)}
-                >
-                  <NumberedMarker
-                    number={2}
-                    onClick={() => onMarkerClick?.(2)}
-                    isActive={highlightedSection === 2}
-                  />
-                </motion.div>
-                <motion.div
-                  key="marker-2-mobile"
-                  className="absolute -left-3 top-8 xl:hidden"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, delay: 0.05 }}
-                >
-                  <NumberedMarker
-                    number={2}
-                    onClick={() => onMarkerClick?.(2)}
-                    isActive={highlightedSection === 2}
-                  />
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
+          <motion.div
+            className="absolute -left-8 top-8 hidden xl:block"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, delay: 0.05 }}
+            onMouseEnter={() => onMarkerHover?.(2)}
+            onMouseLeave={() => onMarkerHover?.(null)}
+          >
+            <NumberedMarker
+              number={2}
+              onClick={() => onMarkerClick?.(2)}
+              isActive={highlightedSection === 2}
+            />
+            <DesktopMarkerTooltip
+              number={2}
+              text={aiHighlightsContent.designDetails[1].text}
+              isVisible={highlightedSection === 2}
+              position="left"
+            />
+          </motion.div>
+          <motion.div
+            className="absolute -left-3 top-8 xl:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, delay: 0.05 }}
+          >
+            <NumberedMarker
+              number={2}
+              onClick={() => onMarkerClick?.(2)}
+              isActive={highlightedSection === 2}
+            />
+          </motion.div>
 
           <div className="px-6 py-8">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -452,42 +442,38 @@ function SolutionState({
                 style={getSectionHighlightStyle(3)}
               >
                 {/* Marker 3 - desktop: right side, mobile: inline before sources */}
-                <AnimatePresence>
-                  {!hideMarkers && (
-                    <>
-                      <motion.div
-                        key="marker-3-desktop"
-                        className="absolute -right-14 top-1/2 -translate-y-1/2 hidden xl:block"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2, delay: 0.1 }}
-                        onMouseEnter={() => onMarkerHover?.(3)}
-                        onMouseLeave={() => onMarkerHover?.(null)}
-                      >
-                        <NumberedMarker
-                          number={3}
-                          onClick={() => onMarkerClick?.(3)}
-                          isActive={highlightedSection === 3}
-                        />
-                      </motion.div>
-                      <motion.div
-                        key="marker-3-mobile"
-                        className="xl:hidden"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2, delay: 0.1 }}
-                      >
-                        <NumberedMarker
-                          number={3}
-                          onClick={() => onMarkerClick?.(3)}
-                          isActive={highlightedSection === 3}
-                        />
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
+                <motion.div
+                  className="absolute -right-14 top-1/2 -translate-y-1/2 hidden xl:block"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
+                  onMouseEnter={() => onMarkerHover?.(3)}
+                  onMouseLeave={() => onMarkerHover?.(null)}
+                >
+                  <NumberedMarker
+                    number={3}
+                    onClick={() => onMarkerClick?.(3)}
+                    isActive={highlightedSection === 3}
+                  />
+                  <DesktopMarkerTooltip
+                    number={3}
+                    text={aiHighlightsContent.designDetails[2].text}
+                    isVisible={highlightedSection === 3}
+                    position="right"
+                  />
+                </motion.div>
+                <motion.div
+                  className="xl:hidden"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
+                >
+                  <NumberedMarker
+                    number={3}
+                    onClick={() => onMarkerClick?.(3)}
+                    isActive={highlightedSection === 3}
+                  />
+                </motion.div>
 
                 <div className="flex items-center gap-1">
                   <div className="flex -space-x-2">
@@ -575,7 +561,6 @@ export default function HighlightsPanel({
   highlightedSection = null,
   onMarkerClick,
   onMarkerHover,
-  hideMarkers = false,
 }: HighlightsPanelProps) {
   const reducedMotion = useReducedMotion();
   const { isComplete } = useIntroSequence();
@@ -623,7 +608,6 @@ export default function HighlightsPanel({
             highlightedSection={highlightedSection}
             onMarkerClick={onMarkerClick}
             onMarkerHover={onMarkerHover}
-            hideMarkers={hideMarkers}
           />
         </motion.div>
       )}

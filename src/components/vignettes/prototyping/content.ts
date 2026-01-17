@@ -3,10 +3,6 @@ export interface DesignDetail {
   text: string;
 }
 
-export interface ProcessNote {
-  text: string;
-}
-
 export interface PrototypeItem {
   id: number;
   name: string;
@@ -23,10 +19,10 @@ export interface PrototypingContent {
   projectName: string;
   headline: string;
   body: string;
-  designDetailsLabel: string;
+  processNotes: string[];
+
+  // Marker callouts (shown on hover/tap on panel markers)
   designDetails: DesignDetail[];
-  processNotesLabel: string;
-  processNotes: ProcessNote[];
 
   // Right panel content
   sandboxTitle: string;
@@ -42,8 +38,14 @@ export const prototypingContent: PrototypingContent = {
   // Left panel content
   projectName: 'Design Sandbox',
   headline: 'AI prototyping infrastructure I built from scratch',
-  body: 'Designers had no way to deploy or share AI prototypes internally. I saw the gap coming and filled it before it became a blocker.',
-  designDetailsLabel: 'Design details',
+  body: 'Designers had no way to deploy or share AI prototypes. I saw the gap coming and filled it before it became a blocker. No roadmap slot, no formal project. I just built it.',
+  processNotes: [
+    'Evaluated Replit but there was no budget. Built around Claude Code instead.',
+    'Built the tool, then did the harder work: documentation, onboarding, walking teams through it.',
+    '12 designers now actively use it. One team prototyped a feature that got executives bought in on a major release.',
+  ],
+
+  // Marker callouts (shown on hover/tap on panel markers)
   designDetails: [
     {
       number: 1,
@@ -56,21 +58,6 @@ export const prototypingContent: PrototypingContent = {
     {
       number: 3,
       text: 'Fork command lets you build on existing prototypes',
-    },
-  ],
-  processNotesLabel: 'Process notes',
-  processNotes: [
-    {
-      text: 'No roadmap slot, no formal project. I just built it.',
-    },
-    {
-      text: 'Evaluated Replit but there was no budget. We had access to Claude Code, so I built around that.',
-    },
-    {
-      text: 'Built the tool, then did the harder work of driving adoption. Documentation, onboarding sessions, walking teams through how to use it.',
-    },
-    {
-      text: '12 designers now actively use it. One team used it to prototype a significant feature that got executives bought in on a major company release.',
     },
   ],
 

@@ -3,10 +3,6 @@ export interface DesignDetail {
   text: string;
 }
 
-export interface ProcessNote {
-  text: string;
-}
-
 interface TranslationField {
   id: number;
   label: string;
@@ -25,10 +21,10 @@ export interface MultilingualContent {
   projectName: string;
   headline: string;
   body: string;
-  designDetailsLabel: string;
+  processNotes: string[];
+
+  // Marker callouts (shown on hover/tap on panel markers)
   designDetails: DesignDetail[];
-  processNotesLabel: string;
-  processNotes: ProcessNote[];
 
   // Right panel content
   translationFields: TranslationField[];
@@ -39,8 +35,14 @@ export const multilingualContent: MultilingualContent = {
   // Left panel content
   projectName: 'Translation Management',
   headline: 'Multiple languages in a single cycle',
-  body: 'Enterprise customers were managing separate performance cycles per language. One customer ran twelve parallel cycles for what should have been one review period.',
-  designDetailsLabel: 'Design details',
+  body: 'Enterprise customers were managing separate performance cycles per language. One customer ran twelve parallel cycles for what should have been one review. Research revealed the actual workflow: machine translate first, clean up in Excel, then upload.',
+  processNotes: [
+    'I pushed to include machine translation and Excel export based on research. Original scope was just a basic upload flow.',
+    'The constraint was integration, not invention. The translation layer had to slot into existing mental models.',
+    'Zero support tickets since launch. The pattern became the reference for multilingual content across Culture Amp.',
+  ],
+
+  // Marker callouts (shown on hover/tap on panel markers)
   designDetails: [
     {
       number: 1,
@@ -53,21 +55,6 @@ export const multilingualContent: MultilingualContent = {
     {
       number: 3,
       text: 'Excel export matches the actual workflow we observed',
-    },
-  ],
-  processNotesLabel: 'Process notes',
-  processNotes: [
-    {
-      text: 'Original scope was a basic translation upload flow. I pushed to include machine translation and Excel export based on what we saw in research. These were the actual workflow.',
-    },
-    {
-      text: 'Before research, everyone assumed it was just translation management. Customer interviews revealed HR teams were already using machine translation as a first pass, then cleaning it up in Excel.',
-    },
-    {
-      text: 'The constraint was integration, not invention. The translation layer had to slot into existing mental models without requiring admins to learn a new system.',
-    },
-    {
-      text: 'Zero support tickets since launch. The pattern we built became the reference for how Culture Amp handles multilingual content.',
     },
   ],
 

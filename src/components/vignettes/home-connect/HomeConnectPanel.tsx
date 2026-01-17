@@ -3,6 +3,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import React from 'react';
 import NumberedMarker from '../ai-highlights/NumberedMarker';
+import DesktopMarkerTooltip from '../shared/DesktopMarkerTooltip';
+import { homeConnectContent } from './content';
 
 interface HomeConnectPanelProps {
   highlightedSection?: number | null;
@@ -219,6 +221,12 @@ export default function HomeConnectPanel({
                   onClick={() => onMarkerClick?.(1)}
                   isActive={highlightedSection === 1}
                 />
+                <DesktopMarkerTooltip
+                  number={1}
+                  text={homeConnectContent.designDetails[0].text}
+                  isVisible={highlightedSection === 1}
+                  position="right"
+                />
               </motion.div>
               <motion.div
                 key="marker-1-mobile"
@@ -271,6 +279,12 @@ export default function HomeConnectPanel({
                       number={2}
                       onClick={() => onMarkerClick?.(2)}
                       isActive={highlightedSection === 2}
+                    />
+                    <DesktopMarkerTooltip
+                      number={2}
+                      text={homeConnectContent.designDetails[1].text}
+                      isVisible={highlightedSection === 2}
+                      position="left"
                     />
                   </motion.div>
                   <motion.div
@@ -367,6 +381,12 @@ export default function HomeConnectPanel({
                       number={3}
                       onClick={() => onMarkerClick?.(3)}
                       isActive={highlightedSection === 3}
+                    />
+                    <DesktopMarkerTooltip
+                      number={3}
+                      text={homeConnectContent.designDetails[2].text}
+                      isVisible={highlightedSection === 3}
+                      position="right"
                     />
                   </motion.div>
                   <motion.div

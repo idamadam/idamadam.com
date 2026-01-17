@@ -37,15 +37,9 @@ export default function AIHighlightsVignette() {
   const [activeNumber, setActiveNumber] = useState<number | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [sheetIndex, setSheetIndex] = useState(0);
-  const [showProcessNotes, setShowProcessNotes] = useState(false);
   const clearTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isMobile = useIsMobile();
   const { scrollToSection } = useScrollToSection();
-
-  // Handle toggle between design details and process notes
-  const handleToggleView = useCallback(() => {
-    setShowProcessNotes((prev) => !prev);
-  }, []);
 
   // Handle number click (mobile only - opens sheet)
   const handleNumberClick = useCallback(
@@ -84,7 +78,6 @@ export default function AIHighlightsVignette() {
     [isMobile]
   );
 
-
   // Handle sheet close
   const handleSheetClose = useCallback(() => {
     setSheetOpen(false);
@@ -92,17 +85,20 @@ export default function AIHighlightsVignette() {
   }, []);
 
   // Handle sheet index change - also update active number and scroll
-  const handleSheetIndexChange = useCallback((index: number) => {
-    setSheetIndex(index);
-    const number = index + 1; // Convert 0-based to 1-based
-    setActiveNumber(number);
+  const handleSheetIndexChange = useCallback(
+    (index: number) => {
+      setSheetIndex(index);
+      const number = index + 1; // Convert 0-based to 1-based
+      setActiveNumber(number);
 
-    // Scroll to center element in visible area above sheet
-    const sectionId = sectionMap[number];
-    if (sectionId) {
-      scrollToSection(sectionId);
-    }
-  }, [scrollToSection]);
+      // Scroll to center element in visible area above sheet
+      const sectionId = sectionMap[number];
+      if (sectionId) {
+        scrollToSection(sectionId);
+      }
+    },
+    [scrollToSection]
+  );
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -117,17 +113,7 @@ export default function AIHighlightsVignette() {
     <VignetteContainer id="ai-highlights" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
         <motion.div {...fadeInUp}>
-          <VignetteSplit
-            title={
-              <HighlightsTextPanel
-                activeNumber={activeNumber}
-                onNumberClick={handleNumberClick}
-                onNumberHover={handleNumberHover}
-                showProcessNotes={showProcessNotes}
-                onToggleView={handleToggleView}
-              />
-            }
-          >
+          <VignetteSplit title={<HighlightsTextPanel />}>
             <div
               className="relative w-full max-w-[672px] mx-auto"
               style={{ overflow: 'visible' }}
@@ -136,7 +122,6 @@ export default function AIHighlightsVignette() {
                 highlightedSection={activeNumber}
                 onMarkerClick={handleNumberClick}
                 onMarkerHover={handleNumberHover}
-                hideMarkers={showProcessNotes}
               />
             </div>
           </VignetteSplit>

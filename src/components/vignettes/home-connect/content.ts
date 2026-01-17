@@ -3,27 +3,29 @@ export interface DesignDetail {
   text: string;
 }
 
-export interface ProcessNote {
-  text: string;
-}
-
 export interface HomeConnectContent {
   // Left panel content
   projectName: string;
   headline: string;
   body: string;
-  designDetailsLabel: string;
+  processNotes: string[];
+
+  // Marker callouts (shown on hover/tap on panel markers)
   designDetails: DesignDetail[];
-  processNotesLabel: string;
-  processNotes: ProcessNote[];
 }
 
 export const homeConnectContent: HomeConnectContent = {
   // Left panel content
   projectName: 'Home Connect',
   headline: 'Actions organized around people, not features',
-  body: 'Managers were missing signals about their direct reports. Goals going stale. Feedback sitting unread. The information existed in the product. It just was not surfaced where managers could act on it.',
-  designDetailsLabel: 'Design details',
+  body: 'Managers were missing signals about their direct reports. Goals going stale, feedback sitting unread. I advocated for organizing around people instead of features. The original approach matched the org chart, not how managers think.',
+  processNotes: [
+    'To get buy-in, we ran a small experiment first. The data convinced people.',
+    '255% increase in managers scheduling a 1-on-1 for the first time. We were not expecting that magnitude.',
+    'Customer: "Seeing that someone has an inactive goal gives me the prompt to ask a question."',
+  ],
+
+  // Marker callouts (shown on hover/tap on panel markers)
   designDetails: [
     {
       number: 1,
@@ -36,21 +38,6 @@ export const homeConnectContent: HomeConnectContent = {
     {
       number: 3,
       text: 'New notification type nudges managers about stale goals',
-    },
-  ],
-  processNotesLabel: 'Process notes',
-  processNotes: [
-    {
-      text: 'The original approach was engineering-led. Each product team gets their section. It matched the org chart, not how managers think.',
-    },
-    {
-      text: 'I advocated for organizing around people instead of features. To get buy-in, we ran a small experiment first. The data convinced people.',
-    },
-    {
-      text: '255% increase in managers scheduling a 1-on-1 for the first time. We were not expecting something of that magnitude.',
-    },
-    {
-      text: 'Customer quote: "Seeing people that have received feedback and seeing that someone has an inactive goal gives me the prompt to ask a question."',
     },
   ],
 };

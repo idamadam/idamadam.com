@@ -3,10 +3,6 @@ export interface DesignDetail {
   text: string;
 }
 
-export interface ProcessNote {
-  text: string;
-}
-
 interface AISuggestionsRecommendation {
   title: string;
   description: string;
@@ -17,10 +13,10 @@ export interface AISuggestionsContent {
   projectName: string;
   headline: string;
   body: string;
-  designDetailsLabel: string;
+  processNotes: string[];
+
+  // Marker callouts (shown on hover/tap on panel markers)
   designDetails: DesignDetail[];
-  processNotesLabel: string;
-  processNotes: ProcessNote[];
 
   // Right panel content
   questionText: string;
@@ -32,8 +28,14 @@ export const aiSuggestionsContent: AISuggestionsContent = {
   // Left panel content
   projectName: 'AI Suggestions',
   headline: 'AI assistance that respects agency',
-  body: 'Managers needed help writing better feedback, but AI that takes over erodes critical thinking. I designed an approach that keeps humans in control.',
-  designDetailsLabel: 'Design details',
+  body: 'Managers needed help writing better feedback, but AI that takes over erodes critical thinking. This was early 2024—models were less capable, so a minimal, human-centered approach made sense.',
+  processNotes: [
+    'Focused on agency from the start. The question was how to make AI feel like a tool you reach for, not something imposed.',
+    'I designed the AI gradient pattern here. It became Culture Amp\'s standard signifier for AI features.',
+    '80% of managers who used Improve made changes to their feedback.',
+  ],
+
+  // Marker callouts (shown on hover/tap on panel markers)
   designDetails: [
     {
       number: 1,
@@ -46,21 +48,6 @@ export const aiSuggestionsContent: AISuggestionsContent = {
     {
       number: 3,
       text: 'Each suggestion explains what makes feedback effective',
-    },
-  ],
-  processNotesLabel: 'Process notes',
-  processNotes: [
-    {
-      text: 'Focused on agency from the start. The question was how to make AI feel like a tool you reach for, not something imposed.',
-    },
-    {
-      text: 'This was early 2024. Models were less capable, so a minimal approach made sense. We did not trust LLMs enough to be more aggressive.',
-    },
-    {
-      text: 'I designed the AI gradient pattern here. It became Culture Amp\'s standard signifier for AI features.',
-    },
-    {
-      text: '80% of managers who used Improve made changes to their feedback.',
     },
   ],
 

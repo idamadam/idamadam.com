@@ -37,15 +37,9 @@ export default function HomeConnectVignette() {
   const [activeNumber, setActiveNumber] = useState<number | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [sheetIndex, setSheetIndex] = useState(0);
-  const [showProcessNotes, setShowProcessNotes] = useState(false);
   const clearTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isMobile = useIsMobile();
   const { scrollToSection } = useScrollToSection();
-
-  // Handle toggle between design details and process notes
-  const handleToggleView = useCallback(() => {
-    setShowProcessNotes((prev) => !prev);
-  }, []);
 
   // Handle number click (mobile only - opens sheet)
   const handleNumberClick = useCallback(
@@ -119,17 +113,7 @@ export default function HomeConnectVignette() {
     <VignetteContainer id="home-connect" allowOverflow>
       <div className="w-full space-y-10 lg:space-y-12">
         <motion.div {...fadeInUp}>
-          <VignetteSplit
-            title={
-              <HomeConnectTextPanel
-                activeNumber={activeNumber}
-                onNumberClick={handleNumberClick}
-                onNumberHover={handleNumberHover}
-                showProcessNotes={showProcessNotes}
-                onToggleView={handleToggleView}
-              />
-            }
-          >
+          <VignetteSplit title={<HomeConnectTextPanel />}>
             <div
               className="relative w-full max-w-[672px] mx-auto"
               style={{ overflow: 'visible' }}
@@ -138,7 +122,6 @@ export default function HomeConnectVignette() {
                 highlightedSection={activeNumber}
                 onMarkerClick={handleNumberClick}
                 onMarkerHover={handleNumberHover}
-                hideMarkers={showProcessNotes}
               />
             </div>
           </VignetteSplit>

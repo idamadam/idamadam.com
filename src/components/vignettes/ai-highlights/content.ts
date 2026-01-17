@@ -16,19 +16,15 @@ export interface DesignDetail {
   text: string;
 }
 
-export interface ProcessNote {
-  text: string;
-}
-
 interface AIHighlightsContent {
   // Left panel content
   projectName: string;
   headline: string;
   body: string;
-  designDetailsLabel: string;
+  processNotes: string[];
+
+  // Marker callouts (shown on hover/tap on panel markers)
   designDetails: DesignDetail[];
-  processNotesLabel: string;
-  processNotes: ProcessNote[];
 
   // Right panel content (fictional employee review)
   employee: {
@@ -45,10 +41,16 @@ interface AIHighlightsContent {
 export const aiHighlightsContent: AIHighlightsContent = {
   // Left panel content
   projectName: 'Highlights and Opportunities',
-  headline: 'AI summaries built for verification',
-  body:
-    'Managers spent hours reading feedback during performance reviews. This generates summaries they can verify against the source feedback.',
-  designDetailsLabel: 'Design details',
+  headline: 'AI summaries managers can verify and trust',
+  body: 'Managers spent hours synthesizing feedback each review cycle. I focused on transparency—showing sources, surfacing concrete examples, and keeping humans in the loop.',
+  processNotes: [
+    'Joined after discovery. Owned design through validation, iteration, and launch.',
+    'Defined the interaction model and worked with data science on prompt quality.',
+    'High visibility project with heavy exec feedback. Refined storytelling until it clicked.',
+    'User feedback: "just the right amount of AI."',
+  ],
+
+  // Marker callouts (shown on hover/tap on panel markers)
   designDetails: [
     {
       number: 1,
@@ -61,21 +63,6 @@ export const aiHighlightsContent: AIHighlightsContent = {
     {
       number: 3,
       text: 'Themes link back to source quotes, expand one to see.',
-    },
-  ],
-  processNotesLabel: 'Process notes',
-  processNotes: [
-    {
-      text: 'Focused on making AI trustworthy. That meant showing sources, surfacing concrete examples, and keeping humans in the loop.',
-    },
-    {
-      text: 'Joined after discovery and owned design through launch. Defined the interaction model and worked with data science on prompt quality.',
-    },
-    {
-      text: 'High visibility meant heavy exec feedback. I refined the storytelling until the concept clicked.',
-    },
-    {
-      text: "User feedback: 'just the right amount of AI.'",
     },
   ],
 
