@@ -1,7 +1,5 @@
-'use client';
-
 import { homeConnectContent } from './content';
-import ProcessNotesExpander from '../shared/ProcessNotesExpander';
+import ProcessNotes from '../shared/ProcessNotes';
 
 function ProjectName() {
   return (
@@ -27,8 +25,8 @@ export default function HomeConnectTextPanel() {
       {/* Body */}
       <p className="type-body text-primary mt-4">{homeConnectContent.body}</p>
 
-      {/* Expandable process notes */}
-      <ProcessNotesExpander notes={homeConnectContent.processNotes} />
+      {/* Process notes */}
+      <ProcessNotes notes={homeConnectContent.processNotes} />
     </div>
   );
 }

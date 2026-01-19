@@ -33,13 +33,14 @@ export interface MultilingualContent {
 
 export const multilingualContent: MultilingualContent = {
   // Left panel content
-  projectName: 'Translation Management',
-  headline: 'Multiple languages in a single cycle',
-  body: 'Enterprise customers were managing separate performance cycles per language. One customer ran twelve parallel cycles for what should have been one review. Research revealed the actual workflow: machine translate first, clean up in Excel, then upload.',
+  projectName: 'Multilingual Performance Cycles',
+  headline: 'A simple workflow to run a multilingual performance cycle',
+  body: 'Lack of support for multilingual workflows was a top reason for lost deals. I designed a simple but powerful workflow to add and manage translations based on research I conducted with admins to learn how they managed translations.',
+
   processNotes: [
-    'I pushed to include machine translation and Excel export based on research. Original scope was just a basic upload flow.',
-    'The constraint was integration, not invention. The translation layer had to slot into existing mental models.',
-    'Zero support tickets since launch. The pattern became the reference for multilingual content across Culture Amp.',
+    'I advocated for the inclusion of machine translation and spreadsheet import/export based on research. The original scope was just a basic form to add translations.',
+    'I designed the the translation layer to seamlessly fit into the existing performance cycle setup processes.',
+    'Zero support tickets since launch. The workflow I designed here became a template for multilingual content across Culture Amp.',
   ],
 
   // Marker callouts (shown on hover/tap on panel markers)
@@ -50,11 +51,11 @@ export const multilingualContent: MultilingualContent = {
     },
     {
       number: 2,
-      text: 'One-click translation built on tools admins already trusted',
+      text: 'One-click translation built in',
     },
     {
       number: 3,
-      text: 'Excel export matches the actual workflow we observed',
+      text: 'Importing & exporting a spreadsheet fit the existing workflows admins used to manage translations',
     },
   ],
 

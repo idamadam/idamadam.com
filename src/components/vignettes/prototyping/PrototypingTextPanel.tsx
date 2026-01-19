@@ -1,7 +1,5 @@
-'use client';
-
 import { prototypingContent } from './content';
-import ProcessNotesExpander from '../shared/ProcessNotesExpander';
+import ProcessNotes from '../shared/ProcessNotes';
 
 function ProjectName() {
   return (
@@ -27,8 +25,8 @@ export default function PrototypingTextPanel() {
       {/* Body */}
       <p className="type-body text-primary mt-4">{prototypingContent.body}</p>
 
-      {/* Expandable process notes */}
-      <ProcessNotesExpander notes={prototypingContent.processNotes} />
+      {/* Process notes */}
+      <ProcessNotes notes={prototypingContent.processNotes} />
     </div>
   );
 }

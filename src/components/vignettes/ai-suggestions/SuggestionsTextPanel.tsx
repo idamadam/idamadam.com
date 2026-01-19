@@ -1,7 +1,5 @@
-'use client';
-
 import { aiSuggestionsContent } from './content';
-import ProcessNotesExpander from '../shared/ProcessNotesExpander';
+import ProcessNotes from '../shared/ProcessNotes';
 
 function ProjectName() {
   return (
@@ -27,8 +25,8 @@ export default function SuggestionsTextPanel() {
       {/* Body */}
       <p className="type-body text-primary mt-4">{aiSuggestionsContent.body}</p>
 
-      {/* Expandable process notes */}
-      <ProcessNotesExpander notes={aiSuggestionsContent.processNotes} />
+      {/* Process notes */}
+      <ProcessNotes notes={aiSuggestionsContent.processNotes} />
     </div>
   );
 }

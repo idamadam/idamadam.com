@@ -17,12 +17,12 @@ export interface HomeConnectContent {
 export const homeConnectContent: HomeConnectContent = {
   // Left panel content
   projectName: 'Home Connect',
-  headline: 'Actions organized around people, not features',
-  body: 'Managers were missing signals about their direct reports. Goals going stale, feedback sitting unread. I advocated for organizing around people instead of features. The original approach matched the org chart, not how managers think.',
+  headline: 'A unified homepage for Culture Amp organised around people',
+  body: 'Managers were missing signals about their direct reports. Goals going stale, feedback sitting unread. I designed new homepage for Culture Amp organizing around people instead of features.', 
   processNotes: [
-    'To get buy-in, we ran a small experiment first. The data convinced people.',
-    '255% increase in managers scheduling a 1-on-1 for the first time. We were not expecting that magnitude.',
-    'Customer: "Seeing that someone has an inactive goal gives me the prompt to ask a question."',
+    'The team were originally considering a dashboard style structure to give each feature team their own real-estate on the page. I advocated for a different approach organised around the people that you work with and updates about them',
+    'To get buy-in, we ran a small experiment on to prove our hypothesis around a new homepage.',
+    'A key result from this project was a 255% increase in managers scheduling a 1-on-1 for the first time.',
   ],
 
   // Marker callouts (shown on hover/tap on panel markers)

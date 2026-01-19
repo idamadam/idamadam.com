@@ -26,13 +26,12 @@ export interface AISuggestionsContent {
 
 export const aiSuggestionsContent: AISuggestionsContent = {
   // Left panel content
-  projectName: 'AI Suggestions',
-  headline: 'AI assistance that respects agency',
-  body: 'Managers needed help writing better feedback, but AI that takes over erodes critical thinking. This was early 2024—models were less capable, so a minimal, human-centered approach made sense.',
+  projectName: 'AI Suggest Improvements',
+  headline: 'AI suggestions to help managers write better feedback',
+  body: 'We saw AI assistance as a natural fit for making feedback better, but we didn\'t want AI to take over critical thinking. I worked with our People Scientists to create feedback suggestions that helped managers understand how to give better feedback.',
   processNotes: [
-    'Focused on agency from the start. The question was how to make AI feel like a tool you reach for, not something imposed.',
-    'I designed the AI gradient pattern here. It became Culture Amp\'s standard signifier for AI features.',
-    '80% of managers who used Improve made changes to their feedback.',
+    '80% of managers made changes to their feedback after clicking Improve',
+    'I designed this to fit into any Rich Text Editor at Culture Amp. This has allowed other teams to easily adopt this into their products',
   ],
 
   // Marker callouts (shown on hover/tap on panel markers)

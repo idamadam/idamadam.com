@@ -1,7 +1,5 @@
-'use client';
-
 import { multilingualContent } from './content';
-import ProcessNotesExpander from '../shared/ProcessNotesExpander';
+import ProcessNotes from '../shared/ProcessNotes';
 
 function ProjectName() {
   return (
@@ -27,8 +25,8 @@ export default function MultilingualTextPanel() {
       {/* Body */}
       <p className="type-body text-primary mt-4">{multilingualContent.body}</p>
 
-      {/* Expandable process notes */}
-      <ProcessNotesExpander notes={multilingualContent.processNotes} />
+      {/* Process notes */}
+      <ProcessNotes notes={multilingualContent.processNotes} />
     </div>
   );
 }

@@ -37,12 +37,12 @@ export interface PrototypingContent {
 export const prototypingContent: PrototypingContent = {
   // Left panel content
   projectName: 'Design Sandbox',
-  headline: 'AI prototyping infrastructure I built from scratch',
-  body: 'Designers had no way to deploy or share AI prototypes. I saw the gap coming and filled it before it became a blocker. No roadmap slot, no formal project. I just built it.',
+  headline: 'Built an internal repository to make AI prototyping faster and easier',
+  body: 'Designers had no way to deploy or share AI prototypes. I took my experiences with AI protoyping and built out a repository that made it super easy for a designer to get started and deploy AI prototypes to our infrastructure.',
   processNotes: [
-    'Evaluated Replit but there was no budget. Built around Claude Code instead.',
-    'Built the tool, then did the harder work: documentation, onboarding, walking teams through it.',
-    '12 designers now actively use it. One team prototyped a feature that got executives bought in on a major release.',
+    'In addition to building the tools, I wrote documentation & ran onboarding sessions internally.',
+    'Introduced a new novel workflow where designers can pull the newest prototypes and remix existing ones',
+    '15 designers and product mananagers now actively use it. One team prototyped a feature that got executives bought in on a major release.',
   ],
 
   // Marker callouts (shown on hover/tap on panel markers)

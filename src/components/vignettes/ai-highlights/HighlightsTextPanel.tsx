@@ -1,7 +1,5 @@
-'use client';
-
 import { aiHighlightsContent } from './content';
-import ProcessNotesExpander from '../shared/ProcessNotesExpander';
+import ProcessNotes from '../shared/ProcessNotes';
 
 function ProjectName() {
   return (
@@ -27,8 +25,8 @@ export default function HighlightsTextPanel() {
       {/* Body */}
       <p className="type-body text-primary mt-4">{aiHighlightsContent.body}</p>
 
-      {/* Expandable process notes */}
-      <ProcessNotesExpander notes={aiHighlightsContent.processNotes} />
+      {/* Process notes */}
+      <ProcessNotes notes={aiHighlightsContent.processNotes} />
     </div>
   );
 }

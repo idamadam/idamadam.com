@@ -41,13 +41,12 @@ interface AIHighlightsContent {
 export const aiHighlightsContent: AIHighlightsContent = {
   // Left panel content
   projectName: 'Highlights and Opportunities',
-  headline: 'AI summaries managers can verify and trust',
-  body: 'Managers spent hours synthesizing feedback each review cycle. I focused on transparency—showing sources, surfacing concrete examples, and keeping humans in the loop.',
+  headline: 'AI summaries managers can verify during Performance Review time',
+  body: 'Managers spent hours synthesizing feedback each review cycle. I designed a summary that helped a manager understand what imapct their direct report had and made it easy to verify the AI output.',
   processNotes: [
-    'Joined after discovery. Owned design through validation, iteration, and launch.',
-    'Defined the interaction model and worked with data science on prompt quality.',
-    'High visibility project with heavy exec feedback. Refined storytelling until it clicked.',
-    'User feedback: "just the right amount of AI."',
+    'I joined after initial discovery and owned design through validation, iteration, and launch.',
+    'I defined the interaction model and worked with data science on prompt quality.',
+    'This was a high visibility project with heavy exec feedback. I played an active part in managing up and getting the framing for the feature right.',
   ],
 
   // Marker callouts (shown on hover/tap on panel markers)
