@@ -5,11 +5,7 @@ import { motion } from 'framer-motion';
 import { introContent, IntroLink } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
-
-// Animation timing
-const FADE_DURATION = 0.6;
-const PARAGRAPH_DELAY = 0.3;
-const COMPLETE_DELAY = 0.3;
+import { timing, timingReduced } from '@/lib/animations';
 
 // Parse paragraph and render with inline links
 function renderParagraphWithLinks(
@@ -57,26 +53,27 @@ function renderParagraphWithLinks(
 
 export default function IntroPanel() {
   const reducedMotion = useReducedMotion();
+  const t = reducedMotion ? timingReduced : timing;
   const { setStage, isSplashComplete } = useIntroSequence();
 
-  // Set complete stage after animations finish
+  // Paragraph delay: after name reveal + role fade + small gap
+  const paragraphDelay = t.intro.nameReveal + t.intro.stageDelay;
+
+  // Set complete stage after splash ends AND slide-up finishes
   useEffect(() => {
-    if (!isSplashComplete || reducedMotion) {
-      if (reducedMotion) setStage('complete');
+    if (reducedMotion) {
+      setStage('complete');
       return;
     }
 
-    const totalDuration = FADE_DURATION + PARAGRAPH_DELAY + FADE_DURATION + COMPLETE_DELAY;
+    // Wait for: splash duration + slide-up transition + small buffer
+    const totalDuration = t.splash.duration + t.splash.transition + 0.2;
     const timer = setTimeout(() => {
       setStage('complete');
     }, totalDuration * 1000);
 
     return () => clearTimeout(timer);
-  }, [isSplashComplete, reducedMotion, setStage]);
-
-  // Always render for reduced motion, otherwise wait for splash
-  const shouldShow = reducedMotion || isSplashComplete;
-  if (!shouldShow) return null;
+  }, [reducedMotion, setStage, t]);
 
   return (
     <motion.p
@@ -84,8 +81,8 @@ export default function IntroPanel() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{
-        duration: reducedMotion ? 0 : FADE_DURATION,
-        delay: reducedMotion ? 0 : PARAGRAPH_DELAY,
+        duration: t.intro.stageDuration,
+        delay: paragraphDelay,
         ease: [0.25, 0.1, 0.25, 1],
       }}
     >

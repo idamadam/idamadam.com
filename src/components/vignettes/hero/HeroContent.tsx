@@ -5,18 +5,18 @@ import { motion } from 'framer-motion';
 import { heroContent, introContent } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
-
-const FADE_DURATION = 0.6;
+import { timing, timingReduced } from '@/lib/animations';
 
 export default function HeroContent() {
   const reducedMotion = useReducedMotion();
+  const t = reducedMotion ? timingReduced : timing;
   const { isSplashComplete } = useIntroSequence();
 
   // Split name into characters, preserving spaces
   const characters = heroContent.name.split('');
 
-  // Show role+logo after splash completes (or immediately for reduced motion)
-  const shouldShowRole = reducedMotion || isSplashComplete;
+  // Show role+logo after name reveals (during splash, before move)
+  const shouldShowRole = true;
 
   return (
     <div className="flex items-start gap-8 lg:gap-10">
@@ -68,7 +68,8 @@ export default function HeroContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{
-              duration: reducedMotion ? 0 : FADE_DURATION,
+              duration: t.intro.stageDuration,
+              delay: t.intro.nameReveal,
               ease: [0.25, 0.1, 0.25, 1],
             }}
           >

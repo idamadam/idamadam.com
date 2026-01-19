@@ -28,7 +28,7 @@ export default function SectionTitle({ children, disableScrollTrigger = false }:
 
   return (
     <section className="w-full pb-8 lg:pb-10 px-5 lg:px-10 2xl:px-16">
-      <div className="max-w-[1200px] mx-auto border-t border-border/60 pt-10 lg:pt-14">
+      <div className="max-w-[1400px] mx-auto border-t border-border/60 pt-10 lg:pt-14">
         <motion.h2
           className="text-[2rem] font-medium tracking-tight text-primary"
           {...motionProps}

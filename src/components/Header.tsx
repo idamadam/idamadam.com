@@ -44,7 +44,7 @@ export default function Header() {
             ease: [0.25, 0.1, 0.25, 1],
           }}
         >
-          <div className="max-w-[1200px] mx-auto h-14 flex items-center justify-between">
+          <div className="max-w-[1400px] mx-auto h-14 flex items-center justify-between">
             {/* Name */}
             <span className="text-[1rem] font-semibold text-primary tracking-[-0.01em]">{heroContent.name}</span>
 

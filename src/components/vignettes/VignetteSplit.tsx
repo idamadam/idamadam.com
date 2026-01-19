@@ -36,7 +36,7 @@ export default function VignetteSplit({
   // Grid classes - refined spacing for premium feel
   const gridClass = compact
     ? 'grid grid-cols-1 gap-5'
-    : 'grid grid-cols-1 xl:grid-cols-[300px_1fr] 2xl:grid-cols-[340px_1fr] gap-5 xl:gap-8 xl:items-start';
+    : 'grid grid-cols-1 xl:grid-cols-[300px_1fr] 2xl:grid-cols-[340px_1fr] gap-5 xl:gap-12 xl:items-start';
 
   // Animation variants for text column (appears first)
   const textVariants = {
