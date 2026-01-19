@@ -30,7 +30,7 @@ export default function SectionTitle({ children, disableScrollTrigger = false }:
     <section className="w-full pb-8 lg:pb-10 px-5 lg:px-10 2xl:px-16">
       <div className="max-w-[1200px] mx-auto border-t border-border/60 pt-10 lg:pt-14">
         <motion.h2
-          className="text-[1.5rem] font-semibold text-primary tracking-[-0.02em]"
+          className="type-h1"
           {...motionProps}
           transition={{
             duration: t.duration.slow,

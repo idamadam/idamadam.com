@@ -11,9 +11,16 @@ export interface HeroContent {
   companies: Company[];
 }
 
+export interface IntroLink {
+  text: string;
+  url: string;
+  external: boolean;
+}
+
 export interface IntroContent {
   role: string;
-  tagline: string;
+  paragraph: string;
+  links: Record<string, IntroLink>;
 }
 
 export const heroContent: HeroContent = {
@@ -27,5 +34,6 @@ export const heroContent: HeroContent = {
 
 export const introContent: IntroContent = {
   role: 'Lead Product Designer at',
-  tagline: 'Designer, prototyper, coder',
+  paragraph: "I design software that makes complex problems feel simple. Lately, I've been building tools that collapse the line between design & code.",
+  links: {},
 };

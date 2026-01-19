@@ -23,7 +23,7 @@ export default function Footer() {
             ease: [0.25, 0.1, 0.25, 1],
           }}
         >
-          <p className="text-[1.5rem] font-semibold text-primary tracking-[-0.02em]">Want to chat?</p>
+          <p className="type-h2">Want to chat?</p>
           <a
             href="https://www.linkedin.com/in/idamadam/"
             target="_blank"

@@ -257,7 +257,7 @@
 .type-h2 {
   @apply text-h2;
   font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--primary);
   letter-spacing: -0.025em;
 }

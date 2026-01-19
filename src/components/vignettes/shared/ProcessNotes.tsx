@@ -10,7 +10,7 @@ export default function ProcessNotes({ notes }: ProcessNotesProps) {
       {notes.map((note, index) => (
         <li key={index} className="flex items-start gap-2 py-1">
           <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-accent-600 mt-[7px]" />
-          <span className="type-body-sm text-primary">{note}</span>
+          <span className="type-body text-primary/80">{note}</span>
         </li>
       ))}
     </ul>
