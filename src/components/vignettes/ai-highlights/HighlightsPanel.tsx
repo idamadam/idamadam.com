@@ -212,6 +212,7 @@ function SolutionState({
 }: SolutionStateProps) {
   const [highlightExpanded, setHighlightExpanded] = useState(false);
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
+  const [markersDiscovered, setMarkersDiscovered] = useState(false);
 
   const { employee, summary, highlights, opportunities } = aiHighlightsContent;
   const highlight = highlights[0];
@@ -248,7 +249,7 @@ function SolutionState({
         >
           {/* Marker 1 - desktop: left side, mobile: left edge */}
           <motion.div
-            className="absolute -left-8 top-1/2 -translate-y-1/2 hidden xl:block"
+            className="absolute -left-10 top-1/2 -translate-y-1/2 hidden xl:block"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.2 }}
@@ -259,6 +260,8 @@ function SolutionState({
               number={1}
               onClick={() => onMarkerClick?.(1)}
               isActive={highlightedSection === 1}
+              hasBeenDiscovered={markersDiscovered}
+              onDiscover={() => setMarkersDiscovered(true)}
             />
             <DesktopMarkerTooltip
               number={1}
@@ -268,7 +271,7 @@ function SolutionState({
             />
           </motion.div>
           <motion.div
-            className="absolute -left-3 top-1/2 -translate-y-1/2 xl:hidden"
+            className="absolute -left-4 top-1/2 -translate-y-1/2 xl:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.2 }}
@@ -277,6 +280,8 @@ function SolutionState({
               number={1}
               onClick={() => onMarkerClick?.(1)}
               isActive={highlightedSection === 1}
+              hasBeenDiscovered={markersDiscovered}
+              onDiscover={() => setMarkersDiscovered(true)}
             />
           </motion.div>
 
@@ -308,7 +313,7 @@ function SolutionState({
         >
           {/* Marker 2 - desktop: left side, mobile: left edge */}
           <motion.div
-            className="absolute -left-8 top-8 hidden xl:block"
+            className="absolute -left-10 top-8 hidden xl:block"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.2, delay: 0.05 }}
@@ -319,6 +324,8 @@ function SolutionState({
               number={2}
               onClick={() => onMarkerClick?.(2)}
               isActive={highlightedSection === 2}
+              hasBeenDiscovered={markersDiscovered}
+              onDiscover={() => setMarkersDiscovered(true)}
             />
             <DesktopMarkerTooltip
               number={2}
@@ -328,7 +335,7 @@ function SolutionState({
             />
           </motion.div>
           <motion.div
-            className="absolute -left-3 top-8 xl:hidden"
+            className="absolute -left-4 top-8 xl:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.2, delay: 0.05 }}
@@ -337,6 +344,8 @@ function SolutionState({
               number={2}
               onClick={() => onMarkerClick?.(2)}
               isActive={highlightedSection === 2}
+              hasBeenDiscovered={markersDiscovered}
+              onDiscover={() => setMarkersDiscovered(true)}
             />
           </motion.div>
 
@@ -443,7 +452,7 @@ function SolutionState({
               >
                 {/* Marker 3 - desktop: right side, mobile: inline before sources */}
                 <motion.div
-                  className="absolute -right-14 top-1/2 -translate-y-1/2 hidden xl:block"
+                  className="absolute -right-16 top-1/2 -translate-y-1/2 hidden xl:block"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2, delay: 0.1 }}
@@ -454,6 +463,8 @@ function SolutionState({
                     number={3}
                     onClick={() => onMarkerClick?.(3)}
                     isActive={highlightedSection === 3}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
                   />
                   <DesktopMarkerTooltip
                     number={3}
@@ -472,6 +483,8 @@ function SolutionState({
                     number={3}
                     onClick={() => onMarkerClick?.(3)}
                     isActive={highlightedSection === 3}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
                   />
                 </motion.div>
 

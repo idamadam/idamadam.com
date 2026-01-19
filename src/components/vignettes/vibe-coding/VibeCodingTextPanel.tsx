@@ -26,7 +26,7 @@ export default function VibeCodingTextPanel() {
       <h3 className="type-h2 text-primary">{headline}</h3>
 
       {/* Body */}
-      <p className="type-body text-primary mt-4">{body}</p>
+      <p className="type-body text-primary mt-5">{body}</p>
 
       {/* Narrative notes as bullet points */}
       <ul className="flex flex-col gap-2 mt-6">

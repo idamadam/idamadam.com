@@ -158,6 +158,8 @@ export default function HomeConnectPanel({
   onMarkerHover,
   hideMarkers = false,
 }: HomeConnectPanelProps) {
+  const [markersDiscovered, setMarkersDiscovered] = React.useState(false);
+
   // Get highlight style for a section based on number
   const getSectionHighlightStyle = (sectionNumber: number) => {
     if (highlightedSection === sectionNumber) {
@@ -208,7 +210,7 @@ export default function HomeConnectPanel({
             <>
               <motion.div
                 key="marker-1-desktop"
-                className="absolute -right-8 top-6 hidden xl:block z-20"
+                className="absolute -right-10 top-6 hidden xl:block z-20"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -220,6 +222,8 @@ export default function HomeConnectPanel({
                   number={1}
                   onClick={() => onMarkerClick?.(1)}
                   isActive={highlightedSection === 1}
+                  hasBeenDiscovered={markersDiscovered}
+                  onDiscover={() => setMarkersDiscovered(true)}
                 />
                 <DesktopMarkerTooltip
                   number={1}
@@ -230,7 +234,7 @@ export default function HomeConnectPanel({
               </motion.div>
               <motion.div
                 key="marker-1-mobile"
-                className="absolute -right-3 top-6 xl:hidden z-20"
+                className="absolute -right-4 top-6 xl:hidden z-20"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -240,6 +244,8 @@ export default function HomeConnectPanel({
                   number={1}
                   onClick={() => onMarkerClick?.(1)}
                   isActive={highlightedSection === 1}
+                  hasBeenDiscovered={markersDiscovered}
+                  onDiscover={() => setMarkersDiscovered(true)}
                 />
               </motion.div>
             </>
@@ -267,7 +273,7 @@ export default function HomeConnectPanel({
                 <>
                   <motion.div
                     key="marker-2-desktop"
-                    className="absolute -left-8 top-1/2 -translate-y-1/2 hidden xl:block z-20"
+                    className="absolute -left-10 top-1/2 -translate-y-1/2 hidden xl:block z-20"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -279,6 +285,8 @@ export default function HomeConnectPanel({
                       number={2}
                       onClick={() => onMarkerClick?.(2)}
                       isActive={highlightedSection === 2}
+                      hasBeenDiscovered={markersDiscovered}
+                      onDiscover={() => setMarkersDiscovered(true)}
                     />
                     <DesktopMarkerTooltip
                       number={2}
@@ -289,7 +297,7 @@ export default function HomeConnectPanel({
                   </motion.div>
                   <motion.div
                     key="marker-2-mobile"
-                    className="absolute -left-3 top-1/2 -translate-y-1/2 xl:hidden z-20"
+                    className="absolute -left-4 top-1/2 -translate-y-1/2 xl:hidden z-20"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -299,6 +307,8 @@ export default function HomeConnectPanel({
                       number={2}
                       onClick={() => onMarkerClick?.(2)}
                       isActive={highlightedSection === 2}
+                      hasBeenDiscovered={markersDiscovered}
+                      onDiscover={() => setMarkersDiscovered(true)}
                     />
                   </motion.div>
                 </>
@@ -369,7 +379,7 @@ export default function HomeConnectPanel({
                 <>
                   <motion.div
                     key="marker-3-desktop"
-                    className="absolute -right-8 top-1/2 -translate-y-1/2 hidden xl:block z-20"
+                    className="absolute -right-10 top-1/2 -translate-y-1/2 hidden xl:block z-20"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -381,6 +391,8 @@ export default function HomeConnectPanel({
                       number={3}
                       onClick={() => onMarkerClick?.(3)}
                       isActive={highlightedSection === 3}
+                      hasBeenDiscovered={markersDiscovered}
+                      onDiscover={() => setMarkersDiscovered(true)}
                     />
                     <DesktopMarkerTooltip
                       number={3}
@@ -391,7 +403,7 @@ export default function HomeConnectPanel({
                   </motion.div>
                   <motion.div
                     key="marker-3-mobile"
-                    className="absolute -right-3 top-1/2 -translate-y-1/2 xl:hidden z-20"
+                    className="absolute -right-4 top-1/2 -translate-y-1/2 xl:hidden z-20"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -401,6 +413,8 @@ export default function HomeConnectPanel({
                       number={3}
                       onClick={() => onMarkerClick?.(3)}
                       isActive={highlightedSection === 3}
+                      hasBeenDiscovered={markersDiscovered}
+                      onDiscover={() => setMarkersDiscovered(true)}
                     />
                   </motion.div>
                 </>

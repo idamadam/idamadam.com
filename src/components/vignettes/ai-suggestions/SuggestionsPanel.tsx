@@ -97,6 +97,8 @@ interface RecommendationsPanelProps {
   onMarkerClick?: (number: number) => void;
   onMarkerHover?: (number: number | null) => void;
   hideMarkers?: boolean;
+  markersDiscovered?: boolean;
+  onMarkersDiscover?: () => void;
 }
 
 function RecommendationsPanel({
@@ -105,6 +107,8 @@ function RecommendationsPanel({
   onMarkerClick,
   onMarkerHover,
   hideMarkers = false,
+  markersDiscovered = false,
+  onMarkersDiscover,
 }: RecommendationsPanelProps) {
   // Get highlight style for a section
   const getSectionHighlightStyle = (sectionNumber: number) => {
@@ -135,7 +139,7 @@ function RecommendationsPanel({
           <>
             <motion.div
               key="marker-2-desktop"
-              className="absolute -left-8 top-6 hidden xl:block z-20"
+              className="absolute -left-10 top-6 hidden xl:block z-20"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -147,6 +151,8 @@ function RecommendationsPanel({
                 number={2}
                 onClick={() => onMarkerClick?.(2)}
                 isActive={highlightedSection === 2}
+                hasBeenDiscovered={markersDiscovered}
+                onDiscover={onMarkersDiscover}
               />
               <DesktopMarkerTooltip
                 number={2}
@@ -157,7 +163,7 @@ function RecommendationsPanel({
             </motion.div>
             <motion.div
               key="marker-2-mobile"
-              className="absolute -left-3 top-6 xl:hidden z-20"
+              className="absolute -left-4 top-6 xl:hidden z-20"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -167,6 +173,8 @@ function RecommendationsPanel({
                 number={2}
                 onClick={() => onMarkerClick?.(2)}
                 isActive={highlightedSection === 2}
+                hasBeenDiscovered={markersDiscovered}
+                onDiscover={onMarkersDiscover}
               />
             </motion.div>
           </>
@@ -204,7 +212,7 @@ function RecommendationsPanel({
               <>
                 <motion.div
                   key="marker-3-desktop"
-                  className="absolute -right-14 top-4 hidden xl:block"
+                  className="absolute -right-16 top-4 hidden xl:block"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -216,6 +224,8 @@ function RecommendationsPanel({
                     number={3}
                     onClick={() => onMarkerClick?.(3)}
                     isActive={highlightedSection === 3}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={onMarkersDiscover}
                   />
                   <DesktopMarkerTooltip
                     number={3}
@@ -226,7 +236,7 @@ function RecommendationsPanel({
                 </motion.div>
                 <motion.div
                   key="marker-3-mobile"
-                  className="absolute -right-3 top-4 xl:hidden"
+                  className="absolute -right-4 top-4 xl:hidden"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -236,6 +246,8 @@ function RecommendationsPanel({
                     number={3}
                     onClick={() => onMarkerClick?.(3)}
                     isActive={highlightedSection === 3}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={onMarkersDiscover}
                   />
                 </motion.div>
               </>
@@ -287,6 +299,7 @@ export default function SuggestionsPanel({
   const { isComplete } = useIntroSequence();
   const [showLoading, setShowLoading] = useState(true);
   const hasStartedRef = useRef(false);
+  const [markersDiscovered, setMarkersDiscovered] = useState(false);
 
   useEffect(() => {
     // Only start timer once intro is complete AND we haven't started yet
@@ -333,7 +346,7 @@ export default function SuggestionsPanel({
             <>
               <motion.div
                 key="marker-1-desktop"
-                className="absolute -left-8 top-1/2 -translate-y-1/2 hidden xl:block z-20"
+                className="absolute -left-10 top-1/2 -translate-y-1/2 hidden xl:block z-20"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -345,6 +358,8 @@ export default function SuggestionsPanel({
                   number={1}
                   onClick={() => onMarkerClick?.(1)}
                   isActive={highlightedSection === 1}
+                  hasBeenDiscovered={markersDiscovered}
+                  onDiscover={() => setMarkersDiscovered(true)}
                 />
                 <DesktopMarkerTooltip
                   number={1}
@@ -355,7 +370,7 @@ export default function SuggestionsPanel({
               </motion.div>
               <motion.div
                 key="marker-1-mobile"
-                className="absolute -left-3 top-1/2 -translate-y-1/2 xl:hidden z-20"
+                className="absolute -left-4 top-1/2 -translate-y-1/2 xl:hidden z-20"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -365,6 +380,8 @@ export default function SuggestionsPanel({
                   number={1}
                   onClick={() => onMarkerClick?.(1)}
                   isActive={highlightedSection === 1}
+                  hasBeenDiscovered={markersDiscovered}
+                  onDiscover={() => setMarkersDiscovered(true)}
                 />
               </motion.div>
             </>
@@ -408,6 +425,8 @@ export default function SuggestionsPanel({
               onMarkerClick={onMarkerClick}
               onMarkerHover={onMarkerHover}
               hideMarkers={hideMarkers}
+              markersDiscovered={markersDiscovered}
+              onMarkersDiscover={() => setMarkersDiscovered(true)}
             />
           </motion.div>
         )}

@@ -23,7 +23,7 @@ export default function PrototypingTextPanel() {
       <h3 className="type-h2 text-primary">{prototypingContent.headline}</h3>
 
       {/* Body */}
-      <p className="type-body text-primary mt-4">{prototypingContent.body}</p>
+      <p className="type-body text-primary mt-5">{prototypingContent.body}</p>
 
       {/* Process notes */}
       <ProcessNotes notes={prototypingContent.processNotes} />

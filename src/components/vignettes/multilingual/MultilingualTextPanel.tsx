@@ -23,7 +23,7 @@ export default function MultilingualTextPanel() {
       <h3 className="type-h2 text-primary">{multilingualContent.headline}</h3>
 
       {/* Body */}
-      <p className="type-body text-primary mt-4">{multilingualContent.body}</p>
+      <p className="type-body text-primary mt-5">{multilingualContent.body}</p>
 
       {/* Process notes */}
       <ProcessNotes notes={multilingualContent.processNotes} />

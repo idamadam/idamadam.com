@@ -23,7 +23,7 @@ export default function SuggestionsTextPanel() {
       <h3 className="type-h2 text-primary">{aiSuggestionsContent.headline}</h3>
 
       {/* Body */}
-      <p className="type-body text-primary mt-4">{aiSuggestionsContent.body}</p>
+      <p className="type-body text-primary mt-5">{aiSuggestionsContent.body}</p>
 
       {/* Process notes */}
       <ProcessNotes notes={aiSuggestionsContent.processNotes} />

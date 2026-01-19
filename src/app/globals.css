@@ -488,25 +488,25 @@ a {
   /* Intentionally empty */
 }
 
-/* Secondary button - Subtle, refined ghost style */
+/* Secondary button - Accent outline style */
 .btn-secondary {
   background-color: transparent;
-  color: var(--secondary);
+  color: var(--accent-600);
   padding: 0.5rem 0.875rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--accent-300);
   font-weight: 500;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-secondary:hover {
-  color: var(--primary);
-  background-color: var(--background-subtle);
-  border-color: var(--border-strong);
+  color: var(--accent-700);
+  background-color: var(--accent-50);
+  border-color: var(--accent-400);
 }
 
 .btn-secondary:active {
-  background-color: var(--muted);
+  background-color: var(--accent-100);
 }
 
 /* Icon styling */

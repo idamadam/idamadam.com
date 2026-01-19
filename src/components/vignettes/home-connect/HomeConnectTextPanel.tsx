@@ -23,7 +23,7 @@ export default function HomeConnectTextPanel() {
       <h3 className="type-h2 text-primary">{homeConnectContent.headline}</h3>
 
       {/* Body */}
-      <p className="type-body text-primary mt-4">{homeConnectContent.body}</p>
+      <p className="type-body text-primary mt-5">{homeConnectContent.body}</p>
 
       {/* Process notes */}
       <ProcessNotes notes={homeConnectContent.processNotes} />

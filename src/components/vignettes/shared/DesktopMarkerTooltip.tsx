@@ -74,8 +74,8 @@ export default function DesktopMarkerTooltip({
               className="
                 flex items-center justify-center flex-shrink-0
                 size-5 rounded-full
-                bg-accent-200 border border-accent-700/25
-                text-accent-700 text-[10px] font-semibold
+                bg-transparent border border-accent-300
+                text-accent-600 text-[10px] font-semibold
                 mt-px
               "
             >
