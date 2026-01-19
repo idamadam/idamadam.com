@@ -29,17 +29,16 @@ export function SectionMarker({ index, noteId, side, isActive, onOpenChange, not
   return (
     <div
       className={`absolute top-1/2 -translate-y-1/2 hidden lg:block ${
-        side === 'left' ? '-left-8' : '-right-8'
+        side === 'left' ? '-left-10' : '-right-10'
       }`}
     >
       <Popover.Root open={open} onOpenChange={handleOpenChange}>
         <Popover.Trigger asChild>
           <button
-            className={`w-6 h-6 rounded-full text-[11px] font-medium flex items-center justify-center
-                       bg-accent-600 text-white hover:bg-accent-700 transition-all duration-200 cursor-pointer
+            className={`w-8 h-8 rounded-full text-[13px] font-medium flex items-center justify-center
+                       bg-transparent text-accent-600 border border-accent-300 hover:bg-accent-50 hover:border-accent-400 hover:text-accent-700 transition-all duration-200 cursor-pointer
                        focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-600 focus-visible:ring-offset-2
-                       breathe-glow
-                       ${isActive ? 'ring-2 ring-accent-600 ring-offset-2' : ''}`}
+                       ${isActive ? 'bg-accent-50 border-accent-400' : ''}`}
             style={{ animationDelay: `${index * 0.5}s` }}
             aria-label={`Design note ${index + 1}`}
           >

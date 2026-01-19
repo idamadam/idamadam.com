@@ -1,13 +1,16 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import React from 'react';
-import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
+import NumberedMarker from '../ai-highlights/NumberedMarker';
+import DesktopMarkerTooltip from '../shared/DesktopMarkerTooltip';
+import { homeConnectContent } from './content';
 
 interface HomeConnectPanelProps {
-  highlightedSection?: string | null;
-  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
-  notes?: Array<{ id: string; label?: string; detail: string }>;
+  highlightedSection?: number | null;
+  onMarkerClick?: (number: number) => void;
+  onMarkerHover?: (number: number | null) => void;
+  hideMarkers?: boolean;
 }
 
 // Avatar component with initials
@@ -131,7 +134,7 @@ function DownArrowIcon() {
   );
 }
 
-// Feed card wrapper with optional anchor support
+// Feed card wrapper
 interface FeedCardProps {
   children: React.ReactNode;
   style?: React.CSSProperties;
@@ -151,33 +154,30 @@ function FeedCard({ children, style }: FeedCardProps) {
 
 export default function HomeConnectPanel({
   highlightedSection = null,
-  onNoteOpenChange,
-  notes = [],
+  onMarkerClick,
+  onMarkerHover,
+  hideMarkers = false,
 }: HomeConnectPanelProps) {
-  // Get opacity style for a section based on what's highlighted
-  const getSectionStyle = (section: string, isCard = false) => {
-    if (!highlightedSection) return {};
-    // 'all-cards' keeps all cards visible
-    if (highlightedSection === 'all-cards' && isCard) {
-      return { opacity: 1, transition: 'opacity 0.2s ease-in-out' };
+  const [markersDiscovered, setMarkersDiscovered] = React.useState(false);
+
+  // Get highlight style for a section based on number
+  const getSectionHighlightStyle = (sectionNumber: number) => {
+    if (highlightedSection === sectionNumber) {
+      return {
+        backgroundColor: 'rgba(240, 217, 200, 0.3)',
+        borderRadius: '8px',
+        transition: 'background-color 0.3s ease-in-out',
+      };
     }
     return {
-      opacity: highlightedSection === section ? 1 : 0.3,
-      transition: 'opacity 0.2s ease-in-out',
+      transition: 'background-color 0.3s ease-in-out',
     };
   };
-
-  const handleNoteOpen = (noteId: string, isOpen: boolean) => {
-    onNoteOpenChange?.(noteId, isOpen);
-  };
-
-  // Find notes by ID
-  const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
     <div className="w-full bg-background-subtle rounded-2xl overflow-visible">
       {/* Purple header */}
-      <div className="bg-[#5F3361] px-5 pt-4 pb-4 relative rounded-t-2xl" style={getSectionStyle('header')}>
+      <div className="bg-[#5F3361] px-5 pt-4 pb-4 relative rounded-t-2xl">
         {/* Culture Amp Logo */}
         <div className="flex items-center gap-1.5 mb-4">
           <img
@@ -198,8 +198,60 @@ export default function HomeConnectPanel({
         </motion.h1>
       </div>
 
-      {/* Content area */}
-      <div className="px-5 pt-4 pb-5">
+      {/* Content area with marker 1 - unified feed */}
+      <div
+        className="px-5 pt-4 pb-5 relative"
+        data-section-id="unified-feed"
+        style={getSectionHighlightStyle(1)}
+      >
+        {/* Marker 1 - Unified feed - desktop: right side, mobile: right edge */}
+        <AnimatePresence>
+          {!hideMarkers && (
+            <>
+              <motion.div
+                key="marker-1-desktop"
+                className="absolute -right-10 top-6 hidden xl:block z-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                onMouseEnter={() => onMarkerHover?.(1)}
+                onMouseLeave={() => onMarkerHover?.(null)}
+              >
+                <NumberedMarker
+                  number={1}
+                  onClick={() => onMarkerClick?.(1)}
+                  isActive={highlightedSection === 1}
+                  hasBeenDiscovered={markersDiscovered}
+                  onDiscover={() => setMarkersDiscovered(true)}
+                />
+                <DesktopMarkerTooltip
+                  number={1}
+                  text={homeConnectContent.designDetails[0].text}
+                  isVisible={highlightedSection === 1}
+                  position="right"
+                />
+              </motion.div>
+              <motion.div
+                key="marker-1-mobile"
+                className="absolute -right-4 top-6 xl:hidden z-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <NumberedMarker
+                  number={1}
+                  onClick={() => onMarkerClick?.(1)}
+                  isActive={highlightedSection === 1}
+                  hasBeenDiscovered={markersDiscovered}
+                  onDiscover={() => setMarkersDiscovered(true)}
+                />
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
         {/* Your feed section */}
         <motion.div
           className="space-y-2.5"
@@ -209,16 +261,59 @@ export default function HomeConnectPanel({
         >
           <FeedDivider label="Upcoming" />
 
-          {/* Performance Cycle Card */}
-          <div className="relative" data-section-id="performance" style={getSectionStyle('performance', true)}>
-            <SectionMarker
-              index={0}
-              noteId="card-system"
-              side="right"
-              isActive={highlightedSection === 'performance'}
-              onOpenChange={handleNoteOpen}
-              note={getNote('card-system')}
-            />
+          {/* Performance Cycle Card - with marker 2 for people-focused cards */}
+          <div
+            className="relative"
+            data-section-id="people-card"
+            style={getSectionHighlightStyle(2)}
+          >
+            {/* Marker 2 - People-focused cards - desktop: left side, mobile: left edge */}
+            <AnimatePresence>
+              {!hideMarkers && (
+                <>
+                  <motion.div
+                    key="marker-2-desktop"
+                    className="absolute -left-10 top-1/2 -translate-y-1/2 hidden xl:block z-20"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, delay: 0.05 }}
+                    onMouseEnter={() => onMarkerHover?.(2)}
+                    onMouseLeave={() => onMarkerHover?.(null)}
+                  >
+                    <NumberedMarker
+                      number={2}
+                      onClick={() => onMarkerClick?.(2)}
+                      isActive={highlightedSection === 2}
+                      hasBeenDiscovered={markersDiscovered}
+                      onDiscover={() => setMarkersDiscovered(true)}
+                    />
+                    <DesktopMarkerTooltip
+                      number={2}
+                      text={homeConnectContent.designDetails[1].text}
+                      isVisible={highlightedSection === 2}
+                      position="left"
+                    />
+                  </motion.div>
+                  <motion.div
+                    key="marker-2-mobile"
+                    className="absolute -left-4 top-1/2 -translate-y-1/2 xl:hidden z-20"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, delay: 0.05 }}
+                  >
+                    <NumberedMarker
+                      number={2}
+                      onClick={() => onMarkerClick?.(2)}
+                      isActive={highlightedSection === 2}
+                      hasBeenDiscovered={markersDiscovered}
+                      onDiscover={() => setMarkersDiscovered(true)}
+                    />
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
             <FeedCard>
               <div className="space-y-3">
                 <p className="text-base text-primary leading-6">
@@ -245,7 +340,7 @@ export default function HomeConnectPanel({
           </div>
 
           {/* 1-on-1 Card */}
-          <FeedCard style={getSectionStyle('oneOnOne', true)}>
+          <FeedCard>
             <div className="space-y-3">
               <div className="flex items-center gap-1.5">
                 <Avatar initials="AP" size={18} />
@@ -272,16 +367,59 @@ export default function HomeConnectPanel({
 
           <FeedDivider label="Recent" />
 
-          {/* Goal Card */}
-          <div className="relative" data-section-id="goal" style={getSectionStyle('goal', true)}>
-            <SectionMarker
-              index={1}
-              noteId="inactive-goal"
-              side="left"
-              isActive={highlightedSection === 'goal'}
-              onOpenChange={handleNoteOpen}
-              note={getNote('inactive-goal')}
-            />
+          {/* Goal Card - with marker 3 for inactive goal notification */}
+          <div
+            className="relative"
+            data-section-id="inactive-goal"
+            style={getSectionHighlightStyle(3)}
+          >
+            {/* Marker 3 - Inactive goal notification - desktop: right side, mobile: right edge */}
+            <AnimatePresence>
+              {!hideMarkers && (
+                <>
+                  <motion.div
+                    key="marker-3-desktop"
+                    className="absolute -right-10 top-1/2 -translate-y-1/2 hidden xl:block z-20"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, delay: 0.1 }}
+                    onMouseEnter={() => onMarkerHover?.(3)}
+                    onMouseLeave={() => onMarkerHover?.(null)}
+                  >
+                    <NumberedMarker
+                      number={3}
+                      onClick={() => onMarkerClick?.(3)}
+                      isActive={highlightedSection === 3}
+                      hasBeenDiscovered={markersDiscovered}
+                      onDiscover={() => setMarkersDiscovered(true)}
+                    />
+                    <DesktopMarkerTooltip
+                      number={3}
+                      text={homeConnectContent.designDetails[2].text}
+                      isVisible={highlightedSection === 3}
+                      position="right"
+                    />
+                  </motion.div>
+                  <motion.div
+                    key="marker-3-mobile"
+                    className="absolute -right-4 top-1/2 -translate-y-1/2 xl:hidden z-20"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, delay: 0.1 }}
+                  >
+                    <NumberedMarker
+                      number={3}
+                      onClick={() => onMarkerClick?.(3)}
+                      isActive={highlightedSection === 3}
+                      hasBeenDiscovered={markersDiscovered}
+                      onDiscover={() => setMarkersDiscovered(true)}
+                    />
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
             <FeedCard>
               <div className="space-y-3">
                 <div className="flex items-center gap-1.5">

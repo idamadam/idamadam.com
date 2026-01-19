@@ -20,7 +20,6 @@ export interface StageContent {
 }
 
 export interface VignetteStages {
-  problem: StageContent;
   solution: StageContent;
   designNotes?: StageContent;
 }

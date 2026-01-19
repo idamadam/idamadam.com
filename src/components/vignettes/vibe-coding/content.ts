@@ -1,10 +1,31 @@
-export interface VibeCodingContent {
-  title: string;
-  description: string;
+export interface NarrativeNote {
+  text: string;
+}
+
+interface VibeCodingContent {
+  projectName: string;
+  headline: string;
+  body: string;
+  notes: NarrativeNote[];
 }
 
 export const vibeCodingContent: VibeCodingContent = {
-  title: 'Building an AI-powered prototyping tool',
-  description:
-    'A side project exploring how AI agents can help designers and product managers create interactive prototypes through natural language. Type what you want to build, and the system generates working React components in real-time.'
+  projectName: 'Personal Exploration',
+  headline: 'Building my own web-based prototyping tool',
+  body: 'A personal project to make complex prototyping via a coding agent more accesible via a web interface.',
+
+  notes: [
+    {
+      text: 'Give it an idea, it builds a prototype with versioning and a "scrubber" to help you understand what\'s contained in the prototype.',
+    },
+    {
+      text: 'Figured out how to bring a coding agent CLI into a browser. Designed interactions around that behavior.',
+    },
+    {
+      text: 'This is how I learned to build the Design Sandbox at work. Personal project was the proving ground.',
+    },
+    {
+      text: 'I can design and build. I\'ve developed deep fluency using these tools from this experience.',
+    },
+  ],
 };

@@ -52,7 +52,7 @@ export default function HeroVignette() {
       }}
     >
       <motion.div
-        className="max-w-[1200px] w-full mx-auto"
+        className="max-w-[1400px] w-full mx-auto"
         style={{ willChange: 'transform' }}
         initial={false}
         animate={{
@@ -63,7 +63,7 @@ export default function HeroVignette() {
           ease: [0.25, 0.1, 0.25, 1],
         }}
       >
-        <article id="hero" className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-14">
+        <article id="hero" className="flex flex-col gap-6 lg:gap-7">
           <HeroContent />
           <IntroPanel />
         </article>

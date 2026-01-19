@@ -3,15 +3,17 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
+import NumberedMarker from '../ai-highlights/NumberedMarker';
+import DesktopMarkerTooltip from '../shared/DesktopMarkerTooltip';
 import { multilingualContent } from '@/components/vignettes/multilingual/content';
-import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
 
 interface TranslationManagementPanelProps {
   className?: string;
   initialComplete?: boolean;
-  highlightedSection?: string | null;
-  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
-  notes?: Array<{ id: string; label?: string; detail: string }>;
+  highlightedSection?: number | null;
+  onMarkerClick?: (number: number) => void;
+  onMarkerHover?: (number: number | null) => void;
+  hideMarkers?: boolean;
 }
 
 type TranslationState = 'idle' | 'translating' | 'complete';
@@ -20,32 +22,32 @@ export default function TranslationManagementPanel({
   className = '',
   initialComplete = false,
   highlightedSection = null,
-  onNoteOpenChange,
-  notes = []
+  onMarkerClick,
+  onMarkerHover,
+  hideMarkers = false,
 }: TranslationManagementPanelProps) {
   const content = multilingualContent;
   const [translationState, setTranslationState] = useState<TranslationState>(
     initialComplete ? 'complete' : 'idle'
   );
   const [isAnimating, setIsAnimating] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState(0); // 0 = French, 1 = Dhivehi
+  const [selectedLanguage, setSelectedLanguage] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [markersDiscovered, setMarkersDiscovered] = useState(false);
 
-  // Get opacity style for a section based on what's highlighted
-  const getSectionStyle = (section: string) => {
-    if (!highlightedSection) return {};
+  // Get highlight style for a section
+  const getSectionHighlightStyle = (sectionNumber: number) => {
+    if (highlightedSection === sectionNumber) {
+      return {
+        backgroundColor: 'rgba(240, 217, 200, 0.3)',
+        borderRadius: '8px',
+        transition: 'background-color 0.3s ease-in-out',
+      };
+    }
     return {
-      opacity: highlightedSection === section ? 1 : 0.3,
-      transition: 'opacity 0.2s ease-in-out',
+      transition: 'background-color 0.3s ease-in-out',
     };
   };
-
-  const handleNoteOpen = (noteId: string, isOpen: boolean) => {
-    onNoteOpenChange?.(noteId, isOpen);
-  };
-
-  // Find notes by ID
-  const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   // Don't auto-reset when initialComplete is true
   useEffect(() => {
@@ -77,17 +79,57 @@ export default function TranslationManagementPanel({
         {/* Language Dropdown */}
         <div
           className="flex flex-col gap-1.5 w-full sm:w-auto relative"
-          style={getSectionStyle('language-dropdown')}
           data-section-id="language-dropdown"
+          style={getSectionHighlightStyle(1)}
         >
-          <SectionMarker
-            index={0}
-            noteId="unified-cycle"
-            side="left"
-            isActive={highlightedSection === 'language-dropdown'}
-            onOpenChange={handleNoteOpen}
-            note={getNote('unified-cycle')}
-          />
+          {/* Marker 1 - Unified dropdown - desktop: left side, mobile: left edge */}
+          <AnimatePresence>
+            {!hideMarkers && (
+              <>
+                <motion.div
+                  key="marker-1-desktop"
+                  className="absolute -left-10 top-1/2 -translate-y-1/2 hidden xl:block z-20"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  onMouseEnter={() => onMarkerHover?.(1)}
+                  onMouseLeave={() => onMarkerHover?.(null)}
+                >
+                  <NumberedMarker
+                    number={1}
+                    onClick={() => onMarkerClick?.(1)}
+                    isActive={highlightedSection === 1}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
+                  />
+                  <DesktopMarkerTooltip
+                    number={1}
+                    text={content.designDetails[0].text}
+                    isVisible={highlightedSection === 1}
+                    position="left"
+                  />
+                </motion.div>
+                <motion.div
+                  key="marker-1-mobile"
+                  className="absolute -left-4 top-1/2 -translate-y-1/2 xl:hidden z-20"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <NumberedMarker
+                    number={1}
+                    onClick={() => onMarkerClick?.(1)}
+                    isActive={highlightedSection === 1}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
+                  />
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+
           <label className="text-body-sm font-semibold text-primary">
             Translated language
           </label>
@@ -136,15 +178,59 @@ export default function TranslationManagementPanel({
         </div>
 
         {/* Action Buttons */}
-        <div className="relative" style={getSectionStyle('auto-translate-btn')} data-section-id="auto-translate-btn">
-          <SectionMarker
-            index={1}
-            noteId="ai-translate"
-            side="right"
-            isActive={highlightedSection === 'auto-translate-btn'}
-            onOpenChange={handleNoteOpen}
-            note={getNote('ai-translate')}
-          />
+        <div
+          className="relative"
+          data-section-id="auto-translate-btn"
+          style={getSectionHighlightStyle(2)}
+        >
+          {/* Marker 2 - Auto translate button - desktop: right side, mobile: right edge */}
+          <AnimatePresence>
+            {!hideMarkers && (
+              <>
+                <motion.div
+                  key="marker-2-desktop"
+                  className="absolute -right-10 top-1/2 -translate-y-1/2 hidden xl:block z-20"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2, delay: 0.05 }}
+                  onMouseEnter={() => onMarkerHover?.(2)}
+                  onMouseLeave={() => onMarkerHover?.(null)}
+                >
+                  <NumberedMarker
+                    number={2}
+                    onClick={() => onMarkerClick?.(2)}
+                    isActive={highlightedSection === 2}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
+                  />
+                  <DesktopMarkerTooltip
+                    number={2}
+                    text={content.designDetails[1].text}
+                    isVisible={highlightedSection === 2}
+                    position="right"
+                  />
+                </motion.div>
+                <motion.div
+                  key="marker-2-mobile"
+                  className="absolute -right-4 top-1/2 -translate-y-1/2 xl:hidden z-20"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2, delay: 0.05 }}
+                >
+                  <NumberedMarker
+                    number={2}
+                    onClick={() => onMarkerClick?.(2)}
+                    isActive={highlightedSection === 2}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
+                  />
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+
           <button
             onClick={handleTranslate}
             disabled={isAnimating}
@@ -163,15 +249,59 @@ export default function TranslationManagementPanel({
             Auto translate
           </button>
         </div>
-        <div className="relative" style={getSectionStyle('xlsx-import-btn')} data-section-id="xlsx-import-btn">
-          <SectionMarker
-            index={2}
-            noteId="xlsx-import"
-            side="right"
-            isActive={highlightedSection === 'xlsx-import-btn'}
-            onOpenChange={handleNoteOpen}
-            note={getNote('xlsx-import')}
-          />
+        <div
+          className="relative"
+          data-section-id="xlsx-import-btn"
+          style={getSectionHighlightStyle(3)}
+        >
+          {/* Marker 3 - XLSX import - desktop: right side, mobile: right edge */}
+          <AnimatePresence>
+            {!hideMarkers && (
+              <>
+                <motion.div
+                  key="marker-3-desktop"
+                  className="absolute -right-10 top-1/2 -translate-y-1/2 hidden xl:block z-20"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
+                  onMouseEnter={() => onMarkerHover?.(3)}
+                  onMouseLeave={() => onMarkerHover?.(null)}
+                >
+                  <NumberedMarker
+                    number={3}
+                    onClick={() => onMarkerClick?.(3)}
+                    isActive={highlightedSection === 3}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
+                  />
+                  <DesktopMarkerTooltip
+                    number={3}
+                    text={content.designDetails[2].text}
+                    isVisible={highlightedSection === 3}
+                    position="right"
+                  />
+                </motion.div>
+                <motion.div
+                  key="marker-3-mobile"
+                  className="absolute -right-4 top-1/2 -translate-y-1/2 xl:hidden z-20"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
+                >
+                  <NumberedMarker
+                    number={3}
+                    onClick={() => onMarkerClick?.(3)}
+                    isActive={highlightedSection === 3}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
+                  />
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+
           <button className="text-[#0168b3] hover:bg-black/5 font-medium text-body-sm h-9 px-sm py-sm rounded-[6px] flex items-center gap-1.5 transition-colors">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -219,19 +349,7 @@ export default function TranslationManagementPanel({
             </motion.div>
 
             {/* Source Text Tag */}
-            <div
-              className="flex items-start gap-2 relative"
-              style={getSectionStyle('source-text')}
-              data-section-id="source-text"
-            >
-              <SectionMarker
-                index={3}
-                noteId="source-reference"
-                side="left"
-                isActive={highlightedSection === 'source-text'}
-                onOpenChange={handleNoteOpen}
-                note={getNote('source-reference')}
-              />
+            <div className="flex items-start gap-2">
               <span className="inline-flex items-center px-3 py-1 bg-black/5 rounded-full text-xs text-primary">
                 English (English US)
               </span>

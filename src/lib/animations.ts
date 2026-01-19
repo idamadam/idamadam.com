@@ -29,12 +29,12 @@ export const timing = {
     panelDuration: 0.25,  // Panel transition duration
   },
   splash: {
-    duration: 1.8,        // How long centered splash state lasts (pause after text)
+    duration: 4.0,        // How long centered splash state lasts (all intro content appears)
     transition: 0.8,      // Position animation duration
   },
   intro: {
     nameReveal: 0.8,      // Matches CSS character animation total
-    stageDelay: 0.4,      // Gap between staged content reveals
+    stageDelay: 1.0,      // Gap between staged content reveals
     stageDuration: 0.5,   // Each element's fade-in duration
   },
 } as const;

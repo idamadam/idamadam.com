@@ -1,84 +1,83 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { VignetteStage } from '@/lib/vignette-stage-context';
-import { useVignetteEntrance } from '@/lib/vignette-entrance-context';
-import { SectionMarker } from '@/components/vignettes/shared/SectionMarker';
-import { ProblemStateLayout } from '@/components/vignettes/shared/ProblemStateLayout';
-import type { FeedbackSource } from './content';
-
-type PanelStage = VignetteStage | 'loading';
+import { useReducedMotion } from '@/lib/useReducedMotion';
+import { useIntroSequence } from '@/lib/intro-sequence-context';
+import NumberedMarker from './NumberedMarker';
+import DesktopMarkerTooltip from '../shared/DesktopMarkerTooltip';
+import { aiHighlightsContent, FeedbackSource } from './content';
 
 interface HighlightsPanelProps {
   className?: string;
-  stage?: PanelStage;
-  problemCards?: FeedbackSource[];
-  highlightedSection?: string | null;
-  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
-  notes?: Array<{ id: string; label?: string; detail: string }>;
+  highlightedSection?: number | null;
+  onMarkerClick?: (number: number) => void;
+  onMarkerHover?: (number: number | null) => void;
 }
 
 interface SourceCardProps {
-  name: string;
-  date: string;
-  context: string;
-  feedback: string;
-  avatarUrl: string;
+  source: FeedbackSource;
 }
 
-function SourceCard({ name, date, context, feedback, avatarUrl }: SourceCardProps) {
+function SourceCard({ source }: SourceCardProps) {
   return (
     <div className="pt-4 border-t border-border">
       {/* Mobile: stacked layout */}
       <div className="flex flex-col gap-1 mb-3 sm:hidden">
         <div className="flex items-center gap-2">
-          <img
-            src={avatarUrl}
-            alt={name}
-            className="w-6 h-6 rounded-full"
-          />
+          <div
+            className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white"
+            style={{ backgroundColor: getAvatarColor(source.reviewer) }}
+          >
+            {getInitials(source.reviewer)}
+          </div>
           <span className="text-body-sm font-semibold text-primary">
-            {name}
+            {source.reviewer}
           </span>
         </div>
         <div className="flex items-center gap-2 text-caption text-secondary">
-          <span>{date}</span>
-          <span>•</span>
-          <span>{context}</span>
+          <span>{source.reviewerRole}</span>
         </div>
       </div>
       {/* Desktop: horizontal layout */}
       <div className="hidden sm:flex items-center gap-2 mb-3">
-        <img
-          src={avatarUrl}
-          alt={name}
-          className="w-6 h-6 rounded-full"
-        />
+        <div
+          className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white"
+          style={{ backgroundColor: getAvatarColor(source.reviewer) }}
+        >
+          {getInitials(source.reviewer)}
+        </div>
         <span className="text-body-sm font-semibold text-primary">
-          {name}
+          {source.reviewer}
         </span>
+        <span className="text-caption text-secondary">•</span>
         <span className="text-caption text-secondary">
-          {date}
-        </span>
-        <span className="text-caption text-secondary">
-          •
-        </span>
-        <span className="text-caption text-secondary">
-          {context}
+          {source.reviewerRole}
         </span>
       </div>
-      <p className="text-body-sm text-primary mb-3">
-        {feedback}
-      </p>
-      <div className="flex items-center justify-end">
-        <a href="#" className="text-body-sm text-primary hover:underline inline-flex items-center gap-1">
-          View feedback
-          <span className="material-icons-outlined text-body-sm">arrow_forward</span>
-        </a>
-      </div>
+      <p className="text-body-sm text-primary mb-3">"{source.quote}"</p>
     </div>
   );
+}
+
+// Helper functions for avatar colors
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase();
+}
+
+function getAvatarColor(name: string): string {
+  const colors: Record<string, string> = {
+    'David Park': '#6366F1',
+    'Rachel Torres': '#EC4899',
+    'James Liu': '#10B981',
+    'Priya Sharma': '#F59E0B',
+    'Kevin Wright': '#8B5CF6',
+  };
+  return colors[name] || '#6366F1';
 }
 
 function LoadingState() {
@@ -135,7 +134,7 @@ function LoadingState() {
           background: linear-gradient(
             90deg,
             rgba(0, 0, 0, 0.06) 25%,
-            rgba(0, 0, 0, 0.10) 50%,
+            rgba(0, 0, 0, 0.1) 50%,
             rgba(0, 0, 0, 0.06) 75%
           );
           background-size: 200% 100%;
@@ -198,401 +197,373 @@ function LoadingState() {
   );
 }
 
-function ProblemState({ cards }: { cards: FeedbackSource[] }) {
-  const { entranceDelay, stagger, reducedMotion } = useVignetteEntrance();
-  const visibleCards = cards.slice(0, 8);
-
-  // Scattered positions for desktop chaos layout
-  const scatterPositions = [
-    { x: '5%', y: '8%', rotate: -3, scale: 1 },
-    { x: '52%', y: '2%', rotate: 2, scale: 0.95 },
-    { x: '28%', y: '45%', rotate: -1, scale: 0.98 },
-    { x: '60%', y: '38%', rotate: 3, scale: 0.92 },
-    { x: '8%', y: '68%', rotate: -2, scale: 0.96 },
-    { x: '45%', y: '72%', rotate: 1, scale: 0.94 },
-    { x: '72%', y: '65%', rotate: -4, scale: 0.9 },
-    { x: '35%', y: '18%', rotate: 2, scale: 0.93 },
-  ];
-
-  return (
-    <ProblemStateLayout>
-      {/* Mobile: Overlapping cards suggesting overwhelm */}
-      <div className="relative w-full h-[280px] lg:hidden">
-        {visibleCards.slice(0, 4).map((card, index) => (
-          <motion.div
-            key={card.id}
-            className="absolute bg-background-elevated px-4 py-3 rounded-lg border border-border shadow-sm w-[85%] max-w-[280px]"
-            style={{
-              left: `${index * 8}%`,
-              top: `${index * 24}px`,
-              zIndex: 4 - index,
-            }}
-            initial={{ opacity: 0, y: 30, rotate: (index % 2 === 0 ? -2 : 2) }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              rotate: (index % 2 === 0 ? -2 : 2)
-            }}
-            transition={{
-              duration: 0.5,
-              delay: reducedMotion ? 0 : entranceDelay + index * stagger,
-              ease: [0.25, 0.1, 0.25, 1],
-            }}
-          >
-            {card.from && (
-              <div className="flex items-center gap-2 mb-1.5">
-                {card.avatarUrl && (
-                  <img src={card.avatarUrl} alt={card.from} className="w-5 h-5 rounded-full grayscale" />
-                )}
-                <span className="text-caption font-medium text-secondary">{card.from}</span>
-              </div>
-            )}
-            <p className="text-body-sm text-primary line-clamp-2 leading-snug">{card.content}</p>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Desktop: Chaotic scattered layout */}
-      <div className="hidden lg:block relative w-full h-[340px]">
-        {visibleCards.map((card, index) => {
-          const pos = scatterPositions[index % scatterPositions.length];
-          return (
-            <motion.div
-              key={card.id}
-              className="absolute bg-background-elevated px-4 py-3 rounded-lg border border-border/60 shadow-sm cursor-default"
-              style={{
-                width: 220,
-                left: pos.x,
-                top: pos.y,
-                zIndex: index,
-              }}
-              initial={{
-                opacity: 0,
-                scale: 0.8,
-                rotate: pos.rotate * 2,
-                y: 20
-              }}
-              animate={{
-                opacity: 1,
-                scale: pos.scale,
-                rotate: pos.rotate,
-                y: 0
-              }}
-              whileHover={{
-                scale: 1.02,
-                opacity: 1,
-                zIndex: 20,
-                rotate: 0,
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
-              }}
-              transition={{
-                duration: 0.5,
-                delay: reducedMotion ? 0 : entranceDelay + index * 0.08,
-                ease: [0.25, 0.1, 0.25, 1],
-              }}
-            >
-              {card.from && (
-                <div className="flex items-center gap-2 mb-1.5">
-                  {card.avatarUrl && (
-                    <img src={card.avatarUrl} alt={card.from} className="w-5 h-5 rounded-full grayscale" />
-                  )}
-                  <span className="text-caption font-medium text-secondary">{card.from}</span>
-                </div>
-              )}
-              <p className="text-body-sm text-primary line-clamp-2 leading-snug">{card.content}</p>
-            </motion.div>
-          );
-        })}
-      </div>
-    </ProblemStateLayout>
-  );
-}
-
 interface SolutionStateProps {
   className?: string;
-  highlightedSection?: string | null;
-  onNoteOpenChange?: (noteId: string, isOpen: boolean) => void;
-  notes?: Array<{ id: string; label?: string; detail: string }>;
+  highlightedSection?: number | null;
+  onMarkerClick?: (number: number) => void;
+  onMarkerHover?: (number: number | null) => void;
 }
 
-function SolutionState({ className = '', highlightedSection = null, onNoteOpenChange, notes = [] }: SolutionStateProps) {
+function SolutionState({
+  className = '',
+  highlightedSection = null,
+  onMarkerClick,
+  onMarkerHover,
+}: SolutionStateProps) {
   const [highlightExpanded, setHighlightExpanded] = useState(false);
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
+  const [markersDiscovered, setMarkersDiscovered] = useState(false);
 
-  // Get opacity style for a section based on what's highlighted
-  const getSectionStyle = (section: string) => {
-    if (!highlightedSection) return {};
+  const { employee, summary, highlights, opportunities } = aiHighlightsContent;
+  const highlight = highlights[0];
+  const opportunity = opportunities[0];
+
+  // Get highlight ring style for a section
+  const getSectionHighlightStyle = (sectionNumber: number) => {
+    if (highlightedSection === sectionNumber) {
+      return {
+        backgroundColor: 'rgba(240, 217, 200, 0.3)',
+        borderRadius: '8px',
+        transition: 'background-color 0.3s ease-in-out',
+      };
+    }
     return {
-      opacity: highlightedSection === section ? 1 : 0.3,
-      transition: 'opacity 0.2s ease-in-out',
+      transition: 'background-color 0.3s ease-in-out',
     };
   };
-
-  const handleNoteOpen = (noteId: string, isOpen: boolean) => {
-    onNoteOpenChange?.(noteId, isOpen);
-  };
-
-  // Find notes by ID
-  const getNote = (id: string) => notes.find(n => n.id === id) || { detail: '' };
 
   return (
     <div
       className={`relative rounded-[7px] p-[2px] ${className}`}
       style={{
-        background: 'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
+        background:
+          'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
       }}
     >
       <div className="bg-background-elevated rounded-[5px] overflow-visible">
-      {/* Header Section */}
-      <div className="border-b-2 border-border px-6 py-6" data-section-id="summary" style={getSectionStyle('summary')}>
-        <div className="relative">
-          <SectionMarker
-            index={0}
-            noteId="context-first"
-            side="left"
-            isActive={highlightedSection === 'summary'}
-            onOpenChange={handleNoteOpen}
-            note={getNote('context-first')}
-          />
-          <div className="flex items-center gap-3 mb-2">
-          <img
-            src="/avatars/headshot.jpg"
-            alt="Idam Adam"
-            className="w-12 h-12 rounded-full shadow-sm object-cover"
-          />
-          <div>
-            <p className="text-h3 font-normal text-primary" style={{ marginBottom: '0px' }}>
-              Idam Adam
-            </p>
-            <p className="text-body-sm text-primary mb-0">
-              Lead Product Designer
-            </p>
-          </div>
-        </div>
-          <p className="text-body-sm text-primary mt-0">
-            Led design for Highlights & Opportunities from discovery through launch.
-            User research shaped both the verification UX and improvements to model output.
-          </p>
-        </div>
-      </div>
-
-      {/* Highlight Item */}
-      <div className="border-b-2 border-border" data-section-id="highlight" style={getSectionStyle('highlight')}>
-        <div className="px-6 py-8">
-          {/* Header row with marker */}
-          <div className="relative">
-            <SectionMarker
-              index={1}
-              noteId="verification"
-              side="left"
-              isActive={highlightedSection === 'highlight'}
-              onOpenChange={handleNoteOpen}
-              note={getNote('verification')}
+        {/* Header Section - Summary */}
+        <div
+          className="border-b-2 border-border px-6 py-6 relative"
+          data-section-id="summary"
+          style={getSectionHighlightStyle(1)}
+        >
+          {/* Marker 1 - desktop: left side, mobile: left edge */}
+          <motion.div
+            className="absolute -left-10 top-1/2 -translate-y-1/2 hidden xl:block"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+            onMouseEnter={() => onMarkerHover?.(1)}
+            onMouseLeave={() => onMarkerHover?.(null)}
+          >
+            <NumberedMarker
+              number={1}
+              onClick={() => onMarkerClick?.(1)}
+              isActive={highlightedSection === 1}
+              hasBeenDiscovered={markersDiscovered}
+              onDiscover={() => setMarkersDiscovered(true)}
             />
+            <DesktopMarkerTooltip
+              number={1}
+              text={aiHighlightsContent.designDetails[0].text}
+              isVisible={highlightedSection === 1}
+              position="left"
+            />
+          </motion.div>
+          <motion.div
+            className="absolute -left-4 top-1/2 -translate-y-1/2 xl:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            <NumberedMarker
+              number={1}
+              onClick={() => onMarkerClick?.(1)}
+              isActive={highlightedSection === 1}
+              hasBeenDiscovered={markersDiscovered}
+              onDiscover={() => setMarkersDiscovered(true)}
+            />
+          </motion.div>
+
+          <div className="flex items-center gap-3 mb-2">
+            <div
+              className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-semibold text-white"
+              style={{ backgroundColor: employee.avatarColor }}
+            >
+              {employee.initials}
+            </div>
+            <div>
+              <p
+                className="text-h3 font-normal text-primary"
+                style={{ marginBottom: '0px' }}
+              >
+                {employee.name}
+              </p>
+              <p className="text-body-sm text-primary mb-0">{employee.role}</p>
+            </div>
+          </div>
+          <p className="text-body-sm text-primary mt-0">{summary}</p>
+        </div>
+
+        {/* Highlight Item */}
+        <div
+          className="border-b-2 border-border relative"
+          data-section-id="highlight"
+          style={getSectionHighlightStyle(2)}
+        >
+          {/* Marker 2 - desktop: left side, mobile: left edge */}
+          <motion.div
+            className="absolute -left-10 top-8 hidden xl:block"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, delay: 0.05 }}
+            onMouseEnter={() => onMarkerHover?.(2)}
+            onMouseLeave={() => onMarkerHover?.(null)}
+          >
+            <NumberedMarker
+              number={2}
+              onClick={() => onMarkerClick?.(2)}
+              isActive={highlightedSection === 2}
+              hasBeenDiscovered={markersDiscovered}
+              onDiscover={() => setMarkersDiscovered(true)}
+            />
+            <DesktopMarkerTooltip
+              number={2}
+              text={aiHighlightsContent.designDetails[1].text}
+              isVisible={highlightedSection === 2}
+              position="left"
+            />
+          </motion.div>
+          <motion.div
+            className="absolute -left-4 top-8 xl:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, delay: 0.05 }}
+          >
+            <NumberedMarker
+              number={2}
+              onClick={() => onMarkerClick?.(2)}
+              isActive={highlightedSection === 2}
+              hasBeenDiscovered={markersDiscovered}
+              onDiscover={() => setMarkersDiscovered(true)}
+            />
+          </motion.div>
+
+          <div className="px-6 py-8">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <div className="flex-1">
                 <div className="flex items-center gap-1 mb-2">
                   <span className="material-icons-outlined text-h3 text-[#22594A]">
                     star_outline
                   </span>
-                <span className="text-body-sm font-semibold text-primary">
-                  Highlight
-                </span>
-              </div>
-              <p className="text-body-sm text-primary">
-                Created a process to test AI model output with real users, using research findings to improve what the model generates.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2 shrink-0">
-              <div className="flex items-center gap-1">
-                <div className="flex -space-x-2">
-                  <img
-                    src="/avatars/sarah-chen.svg"
-                    alt="Source"
-                    className="w-5 h-5 rounded-full border-2 border-background-elevated"
-                  />
-                  <img
-                    src="/avatars/mike-torres.svg"
-                    alt="Source"
-                    className="w-5 h-5 rounded-full border-2 border-background-elevated"
-                  />
+                  <span className="text-body-sm font-semibold text-primary">
+                    {highlight.theme}
+                  </span>
                 </div>
-                <span className="text-body-sm text-secondary">
-                  2 sources
-                </span>
+                <p className="text-body-sm text-primary">
+                  {highlight.description}
+                </p>
               </div>
-              <button
-                onClick={() => setHighlightExpanded(!highlightExpanded)}
-                className="p-3 hover:bg-black/5 rounded-lg transition-colors"
-                aria-label={highlightExpanded ? 'Collapse highlight' : 'Expand highlight'}
-              >
-                <motion.span
-                  animate={{ rotate: highlightExpanded ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="material-icons-outlined text-h3 text-primary block"
+
+              <div className="flex items-center gap-2 shrink-0">
+                <div className="flex items-center gap-1">
+                  <div className="flex -space-x-2">
+                    {highlight.sources.slice(0, 2).map((source, idx) => (
+                      <div
+                        key={idx}
+                        className="w-5 h-5 rounded-full border-2 border-background-elevated flex items-center justify-center text-[8px] font-bold text-white"
+                        style={{ backgroundColor: getAvatarColor(source.reviewer) }}
+                      >
+                        {getInitials(source.reviewer)}
+                      </div>
+                    ))}
+                  </div>
+                  <span className="text-body-sm text-secondary">
+                    {highlight.sources.length} sources
+                  </span>
+                </div>
+                <button
+                  onClick={() => setHighlightExpanded(!highlightExpanded)}
+                  className="p-3 hover:bg-black/5 rounded-lg transition-colors"
+                  aria-label={
+                    highlightExpanded ? 'Collapse highlight' : 'Expand highlight'
+                  }
                 >
-                  keyboard_arrow_down
-                </motion.span>
-              </button>
+                  <motion.span
+                    animate={{ rotate: highlightExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="material-icons-outlined text-h3 text-primary block"
+                  >
+                    keyboard_arrow_down
+                  </motion.span>
+                </button>
+              </div>
             </div>
-          </div>
-          </div>
 
-          <AnimatePresence>
-            {highlightExpanded && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="overflow-hidden"
-              >
-                <div className="mt-4 space-y-4">
-                  <SourceCard
-                    name="Sarah Chen"
-                    date="Sep 8, 2024"
-                    context="Peer feedback"
-                    feedback="Idam's approach to user testing the AI model was excellent. Getting early feedback directly from managers helped us iterate on the prompts before launch, which significantly improved the quality of the highlights."
-                    avatarUrl="/avatars/sarah-chen.svg"
-                  />
-                  <SourceCard
-                    name="Mike Torres"
-                    date="Sep 15, 2024"
-                    context="Manager review"
-                    feedback="The process Idam created for testing AI output with real users was a game-changer. We had concrete feedback before shipping, which prevented us from launching something managers wouldn't trust."
-                    avatarUrl="/avatars/mike-torres.svg"
-                  />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+            <AnimatePresence>
+              {highlightExpanded && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="overflow-hidden"
+                >
+                  <div className="mt-4 space-y-4">
+                    {highlight.sources.map((source, idx) => (
+                      <SourceCard key={idx} source={source} />
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-      </div>
 
-      {/* Opportunity Item */}
-      <div className="border-b-2 border-border" data-section-id="opportunity">
-        <div className="px-6 py-8">
-          {/* Header row with marker */}
-          <div className="relative">
-            <SectionMarker
-              index={2}
-              noteId="sources"
-              side="right"
-              isActive={highlightedSection === 'sources-expand'}
-              onOpenChange={handleNoteOpen}
-              note={getNote('sources')}
-            />
+        {/* Opportunity Item */}
+        <div
+          className="border-b-2 border-border relative"
+          data-section-id="opportunity"
+        >
+          <div className="px-6 py-8">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              {/* Title and description - dims when sources highlighted */}
-              <div className="flex-1" style={getSectionStyle('opportunity-title')}>
+              <div className="flex-1">
                 <div className="flex items-center gap-1 mb-2">
-                  <span className="material-icons-outlined text-h3" style={{ color: 'rgba(135, 100, 0, 1)' }}>
-                  lightbulb
-                </span>
-                <span className="text-body-sm font-semibold text-primary">
-                  Opportunity
-                </span>
-              </div>
-              <p className="text-body-sm text-primary">
-                Document and scale this AI testing framework as a template for validating model output across other features.
-              </p>
-            </div>
-
-            {/* Sources row - highlighted when sources note is active */}
-            <div
-              className="flex items-center gap-2 shrink-0"
-              data-section-id="sources-expand"
-              style={getSectionStyle('sources-expand')}
-            >
-              <div className="flex items-center gap-1">
-                <div className="flex -space-x-2">
-                  <img
-                    src="/avatars/alex-kim.svg"
-                    alt="Source"
-                    className="w-5 h-5 rounded-full border-2 border-background-elevated"
-                  />
-                  <img
-                    src="/avatars/jordan-lee.svg"
-                    alt="Source"
-                    className="w-5 h-5 rounded-full border-2 border-background-elevated"
-                  />
+                  <span
+                    className="material-icons-outlined text-h3"
+                    style={{ color: 'rgba(135, 100, 0, 1)' }}
+                  >
+                    lightbulb
+                  </span>
+                  <span className="text-body-sm font-semibold text-primary">
+                    {opportunity.theme}
+                  </span>
                 </div>
-                <span className="text-body-sm text-secondary">
-                  2 sources
-                </span>
+                <p className="text-body-sm text-primary">
+                  {opportunity.description}
+                </p>
               </div>
-              <button
-                onClick={() => setOpportunityExpanded(!opportunityExpanded)}
-                className="p-3 hover:bg-black/5 rounded-lg transition-colors"
-                aria-label={opportunityExpanded ? 'Collapse opportunity' : 'Expand opportunity'}
+
+              {/* Sources row with Marker 3 */}
+              <div
+                className="flex items-center gap-2 shrink-0 relative"
+                data-section-id="sources-expand"
+                style={getSectionHighlightStyle(3)}
               >
-                <motion.span
-                  animate={{ rotate: opportunityExpanded ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="material-icons-outlined text-h3 text-primary block"
+                {/* Marker 3 - desktop: right side, mobile: inline before sources */}
+                <motion.div
+                  className="absolute -right-16 top-1/2 -translate-y-1/2 hidden xl:block"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
+                  onMouseEnter={() => onMarkerHover?.(3)}
+                  onMouseLeave={() => onMarkerHover?.(null)}
                 >
-                  keyboard_arrow_down
-                </motion.span>
-              </button>
-            </div>
-          </div>
-          </div>
+                  <NumberedMarker
+                    number={3}
+                    onClick={() => onMarkerClick?.(3)}
+                    isActive={highlightedSection === 3}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
+                  />
+                  <DesktopMarkerTooltip
+                    number={3}
+                    text={aiHighlightsContent.designDetails[2].text}
+                    isVisible={highlightedSection === 3}
+                    position="right"
+                  />
+                </motion.div>
+                <motion.div
+                  className="xl:hidden"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
+                >
+                  <NumberedMarker
+                    number={3}
+                    onClick={() => onMarkerClick?.(3)}
+                    isActive={highlightedSection === 3}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
+                  />
+                </motion.div>
 
-          <AnimatePresence>
-            {opportunityExpanded && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="overflow-hidden"
-                style={getSectionStyle('sources-expand')}
-              >
-                <div className="mt-4 space-y-4">
-                  <SourceCard
-                    name="Alex Kim"
-                    date="Oct 5, 2024"
-                    context="Peer feedback"
-                    feedback="While the testing process was solid, there's an opportunity to document it better for other teams. This approach could be a template for how we validate all AI features going forward."
-                    avatarUrl="/avatars/alex-kim.svg"
-                  />
-                  <SourceCard
-                    name="Jordan Lee"
-                    date="Sep 30, 2024"
-                    context="Manager review"
-                    feedback="Consider scaling the user testing framework to other AI initiatives. The rigor and structure would benefit the entire product org."
-                    avatarUrl="/avatars/jordan-lee.svg"
-                  />
+                <div className="flex items-center gap-1">
+                  <div className="flex -space-x-2">
+                    {opportunity.sources.slice(0, 2).map((source, idx) => (
+                      <div
+                        key={idx}
+                        className="w-5 h-5 rounded-full border-2 border-background-elevated flex items-center justify-center text-[8px] font-bold text-white"
+                        style={{ backgroundColor: getAvatarColor(source.reviewer) }}
+                      >
+                        {getInitials(source.reviewer)}
+                      </div>
+                    ))}
+                  </div>
+                  <span className="text-body-sm text-secondary">
+                    {opportunity.sources.length} sources
+                  </span>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
+                <button
+                  onClick={() => setOpportunityExpanded(!opportunityExpanded)}
+                  className="p-3 hover:bg-black/5 rounded-lg transition-colors"
+                  aria-label={
+                    opportunityExpanded
+                      ? 'Collapse opportunity'
+                      : 'Expand opportunity'
+                  }
+                >
+                  <motion.span
+                    animate={{ rotate: opportunityExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="material-icons-outlined text-h3 text-primary block"
+                  >
+                    keyboard_arrow_down
+                  </motion.span>
+                </button>
+              </div>
+            </div>
 
-      {/* Footer with Feedback Buttons */}
-      <div className="px-6 py-4 flex items-center gap-2" style={getSectionStyle('footer')}>
-        <span className="text-body-sm text-secondary">
-          Is this helpful?
-        </span>
-        <button
-          className="p-2 hover:bg-black/5 rounded-lg transition-colors"
-          aria-label="Thumbs up"
-        >
-          <span className="material-icons-outlined text-h2 text-primary">
-            thumb_up
-          </span>
-        </button>
-        <button
-          className="p-2 hover:bg-black/5 rounded-lg transition-colors"
-          aria-label="Thumbs down"
-        >
-          <span className="material-icons-outlined text-h2 text-primary">
-            thumb_down
-          </span>
-        </button>
-      </div>
+            <AnimatePresence>
+              {opportunityExpanded && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="overflow-hidden"
+                >
+                  <div className="mt-4 space-y-4">
+                    {opportunity.sources.map((source, idx) => (
+                      <SourceCard key={idx} source={source} />
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Footer with Feedback Buttons */}
+        <div className="px-6 py-4 flex items-center gap-2">
+          <span className="text-body-sm text-secondary">Is this helpful?</span>
+          <button
+            className="p-2 hover:bg-black/5 rounded-lg transition-colors"
+            aria-label="Thumbs up"
+          >
+            <span className="material-icons-outlined text-h2 text-primary">
+              thumb_up
+            </span>
+          </button>
+          <button
+            className="p-2 hover:bg-black/5 rounded-lg transition-colors"
+            aria-label="Thumbs down"
+          >
+            <span className="material-icons-outlined text-h2 text-primary">
+              thumb_down
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -600,73 +571,59 @@ function SolutionState({ className = '', highlightedSection = null, onNoteOpenCh
 
 export default function HighlightsPanel({
   className = '',
-  stage = 'solution',
-  problemCards = [],
   highlightedSection = null,
-  onNoteOpenChange,
-  notes = [],
+  onMarkerClick,
+  onMarkerHover,
 }: HighlightsPanelProps) {
-  // Default problem cards if none provided
-  const defaultProblemCards: FeedbackSource[] = [
-    { id: 'feedback1', content: 'Excellent collaboration on cross-team projects', from: 'Peer review' },
-    { id: 'feedback2', content: 'Great job on the API redesign!', from: 'Sarah Chen' },
-    { id: 'feedback3', content: 'Could use more documentation', from: 'Mike Torres' },
-    { id: 'feedback4', content: 'Discussed career growth, interested in tech lead path' },
-    { id: 'feedback5', content: 'Q3: Improve API response time by 40%' },
-    { id: 'feedback6', content: '1-on-1 with Idam' },
-  ];
+  const reducedMotion = useReducedMotion();
+  const { isComplete } = useIntroSequence();
+  const [showLoading, setShowLoading] = useState(true);
+  const hasStartedRef = useRef(false);
 
-  const cards = problemCards.length > 0 ? problemCards : defaultProblemCards;
+  useEffect(() => {
+    // Only start timer once intro is complete AND we haven't started yet
+    if (isComplete && showLoading && !hasStartedRef.current) {
+      hasStartedRef.current = true;
+      // Small delay for fadeInUp to complete, then show loading for 1.5s
+      const entranceDelay = reducedMotion ? 0 : 600;
+      const loadingDuration = reducedMotion ? 0 : 1500;
 
-  const renderStage = () => {
-    switch (stage) {
-      case 'problem':
-        return (
-          <motion.div
-            key="problem"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <ProblemState cards={cards} />
-          </motion.div>
-        );
-      case 'loading':
-        return (
-          <motion.div
-            key="loading"
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.3 }}
-          >
-            <LoadingState />
-          </motion.div>
-        );
-      default:
-        return (
-          <motion.div
-            key="solution"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <SolutionState
-              className={className}
-              highlightedSection={highlightedSection}
-              onNoteOpenChange={onNoteOpenChange}
-              notes={notes}
-            />
-          </motion.div>
-        );
+      setTimeout(() => {
+        setTimeout(() => {
+          setShowLoading(false);
+        }, loadingDuration);
+      }, entranceDelay);
     }
-  };
+  }, [isComplete, showLoading, reducedMotion]);
 
   return (
     <AnimatePresence mode="wait">
-      {renderStage()}
+      {showLoading ? (
+        <motion.div
+          key="loading"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.3 }}
+        >
+          <LoadingState />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="solution"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <SolutionState
+            className={className}
+            highlightedSection={highlightedSection}
+            onMarkerClick={onMarkerClick}
+            onMarkerHover={onMarkerHover}
+          />
+        </motion.div>
+      )}
     </AnimatePresence>
   );
 }

@@ -1,105 +1,142 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import SuggestionsPanel from './SuggestionsPanel';
+import SuggestionsTextPanel from './SuggestionsTextPanel';
+import { MobileSuggestionsSheet } from './MobileSuggestionsSheet';
 import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
-import VignetteStaged, { useVignetteStage } from '@/components/vignettes/VignetteStaged';
+import { useScrollToSection } from '@/components/vignettes/shared/useScrollToSection';
 import { fadeInUp } from '@/lib/animations';
 import { aiSuggestionsContent } from './content';
-import { DesignNotesOverlay } from '@/components/vignettes/shared/DesignNotesOverlay';
-import StageIndicator from '@/components/vignettes/shared/StageIndicator';
-import AnimatedStageText from '@/components/vignettes/shared/AnimatedStageText';
-import { useLoadingTransition } from '@/components/vignettes/shared/useLoadingTransition';
-import { useReducedMotion } from '@/lib/useReducedMotion';
-import { useScrollToSection } from '@/components/vignettes/shared/useScrollToSection';
 
-type PanelStage = 'problem' | 'loading' | 'solution' | 'designNotes';
+// Hook to detect mobile viewport
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
 
-// Map note IDs to the content sections they reference
-const NOTE_TO_SECTION: Record<string, string> = {
-  'editor-integration': 'improve-button',
-  'people-science': 'recommendations-list',
-  'loading-state': 'gradient-border',
-};
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 1279px)');
+    setIsMobile(mediaQuery.matches);
 
-function AISuggestionsContent() {
-  const { stage, goToSolution, setStage } = useVignetteStage();
-  const reducedMotion = useReducedMotion();
-  const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
-  const { scrollToSection } = useScrollToSection();
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
 
-  const { isLoading, startTransition } = useLoadingTransition({
-    duration: 1500,
-    onComplete: goToSolution,
-  });
-
-  const panelStage: PanelStage = isLoading ? 'loading' : stage;
-
-  const currentStageContent = stage === 'problem'
-    ? aiSuggestionsContent.stages.problem
-    : aiSuggestionsContent.stages.solution;
-
-  const title = currentStageContent.title;
-
-  // Get the section to highlight based on active note
-  const highlightedSection = activeNoteId ? NOTE_TO_SECTION[activeNoteId] ?? null : null;
-
-  const handleNoteOpenChange = (noteId: string, isOpen: boolean) => {
-    setActiveNoteId(isOpen ? noteId : null);
-  };
-
-  const handleActiveNoteChange = useCallback((noteId: string | null) => {
-    setActiveNoteId(noteId);
-    if (noteId) {
-      scrollToSection(NOTE_TO_SECTION[noteId]);
-    }
-  }, [scrollToSection]);
-
-  return (
-    <VignetteSplit
-      title={
-        <div className="space-y-4">
-          <StageIndicator stage={stage} onStageChange={setStage} />
-          <AnimatedStageText
-            stage={stage}
-            text={title}
-            isLoading={isLoading}
-            reducedMotion={reducedMotion}
-          />
-        </div>
-      }
-    >
-      <div className="relative w-full max-w-[672px] mx-auto" style={{ overflow: 'visible' }}>
-        <SuggestionsPanel
-          content={aiSuggestionsContent}
-          stage={panelStage}
-          onTransition={startTransition}
-          highlightedSection={highlightedSection}
-          onNoteOpenChange={handleNoteOpenChange}
-          notes={aiSuggestionsContent.designNotes.notes}
-        />
-      </div>
-      {/* Mobile: Design notes button (desktop markers are embedded in panel) */}
-      {stage === 'solution' && (
-        <DesignNotesOverlay
-          notes={aiSuggestionsContent.designNotes.notes}
-          onActiveNoteChange={handleActiveNoteChange}
-        />
-      )}
-    </VignetteSplit>
-  );
+  return isMobile;
 }
 
+// Map from 1-based number to section id
+const sectionMap: Record<number, string> = {
+  1: 'improve-button',
+  2: 'gradient-border',
+  3: 'recommendations',
+};
+
 export default function AISuggestionsVignette() {
+  const [activeNumber, setActiveNumber] = useState<number | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetIndex, setSheetIndex] = useState(0);
+  const clearTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isMobile = useIsMobile();
+  const { scrollToSection } = useScrollToSection();
+
+  // Handle number click (mobile only - opens sheet)
+  const handleNumberClick = useCallback(
+    (number: number) => {
+      // Only handle clicks on mobile
+      if (!isMobile) return;
+
+      // Clear any pending timeout
+      if (clearTimeoutRef.current) {
+        clearTimeout(clearTimeoutRef.current);
+      }
+
+      setSheetIndex(number - 1); // Convert 1-based to 0-based index
+      setSheetOpen(true);
+      setActiveNumber(number);
+      // Scroll after a brief delay to let sheet animate in
+      setTimeout(() => {
+        scrollToSection(sectionMap[number]);
+      }, 100);
+    },
+    [isMobile, scrollToSection]
+  );
+
+  // Handle hover (desktop only - highlights)
+  const handleNumberHover = useCallback(
+    (number: number | null) => {
+      if (isMobile) return;
+
+      // Clear any pending timeout
+      if (clearTimeoutRef.current) {
+        clearTimeout(clearTimeoutRef.current);
+      }
+
+      setActiveNumber(number);
+    },
+    [isMobile]
+  );
+
+  // Handle sheet close
+  const handleSheetClose = useCallback(() => {
+    setSheetOpen(false);
+    setActiveNumber(null);
+  }, []);
+
+  // Handle sheet index change - also update active number and scroll
+  const handleSheetIndexChange = useCallback(
+    (index: number) => {
+      setSheetIndex(index);
+      const number = index + 1; // Convert 0-based to 1-based
+      setActiveNumber(number);
+
+      // Scroll to center element in visible area above sheet
+      const sectionId = sectionMap[number];
+      if (sectionId) {
+        scrollToSection(sectionId);
+      }
+    },
+    [scrollToSection]
+  );
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (clearTimeoutRef.current) {
+        clearTimeout(clearTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <VignetteContainer id="ai-suggestions" allowOverflow>
-      <motion.div {...fadeInUp}>
-        <VignetteStaged stages={aiSuggestionsContent.stages} vignetteId="ai-suggestions">
-          <AISuggestionsContent />
-        </VignetteStaged>
-      </motion.div>
+      <div className="w-full space-y-10 lg:space-y-12">
+        <motion.div {...fadeInUp}>
+          <VignetteSplit title={<SuggestionsTextPanel />}>
+            <div
+              className="relative w-full max-w-[672px] mx-auto"
+              style={{ overflow: 'visible' }}
+            >
+              <SuggestionsPanel
+                content={aiSuggestionsContent}
+                highlightedSection={activeNumber}
+                onMarkerClick={handleNumberClick}
+                onMarkerHover={handleNumberHover}
+              />
+            </div>
+          </VignetteSplit>
+        </motion.div>
+      </div>
+
+      {/* Mobile sheet for design details */}
+      <MobileSuggestionsSheet
+        isOpen={sheetOpen}
+        onClose={handleSheetClose}
+        currentIndex={sheetIndex}
+        onIndexChange={handleSheetIndexChange}
+      />
     </VignetteContainer>
   );
 }
