@@ -47,7 +47,7 @@ export default function NumberedMarker({
       className={`
         flex items-center justify-center
         size-8 rounded-full
-        bg-transparent border border-accent-300
+        bg-white border border-accent-300 shadow-sm
         text-accent-600 text-[13px] font-medium
         cursor-pointer
         transition-all duration-200

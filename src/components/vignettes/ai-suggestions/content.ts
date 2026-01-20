@@ -13,6 +13,7 @@ export interface AISuggestionsContent {
   projectName: string;
   headline: string;
   body: string;
+  keyResult?: string;
   processNotes: string[];
 
   // Marker callouts (shown on hover/tap on panel markers)
@@ -28,9 +29,10 @@ export const aiSuggestionsContent: AISuggestionsContent = {
   // Left panel content
   projectName: 'AI Suggest Improvements',
   headline: 'AI suggestions to help managers write better feedback',
-  body: 'We saw AI assistance as a natural fit for making feedback better, but we didn\'t want AI to take over critical thinking. I worked with our People Scientists to create feedback suggestions that helped managers understand how to give better feedback.',
+  body: 'We saw AI assistance as a natural fit for making feedback better, but we didn\'t want AI to take over critical thinking. I designed suggestions that helped managers understand how to give better feedback.',
+  keyResult: '80% made changes after clicking Improve.',
   processNotes: [
-    '80% of managers made changes to their feedback after clicking Improve',
+    'I worked with our People Scientists to craft suggestions grounded in feedback best practices',
     'I designed this to fit into any Rich Text Editor at Culture Amp. This has allowed other teams to easily adopt this into their products',
   ],
 

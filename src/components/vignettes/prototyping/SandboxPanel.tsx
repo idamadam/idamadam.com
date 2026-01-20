@@ -4,7 +4,11 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NumberedMarker from '../ai-highlights/NumberedMarker';
 import DesktopMarkerTooltip from '../shared/DesktopMarkerTooltip';
-import type { PrototypingContent } from './content';
+import TerminalPanel from './TerminalPanel';
+import PrototypePreview from './PrototypePreview';
+import { useSandboxDemo } from './useSandboxDemo';
+import { useReducedMotion } from '@/lib/useReducedMotion';
+import type { PrototypingContent, DesignerItem } from './content';
 
 interface SandboxPanelProps {
   className?: string;
@@ -32,6 +36,90 @@ function getSectionHighlightStyle(
   };
 }
 
+// Designer card component with refined styling
+function DesignerCard({
+  designer,
+  isNew = false,
+}: {
+  designer: DesignerItem;
+  isNew?: boolean;
+}) {
+  const reducedMotion = useReducedMotion();
+
+  const cardContent = (
+    <div
+      className={`
+        group relative flex items-center gap-3 rounded-lg p-2.5 sm:p-3
+        bg-white/60 backdrop-blur-sm
+        border border-black/[0.04]
+        shadow-[0_1px_2px_rgba(0,0,0,0.04)]
+        hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)]
+        hover:border-black/[0.08]
+        hover:bg-white/80
+        transition-all duration-200 ease-out
+        ${isNew ? 'ring-2 ring-offset-2 ring-offset-white' : ''}
+      `}
+      style={isNew ? { '--tw-ring-color': designer.avatarColor } as React.CSSProperties : undefined}
+    >
+      {/* Avatar with subtle gradient overlay */}
+      <div className="relative flex-shrink-0">
+        <div
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[11px] sm:text-xs font-semibold text-white shadow-sm"
+          style={{
+            background: `linear-gradient(135deg, ${designer.avatarColor} 0%, ${designer.avatarColor}dd 100%)`,
+          }}
+        >
+          {designer.initials}
+        </div>
+        {/* Online indicator */}
+        <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-400 rounded-full border-2 border-white shadow-sm" />
+      </div>
+
+      {/* Name and role */}
+      <div className="flex-1 min-w-0">
+        <p className="text-[13px] sm:text-sm text-neutral-800 font-medium truncate leading-tight !m-0">
+          {designer.name}
+        </p>
+        <p className="text-[11px] text-neutral-400 truncate !m-0">Designer</p>
+      </div>
+
+      {/* Hover chevron */}
+      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-neutral-300">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  );
+
+  if (isNew) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 8 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{
+          duration: reducedMotion ? 0.1 : 0.35,
+          ease: [0.23, 1, 0.32, 1],
+        }}
+      >
+        {cardContent}
+      </motion.div>
+    );
+  }
+
+  return cardContent;
+}
+
+// Stats badge component
+function StatBadge({ value, label }: { value: string | number; label: string }) {
+  return (
+    <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-neutral-100/80 border border-neutral-200/50">
+      <span className="text-[13px] font-semibold text-neutral-700 tabular-nums">{value}</span>
+      <span className="text-[11px] text-neutral-400">{label}</span>
+    </div>
+  );
+}
+
 function SolutionState({
   content,
   highlightedSection = null,
@@ -46,14 +134,20 @@ function SolutionState({
   hideMarkers?: boolean;
 }) {
   const [markersDiscovered, setMarkersDiscovered] = useState(false);
+  const demo = useSandboxDemo();
 
   return (
-    <div className="w-full space-y-4">
-      {/* Main Sandbox Container */}
+    <div className="w-full space-y-2">
+      {/* Main Sandbox Container - Internal Tool Dashboard Style */}
       <div
-        className="relative bg-background-elevated border border-border rounded-lg p-4 w-full"
+        className="relative rounded-xl overflow-hidden w-full"
         data-section-id="sandbox-container"
-        style={getSectionHighlightStyle(1, highlightedSection)}
+        style={{
+          ...getSectionHighlightStyle(1, highlightedSection),
+          background: 'linear-gradient(to bottom, #fafafa 0%, #f5f5f5 100%)',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8)',
+          border: '1px solid rgba(0,0,0,0.06)',
+        }}
       >
         {/* Marker 1 - Shared library - desktop: left side, mobile: left edge */}
         <AnimatePresence>
@@ -103,94 +197,162 @@ function SolutionState({
           )}
         </AnimatePresence>
 
-        {/* Header */}
-        <div className="flex items-center justify-between mb-lg">
-          <div>
-            <h3 className="text-body-sm font-bold text-primary">
-              {content.sandboxTitle}
-            </h3>
-            <p className="text-caption text-muted-foreground mt-0.5">
-              {content.adoptionStats.designers} designers •{' '}
-              {content.adoptionStats.prototypes}+ prototypes
-            </p>
+        {/* App Bar Header */}
+        <div
+          className="px-3 py-2.5 border-b border-black/[0.06]"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
+            backdropFilter: 'blur(8px)',
+          }}
+        >
+          <div className="flex items-center justify-between">
+            {/* Logo and Title */}
+            <div className="flex items-center gap-2.5">
+              {/* Culture Amp Logo - refined square with icon */}
+              <div
+                className="w-7 h-7 rounded-md flex items-center justify-center shadow-sm"
+                style={{
+                  background: 'linear-gradient(135deg, #F0532D 0%, #E04420 100%)',
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-white">
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" opacity="0.9"/>
+                  <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+
+              <div>
+                <h3 className="text-[13px] font-semibold text-neutral-800 leading-tight !m-0">
+                  Design Sandbox
+                </h3>
+                <p className="text-[10px] text-neutral-400 leading-tight !m-0">
+                  Culture Amp
+                </p>
+              </div>
+            </div>
+
+            {/* Stats badges */}
+            <div className="hidden sm:flex items-center gap-1.5">
+              <StatBadge value={content.adoptionStats.designers} label="designers" />
+              <StatBadge value={`${content.adoptionStats.prototypes}+`} label="prototypes" />
+            </div>
           </div>
-          <div className="w-[50px] h-[50px] bg-[#d9d9d9] rounded-full" />
+
+          {/* Tab navigation hint */}
+          <div className="flex items-center gap-0.5 mt-1.5 -mb-2.5">
+            <button className="px-2.5 py-1.5 text-[11px] font-medium text-neutral-800 border-b-2 border-neutral-800 -mb-px">
+              Team
+            </button>
+            <button className="px-2.5 py-1.5 text-[11px] font-medium text-neutral-400 hover:text-neutral-600 transition-colors">
+              Prototypes
+            </button>
+            <button className="px-2.5 py-1.5 text-[11px] font-medium text-neutral-400 hover:text-neutral-600 transition-colors">
+              Templates
+            </button>
+          </div>
         </div>
 
-        {/* Designer Directory */}
-        <div
-          className="relative grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-lg"
-          data-section-id="designer-directory"
-          style={getSectionHighlightStyle(2, highlightedSection)}
-        >
-          {/* Marker 2 - Designer homepage - desktop: right side, mobile: right edge */}
-          <AnimatePresence>
-            {!hideMarkers && (
-              <>
-                <motion.div
-                  key="marker-2-desktop"
-                  className="absolute -right-16 top-4 hidden xl:block z-20"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, delay: 0.05 }}
-                  onMouseEnter={() => onMarkerHover?.(2)}
-                  onMouseLeave={() => onMarkerHover?.(null)}
-                >
-                  <NumberedMarker
-                    number={2}
-                    onClick={() => onMarkerClick?.(2)}
-                    isActive={highlightedSection === 2}
-                    hasBeenDiscovered={markersDiscovered}
-                    onDiscover={() => setMarkersDiscovered(true)}
-                  />
-                  <DesktopMarkerTooltip
-                    number={2}
-                    text={content.designDetails[1].text}
-                    isVisible={highlightedSection === 2}
-                    position="right"
-                  />
-                </motion.div>
-                <motion.div
-                  key="marker-2-mobile"
-                  className="absolute -right-4 top-4 xl:hidden z-20"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, delay: 0.05 }}
-                >
-                  <NumberedMarker
-                    number={2}
-                    onClick={() => onMarkerClick?.(2)}
-                    isActive={highlightedSection === 2}
-                    hasBeenDiscovered={markersDiscovered}
-                    onDiscover={() => setMarkersDiscovered(true)}
-                  />
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-
-          {content.designers.map((designer) => (
-            <div
-              key={designer.id}
-              className="flex items-center gap-2 bg-background-subtle rounded-lg p-2 sm:p-3"
+        {/* Content area - transitions between Designer Directory and Prototype Preview */}
+        <div className="p-2.5">
+        <AnimatePresence mode="wait">
+          {demo.showPreview ? (
+            <motion.div
+              key="prototype-preview"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#d9d9d9] rounded-full flex-shrink-0" />
-              <span className="text-caption sm:text-body-sm text-primary font-medium truncate">
-                {designer.name}
-              </span>
-            </div>
-          ))}
+              <PrototypePreview
+                isVisible={demo.showPreview}
+                prototypeName={demo.newPrototype.name}
+                onReset={demo.reset}
+                isComplete={demo.phase === 'prototypeCreated'}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="designer-directory"
+              className="relative grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5"
+              data-section-id="designer-directory"
+              style={getSectionHighlightStyle(2, highlightedSection)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Marker 2 - Designer homepage - desktop: right side, mobile: right edge */}
+              <AnimatePresence>
+                {!hideMarkers && (
+                  <>
+                    <motion.div
+                      key="marker-2-desktop"
+                      className="absolute -right-16 top-4 hidden xl:block z-20"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2, delay: 0.05 }}
+                      onMouseEnter={() => onMarkerHover?.(2)}
+                      onMouseLeave={() => onMarkerHover?.(null)}
+                    >
+                      <NumberedMarker
+                        number={2}
+                        onClick={() => onMarkerClick?.(2)}
+                        isActive={highlightedSection === 2}
+                        hasBeenDiscovered={markersDiscovered}
+                        onDiscover={() => setMarkersDiscovered(true)}
+                      />
+                      <DesktopMarkerTooltip
+                        number={2}
+                        text={content.designDetails[1].text}
+                        isVisible={highlightedSection === 2}
+                        position="right"
+                      />
+                    </motion.div>
+                    <motion.div
+                      key="marker-2-mobile"
+                      className="absolute -right-4 top-4 xl:hidden z-20"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2, delay: 0.05 }}
+                    >
+                      <NumberedMarker
+                        number={2}
+                        onClick={() => onMarkerClick?.(2)}
+                        isActive={highlightedSection === 2}
+                        hasBeenDiscovered={markersDiscovered}
+                        onDiscover={() => setMarkersDiscovered(true)}
+                      />
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+
+              {content.designers.map((designer) => (
+                <DesignerCard key={designer.id} designer={designer} />
+              ))}
+
+              {/* New designer card - appears after /add-designer */}
+              <AnimatePresence>
+                {demo.showNewDesigner && (
+                  <DesignerCard
+                    key="new-designer"
+                    designer={demo.newDesigner}
+                    isNew
+                  />
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
         </div>
       </div>
 
-      {/* Claude Code TUI */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.3, ease: 'easeOut', delay: 0.2 }}
-        className="relative bg-[#09090B] rounded-lg w-full shadow-2xl border border-[#1f1f23] overflow-hidden"
+      {/* Interactive Terminal */}
+      <div
+        className="relative"
         data-section-id="fork-command"
         style={getSectionHighlightStyle(3, highlightedSection)}
       >
@@ -242,65 +404,42 @@ function SolutionState({
           )}
         </AnimatePresence>
 
-        {/* TUI Header */}
-        <div className="bg-[#111113] px-4 py-2 rounded-t-lg border-b border-[#1f1f23] flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-red-500" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500" />
-              <div className="w-3 h-3 rounded-full bg-green-500" />
-            </div>
-            <span className="text-caption text-muted-foreground font-mono ml-2">
-              claude-code
-            </span>
-          </div>
-          <span className="text-label text-gray-600 font-mono">
-            ~/.../sandbox
-          </span>
-        </div>
+        <TerminalPanel
+          messages={demo.terminalMessages}
+          phase={demo.phase}
+          onPromptName={demo.promptForName}
+          onSubmitName={demo.submitDesignerName}
+          onAddPrototype={demo.startAddPrototype}
+          onReset={demo.reset}
+          isAnimating={demo.isAnimating}
+        />
+      </div>
 
-        {/* TUI Content */}
-        <div className="p-4 pb-10 font-mono text-caption leading-relaxed">
-          {/* Command: /add-prototype with remix */}
-          <div className="flex items-start gap-2 mb-2">
-            <span className="text-[#D4A27F] select-none">&gt;</span>
-            <span className="text-gray-100">
-              /add-prototype --from @idam/feedback-helper
-            </span>
-          </div>
+      {/* New designer notification */}
+      <AnimatePresence>
+        {demo.showNewDesigner && demo.phase === 'designerAdded' && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="space-y-1 text-gray-400 pl-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3, ease: 'easeOut' as const }}
+            className="flex items-center justify-between bg-background-subtle rounded-lg px-3 py-2"
           >
             <div className="flex items-center gap-2">
-              <span className="text-green-400">✓</span>
-              <span>Forked from Idam&apos;s prototype</span>
+              <span className="text-green-500">✓</span>
+              <span className="text-body-sm text-primary">
+                {demo.newDesigner.name} added to the team
+              </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-green-400">✓</span>
-              <span>Copied components &amp; styles</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <motion.span
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                className="text-[#D4A27F]"
-              >
-                ⟳
-              </motion.span>
-              <span className="text-gray-300">Opening your remix...</span>
-            </div>
+            <button
+              onClick={demo.reset}
+              className="text-caption text-muted-foreground hover:text-primary transition-colors"
+            >
+              Try again
+            </button>
           </motion.div>
-        </div>
-
-        {/* Status bar */}
-        <div className="absolute bottom-0 left-0 right-0 px-4 py-2 border-t border-[#1f1f23] rounded-b-lg flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-          <span>opus 4.5</span>
-          <span>2.4k tokens • $0.04</span>
-        </div>
-      </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

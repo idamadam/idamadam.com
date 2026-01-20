@@ -6,23 +6,21 @@ import { heroContent, introContent } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
 import { timing, timingReduced } from '@/lib/animations';
+import TextReveal from './TextReveal';
 
 export default function HeroContent() {
   const reducedMotion = useReducedMotion();
   const t = reducedMotion ? timingReduced : timing;
   const { isSplashComplete } = useIntroSequence();
 
-  // Split name into characters, preserving spaces
-  const characters = heroContent.name.split('');
-
   // Show role+logo after name reveals (during splash, before move)
   const shouldShowRole = true;
 
   return (
-    <div className="flex items-start gap-8 lg:gap-10">
-      {/* Photo with layered shadow effect - aligned to top */}
+    <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 lg:gap-10">
+      {/* Profile photo */}
       <motion.div
-        className="relative shrink-0 w-[105px] h-[105px] cursor-pointer"
+        className="shrink-0 w-[120px] h-[120px] rounded-full overflow-hidden cursor-pointer"
         whileTap={{ scale: 0.92 }}
         transition={{
           type: 'spring',
@@ -30,41 +28,31 @@ export default function HeroContent() {
           damping: 20,
         }}
       >
-        {/* Shadow layer */}
-        <div className="absolute top-[3px] left-[3px] w-[92px] h-[92px] bg-neutral-800 rounded-[3px]" />
-        {/* Photo layer */}
-        <div className="absolute top-[12px] left-[12px] w-[92px] h-[92px] rounded-[3px] overflow-hidden">
-          <Image
-            src="/avatars/headshot.jpg"
-            alt={heroContent.name}
-            width={92}
-            height={92}
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <Image
+          src="/avatars/headshot.jpg"
+          alt={heroContent.name}
+          width={120}
+          height={120}
+          className="w-full h-full object-cover"
+        />
       </motion.div>
 
       {/* All text in single column */}
       <div className="flex flex-col gap-3">
         {/* Name with pixel font */}
         <h1 className="type-pixel whitespace-nowrap !m-0">
-          <span aria-label={heroContent.name}>
-            {characters.map((char, index) => (
-              <span
-                key={index}
-                className={reducedMotion ? 'inline-block' : 'hero-char'}
-                style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
-              >
-                {char}
-              </span>
-            ))}
-          </span>
+          <TextReveal
+            text={heroContent.name}
+            mode="characters"
+            staggerDelay={t.intro.nameStagger}
+            duration={0.4}
+          />
         </h1>
 
         {/* Role + Company */}
         {shouldShowRole && (
           <motion.div
-            className="flex items-center gap-2.5"
+            className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{

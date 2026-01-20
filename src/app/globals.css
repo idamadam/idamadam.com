@@ -160,25 +160,25 @@
 
   /*
    * Typography System - Premium, refined hierarchy
-   * Tighter tracking for headlines, generous for body
+   * Lighter tracking for serif headlines, generous for body
    */
   --text-display: clamp(2.5rem, 8vw, 4rem);
   --text-display--line-height: 0.95;
-  --text-display--letter-spacing: -0.035em;
-  --text-display--font-weight: 600;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 400;
 
   --text-h1: clamp(2.25rem, 6vw, 3rem);
   --text-h1--line-height: 1.1;
-  --text-h1--letter-spacing: -0.03em;
-  --text-h1--font-weight: 600;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h1--font-weight: 400;
 
-  --text-h2: 1.75rem;
-  --text-h2--line-height: 1.2;
-  --text-h2--letter-spacing: -0.025em;
+  --text-h2: 2rem;
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.01em;
 
   --text-h3: 1.25rem;
   --text-h3--line-height: 1.35;
-  --text-h3--letter-spacing: -0.015em;
+  --text-h3--letter-spacing: -0.005em;
 
   --text-body: 1rem;
   --text-body--line-height: 1.65;
@@ -230,44 +230,52 @@
  */
 .type-display {
   @apply text-display;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 600;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
   color: var(--primary);
   text-wrap: balance;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
 }
 
 .type-pixel {
-  font-family: var(--font-pixel), monospace;
-  font-size: 72px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(36px, 10vw, 48px);
   line-height: 1;
-  letter-spacing: -4.32px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
   color: var(--primary);
+}
+
+@media (min-width: 640px) {
+  .type-pixel {
+    font-size: 72px;
+    letter-spacing: -0.025em;
+  }
 }
 
 .type-h1 {
   @apply text-h1;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 600;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
   color: var(--primary);
   text-wrap: balance;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
 }
 
 .type-h2 {
   @apply text-h2;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 500;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
   color: var(--primary);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 .type-h3 {
   @apply text-h3;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 500;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
   color: var(--primary);
-  letter-spacing: -0.015em;
+  letter-spacing: -0.005em;
 }
 
 .type-body {
@@ -279,6 +287,10 @@
 .type-body-medium {
   @apply text-body;
   font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 500;
+}
+
+.key-result-label {
   font-weight: 500;
 }
 
@@ -332,9 +344,9 @@ body {
 
 /* Typography improvements */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.15;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.015em;
   margin: 0 0 24px 0;
 }
 
@@ -568,72 +580,6 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-}
-
-/* Hero character reveal animation */
-@keyframes hero-char-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero-char {
-  display: inline-block;
-  opacity: 0;
-  animation: hero-char-reveal 0.4s cubic-bezier(0.2, 0.65, 0.3, 0.9) forwards;
-  will-change: transform, opacity;
-}
-
-/* Stagger delays for each character position */
-.hero-char:nth-child(1) { animation-delay: 0s; }
-.hero-char:nth-child(2) { animation-delay: 0.08s; }
-.hero-char:nth-child(3) { animation-delay: 0.16s; }
-.hero-char:nth-child(4) { animation-delay: 0.24s; }
-.hero-char:nth-child(5) { animation-delay: 0.32s; }
-.hero-char:nth-child(6) { animation-delay: 0.40s; }
-.hero-char:nth-child(7) { animation-delay: 0.48s; }
-.hero-char:nth-child(8) { animation-delay: 0.56s; }
-.hero-char:nth-child(9) { animation-delay: 0.64s; }
-.hero-char:nth-child(10) { animation-delay: 0.72s; }
-.hero-char:nth-child(11) { animation-delay: 0.80s; }
-
-/* Reduced motion: instant reveal */
-@media (prefers-reduced-motion: reduce) {
-  .hero-char {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* Intro panel character reveal - simple fade streaming */
-@keyframes intro-char-fade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.intro-char {
-  display: inline-block;
-  opacity: 0;
-  animation: intro-char-fade 0.25s ease-out forwards;
-}
-
-.intro-char-hidden {
-  display: inline-block;
-  opacity: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .intro-char,
-  .intro-char-hidden {
-    animation: none;
-    opacity: 1;
-  }
 }
 
 /* Brand hover colors */
