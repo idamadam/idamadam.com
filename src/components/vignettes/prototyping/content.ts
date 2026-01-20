@@ -12,6 +12,8 @@ export interface PrototypeItem {
 export interface DesignerItem {
   id: number;
   name: string;
+  initials: string;
+  avatarColor: string;
 }
 
 export interface PrototypingContent {
@@ -72,12 +74,12 @@ export const prototypingContent: PrototypingContent = {
     { id: 6, name: '1-on-1 Prep', thumbnail: '#d9d9d9' },
   ],
   designers: [
-    { id: 1, name: 'Sarah Chen' },
-    { id: 2, name: 'Marcus Johnson' },
-    { id: 3, name: 'Priya Patel' },
-    { id: 4, name: 'Alex Kim' },
-    { id: 5, name: 'Jordan Rivera' },
-    { id: 6, name: 'Taylor Brooks' },
+    { id: 1, name: 'Sarah Chen', initials: 'SC', avatarColor: '#EC4899' },
+    { id: 2, name: 'Marcus Johnson', initials: 'MJ', avatarColor: '#6366F1' },
+    { id: 3, name: 'Priya Patel', initials: 'PP', avatarColor: '#10B981' },
+    { id: 4, name: 'Alex Kim', initials: 'AK', avatarColor: '#F59E0B' },
+    { id: 5, name: 'Jordan Rivera', initials: 'JR', avatarColor: '#8B5CF6' },
+    { id: 6, name: 'Taylor Brooks', initials: 'TB', avatarColor: '#14B8A6' },
   ],
   adoptionStats: {
     designers: 12,
