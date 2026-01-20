@@ -42,7 +42,7 @@ interface AIHighlightsContent {
 export const aiHighlightsContent: AIHighlightsContent = {
   // Left panel content
   projectName: 'Highlights and Opportunities',
-  headline: 'AI summaries managers can verify during Performance Review time',
+  headline: 'AI summaries to make performance reviews easier',
   body: 'Managers spent hours synthesizing feedback each review cycle. I designed a summary that helped managers understand what impact their direct report had and made it easy to verify the AI output.',
   keyResult: '93% of feedback was positive about the feature.',
   processNotes: [

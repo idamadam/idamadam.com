@@ -37,9 +37,9 @@ export default function ProcessNotes({ notes }: ProcessNotesProps) {
     <div className="mt-6">
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="btn-interactive btn-secondary text-sm"
+        className="btn-interactive btn-secondary text-sm font-[family-name:var(--font-inter)]"
       >
-        How I worked
+        Design process notes
         <ChevronIcon
           className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
         />
