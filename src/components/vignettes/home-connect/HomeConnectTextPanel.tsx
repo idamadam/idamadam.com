@@ -24,6 +24,12 @@ export default function HomeConnectTextPanel() {
 
       {/* Body */}
       <p className="type-body text-primary mt-5">{homeConnectContent.body}</p>
+      {homeConnectContent.keyResult && (
+        <p className="type-body text-primary mt-4">
+          <span className="key-result-label">Key result: </span>
+          {homeConnectContent.keyResult}
+        </p>
+      )}
 
       {/* Process notes */}
       <ProcessNotes notes={homeConnectContent.processNotes} />

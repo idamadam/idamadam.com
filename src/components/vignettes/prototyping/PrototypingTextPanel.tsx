@@ -24,6 +24,12 @@ export default function PrototypingTextPanel() {
 
       {/* Body */}
       <p className="type-body text-primary mt-5">{prototypingContent.body}</p>
+      {prototypingContent.keyResult && (
+        <p className="type-body text-primary mt-4">
+          <span className="key-result-label">Key result: </span>
+          {prototypingContent.keyResult}
+        </p>
+      )}
 
       {/* Process notes */}
       <ProcessNotes notes={prototypingContent.processNotes} />

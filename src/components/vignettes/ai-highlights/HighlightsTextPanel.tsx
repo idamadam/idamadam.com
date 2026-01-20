@@ -24,6 +24,12 @@ export default function HighlightsTextPanel() {
 
       {/* Body */}
       <p className="type-body text-primary mt-5">{aiHighlightsContent.body}</p>
+      {aiHighlightsContent.keyResult && (
+        <p className="type-body text-primary mt-4">
+          <span className="key-result-label">Key result: </span>
+          {aiHighlightsContent.keyResult}
+        </p>
+      )}
 
       {/* Process notes */}
       <ProcessNotes notes={aiHighlightsContent.processNotes} />

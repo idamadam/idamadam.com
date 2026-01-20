@@ -21,6 +21,7 @@ export interface PrototypingContent {
   projectName: string;
   headline: string;
   body: string;
+  keyResult?: string;
   processNotes: string[];
 
   // Marker callouts (shown on hover/tap on panel markers)
@@ -40,11 +41,12 @@ export const prototypingContent: PrototypingContent = {
   // Left panel content
   projectName: 'Design Sandbox',
   headline: 'Built an internal repository to make AI prototyping faster and easier',
-  body: 'Designers had no way to deploy or share AI prototypes. I took my experiences with AI protoyping and built out a repository that made it super easy for a designer to get started and deploy AI prototypes to our infrastructure.',
+  body: 'Designers had no way to deploy or share AI prototypes. I built a repository that made it easy to get started and deploy AI prototypes to our infrastructure.',
+  keyResult: '15 designers and PMs actively using it.',
   processNotes: [
     'In addition to building the tools, I wrote documentation & ran onboarding sessions internally.',
-    'Introduced a new novel workflow where designers can pull the newest prototypes and remix existing ones',
-    '15 designers and product mananagers now actively use it. One team prototyped a feature that got executives bought in on a major release.',
+    'Introduced a new novel workflow where designers can pull the newest prototypes and remix existing ones.',
+    'One team prototyped a feature that got executives bought in on a major release.',
   ],
 
   // Marker callouts (shown on hover/tap on panel markers)

@@ -21,6 +21,7 @@ interface AIHighlightsContent {
   projectName: string;
   headline: string;
   body: string;
+  keyResult?: string;
   processNotes: string[];
 
   // Marker callouts (shown on hover/tap on panel markers)
@@ -42,7 +43,8 @@ export const aiHighlightsContent: AIHighlightsContent = {
   // Left panel content
   projectName: 'Highlights and Opportunities',
   headline: 'AI summaries managers can verify during Performance Review time',
-  body: 'Managers spent hours synthesizing feedback each review cycle. I designed a summary that helped a manager understand what imapct their direct report had and made it easy to verify the AI output.',
+  body: 'Managers spent hours synthesizing feedback each review cycle. I designed a summary that helped managers understand what impact their direct report had and made it easy to verify the AI output.',
+  keyResult: '93% of feedback was positive about the feature.',
   processNotes: [
     'I joined after initial discovery and owned design through validation, iteration, and launch.',
     'I defined the interaction model and worked with data science on prompt quality.',

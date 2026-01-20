@@ -24,6 +24,12 @@ export default function SuggestionsTextPanel() {
 
       {/* Body */}
       <p className="type-body text-primary mt-5">{aiSuggestionsContent.body}</p>
+      {aiSuggestionsContent.keyResult && (
+        <p className="type-body text-primary mt-4">
+          <span className="key-result-label">Key result: </span>
+          {aiSuggestionsContent.keyResult}
+        </p>
+      )}
 
       {/* Process notes */}
       <ProcessNotes notes={aiSuggestionsContent.processNotes} />

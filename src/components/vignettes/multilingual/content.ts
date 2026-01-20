@@ -21,6 +21,7 @@ export interface MultilingualContent {
   projectName: string;
   headline: string;
   body: string;
+  keyResult?: string;
   processNotes: string[];
 
   // Marker callouts (shown on hover/tap on panel markers)
@@ -35,12 +36,13 @@ export const multilingualContent: MultilingualContent = {
   // Left panel content
   projectName: 'Multilingual Performance Cycles',
   headline: 'A simple workflow to run a multilingual performance cycle',
-  body: 'Lack of support for multilingual workflows was a top reason for lost deals. I designed a simple but powerful workflow to add and manage translations based on research I conducted with admins to learn how they managed translations.',
+  body: 'Lack of support for multilingual workflows was a top reason for lost deals. I designed a simple but powerful workflow to add and manage translations based on research I conducted with admins.',
+  keyResult: 'Zero support tickets and actively used since launch.',
 
   processNotes: [
     'I advocated for the inclusion of machine translation and spreadsheet import/export based on research. The original scope was just a basic form to add translations.',
     'I designed the the translation layer to seamlessly fit into the existing performance cycle setup processes.',
-    'Zero support tickets since launch. The workflow I designed here became a template for multilingual content across Culture Amp.',
+    'The workflow I designed here became a template for multilingual content across Culture Amp.',
   ],
 
   // Marker callouts (shown on hover/tap on panel markers)

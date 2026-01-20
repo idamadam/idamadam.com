@@ -289,6 +289,10 @@
   font-weight: 500;
 }
 
+.key-result-label {
+  font-weight: 500;
+}
+
 .type-body-sm {
   @apply text-body-sm;
   font-family: var(--font-inter), system-ui, sans-serif;

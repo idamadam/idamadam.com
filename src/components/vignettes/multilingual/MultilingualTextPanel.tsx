@@ -24,6 +24,12 @@ export default function MultilingualTextPanel() {
 
       {/* Body */}
       <p className="type-body text-primary mt-5">{multilingualContent.body}</p>
+      {multilingualContent.keyResult && (
+        <p className="type-body text-primary mt-4">
+          <span className="key-result-label">Key result: </span>
+          {multilingualContent.keyResult}
+        </p>
+      )}
 
       {/* Process notes */}
       <ProcessNotes notes={multilingualContent.processNotes} />
