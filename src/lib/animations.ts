@@ -33,9 +33,11 @@ export const timing = {
     transition: 0.8,      // Position animation duration
   },
   intro: {
-    nameReveal: 0.8,      // Matches CSS character animation total
+    nameReveal: 0.9,      // Total time for name reveal
+    nameStagger: 0.08,    // Between characters (80ms)
+    paragraphStagger: 0.06, // Between words (60ms)
     stageDelay: 1.0,      // Gap between staged content reveals
-    stageDuration: 0.5,   // Each element's fade-in duration
+    stageDuration: 0.5,   // Each element's duration
   },
 } as const;
 
@@ -48,7 +50,7 @@ export const timingReduced = {
   stagger: { tight: 0, normal: 0 },
   stage: { textDuration: 0.1, panelDelay: 0, panelDuration: 0.15 },
   splash: { duration: 0, transition: 0 },
-  intro: { nameReveal: 0, stageDelay: 0.1, stageDuration: 0.15 },
+  intro: { nameReveal: 0, nameStagger: 0, paragraphStagger: 0, stageDelay: 0.1, stageDuration: 0.15 },
 } as const;
 
 /**

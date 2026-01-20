@@ -6,14 +6,12 @@ import { heroContent, introContent } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
 import { timing, timingReduced } from '@/lib/animations';
+import TextReveal from './TextReveal';
 
 export default function HeroContent() {
   const reducedMotion = useReducedMotion();
   const t = reducedMotion ? timingReduced : timing;
   const { isSplashComplete } = useIntroSequence();
-
-  // Split name into characters, preserving spaces
-  const characters = heroContent.name.split('');
 
   // Show role+logo after name reveals (during splash, before move)
   const shouldShowRole = true;
@@ -43,17 +41,12 @@ export default function HeroContent() {
       <div className="flex flex-col gap-3">
         {/* Name with pixel font */}
         <h1 className="type-pixel whitespace-nowrap !m-0">
-          <span aria-label={heroContent.name}>
-            {characters.map((char, index) => (
-              <span
-                key={index}
-                className={reducedMotion ? 'inline-block' : 'hero-char'}
-                style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
-              >
-                {char}
-              </span>
-            ))}
-          </span>
+          <TextReveal
+            text={heroContent.name}
+            mode="characters"
+            staggerDelay={t.intro.nameStagger}
+            duration={0.4}
+          />
         </h1>
 
         {/* Role + Company */}
