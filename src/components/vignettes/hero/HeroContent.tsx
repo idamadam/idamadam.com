@@ -20,9 +20,9 @@ export default function HeroContent() {
 
   return (
     <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 lg:gap-10">
-      {/* Photo with layered shadow effect - aligned to top */}
+      {/* Profile photo */}
       <motion.div
-        className="relative shrink-0 w-[105px] h-[105px] cursor-pointer"
+        className="shrink-0 w-[120px] h-[120px] rounded-full overflow-hidden cursor-pointer"
         whileTap={{ scale: 0.92 }}
         transition={{
           type: 'spring',
@@ -30,18 +30,13 @@ export default function HeroContent() {
           damping: 20,
         }}
       >
-        {/* Shadow layer */}
-        <div className="absolute top-[3px] left-[3px] w-[92px] h-[92px] bg-neutral-800 rounded-[3px]" />
-        {/* Photo layer */}
-        <div className="absolute top-[12px] left-[12px] w-[92px] h-[92px] rounded-[3px] overflow-hidden">
-          <Image
-            src="/avatars/headshot.jpg"
-            alt={heroContent.name}
-            width={92}
-            height={92}
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <Image
+          src="/avatars/headshot.jpg"
+          alt={heroContent.name}
+          width={120}
+          height={120}
+          className="w-full h-full object-cover"
+        />
       </motion.div>
 
       {/* All text in single column */}
