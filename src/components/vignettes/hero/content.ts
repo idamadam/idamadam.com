@@ -19,7 +19,7 @@ export interface IntroLink {
 
 export interface IntroContent {
   role: string;
-  paragraph: string;
+  lines: string[];
   links: Record<string, IntroLink>;
 }
 
@@ -34,6 +34,10 @@ export const heroContent: HeroContent = {
 
 export const introContent: IntroContent = {
   role: 'Lead Product Designer at',
-  paragraph: "I design software that makes complex problems feel simple. Lately, I've been building tools that collapse the line between design & code.",
+  lines: [
+    "I design software that makes complex problems feel simple.",
+    "Great design needs both high standards and psychological safety. I lead teams that deliver both.",
+    "In addition to my regular design work, I've been building AI tools that blur where design ends and code begins.",
+  ],
   links: {},
 };

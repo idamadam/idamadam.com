@@ -12,7 +12,7 @@ export const timing = {
     text: 0,        // Text column starts immediately
     panel: 0.4,     // Panel waits 400ms for text to settle
     cards: 0.5,     // Cards wait 500ms (after panel wrapper)
-    afterHero: 2.8, // Elements below hero wait for splash + transition
+    afterHero: 3.1, // Elements below hero wait for splash + transition
   },
   duration: {
     fast: 0.25,     // Standard transitions
@@ -29,13 +29,13 @@ export const timing = {
     panelDuration: 0.25,  // Panel transition duration
   },
   splash: {
-    duration: 4.0,        // How long centered splash state lasts (all intro content appears)
+    duration: 4.3,        // How long centered splash state lasts (all intro content appears)
     transition: 0.8,      // Position animation duration
   },
   intro: {
     nameReveal: 0.9,      // Total time for name reveal
     nameStagger: 0.08,    // Between characters (80ms)
-    paragraphStagger: 0.06, // Between words (60ms)
+    paragraphStagger: 0.045, // Between words (45ms)
     stageDelay: 1.0,      // Gap between staged content reveals
     stageDuration: 0.5,   // Each element's duration
   },

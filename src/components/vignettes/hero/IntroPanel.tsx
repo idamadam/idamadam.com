@@ -12,9 +12,9 @@ type AnimatableUnit =
   | { type: 'word'; content: string }
   | { type: 'link'; linkKey: string; link: IntroLink };
 
-// Parse paragraph into animatable units (words and links)
-function parseIntoAnimatableUnits(
-  paragraph: string,
+// Parse a single line into animatable units (words and links)
+function parseLineIntoAnimatableUnits(
+  line: string,
   links: Record<string, IntroLink>
 ): AnimatableUnit[] {
   const units: AnimatableUnit[] = [];
@@ -22,10 +22,10 @@ function parseIntoAnimatableUnits(
   let lastIndex = 0;
   let match;
 
-  while ((match = regex.exec(paragraph)) !== null) {
+  while ((match = regex.exec(line)) !== null) {
     // Add words before the link
     if (match.index > lastIndex) {
-      const text = paragraph.slice(lastIndex, match.index);
+      const text = line.slice(lastIndex, match.index);
       const words = text.split(/\s+/).filter(Boolean);
       words.forEach((word) => {
         units.push({ type: 'word', content: word });
@@ -43,8 +43,8 @@ function parseIntoAnimatableUnits(
   }
 
   // Add remaining words
-  if (lastIndex < paragraph.length) {
-    const text = paragraph.slice(lastIndex);
+  if (lastIndex < line.length) {
+    const text = line.slice(lastIndex);
     const words = text.split(/\s+/).filter(Boolean);
     words.forEach((word) => {
       units.push({ type: 'word', content: word });
@@ -54,20 +54,21 @@ function parseIntoAnimatableUnits(
   return units;
 }
 
-// Parse paragraph and render with inline links (for reduced motion)
-function renderParagraphWithLinks(
-  paragraph: string,
-  links: Record<string, IntroLink>
+// Render a single line with inline links (for reduced motion)
+function renderLineWithLinks(
+  line: string,
+  links: Record<string, IntroLink>,
+  keyPrefix: string
 ) {
   const parts: ReactNode[] = [];
   let lastIndex = 0;
   const regex = /\{\{(\w+)\}\}/g;
   let match;
 
-  while ((match = regex.exec(paragraph)) !== null) {
+  while ((match = regex.exec(line)) !== null) {
     // Add text before the link
     if (match.index > lastIndex) {
-      parts.push(paragraph.slice(lastIndex, match.index));
+      parts.push(line.slice(lastIndex, match.index));
     }
 
     // Add the link
@@ -76,7 +77,7 @@ function renderParagraphWithLinks(
     if (link) {
       parts.push(
         <a
-          key={linkKey}
+          key={`${keyPrefix}-${linkKey}`}
           href={link.url}
           target={link.external ? '_blank' : undefined}
           rel={link.external ? 'noopener noreferrer' : undefined}
@@ -91,8 +92,8 @@ function renderParagraphWithLinks(
   }
 
   // Add remaining text
-  if (lastIndex < paragraph.length) {
-    parts.push(paragraph.slice(lastIndex));
+  if (lastIndex < line.length) {
+    parts.push(line.slice(lastIndex));
   }
 
   return parts;
@@ -125,8 +126,8 @@ export default function IntroPanel() {
   // For reduced motion, use simple fade
   if (reducedMotion) {
     return (
-      <motion.p
-        className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] max-w-[620px]"
+      <motion.div
+        className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] max-w-[620px] space-y-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
@@ -135,23 +136,29 @@ export default function IntroPanel() {
           ease: [0.25, 0.1, 0.25, 1],
         }}
       >
-        {renderParagraphWithLinks(introContent.paragraph, introContent.links)}
-      </motion.p>
+        {introContent.lines.map((line, lineIndex) => (
+          <p key={lineIndex}>
+            {renderLineWithLinks(line, introContent.links, `line-${lineIndex}`)}
+          </p>
+        ))}
+      </motion.div>
     );
   }
 
-  // Parse paragraph into animatable units
-  const units = parseIntoAnimatableUnits(introContent.paragraph, introContent.links);
+  // Parse all lines into animatable units
+  const lineUnits = introContent.lines.map((line) =>
+    parseLineIntoAnimatableUnits(line, introContent.links)
+  );
 
-  // Create variants with actual values baked in
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: t.intro.paragraphStagger,
-        delayChildren: paragraphDelay,
-      },
-    },
+  // Calculate cumulative delay for each line based on word count of previous lines
+  const linePauseDuration = 0.3; // Pause between lines
+  const getLineDelay = (lineIndex: number) => {
+    let delay = paragraphDelay;
+    for (let i = 0; i < lineIndex; i++) {
+      // Add time for all words in previous lines + pause
+      delay += lineUnits[i].length * t.intro.paragraphStagger + linePauseDuration;
+    }
+    return delay;
   };
 
   const wordVariants = {
@@ -167,40 +174,52 @@ export default function IntroPanel() {
   };
 
   return (
-    <motion.p
-      className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] max-w-[620px]"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      {units.map((unit, index) => {
-        if (unit.type === 'link') {
-          return (
-            <motion.a
-              key={`link-${unit.linkKey}`}
-              href={unit.link.url}
-              target={unit.link.external ? '_blank' : undefined}
-              rel={unit.link.external ? 'noopener noreferrer' : undefined}
-              className="underline underline-offset-2 decoration-primary/40 hover:decoration-primary transition-colors duration-200"
-              variants={wordVariants}
-              style={{ display: 'inline-block' }}
-            >
-              {unit.link.text}
-            </motion.a>
-          );
-        }
+    <div className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] max-w-[620px] space-y-4">
+      {lineUnits.map((units, lineIndex) => (
+        <motion.p
+          key={lineIndex}
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: t.intro.paragraphStagger,
+                delayChildren: getLineDelay(lineIndex),
+              },
+            },
+          }}
+        >
+          {units.map((unit, index) => {
+            if (unit.type === 'link') {
+              return (
+                <motion.a
+                  key={`line-${lineIndex}-link-${unit.linkKey}`}
+                  href={unit.link.url}
+                  target={unit.link.external ? '_blank' : undefined}
+                  rel={unit.link.external ? 'noopener noreferrer' : undefined}
+                  className="underline underline-offset-2 decoration-primary/40 hover:decoration-primary transition-colors duration-200"
+                  variants={wordVariants}
+                  style={{ display: 'inline-block' }}
+                >
+                  {unit.link.text}
+                </motion.a>
+              );
+            }
 
-        return (
-          <motion.span
-            key={`word-${index}`}
-            variants={wordVariants}
-            style={{ display: 'inline-block' }}
-          >
-            {unit.content}
-            {index < units.length - 1 && '\u00A0'}
-          </motion.span>
-        );
-      })}
-    </motion.p>
+            return (
+              <motion.span
+                key={`line-${lineIndex}-word-${index}`}
+                variants={wordVariants}
+                style={{ display: 'inline-block' }}
+              >
+                {unit.content}
+                {index < units.length - 1 && '\u00A0'}
+              </motion.span>
+            );
+          })}
+        </motion.p>
+      ))}
+    </div>
   );
 }
