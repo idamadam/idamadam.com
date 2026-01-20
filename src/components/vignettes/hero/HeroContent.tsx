@@ -19,7 +19,7 @@ export default function HeroContent() {
   const shouldShowRole = true;
 
   return (
-    <div className="flex items-start gap-8 lg:gap-10">
+    <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 lg:gap-10">
       {/* Photo with layered shadow effect - aligned to top */}
       <motion.div
         className="relative shrink-0 w-[105px] h-[105px] cursor-pointer"
@@ -64,7 +64,7 @@ export default function HeroContent() {
         {/* Role + Company */}
         {shouldShowRole && (
           <motion.div
-            className="flex items-center gap-2.5"
+            className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{

@@ -239,10 +239,17 @@
 
 .type-pixel {
   font-family: var(--font-pixel), monospace;
-  font-size: 72px;
+  font-size: clamp(36px, 10vw, 48px);
   line-height: 1;
-  letter-spacing: -4.32px;
+  letter-spacing: -2.16px;
   color: var(--primary);
+}
+
+@media (min-width: 640px) {
+  .type-pixel {
+    font-size: 72px;
+    letter-spacing: -4.32px;
+  }
 }
 
 .type-h1 {
