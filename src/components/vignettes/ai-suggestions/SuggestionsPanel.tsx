@@ -76,7 +76,7 @@ function LoadingPanel() {
       <GradientBorderStyles />
       <div className="relative p-[2px] rounded-[7px]">
         <div className="suggestions-loading-border"></div>
-        <div className="suggestions-loading-content p-5">
+        <div className="suggestions-loading-content px-6 py-6">
           <div className="flex items-center gap-2">
             <span className="material-icons-outlined text-h3 text-primary">
               auto_awesome
@@ -124,15 +124,28 @@ function RecommendationsPanel({
     };
   };
 
+  const isBorderHighlighted = highlightedSection === 2;
+
   return (
     <div
       className="relative rounded-[7px] p-[2px]"
       data-section-id="gradient-border"
-      style={{
-        background:
-          'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
-      }}
     >
+      {/* Static gradient border (default state) */}
+      <div
+        className="absolute inset-0 rounded-[7px] transition-opacity duration-300"
+        style={{
+          background:
+            'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
+          opacity: isBorderHighlighted ? 0 : 1,
+        }}
+      />
+      {/* Animated gradient border (highlighted state) */}
+      <div
+        className={`suggestions-animated-border transition-opacity duration-300 ${
+          isBorderHighlighted ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
       {/* Marker 2 - AI gradient border - desktop: left side, mobile: left edge */}
       <AnimatePresence>
         {!hideMarkers && (
@@ -182,8 +195,7 @@ function RecommendationsPanel({
       </AnimatePresence>
 
       <div
-        className="bg-background-elevated rounded-[5px] p-8 space-y-6 relative z-10"
-        style={getSectionHighlightStyle(2)}
+        className="bg-background-elevated rounded-[5px] px-6 py-6 space-y-6 relative z-10"
       >
         {/* Header */}
         <div className="flex items-start gap-2">
