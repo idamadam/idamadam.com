@@ -11,6 +11,10 @@ interface DesktopMarkerTooltipProps {
 }
 
 /**
+ * @deprecated Use MarkerTooltip instead.
+ * This component has z-index stacking issues and doesn't handle viewport boundaries.
+ * MarkerTooltip uses Radix UI for portal rendering and automatic viewport collision detection.
+ *
  * A refined tooltip that appears on desktop when hovering numbered markers.
  * Matches the portfolio's warm terracotta aesthetic with subtle animation.
  */

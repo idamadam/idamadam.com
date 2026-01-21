@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NumberedMarker from '../ai-highlights/NumberedMarker';
-import DesktopMarkerTooltip from '../shared/DesktopMarkerTooltip';
+import MarkerTooltip from '../shared/MarkerTooltip';
 import TerminalPanel from './TerminalPanel';
 import PrototypePreview from './PrototypePreview';
 import { useSandboxDemo } from './useSandboxDemo';
@@ -163,19 +163,20 @@ function SolutionState({
                 onMouseEnter={() => onMarkerHover?.(1)}
                 onMouseLeave={() => onMarkerHover?.(null)}
               >
-                <NumberedMarker
-                  number={1}
-                  onClick={() => onMarkerClick?.(1)}
-                  isActive={highlightedSection === 1}
-                  hasBeenDiscovered={markersDiscovered}
-                  onDiscover={() => setMarkersDiscovered(true)}
-                />
-                <DesktopMarkerTooltip
+                <MarkerTooltip
                   number={1}
                   text={content.designDetails[0].text}
                   isVisible={highlightedSection === 1}
-                  position="left"
-                />
+                  side="left"
+                >
+                  <NumberedMarker
+                    number={1}
+                    onClick={() => onMarkerClick?.(1)}
+                    isActive={highlightedSection === 1}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
+                  />
+                </MarkerTooltip>
               </motion.div>
               <motion.div
                 key="marker-1-mobile"
@@ -296,19 +297,20 @@ function SolutionState({
                       onMouseEnter={() => onMarkerHover?.(2)}
                       onMouseLeave={() => onMarkerHover?.(null)}
                     >
-                      <NumberedMarker
-                        number={2}
-                        onClick={() => onMarkerClick?.(2)}
-                        isActive={highlightedSection === 2}
-                        hasBeenDiscovered={markersDiscovered}
-                        onDiscover={() => setMarkersDiscovered(true)}
-                      />
-                      <DesktopMarkerTooltip
+                      <MarkerTooltip
                         number={2}
                         text={content.designDetails[1].text}
                         isVisible={highlightedSection === 2}
-                        position="right"
-                      />
+                        side="right"
+                      >
+                        <NumberedMarker
+                          number={2}
+                          onClick={() => onMarkerClick?.(2)}
+                          isActive={highlightedSection === 2}
+                          hasBeenDiscovered={markersDiscovered}
+                          onDiscover={() => setMarkersDiscovered(true)}
+                        />
+                      </MarkerTooltip>
                     </motion.div>
                     <motion.div
                       key="marker-2-mobile"
@@ -370,19 +372,20 @@ function SolutionState({
                 onMouseEnter={() => onMarkerHover?.(3)}
                 onMouseLeave={() => onMarkerHover?.(null)}
               >
-                <NumberedMarker
-                  number={3}
-                  onClick={() => onMarkerClick?.(3)}
-                  isActive={highlightedSection === 3}
-                  hasBeenDiscovered={markersDiscovered}
-                  onDiscover={() => setMarkersDiscovered(true)}
-                />
-                <DesktopMarkerTooltip
+                <MarkerTooltip
                   number={3}
                   text={content.designDetails[2].text}
                   isVisible={highlightedSection === 3}
-                  position="left"
-                />
+                  side="left"
+                >
+                  <NumberedMarker
+                    number={3}
+                    onClick={() => onMarkerClick?.(3)}
+                    isActive={highlightedSection === 3}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
+                  />
+                </MarkerTooltip>
               </motion.div>
               <motion.div
                 key="marker-3-mobile"
