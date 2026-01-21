@@ -55,7 +55,7 @@ function VignetteStagedInner({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: t.stage.panelDuration, ease: [0.25, 0.1, 0.25, 1] }}
-            className="space-y-5"
+            className="space-y-6"
           >
             {/* Iterations header */}
             {currentStageContent?.title && (
@@ -80,7 +80,7 @@ function VignetteStagedInner({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: t.stage.panelDuration, ease: [0.25, 0.1, 0.25, 1] }}
-            className="space-y-5"
+            className="space-y-6"
           >
             {children}
 

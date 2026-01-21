@@ -177,7 +177,7 @@ export default function HomeConnectPanel({
   return (
     <div className="w-full bg-background-subtle rounded-2xl overflow-visible">
       {/* Purple header */}
-      <div className="bg-[#5F3361] px-5 pt-4 pb-4 relative rounded-t-2xl">
+      <div className="bg-[#5F3361] px-6 pt-4 pb-4 relative rounded-t-2xl">
         {/* Culture Amp Logo */}
         <div className="flex items-center gap-1.5 mb-4">
           <img
@@ -200,7 +200,7 @@ export default function HomeConnectPanel({
 
       {/* Content area with marker 1 - unified feed */}
       <div
-        className="px-5 pt-4 pb-5 relative"
+        className="px-6 pt-4 pb-6 relative"
         data-section-id="unified-feed"
         style={getSectionHighlightStyle(1)}
       >

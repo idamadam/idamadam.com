@@ -17,21 +17,10 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#1a1a1a",
+          backgroundColor: "#A66A3C",
           borderRadius: "50%",
         }}
-      >
-        <div
-          style={{
-            color: "#ffffff",
-            fontSize: "14px",
-            fontWeight: 600,
-            fontFamily: "system-ui, -apple-system, sans-serif",
-          }}
-        >
-          IA
-        </div>
-      </div>
+      />
     ),
     {
       ...size,

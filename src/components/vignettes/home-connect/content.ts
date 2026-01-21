@@ -24,7 +24,6 @@ export const homeConnectContent: HomeConnectContent = {
   processNotes: [
     'The team were originally considering a dashboard style structure to give each feature team their own real-estate on the page. I advocated for a different approach organised around the people that you work with and updates about them',
     'To get buy-in, we ran a small experiment to prove our hypothesis around a new homepage',
-    'I advocated for organizing around people instead of features',
   ],
 
   // Marker callouts (shown on hover/tap on panel markers)

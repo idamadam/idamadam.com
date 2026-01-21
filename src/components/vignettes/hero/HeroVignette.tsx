@@ -8,8 +8,25 @@ import { timing, timingReduced } from '@/lib/animations';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
 
+// Hook to detect mobile viewport
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 1023px)');
+    setIsMobile(mediaQuery.matches);
+
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
+  return isMobile;
+}
+
 export default function HeroVignette() {
   const reducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
   const t = reducedMotion ? timingReduced : timing;
   const [isSplash, setIsSplash] = useState(!reducedMotion);
   const { setSplashComplete, setStage } = useIntroSequence();
@@ -52,11 +69,11 @@ export default function HeroVignette() {
       }}
     >
       <motion.div
-        className="max-w-[1400px] w-full mx-auto"
+        className="max-w-[1408px] w-full mx-auto"
         style={{ willChange: 'transform' }}
         initial={false}
         animate={{
-          y: isSplash ? 'calc(50vh - 8rem)' : 0,
+          y: isSplash && !isMobile ? 'calc(50vh - 14rem)' : 0,
         }}
         transition={{
           duration: t.splash.transition,

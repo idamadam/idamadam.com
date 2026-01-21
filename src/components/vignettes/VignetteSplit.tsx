@@ -29,14 +29,15 @@ export default function VignetteSplit({
   const t = reducedMotion ? timingReduced : timing;
 
   const hasTitle = Boolean(title);
-  const textStackClass = hasTitle ? 'space-y-5' : 'space-y-4';
+  const textStackClass = hasTitle ? 'space-y-6' : 'space-y-4';
 
   const titleClass = variant === 'hero' ? 'type-display' : 'type-h3';
 
   // Grid classes - refined spacing for premium feel
+  // Text column widths harmonized with IntroPanel (544px at 2xl)
   const gridClass = compact
-    ? 'grid grid-cols-1 gap-5'
-    : 'grid grid-cols-1 xl:grid-cols-[300px_1fr] 2xl:grid-cols-[340px_1fr] gap-5 xl:gap-12 xl:items-start';
+    ? 'grid grid-cols-1 gap-6'
+    : 'grid grid-cols-1 xl:grid-cols-[416px_1fr] 2xl:grid-cols-[544px_1fr] gap-6 xl:gap-12 xl:items-start';
 
   // Animation variants for text column (appears first)
   const textVariants = {

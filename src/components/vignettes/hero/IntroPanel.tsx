@@ -127,7 +127,7 @@ export default function IntroPanel() {
   if (reducedMotion) {
     return (
       <motion.div
-        className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] max-w-[620px] space-y-4"
+        className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] max-w-[544px] space-y-4 text-wrap-balance"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
@@ -174,7 +174,7 @@ export default function IntroPanel() {
   };
 
   return (
-    <div className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] max-w-[620px] space-y-4">
+    <div className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] max-w-[544px] space-y-4 text-wrap-balance">
       {lineUnits.map((units, lineIndex) => (
         <motion.p
           key={lineIndex}

@@ -216,6 +216,8 @@
   --spacing-2xl: 3rem;
   --spacing-3xl: 4rem;
   --spacing-4xl: 6rem;
+  --spacing-5xl: 8rem;    /* 128px */
+  --spacing-6xl: 12rem;   /* 192px */
 
   /* Shadows */
   --shadow-sm: var(--shadow-sm);

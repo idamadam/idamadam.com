@@ -7,13 +7,13 @@ interface TranslationField {
   id: number;
   label: string;
   sourceText: string;
-  translatedText: string;
 }
 
 interface LanguageOption {
   code: string;
   name: string;
-  text: string;
+  texts: string[];
+  words: string[][];
 }
 
 export interface MultilingualContent {
@@ -67,12 +67,49 @@ export const multilingualContent: MultilingualContent = {
       id: 1,
       label: 'Performance review question',
       sourceText: 'How did this person perform during this review period?',
-      translatedText: "Comment cette personne a-t-elle performé au cours de cette période d'évaluation?"
+    },
+    {
+      id: 2,
+      label: 'Goals question',
+      sourceText: 'What progress was made toward their goals?',
     }
   ],
   languages: [
-    { code: 'fr', name: 'Français (French)', text: "Comment cette personne a-t-elle performé au cours de cette période d'évaluation?" },
-    { code: 'es', name: 'Español (Spanish)', text: '¿Cómo se desempeñó esta persona durante este período de evaluación?' },
-    { code: 'dv', name: 'ދިވެހި (Dhivehi)', text: 'މި މީހާ މި ރިވިއު ތެރޭގައި ކިހިނެއް ކުރިއަރައިފި؟' }
+    {
+      code: 'fr',
+      name: 'Français (French)',
+      texts: [
+        "Comment cette personne a-t-elle performé au cours de cette période d'évaluation?",
+        "Quels progrès ont été réalisés vers leurs objectifs?"
+      ],
+      words: [
+        ['Comment', 'cette', 'personne', 'a-t-elle', 'performé', 'au', 'cours', 'de', 'cette', 'période', "d'évaluation?"],
+        ['Quels', 'progrès', 'ont', 'été', 'réalisés', 'vers', 'leurs', 'objectifs?']
+      ],
+    },
+    {
+      code: 'es',
+      name: 'Español (Spanish)',
+      texts: [
+        '¿Cómo se desempeñó esta persona durante este período de evaluación?',
+        '¿Qué progreso se hizo hacia sus objetivos?'
+      ],
+      words: [
+        ['¿Cómo', 'se', 'desempeñó', 'esta', 'persona', 'durante', 'este', 'período', 'de', 'evaluación?'],
+        ['¿Qué', 'progreso', 'se', 'hizo', 'hacia', 'sus', 'objetivos?']
+      ],
+    },
+    {
+      code: 'dv',
+      name: 'ދިވެހި (Dhivehi)',
+      texts: [
+        'މި މީހާ މި ރިވިއު ތެރޭގައި ކިހިނެއް ކުރިއަރައިފި؟',
+        'އެމީހުންގެ ލަނޑުދަނޑިތަކަށް ކޮން ކުރިއެރުމެއް ލިބުނީ؟'
+      ],
+      words: [
+        ['މި', 'މީހާ', 'މި', 'ރިވިއު', 'ތެރޭގައި', 'ކިހިނެއް', 'ކުރިއަރައިފި؟'],
+        ['އެމީހުންގެ', 'ލަނޑުދަނޑިތަކަށް', 'ކޮން', 'ކުރިއެރުމެއް', 'ލިބުނީ؟']
+      ],
+    },
   ],
 };

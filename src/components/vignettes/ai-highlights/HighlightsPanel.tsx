@@ -55,7 +55,7 @@ function SourceCard({ source }: SourceCardProps) {
           {source.reviewerRole}
         </span>
       </div>
-      <p className="text-body-sm text-primary mb-3">"{source.quote}"</p>
+      <p className="text-body-sm text-primary mb-3">{source.quote}</p>
     </div>
   );
 }

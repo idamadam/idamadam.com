@@ -29,15 +29,15 @@ export const timing = {
     panelDuration: 0.25,  // Panel transition duration
   },
   splash: {
-    duration: 4.3,        // How long centered splash state lasts (all intro content appears)
+    duration: 6.8,        // How long centered splash state lasts (all intro content appears)
     transition: 0.8,      // Position animation duration
   },
   intro: {
     nameReveal: 0.9,      // Total time for name reveal
     nameStagger: 0.08,    // Between characters (80ms)
-    paragraphStagger: 0.045, // Between words (45ms)
+    paragraphStagger: 0.065, // Between words (65ms) - slower for readability
     stageDelay: 1.0,      // Gap between staged content reveals
-    stageDuration: 0.5,   // Each element's duration
+    stageDuration: 0.65,  // Each element's duration - smoother fade
   },
 } as const;
 
