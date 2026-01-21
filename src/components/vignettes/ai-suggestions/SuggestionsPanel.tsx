@@ -360,7 +360,7 @@ export default function SuggestionsPanel({
             <>
               <motion.div
                 key="marker-1-desktop"
-                className="absolute -left-10 top-1/2 -translate-y-1/2 hidden xl:block z-20"
+                className="absolute -left-10 top-5 hidden xl:block z-20"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -385,7 +385,7 @@ export default function SuggestionsPanel({
               </motion.div>
               <motion.div
                 key="marker-1-mobile"
-                className="absolute -left-4 top-1/2 -translate-y-1/2 xl:hidden z-20"
+                className="absolute -left-4 top-5 xl:hidden z-20"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
