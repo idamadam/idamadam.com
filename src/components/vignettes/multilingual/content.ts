@@ -14,6 +14,7 @@ interface LanguageOption {
   code: string;
   name: string;
   text: string;
+  words: string[];
 }
 
 export interface MultilingualContent {
@@ -71,8 +72,23 @@ export const multilingualContent: MultilingualContent = {
     }
   ],
   languages: [
-    { code: 'fr', name: 'Français (French)', text: "Comment cette personne a-t-elle performé au cours de cette période d'évaluation?" },
-    { code: 'es', name: 'Español (Spanish)', text: '¿Cómo se desempeñó esta persona durante este período de evaluación?' },
-    { code: 'dv', name: 'ދިވެހި (Dhivehi)', text: 'މި މީހާ މި ރިވިއު ތެރޭގައި ކިހިނެއް ކުރިއަރައިފި؟' }
+    {
+      code: 'fr',
+      name: 'Français (French)',
+      text: "Comment cette personne a-t-elle performé au cours de cette période d'évaluation?",
+      words: ['Comment', 'cette', 'personne', 'a-t-elle', 'performé', 'au', 'cours', 'de', 'cette', 'période', "d'évaluation?"],
+    },
+    {
+      code: 'es',
+      name: 'Español (Spanish)',
+      text: '¿Cómo se desempeñó esta persona durante este período de evaluación?',
+      words: ['¿Cómo', 'se', 'desempeñó', 'esta', 'persona', 'durante', 'este', 'período', 'de', 'evaluación?'],
+    },
+    {
+      code: 'dv',
+      name: 'ދިވެހި (Dhivehi)',
+      text: 'މި މީހާ މި ރިވިއު ތެރޭގައި ކިހިނެއް ކުރިއަރައިފި؟',
+      words: ['މި', 'މީހާ', 'މި', 'ރިވިއު', 'ތެރޭގައި', 'ކިހިނެއް', 'ކުރިއަރައިފި؟'],
+    },
   ],
 };
