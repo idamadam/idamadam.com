@@ -38,8 +38,8 @@ export default function TranslationManagementPanel({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [markersDiscovered, setMarkersDiscovered] = useState(false);
 
-  // Word streaming state
-  const [streamedText, setStreamedText] = useState('');
+  // Word streaming state - array indexed by field id
+  const [streamedTexts, setStreamedTexts] = useState<string[]>([]);
   const [showCursor, setShowCursor] = useState(false);
   const streamTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -83,9 +83,12 @@ export default function TranslationManagementPanel({
     };
   }, []);
 
-  // Stream words one at a time
-  const streamWords = useCallback((words: string[], index: number) => {
-    if (index >= words.length) {
+  // Stream words one at a time for all fields in parallel
+  const streamWords = useCallback((wordsArrays: string[][], index: number) => {
+    // Find the longest array to know when all fields are done
+    const maxLength = Math.max(...wordsArrays.map(arr => arr.length));
+
+    if (index >= maxLength) {
       // Streaming complete
       setShowCursor(false);
       setTranslationState('complete');
@@ -93,12 +96,15 @@ export default function TranslationManagementPanel({
       return;
     }
 
-    const newText = words.slice(0, index + 1).join(' ');
-    setStreamedText(newText);
+    // Update all fields simultaneously
+    setStreamedTexts(wordsArrays.map(words => {
+      const clampedIndex = Math.min(index, words.length - 1);
+      return words.slice(0, clampedIndex + 1).join(' ');
+    }));
 
     // Schedule next word
     streamTimeoutRef.current = setTimeout(() => {
-      streamWords(words, index + 1);
+      streamWords(wordsArrays, index + 1);
     }, 100); // 100ms between words
   }, []);
 
@@ -108,14 +114,14 @@ export default function TranslationManagementPanel({
     const selectedLang = content.languages[selectedLanguage];
     setIsAnimating(true);
     setTranslationState('translating');
-    setStreamedText('');
+    setStreamedTexts(content.translationFields.map(() => ''));
     setShowCursor(true);
 
     // Brief spinner delay, then start streaming
     setTimeout(() => {
       if (prefersReducedMotion) {
         // Skip animation for reduced motion preference
-        setStreamedText(selectedLang.text);
+        setStreamedTexts(selectedLang.texts);
         setShowCursor(false);
         setTranslationState('complete');
         setIsAnimating(false);
@@ -134,8 +140,8 @@ export default function TranslationManagementPanel({
     // Processing state
     setTimeout(() => {
       setImportState('success');
-      // Populate with content
-      setStreamedText(content.languages[selectedLanguage].text);
+      // Populate with content for all fields
+      setStreamedTexts(content.languages[selectedLanguage].texts);
       setTranslationState('complete');
 
       // Reset after showing success
@@ -153,12 +159,12 @@ export default function TranslationManagementPanel({
 
     setIsDropdownOpen(false);
 
-    if (translationState === 'complete' || streamedText) {
+    if (translationState === 'complete' || streamedTexts.length > 0) {
       // Animate transition if there's content
       setIsLanguageTransitioning(true);
       setTimeout(() => {
         setSelectedLanguage(index);
-        setStreamedText(content.languages[index].text);
+        setStreamedTexts(content.languages[index].texts);
         setTimeout(() => {
           setIsLanguageTransitioning(false);
         }, 200);
@@ -433,7 +439,7 @@ export default function TranslationManagementPanel({
 
       {/* Translation Fields */}
       <div className="space-y-6">
-        {content.translationFields.map((field) => (
+        {content.translationFields.map((field, fieldIndex) => (
           <div key={field.id} className="space-y-3">
             <label className="text-sm font-semibold text-primary">
               {field.label}
@@ -449,12 +455,13 @@ export default function TranslationManagementPanel({
             >
               <RichTextEditor
                 content={(() => {
+                  const fieldStreamedText = streamedTexts[fieldIndex] || '';
                   if (translationState === 'idle') return '';
                   if (translationState === 'translating') return showCursor ? '▌' : '';
                   if (translationState === 'streaming') {
-                    return showCursor ? `${streamedText} ▌` : streamedText;
+                    return showCursor ? `${fieldStreamedText} ▌` : fieldStreamedText;
                   }
-                  return streamedText || content.languages[selectedLanguage].text;
+                  return fieldStreamedText || content.languages[selectedLanguage].texts[fieldIndex];
                 })()}
                 placeholder="Translation will appear here..."
               />
