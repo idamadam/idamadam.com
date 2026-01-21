@@ -30,7 +30,7 @@ export default function HomeConnectTextPanel() {
       )}
 
       {/* Process notes */}
-      <ProcessNotes notes={homeConnectContent.processNotes} />
+      <ProcessNotes notes={homeConnectContent.processNotes} vignetteId="home-connect" />
     </div>
   );
 }

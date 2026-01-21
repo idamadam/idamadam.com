@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { trackProcessNotesExpanded, type VignetteId } from '@/lib/analytics';
 
 interface ProcessNotesProps {
   notes: string[];
+  vignetteId: VignetteId;
 }
 
 function ChevronIcon({ className }: { className?: string }) {
@@ -28,15 +30,25 @@ function ChevronIcon({ className }: { className?: string }) {
   );
 }
 
-export default function ProcessNotes({ notes }: ProcessNotesProps) {
+export default function ProcessNotes({ notes, vignetteId }: ProcessNotesProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const hasTrackedExpansion = useRef(false);
 
   if (notes.length === 0) return null;
+
+  const handleToggle = () => {
+    const newExpanded = !isExpanded;
+    setIsExpanded(newExpanded);
+    if (newExpanded && !hasTrackedExpansion.current) {
+      hasTrackedExpansion.current = true;
+      trackProcessNotesExpanded(vignetteId);
+    }
+  };
 
   return (
     <div className="mt-6">
       <button
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={handleToggle}
         className="btn-interactive btn-secondary text-sm font-[family-name:var(--font-inter)]"
       >
         Design process notes

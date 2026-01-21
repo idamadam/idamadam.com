@@ -30,7 +30,7 @@ export default function MultilingualTextPanel() {
       )}
 
       {/* Process notes */}
-      <ProcessNotes notes={multilingualContent.processNotes} />
+      <ProcessNotes notes={multilingualContent.processNotes} vignetteId="multilingual" />
     </div>
   );
 }
