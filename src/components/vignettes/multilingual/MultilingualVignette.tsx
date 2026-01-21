@@ -115,7 +115,7 @@ export default function MultilingualVignette() {
         <motion.div {...fadeInUp}>
           <VignetteSplit title={<MultilingualTextPanel />}>
             <div
-              className="relative w-full max-w-[672px] mx-auto"
+              className="relative w-full max-w-[680px] mx-auto"
               style={{ overflow: 'visible' }}
             >
               <TranslationManagementPanel

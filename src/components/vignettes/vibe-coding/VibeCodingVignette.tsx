@@ -12,7 +12,7 @@ export default function VibeCodingVignette() {
     <VignetteContainer id="vibe-coding">
       <motion.div {...fadeInUp}>
         <VignetteSplit title={<VibeCodingTextPanel />}>
-          <div className="relative w-full max-w-[672px] mx-auto">
+          <div className="relative w-full max-w-[680px] mx-auto">
             <DemoCreationFlow />
           </div>
         </VignetteSplit>

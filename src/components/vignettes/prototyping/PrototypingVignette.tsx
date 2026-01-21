@@ -116,7 +116,7 @@ export default function PrototypingVignette() {
         <motion.div {...fadeInUp}>
           <VignetteSplit title={<PrototypingTextPanel />}>
             <div
-              className="relative w-full max-w-[672px] mx-auto"
+              className="relative w-full max-w-[680px] mx-auto"
               style={{ overflow: 'visible' }}
             >
               <SandboxPanel

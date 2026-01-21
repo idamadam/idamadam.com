@@ -182,7 +182,7 @@ function RecommendationsPanel({
       </AnimatePresence>
 
       <div
-        className="bg-background-elevated rounded-[5px] p-8 space-y-5 relative z-10"
+        className="bg-background-elevated rounded-[5px] p-8 space-y-6 relative z-10"
         style={getSectionHighlightStyle(2)}
       >
         {/* Header */}
@@ -202,7 +202,7 @@ function RecommendationsPanel({
 
         {/* Recommendations with Marker 3 */}
         <div
-          className="space-y-5 relative"
+          className="space-y-6 relative"
           data-section-id="recommendations"
           style={getSectionHighlightStyle(3)}
         >

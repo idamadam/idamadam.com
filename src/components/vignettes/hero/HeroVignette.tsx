@@ -52,7 +52,7 @@ export default function HeroVignette() {
       }}
     >
       <motion.div
-        className="max-w-[1400px] w-full mx-auto"
+        className="max-w-[1408px] w-full mx-auto"
         style={{ willChange: 'transform' }}
         initial={false}
         animate={{

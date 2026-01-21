@@ -116,7 +116,7 @@ export default function AISuggestionsVignette() {
         <motion.div {...fadeInUp}>
           <VignetteSplit title={<SuggestionsTextPanel />}>
             <div
-              className="relative w-full max-w-[672px] mx-auto"
+              className="relative w-full max-w-[680px] mx-auto"
               style={{ overflow: 'visible' }}
             >
               <SuggestionsPanel

@@ -115,7 +115,7 @@ export default function HomeConnectVignette() {
         <motion.div {...fadeInUp}>
           <VignetteSplit title={<HomeConnectTextPanel />}>
             <div
-              className="relative w-full max-w-[672px] mx-auto"
+              className="relative w-full max-w-[680px] mx-auto"
               style={{ overflow: 'visible' }}
             >
               <HomeConnectPanel

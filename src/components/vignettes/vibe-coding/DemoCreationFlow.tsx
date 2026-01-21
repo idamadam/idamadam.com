@@ -298,6 +298,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 onClick={() => trackExternalLinkClicked('vibe-coding-waitlist', 'https://studio.up.railway.app/')}
               >
                 Join the waitlist
+                <span className="material-icons-outlined text-[16px]">arrow_outward</span>
               </a>
             )}
           </div>
@@ -444,6 +445,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                   onClick={() => trackExternalLinkClicked('vibe-coding-waitlist', 'https://studio.up.railway.app/')}
                 >
                   Join the waitlist
+                  <span className="material-icons-outlined text-[16px]">arrow_outward</span>
                 </a>
               </motion.div>
             )}

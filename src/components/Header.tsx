@@ -35,7 +35,7 @@ export default function Header() {
     <AnimatePresence>
       {isVisible && (
         <motion.header
-          className="fixed top-0 left-0 right-0 z-50 px-5 lg:px-10 2xl:px-16 bg-background/85 backdrop-blur-xl border-b border-border/50"
+          className="fixed top-0 left-0 right-0 z-50 px-6 lg:px-10 2xl:px-16 bg-background/85 backdrop-blur-xl border-b border-border/50"
           initial={{ y: -64, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -64, opacity: 0 }}
@@ -44,7 +44,7 @@ export default function Header() {
             ease: [0.25, 0.1, 0.25, 1],
           }}
         >
-          <div className="max-w-[1400px] mx-auto h-14 flex items-center justify-between">
+          <div className="max-w-[1408px] mx-auto h-14 flex items-center justify-between">
             {/* Name */}
             <span className="text-[1rem] font-semibold text-primary tracking-[-0.01em]">{heroContent.name}</span>
 
