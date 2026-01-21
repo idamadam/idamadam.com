@@ -71,8 +71,6 @@ function DesignerCard({
         >
           {designer.initials}
         </div>
-        {/* Online indicator */}
-        <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-400 rounded-full border-2 border-white shadow-sm" />
       </div>
 
       {/* Name and role */}
@@ -138,17 +136,8 @@ function SolutionState({
 
   return (
     <div className="w-full space-y-2">
-      {/* Main Sandbox Container - Internal Tool Dashboard Style */}
-      <div
-        className="relative rounded-xl overflow-hidden w-full"
-        data-section-id="sandbox-container"
-        style={{
-          ...getSectionHighlightStyle(1, highlightedSection),
-          background: 'linear-gradient(to bottom, #fafafa 0%, #f5f5f5 100%)',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8)',
-          border: '1px solid rgba(0,0,0,0.06)',
-        }}
-      >
+      {/* Outer wrapper for markers - no overflow clipping */}
+      <div className="relative">
         {/* Marker 1 - Shared library - desktop: left side, mobile: left edge */}
         <AnimatePresence>
           {!hideMarkers && (
@@ -198,7 +187,73 @@ function SolutionState({
           )}
         </AnimatePresence>
 
-        {/* App Bar Header */}
+        {/* Marker 2 - Designer homepage - desktop: right side, mobile: right edge */}
+        <AnimatePresence>
+          {!hideMarkers && (
+            <>
+              <motion.div
+                key="marker-2-desktop"
+                className="absolute -right-16 top-[140px] hidden xl:block z-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, delay: 0.05 }}
+                onMouseEnter={() => onMarkerHover?.(2)}
+                onMouseLeave={() => onMarkerHover?.(null)}
+              >
+                <MarkerTooltip
+                  number={2}
+                  text={content.designDetails[1].text}
+                  isVisible={highlightedSection === 2}
+                  side="right"
+                >
+                  <NumberedMarker
+                    number={2}
+                    onClick={() => onMarkerClick?.(2)}
+                    isActive={highlightedSection === 2}
+                    hasBeenDiscovered={markersDiscovered}
+                    onDiscover={() => setMarkersDiscovered(true)}
+                  />
+                </MarkerTooltip>
+              </motion.div>
+              <motion.div
+                key="marker-2-mobile"
+                className="absolute -right-4 top-[140px] xl:hidden z-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, delay: 0.05 }}
+              >
+                <NumberedMarker
+                  number={2}
+                  onClick={() => onMarkerClick?.(2)}
+                  isActive={highlightedSection === 2}
+                  hasBeenDiscovered={markersDiscovered}
+                  onDiscover={() => setMarkersDiscovered(true)}
+                />
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Main Sandbox Container - Internal Tool Dashboard Style */}
+        <div
+          className="relative rounded-xl overflow-hidden w-full"
+          data-section-id="sandbox-container"
+          style={{
+            backgroundImage: highlightedSection === 1
+              ? 'none'
+              : 'linear-gradient(to bottom, #fafafa 0%, #f5f5f5 100%)',
+            backgroundColor: highlightedSection === 1
+              ? 'rgba(240, 217, 200, 0.3)'
+              : undefined,
+            boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8)',
+            border: '1px solid rgba(0,0,0,0.06)',
+            borderRadius: '8px',
+            transition: 'background-color 0.3s ease-in-out',
+          }}
+        >
+          {/* App Bar Header */}
         <div
           className="px-3 py-2.5 border-b border-black/[0.06]"
           style={{
@@ -240,18 +295,6 @@ function SolutionState({
             </div>
           </div>
 
-          {/* Tab navigation hint */}
-          <div className="flex items-center gap-0.5 mt-1.5 -mb-2.5">
-            <button className="px-2.5 py-1.5 text-[11px] font-medium text-neutral-800 border-b-2 border-neutral-800 -mb-px">
-              Team
-            </button>
-            <button className="px-2.5 py-1.5 text-[11px] font-medium text-neutral-400 hover:text-neutral-600 transition-colors">
-              Prototypes
-            </button>
-            <button className="px-2.5 py-1.5 text-[11px] font-medium text-neutral-400 hover:text-neutral-600 transition-colors">
-              Templates
-            </button>
-          </div>
         </div>
 
         {/* Content area - transitions between Designer Directory and Prototype Preview */}
@@ -283,55 +326,6 @@ function SolutionState({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {/* Marker 2 - Designer homepage - desktop: right side, mobile: right edge */}
-              <AnimatePresence>
-                {!hideMarkers && (
-                  <>
-                    <motion.div
-                      key="marker-2-desktop"
-                      className="absolute -right-16 top-4 hidden xl:block z-20"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2, delay: 0.05 }}
-                      onMouseEnter={() => onMarkerHover?.(2)}
-                      onMouseLeave={() => onMarkerHover?.(null)}
-                    >
-                      <MarkerTooltip
-                        number={2}
-                        text={content.designDetails[1].text}
-                        isVisible={highlightedSection === 2}
-                        side="right"
-                      >
-                        <NumberedMarker
-                          number={2}
-                          onClick={() => onMarkerClick?.(2)}
-                          isActive={highlightedSection === 2}
-                          hasBeenDiscovered={markersDiscovered}
-                          onDiscover={() => setMarkersDiscovered(true)}
-                        />
-                      </MarkerTooltip>
-                    </motion.div>
-                    <motion.div
-                      key="marker-2-mobile"
-                      className="absolute -right-4 top-4 xl:hidden z-20"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2, delay: 0.05 }}
-                    >
-                      <NumberedMarker
-                        number={2}
-                        onClick={() => onMarkerClick?.(2)}
-                        isActive={highlightedSection === 2}
-                        hasBeenDiscovered={markersDiscovered}
-                        onDiscover={() => setMarkersDiscovered(true)}
-                      />
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
-
               {content.designers.map((designer) => (
                 <DesignerCard key={designer.id} designer={designer} />
               ))}
@@ -349,6 +343,7 @@ function SolutionState({
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
         </div>
       </div>
 
