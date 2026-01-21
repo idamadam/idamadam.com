@@ -8,19 +8,22 @@ export type VignetteId =
   | 'home-connect'
   | 'vibe-coding';
 
-export type VignetteStage = 'solution' | 'designNotes';
-
-export function trackVignetteInteracted(vignetteId: VignetteId, stage: VignetteStage) {
-  posthog.capture('vignette_interacted', {
+export function trackVignetteViewed(vignetteId: VignetteId) {
+  posthog.capture('vignette_viewed', {
     vignette_id: vignetteId,
-    stage,
   });
 }
 
-export function trackDesignNoteViewed(vignetteId: VignetteId, noteId: string) {
-  posthog.capture('design_note_viewed', {
+export function trackDesignDetailViewed(vignetteId: VignetteId, detailNumber: number) {
+  posthog.capture('design_detail_viewed', {
     vignette_id: vignetteId,
-    note_id: noteId,
+    detail_number: detailNumber,
+  });
+}
+
+export function trackProcessNotesExpanded(vignetteId: VignetteId) {
+  posthog.capture('process_notes_expanded', {
+    vignette_id: vignetteId,
   });
 }
 

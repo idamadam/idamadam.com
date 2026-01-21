@@ -30,7 +30,7 @@ export default function HighlightsTextPanel() {
       )}
 
       {/* Process notes */}
-      <ProcessNotes notes={aiHighlightsContent.processNotes} />
+      <ProcessNotes notes={aiHighlightsContent.processNotes} vignetteId="ai-highlights" />
     </div>
   );
 }

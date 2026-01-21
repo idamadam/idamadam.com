@@ -9,6 +9,7 @@ import VignetteContainer from '@/components/vignettes/VignetteContainer';
 import VignetteSplit from '@/components/vignettes/VignetteSplit';
 import { useScrollToSection } from '@/components/vignettes/shared/useScrollToSection';
 import { fadeInUp } from '@/lib/animations';
+import { trackDesignDetailViewed } from '@/lib/analytics';
 
 // Hook to detect mobile viewport
 function useIsMobile() {
@@ -38,8 +39,16 @@ export default function MultilingualVignette() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [sheetIndex, setSheetIndex] = useState(0);
   const clearTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const viewedDetailsRef = useRef<Set<number>>(new Set());
   const isMobile = useIsMobile();
   const { scrollToSection } = useScrollToSection();
+
+  const trackDetailIfNew = useCallback((detailNumber: number) => {
+    if (!viewedDetailsRef.current.has(detailNumber)) {
+      viewedDetailsRef.current.add(detailNumber);
+      trackDesignDetailViewed('multilingual', detailNumber);
+    }
+  }, []);
 
   // Handle number click (mobile only - opens sheet)
   const handleNumberClick = useCallback(
@@ -55,12 +64,13 @@ export default function MultilingualVignette() {
       setSheetIndex(number - 1); // Convert 1-based to 0-based index
       setSheetOpen(true);
       setActiveNumber(number);
+      trackDetailIfNew(number);
       // Scroll after a brief delay to let sheet animate in
       setTimeout(() => {
         scrollToSection(sectionMap[number]);
       }, 100);
     },
-    [isMobile, scrollToSection]
+    [isMobile, scrollToSection, trackDetailIfNew]
   );
 
   // Handle hover (desktop only - highlights)
@@ -74,8 +84,11 @@ export default function MultilingualVignette() {
       }
 
       setActiveNumber(number);
+      if (number !== null) {
+        trackDetailIfNew(number);
+      }
     },
-    [isMobile]
+    [isMobile, trackDetailIfNew]
   );
 
   // Handle sheet close
@@ -90,6 +103,7 @@ export default function MultilingualVignette() {
       setSheetIndex(index);
       const number = index + 1; // Convert 0-based to 1-based
       setActiveNumber(number);
+      trackDetailIfNew(number);
 
       // Scroll to center element in visible area above sheet
       const sectionId = sectionMap[number];
@@ -97,7 +111,7 @@ export default function MultilingualVignette() {
         scrollToSection(sectionId);
       }
     },
-    [scrollToSection]
+    [scrollToSection, trackDetailIfNew]
   );
 
   // Cleanup timeout on unmount

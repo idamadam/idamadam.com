@@ -30,7 +30,7 @@ export default function PrototypingTextPanel() {
       )}
 
       {/* Process notes */}
-      <ProcessNotes notes={prototypingContent.processNotes} />
+      <ProcessNotes notes={prototypingContent.processNotes} vignetteId="prototyping" />
     </div>
   );
 }

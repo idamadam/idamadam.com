@@ -30,7 +30,7 @@ export default function SuggestionsTextPanel() {
       )}
 
       {/* Process notes */}
-      <ProcessNotes notes={aiSuggestionsContent.processNotes} />
+      <ProcessNotes notes={aiSuggestionsContent.processNotes} vignetteId="ai-suggestions" />
     </div>
   );
 }
