@@ -61,7 +61,7 @@ export const prototypingContent: PrototypingContent = {
     },
     {
       number: 3,
-      text: 'Fork command lets you build on existing prototypes',
+      text: 'Custom slash commands make onboarding fast and easy',
     },
   ],
 
@@ -84,7 +84,7 @@ export const prototypingContent: PrototypingContent = {
     { id: 6, name: 'Taylor Brooks', initials: 'TB', avatarColor: '#14B8A6' },
   ],
   adoptionStats: {
-    designers: 12,
+    designers: 15,
     prototypes: 30,
   },
 };
