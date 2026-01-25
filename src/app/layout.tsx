@@ -21,12 +21,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://idamadam.com"),
   title: "Idam Adam - Lead Product Designer",
   description:
-    "Portfolio of Idam Adam, Lead Product Designer with 8 years of experience creating intuitive web and mobile products through user-centered design.",
+    "Portfolio of Idam Adam, Lead Product Designer with 10 years of experience creating intuitive web and mobile products through user-centered design.",
   authors: [{ name: "Idam Adam" }],
   openGraph: {
     title: "Idam Adam - Lead Product Designer",
     description:
-      "Portfolio of Idam Adam, Lead Product Designer with 8 years of experience creating intuitive web and mobile products through user-centered design.",
+      "Portfolio of Idam Adam, Lead Product Designer with 10 years of experience creating intuitive web and mobile products through user-centered design.",
     url: "https://idamadam.com",
     siteName: "Idam Adam",
     type: "website",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Idam Adam - Lead Product Designer",
     description:
-      "Portfolio of Idam Adam, Lead Product Designer with 8 years of experience creating intuitive web and mobile products through user-centered design.",
+      "Portfolio of Idam Adam, Lead Product Designer with 10 years of experience creating intuitive web and mobile products through user-centered design.",
   },
   robots: {
     index: true,
