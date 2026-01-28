@@ -29,7 +29,14 @@ export default function HeroVignette() {
   const isMobile = useIsMobile();
   const t = reducedMotion ? timingReduced : timing;
   const [isSplash, setIsSplash] = useState(!reducedMotion);
-  const { setSplashComplete, setStage } = useIntroSequence();
+  const { setSplashComplete, setStage, isComplete } = useIntroSequence();
+
+  // Snap to final state if intro was skipped (via scroll)
+  useEffect(() => {
+    if (isComplete && isSplash) {
+      setIsSplash(false);
+    }
+  }, [isComplete, isSplash]);
 
   // Transition from splash to normal layout
   useEffect(() => {
@@ -38,6 +45,9 @@ export default function HeroVignette() {
       setStage('complete');
       return;
     }
+
+    // Don't set timers if already complete (skipped)
+    if (isComplete) return;
 
     // End splash state
     const splashTimer = setTimeout(() => {
@@ -53,7 +63,7 @@ export default function HeroVignette() {
       clearTimeout(splashTimer);
       clearTimeout(transitionTimer);
     };
-  }, [reducedMotion, t, setSplashComplete, setStage]);
+  }, [reducedMotion, t, setSplashComplete, setStage, isComplete]);
 
   return (
     <motion.section
