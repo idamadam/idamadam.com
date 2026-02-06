@@ -1,4 +1,5 @@
 import HeroVignette from '@/components/vignettes/hero/HeroVignette';
+import ApproachSection from '@/components/ApproachSection';
 import SelectedWorkSection from '@/components/SelectedWorkSection';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
@@ -13,10 +14,13 @@ export default function Home() {
           {/* Hero Section with Staged Intro */}
           <HeroVignette />
 
-          {/* Selected Work Section - fades in after intro */}
+          {/* Approach - design philosophy bridge */}
+          <ApproachSection />
+
+          {/* Selected Work - interactive vignettes */}
           <SelectedWorkSection />
 
-          {/* Footer */}
+          {/* Footer - contact & closing */}
           <Footer />
         </div>
       </main>

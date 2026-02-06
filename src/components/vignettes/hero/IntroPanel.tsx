@@ -102,7 +102,7 @@ function renderLineWithLinks(
 export default function IntroPanel() {
   const reducedMotion = useReducedMotion();
   const t = reducedMotion ? timingReduced : timing;
-  const { setStage, isSplashComplete } = useIntroSequence();
+  const { setStage } = useIntroSequence();
 
   // Paragraph delay: after name reveal + role fade + small gap
   const paragraphDelay = t.intro.nameReveal + t.intro.stageDelay;
@@ -126,22 +126,24 @@ export default function IntroPanel() {
   // For reduced motion, use simple fade
   if (reducedMotion) {
     return (
-      <motion.div
-        className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] max-w-[544px] space-y-4 text-wrap-balance"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{
-          duration: t.intro.stageDuration,
-          delay: paragraphDelay,
-          ease: [0.25, 0.1, 0.25, 1],
-        }}
-      >
-        {introContent.lines.map((line, lineIndex) => (
-          <p key={lineIndex}>
-            {renderLineWithLinks(line, introContent.links, `line-${lineIndex}`)}
-          </p>
-        ))}
-      </motion.div>
+      <div className="max-w-[544px]">
+        <motion.div
+          className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] space-y-4 text-wrap-balance"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: t.intro.stageDuration,
+            delay: paragraphDelay,
+            ease: [0.25, 0.1, 0.25, 1],
+          }}
+        >
+          {introContent.lines.map((line, lineIndex) => (
+            <p key={lineIndex}>
+              {renderLineWithLinks(line, introContent.links, `line-${lineIndex}`)}
+            </p>
+          ))}
+        </motion.div>
+      </div>
     );
   }
 
@@ -174,52 +176,54 @@ export default function IntroPanel() {
   };
 
   return (
-    <div className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] max-w-[544px] space-y-4 text-wrap-balance">
-      {lineUnits.map((units, lineIndex) => (
-        <motion.p
-          key={lineIndex}
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: t.intro.paragraphStagger,
-                delayChildren: getLineDelay(lineIndex),
+    <div className="max-w-[544px]">
+      <div className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] space-y-4 text-wrap-balance">
+        {lineUnits.map((units, lineIndex) => (
+          <motion.p
+            key={lineIndex}
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: t.intro.paragraphStagger,
+                  delayChildren: getLineDelay(lineIndex),
+                },
               },
-            },
-          }}
-        >
-          {units.map((unit, index) => {
-            if (unit.type === 'link') {
+            }}
+          >
+            {units.map((unit, index) => {
+              if (unit.type === 'link') {
+                return (
+                  <motion.a
+                    key={`line-${lineIndex}-link-${unit.linkKey}`}
+                    href={unit.link.url}
+                    target={unit.link.external ? '_blank' : undefined}
+                    rel={unit.link.external ? 'noopener noreferrer' : undefined}
+                    className="underline underline-offset-2 decoration-primary/40 hover:decoration-primary transition-colors duration-200"
+                    variants={wordVariants}
+                    style={{ display: 'inline-block' }}
+                  >
+                    {unit.link.text}
+                  </motion.a>
+                );
+              }
+
               return (
-                <motion.a
-                  key={`line-${lineIndex}-link-${unit.linkKey}`}
-                  href={unit.link.url}
-                  target={unit.link.external ? '_blank' : undefined}
-                  rel={unit.link.external ? 'noopener noreferrer' : undefined}
-                  className="underline underline-offset-2 decoration-primary/40 hover:decoration-primary transition-colors duration-200"
+                <motion.span
+                  key={`line-${lineIndex}-word-${index}`}
                   variants={wordVariants}
                   style={{ display: 'inline-block' }}
                 >
-                  {unit.link.text}
-                </motion.a>
+                  {unit.content}
+                  {index < units.length - 1 && '\u00A0'}
+                </motion.span>
               );
-            }
-
-            return (
-              <motion.span
-                key={`line-${lineIndex}-word-${index}`}
-                variants={wordVariants}
-                style={{ display: 'inline-block' }}
-              >
-                {unit.content}
-                {index < units.length - 1 && '\u00A0'}
-              </motion.span>
-            );
-          })}
-        </motion.p>
-      ))}
+            })}
+          </motion.p>
+        ))}
+      </div>
     </div>
   );
 }

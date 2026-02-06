@@ -35,9 +35,9 @@ export const heroContent: HeroContent = {
 export const introContent: IntroContent = {
   role: 'Lead Product Designer at',
   lines: [
-    "I design software that makes complex, high-stakes problems feel simple.",
-    "I lead through craft - building teams where high standards and psychological safety amplify each other.",
-    "I've been shaping how design works in the AI world, designing AI products and using AI to push what's possible in the design process.",
+    "I design intelligent and thoughtful software that makes complex, high-stakes problems feel simple.",
+    "I specialise in turning ambiguous problem spaces into interfaces people can rely on.",
+    "At Culture Amp, I've shipped AI features used by thousands of managers and built prototyping tools that changed how our design team works.",
   ],
   links: {},
 };
