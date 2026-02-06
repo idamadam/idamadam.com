@@ -4,7 +4,7 @@ import ProcessNotes from '../shared/ProcessNotes';
 function ProjectName() {
   return (
     <div className="flex items-center gap-2 mb-4">
-      <div className="size-1.5 rounded-full bg-accent-600" />
+      <div className="size-1.5 rounded-full bg-neutral-400" />
       <span className="text-[13px] font-medium tracking-tight text-primary font-[family-name:var(--font-inter)]">
         {prototypingContent.projectName}
       </span>

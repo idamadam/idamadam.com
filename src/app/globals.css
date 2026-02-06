@@ -5,32 +5,19 @@
    * Premium Neutral Palette
    * Zinc scale with warm undertones for sophistication
    */
-  --neutral-950: #18181B;
-  --neutral-900: #27272A;
-  --neutral-800: #3F3F46;
-  --neutral-700: #52525B;
-  --neutral-600: #71717A;
-  --neutral-500: #8E8E93;
+  --neutral-950: #111;
+  --neutral-900: #111;
+  --neutral-800: #333;
+  --neutral-700: #555;
+  --neutral-600: #666;
+  --neutral-500: #999;
   --neutral-400: #A8A8AD;
   --neutral-300: #D4D4D8;
   --neutral-200: #E4E4E7;
   --neutral-100: #F4F4F5;
   --neutral-50: #FAFAFA;
 
-  /*
-   * Refined Accent - Terracotta Clay
-   * Muted, earthy orange-brown with warmth
-   */
-  --accent-50: #FDF8F3;
-  --accent-100: #F9EDE3;
-  --accent-200: #F0D9C8;
-  --accent-300: #E4BFA3;
-  --accent-400: #D4A07A;
-  --accent-500: #C08050;
-  --accent-600: #A66A3C;
-  --accent-700: #8A5530;
-
-  /* Semantic colors - LIGHT MODE */
+  /* Semantic colors */
   --background: #FAFAFA;
   --background-elevated: #FFFFFF;
   --background-subtle: #F4F4F5;
@@ -40,14 +27,6 @@
   --muted-tertiary: var(--neutral-500);
   --border: rgba(0, 0, 0, 0.06);
   --border-strong: rgba(0, 0, 0, 0.1);
-
-  /* Accent */
-  --accent: var(--accent-600);
-  --accent-foreground: #ffffff;
-  --accent-interactive: var(--accent-600);
-  --accent-interactive-bg: var(--accent-50);
-  --accent-interactive-bg-hover: var(--accent-100);
-  --warm-accent: var(--accent-600);
 
   /* AI gradient - sophisticated, muted spectrum */
   --ai-gradient-1: #94A3B8;
@@ -64,32 +43,12 @@
   --warning: #F59E0B;
   --error: #EF4444;
 
-  /*
-   * Shadow System - Multi-layered depth
-   * Stacked layers create realistic, soft shadows with natural falloff
-   */
+  /* Shadows */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm:
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-md:
-    0 2px 4px rgba(0, 0, 0, 0.02),
-    0 4px 8px rgba(0, 0, 0, 0.04),
-    0 8px 16px rgba(0, 0, 0, 0.04);
-  --shadow-lg:
-    0 4px 8px rgba(0, 0, 0, 0.02),
-    0 8px 16px rgba(0, 0, 0, 0.04),
-    0 16px 32px rgba(0, 0, 0, 0.06);
-  --shadow-xl:
-    0 8px 16px rgba(0, 0, 0, 0.02),
-    0 16px 32px rgba(0, 0, 0, 0.04),
-    0 24px 48px rgba(0, 0, 0, 0.06);
-  --shadow-hover:
-    0 4px 8px rgba(0, 0, 0, 0.04),
-    0 12px 24px rgba(0, 0, 0, 0.08);
-  --shadow-glow:
-    0 0 0 1px rgba(166, 106, 60, 0.1),
-    0 4px 12px rgba(166, 106, 60, 0.15);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.06);
 
   /* Refined border radii - generous softness for a modern feel */
   --radius-xs: 0.25rem;
@@ -100,20 +59,6 @@
   --radius-2xl: 1.25rem;
 }
 
-/*
- * Elevated card treatment - refined glassmorphism
- * Subtle, sophisticated depth without heavy effects
- */
-.card-elevated {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  border-radius: var(--radius-xl);
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.03),
-    0 4px 12px rgba(0, 0, 0, 0.04);
-}
 
 @theme inline {
   /* Colors - semantic */
@@ -126,9 +71,6 @@
   --color-muted-tertiary: var(--muted-tertiary);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-warm-accent: var(--warm-accent);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-tertiary: var(--tertiary);
@@ -143,16 +85,6 @@
   --color-neutral-700: var(--neutral-700);
   --color-neutral-600: var(--neutral-600);
 
-  /* Colors - accent scale */
-  --color-accent-50: var(--accent-50);
-  --color-accent-100: var(--accent-100);
-  --color-accent-200: var(--accent-200);
-  --color-accent-300: var(--accent-300);
-  --color-accent-400: var(--accent-400);
-  --color-accent-500: var(--accent-500);
-  --color-accent-600: var(--accent-600);
-  --color-accent-700: var(--accent-700);
-
   /* Fonts */
   --font-family-sans: var(--font-inter);
   --font-family-display: var(--font-display);
@@ -164,34 +96,16 @@
    */
   --text-display: clamp(2.5rem, 8vw, 4rem);
   --text-display--line-height: 0.95;
-  --text-display--letter-spacing: -0.02em;
   --text-display--font-weight: 400;
-
-  --text-h1: clamp(2.25rem, 6vw, 3rem);
-  --text-h1--line-height: 1.1;
-  --text-h1--letter-spacing: -0.015em;
-  --text-h1--font-weight: 400;
 
   --text-h2: 2rem;
   --text-h2--line-height: 1.15;
-  --text-h2--letter-spacing: -0.01em;
-
-  --text-h3: 1.25rem;
-  --text-h3--line-height: 1.35;
-  --text-h3--letter-spacing: -0.005em;
 
   --text-body: 1rem;
   --text-body--line-height: 1.65;
 
-  --text-body-sm: 0.9375rem;
-  --text-body-sm--line-height: 1.6;
-
-  --text-caption: 0.8125rem;
-  --text-caption--line-height: 1.5;
-
   --text-label: 0.6875rem;
   --text-label--line-height: 1.4;
-  --text-label--letter-spacing: 0.04em;
 
   /* Line heights (for standalone use) */
   --leading-display: 0.95;
@@ -223,13 +137,9 @@
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
-  --shadow-hover: var(--shadow-hover);
 }
 
-/*
- * Composed Typography Classes
- * Premium, refined type hierarchy
- */
+/* Typography */
 .type-display {
   @apply text-display;
   font-family: var(--font-display), Georgia, serif;
@@ -251,17 +161,8 @@
 @media (min-width: 640px) {
   .type-pixel {
     font-size: 72px;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
   }
-}
-
-.type-h1 {
-  @apply text-h1;
-  font-family: var(--font-display), Georgia, serif;
-  font-weight: 400;
-  color: var(--primary);
-  text-wrap: balance;
-  letter-spacing: -0.015em;
 }
 
 .type-h2 {
@@ -272,41 +173,10 @@
   letter-spacing: -0.01em;
 }
 
-.type-h3 {
-  @apply text-h3;
-  font-family: var(--font-display), Georgia, serif;
-  font-weight: 400;
-  color: var(--primary);
-  letter-spacing: -0.005em;
-}
-
 .type-body {
   @apply text-body;
   font-family: var(--font-inter), system-ui, sans-serif;
   line-height: 1.65;
-}
-
-.type-body-medium {
-  @apply text-body;
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-weight: 500;
-}
-
-.key-result-label {
-  font-weight: 500;
-}
-
-.type-body-sm {
-  @apply text-body-sm;
-  font-family: var(--font-inter), system-ui, sans-serif;
-  line-height: 1.6;
-}
-
-.type-caption {
-  @apply text-caption;
-  font-family: var(--font-inter), system-ui, sans-serif;
-  color: var(--tertiary);
-  line-height: 1.5;
 }
 
 .type-label {
@@ -359,13 +229,13 @@ p {
 
 /* Focus styles for accessibility */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid rgba(0, 0, 0, 0.3);
   outline-offset: 2px;
 }
 
-/* Selection styling - matches accent */
+/* Selection styling */
 ::selection {
-  background-color: rgba(166, 106, 60, 0.15);
+  background-color: #ededed;
 }
 
 /* Improved link styling */
@@ -382,9 +252,6 @@ a {
   background-color: var(--muted);
 }
 
-.bg-accent {
-  background-color: var(--accent);
-}
 
 .bg-success {
   background-color: var(--success);
@@ -418,109 +285,52 @@ a {
 }
 
 .btn-interactive:focus-visible {
-  outline: 2px solid var(--accent-interactive);
+  outline: 2px solid rgba(0, 0, 0, 0.3);
   outline-offset: 2px;
 }
 
-/* Subtle breathing animation - refined and restrained */
-@keyframes breathe-subtle {
-  0%, 100% {
-    box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.05),
-      0 0 0 0 rgba(166, 106, 60, 0);
-  }
-  50% {
-    box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.05),
-      0 0 0 4px rgba(166, 106, 60, 0.08);
-  }
-}
-
-.breathe-glow {
-  animation: breathe-subtle 3s ease-in-out infinite;
-}
-
-.breathe-glow:hover {
-  animation: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .breathe-glow {
-    animation: none;
-  }
-}
-
-/* Primary button - Refined, confident, not flashy */
-@keyframes btn-breathe-subtle {
-  0%, 100% {
-    box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.08),
-      0 2px 4px rgba(0, 0, 0, 0.04),
-      0 0 0 0 rgba(166, 106, 60, 0);
-  }
-  50% {
-    box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.08),
-      0 2px 4px rgba(0, 0, 0, 0.04),
-      0 0 0 4px rgba(166, 106, 60, 0.1);
-  }
-}
-
+/* Primary button */
 .btn-primary {
-  background: var(--accent-600);
+  background: var(--primary);
   color: #ffffff;
   padding: 0.625rem 1.25rem;
   border-radius: 0.5rem;
   border: none;
   font-weight: 500;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.08),
-    0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: btn-breathe-subtle 3s ease-in-out infinite;
 }
 
 .btn-primary:hover {
-  background: var(--accent-700);
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.08),
-    0 4px 8px rgba(0, 0, 0, 0.06),
-    0 0 0 1px rgba(166, 106, 60, 0.1);
+  background: var(--neutral-800);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
-  animation: none;
 }
 
 .btn-primary:active {
-  background: var(--accent-700);
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.1);
+  background: var(--neutral-800);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   transform: translateY(0);
 }
 
-/* btn-primary-pulse is now a no-op for backwards compatibility */
-.btn-primary-pulse {
-  /* Intentionally empty */
-}
-
-/* Secondary button - Accent outline style */
+/* Secondary button */
 .btn-secondary {
   background-color: transparent;
-  color: var(--accent-600);
+  color: var(--primary);
   padding: 0.5rem 0.875rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--accent-300);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   font-weight: 500;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-secondary:hover {
-  color: var(--accent-700);
-  background-color: var(--accent-50);
-  border-color: var(--accent-400);
+  border-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 .btn-secondary:active {
-  background-color: var(--accent-100);
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 /* Icon styling */
@@ -623,29 +433,11 @@ a {
   color: #0A66C2;
 }
 
-/*
- * Sophisticated Background
- * Subtle, warm gradient with refined grain texture
- */
+/* Background */
 .css-gradient-background {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(ellipse 100% 80% at 50% -20%, rgba(99, 102, 241, 0.04), transparent 60%),
-    radial-gradient(ellipse 60% 60% at 100% 0%, rgba(139, 92, 246, 0.03), transparent 50%),
-    radial-gradient(ellipse 80% 60% at 0% 100%, rgba(99, 102, 241, 0.02), transparent 50%),
-    #FAFAFA;
-  pointer-events: none;
-}
-
-.css-gradient-background::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-  opacity: 0.06;
-  mix-blend-mode: multiply;
+  background: #FAFAFA;
   pointer-events: none;
 }

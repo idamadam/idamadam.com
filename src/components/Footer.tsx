@@ -30,7 +30,7 @@ export default function Footer() {
             </h2>
             <a
               href="mailto:hello@idamadam.com"
-              className="text-[1.125rem] text-accent-600 hover:text-accent-700 transition-colors duration-200"
+              className="text-[1.125rem] text-primary hover:opacity-70 transition-opacity duration-150"
             >
               hello@idamadam.com
             </a>

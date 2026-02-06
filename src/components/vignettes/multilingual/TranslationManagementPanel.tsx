@@ -53,7 +53,7 @@ export default function TranslationManagementPanel({
   const getSectionHighlightStyle = (sectionNumber: number) => {
     if (highlightedSection === sectionNumber) {
       return {
-        backgroundColor: 'rgba(240, 217, 200, 0.3)',
+        backgroundColor: 'rgba(0, 0, 0, 0.04)',
         borderRadius: '8px',
         transition: 'background-color 0.3s ease-in-out',
       };
@@ -241,7 +241,7 @@ export default function TranslationManagementPanel({
           </label>
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="bg-background-elevated border border-border rounded-[6px] h-9 px-sm py-xs flex items-center justify-between gap-2 hover:border-accent transition-colors"
+            className="bg-background-elevated border border-border rounded-[6px] h-9 px-sm py-xs flex items-center justify-between gap-2 hover:border-black/30 transition-colors"
           >
             <span className="text-body-sm text-primary whitespace-nowrap">
               {content.languages[selectedLanguage].name}

@@ -236,7 +236,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
               }`}
             >
               {showResult ? (
-                <div className="border border-border rounded-2xl bg-background-elevated shadow-xl overflow-hidden ring-1 ring-accent-500/20">
+                <div className="border border-border rounded-2xl bg-background-elevated shadow-xl overflow-hidden ring-1 ring-black/5">
                   <div className="p-4">
                     {/* Mini VignetteSplit layout */}
                     <div className="grid grid-cols-[90px_1fr] gap-3 items-start">
@@ -249,7 +249,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                           Partnered with psychologists to create AI suggestions backed by research.
                         </p>
                         {/* Mini CTA */}
-                        <button className="mt-2 px-2 py-1 bg-accent text-white text-[8px] font-medium rounded-md">
+                        <button className="mt-2 px-2 py-1 bg-primary text-white text-[8px] font-medium rounded-md">
                           See solution
                         </button>
                       </div>
@@ -261,7 +261,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                           <div className="space-y-1">
                             <div className="h-1.5 bg-black/10 rounded w-full"></div>
                             <div className="h-1.5 bg-black/10 rounded w-4/5"></div>
-                            <div className="h-1.5 bg-accent-200 rounded w-3/5"></div>
+                            <div className="h-1.5 bg-black/10 rounded w-3/5"></div>
                             <div className="h-1.5 bg-black/10 rounded w-full"></div>
                           </div>
                         </div>
@@ -393,7 +393,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                 className="w-full h-full bg-black/5 flex flex-col items-center justify-center p-6 gap-4"
               >
                 <div className="w-full max-w-[280px]">
-                  <div className="border border-border rounded-2xl bg-background-elevated shadow-xl overflow-hidden ring-1 ring-accent-500/20">
+                  <div className="border border-border rounded-2xl bg-background-elevated shadow-xl overflow-hidden ring-1 ring-black/5">
                     <div className="p-5">
                       {/* Mini VignetteSplit layout */}
                       <div className="grid grid-cols-[100px_1fr] gap-4 items-start">
@@ -406,7 +406,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                             Partnered with psychologists to create AI suggestions backed by research.
                           </p>
                           {/* Mini CTA */}
-                          <button className="mt-2 px-2.5 py-1 bg-accent text-white text-[9px] font-medium rounded-md">
+                          <button className="mt-2 px-2.5 py-1 bg-primary text-white text-[9px] font-medium rounded-md">
                             See solution
                           </button>
                         </div>
@@ -418,7 +418,7 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
                             <div className="space-y-1.5">
                               <div className="h-1.5 bg-black/10 rounded w-full"></div>
                               <div className="h-1.5 bg-black/10 rounded w-4/5"></div>
-                              <div className="h-1.5 bg-accent-200 rounded w-3/5"></div>
+                              <div className="h-1.5 bg-black/10 rounded w-3/5"></div>
                               <div className="h-1.5 bg-black/10 rounded w-full"></div>
                             </div>
                           </div>

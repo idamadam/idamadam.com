@@ -114,7 +114,7 @@ function RecommendationsPanel({
   const getSectionHighlightStyle = (sectionNumber: number) => {
     if (highlightedSection === sectionNumber) {
       return {
-        backgroundColor: 'rgba(240, 217, 200, 0.3)',
+        backgroundColor: 'rgba(0, 0, 0, 0.04)',
         borderRadius: '8px',
         transition: 'background-color 0.3s ease-in-out',
       };
@@ -335,7 +335,7 @@ export default function SuggestionsPanel({
   const getSectionHighlightStyle = (sectionNumber: number) => {
     if (highlightedSection === sectionNumber) {
       return {
-        backgroundColor: 'rgba(240, 217, 200, 0.3)',
+        backgroundColor: 'rgba(0, 0, 0, 0.04)',
         borderRadius: '8px',
         transition: 'background-color 0.3s ease-in-out',
       };

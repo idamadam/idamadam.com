@@ -60,7 +60,7 @@ function VignetteStagedInner({
             {/* Iterations header */}
             {currentStageContent?.title && (
               <div className="space-y-2">
-                <h3 className="type-h3">
+                <h3 className="type-body font-display">
                   {currentStageContent.title}
                 </h3>
                 {currentStageContent.description && (

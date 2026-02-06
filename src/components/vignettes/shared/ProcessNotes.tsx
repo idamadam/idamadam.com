@@ -37,9 +37,9 @@ export default function ProcessNotes({ notes }: ProcessNotesProps) {
     <div className="mt-6">
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="btn-interactive btn-secondary text-sm font-[family-name:var(--font-inter)]"
+        className="inline-flex items-center gap-1.5 h-8 text-sm font-medium text-primary border border-black/15 hover:border-black/30 bg-white px-3 rounded-full transition-colors duration-150 cursor-pointer"
       >
-        Design process notes
+        Process notes
         <ChevronIcon
           className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
         />
@@ -56,8 +56,8 @@ export default function ProcessNotes({ notes }: ProcessNotesProps) {
           >
             {notes.map((note, index) => (
               <li key={index} className="flex items-start gap-2 py-1">
-                <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-accent-600 mt-[7px]" />
-                <span className="type-body-sm text-primary/80">{note}</span>
+                <span className="flex-shrink-0 w-1 h-1 rounded-full bg-neutral-400 mt-[9px]" />
+                <span className="type-body text-primary/80">{note}</span>
               </li>
             ))}
           </motion.ul>

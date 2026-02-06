@@ -46,10 +46,10 @@ export default function ApproachSection() {
         <div className="max-w-[1408px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 mt-8 lg:mt-10">
           {approaches.map((approach) => (
             <motion.div key={approach.heading} {...fadeInUp}>
-              <h3 className="font-[family-name:var(--font-display)] text-[1.25rem] leading-[1.35] tracking-[-0.005em] text-primary font-normal">
+              <h3 className="type-body font-display font-medium text-primary">
                 {approach.heading}
               </h3>
-              <p className="text-[0.9375rem] leading-[1.6] text-secondary mt-2">
+              <p className="type-body text-primary mt-2">
                 {approach.body}
               </p>
             </motion.div>

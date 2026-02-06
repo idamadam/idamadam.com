@@ -26,7 +26,7 @@ function getSectionHighlightStyle(
 ) {
   if (highlightedSection === sectionNumber) {
     return {
-      backgroundColor: 'rgba(240, 217, 200, 0.3)',
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
       borderRadius: '8px',
       transition: 'background-color 0.3s ease-in-out',
     };
@@ -245,7 +245,7 @@ function SolutionState({
               ? 'none'
               : 'linear-gradient(to bottom, #fafafa 0%, #f5f5f5 100%)',
             backgroundColor: highlightedSection === 1
-              ? 'rgba(240, 217, 200, 0.3)'
+              ? 'rgba(0, 0, 0, 0.04)'
               : undefined,
             boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8)',
             border: '1px solid rgba(0,0,0,0.06)',

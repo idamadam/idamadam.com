@@ -31,7 +31,7 @@ export default function VignetteSplit({
   const hasTitle = Boolean(title);
   const textStackClass = hasTitle ? 'space-y-6' : 'space-y-4';
 
-  const titleClass = variant === 'hero' ? 'type-display' : 'type-h3';
+  const titleClass = variant === 'hero' ? 'type-display' : 'type-body font-display';
 
   // Grid classes - refined spacing for premium feel
   // Text column widths harmonized with IntroPanel (544px at 2xl)

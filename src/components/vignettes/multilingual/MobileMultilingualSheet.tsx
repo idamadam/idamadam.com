@@ -129,7 +129,7 @@ export function MobileMultilingualSheet({
                   className="flex items-start gap-3"
                 >
                   {/* Number badge */}
-                  <div className="flex items-center justify-center size-6 rounded-full bg-[#f0d9c8] border border-[rgba(138,85,48,0.25)] text-[#8a5530] text-[11px] font-medium flex-shrink-0">
+                  <div className="flex items-center justify-center size-6 rounded-full bg-primary text-white text-[11px] font-medium flex-shrink-0">
                     {currentNote.number}
                   </div>
                   <p className="text-[1rem] text-primary leading-relaxed">
