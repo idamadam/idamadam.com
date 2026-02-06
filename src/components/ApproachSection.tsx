@@ -8,16 +8,16 @@ import SectionTitle from './SectionTitle';
 
 const approaches = [
   {
-    heading: 'Complexity is a design problem',
-    body: 'Enterprise software doesn\'t have to feel enterprise. I find the simple model hiding inside every complex system and build interfaces that make the right action obvious.',
+    heading: 'I design with a wide context',
+    body: 'The people using the product, the business behind it, the technology underneath it. I hold all of that context because the best design decisions come from understanding the full picture.',
   },
   {
-    heading: 'Craft compounds',
-    body: 'Small details\u2014a well-tuned animation, a considered empty state, a precise label\u2014build trust over time. I treat polish as a feature, not a phase.',
+    heading: 'I earn simplicity through depth',
+    body: 'The right answer rarely shows up in the first, second, or third iteration. I go further than most teams are comfortable with because real simplicity only emerges through rigorous exploration.',
   },
   {
-    heading: 'Design with, not for',
-    body: 'The best work comes from tight collaboration with engineering and research. I prototype to think, test early, and stay close to the code.',
+    heading: 'I care about the people I work with',
+    body: 'Productive disagreement takes trust. Their problems, their context, their craft. The hard conversations become the best part of the process when you genuinely care about the people in the room.',
   },
 ];
 
@@ -41,7 +41,7 @@ export default function ApproachSection() {
     >
       <section id="approach" className="w-full py-12 lg:py-20 px-6 lg:px-10 2xl:px-16">
         <div className="max-w-[1408px] mx-auto border-t border-border/60 pt-10 lg:pt-14">
-          <SectionTitle>Approach</SectionTitle>
+          <SectionTitle>How I work</SectionTitle>
         </div>
         <div className="max-w-[1408px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 mt-8 lg:mt-10">
           {approaches.map((approach) => (
