@@ -11,6 +11,7 @@ import {
   FeedbackSource,
   HighlightItem,
   BeforeSummaryItem,
+  SummaryPart,
 } from './content';
 
 interface HighlightsPanelProps {
@@ -249,6 +250,112 @@ function BeforeSummaryItemRow({ item }: { item: BeforeSummaryItem }) {
   );
 }
 
+function DetailSpan({
+  detail,
+  animateExpand,
+  delayIndex,
+}: {
+  detail: string;
+  animateExpand: boolean;
+  delayIndex: number;
+}) {
+  const highlightDelay = 0.1 + delayIndex * 0.15;
+  return (
+    <motion.span
+      className="rounded-sm"
+      style={{ display: 'inline', boxDecorationBreak: 'clone' }}
+      initial={
+        animateExpand
+          ? { backgroundColor: 'rgba(253, 224, 71, 0.45)' }
+          : false
+      }
+      animate={{ backgroundColor: 'rgba(253, 224, 71, 0)' }}
+      transition={{
+        backgroundColor: {
+          duration: 1.4,
+          delay: animateExpand ? highlightDelay + 0.4 : 0,
+          ease: 'easeOut',
+        },
+      }}
+    >
+      {detail}
+    </motion.span>
+  );
+}
+
+function FocusedItem({
+  item,
+  summaryParts,
+  animateExpand,
+}: {
+  item: HighlightItem;
+  summaryParts?: SummaryPart[];
+  animateExpand: boolean;
+}) {
+  const isHighlight = item.type === 'highlight';
+  const label = isHighlight ? 'Highlight' : 'Opportunity';
+  const icon = isHighlight ? 'star_outline' : 'lightbulb';
+  const iconColor = isHighlight ? '#22594A' : 'rgba(135, 100, 0, 1)';
+
+  const renderSummary = () => {
+    if (!summaryParts || !animateExpand) {
+      return (
+        <p className="text-body-sm text-primary">{item.summary}</p>
+      );
+    }
+
+    let detailIndex = 0;
+    return (
+      <p className="text-body-sm text-primary">
+        {summaryParts.map((part, i) => {
+          if (typeof part === 'string') {
+            return <span key={i}>{part}</span>;
+          }
+          const idx = detailIndex++;
+          return (
+            <DetailSpan
+              key={i}
+              detail={part.detail}
+              animateExpand={animateExpand}
+              delayIndex={idx}
+            />
+          );
+        })}
+      </p>
+    );
+  };
+
+  return (
+    <div className="border-b-2 border-border">
+      <div className="px-6 py-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex-1">
+            <div className="flex items-center gap-1 mb-2">
+              <span
+                className="material-icons-outlined text-h3"
+                style={{ color: iconColor }}
+              >
+                {icon}
+              </span>
+              <span className="text-body-sm font-semibold text-primary">
+                {label}
+              </span>
+            </div>
+            {renderSummary()}
+          </div>
+
+          <motion.div
+            className="h-3 w-24 rounded-full bg-black/8 shrink-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface SolutionStateProps {
   className?: string;
   activeStory?: DecisionStory | null;
@@ -418,20 +525,36 @@ function SolutionState({
       // 1. Border starts glowing
       setBorderAnimating(true);
 
-      // 2. Sections upgrade one by one
       const timers: ReturnType<typeof setTimeout>[] = [];
-      for (let i = 1; i <= totalSections; i++) {
+
+      if (isRefiningStory) {
+        // Header doesn't visually change — upgrade it immediately
+        setUpgradedSections(1);
+        const itemDelay = 400;
+        const itemInterval = 900;
+        const itemCount = totalSections - 1; // exclude header
+        for (let i = 0; i < itemCount; i++) {
+          timers.push(
+            setTimeout(
+              () => setUpgradedSections(i + 2),
+              itemDelay + i * itemInterval
+            )
+          );
+        }
+        // Settle after last expand animation finishes
         timers.push(
-          setTimeout(() => setUpgradedSections(i), 600 + i * 500)
+          setTimeout(() => setBorderAnimating(false),
+            itemDelay + (itemCount - 1) * itemInterval + 1500
+          )
+        );
+      } else {
+        // Reframing: upgrade all sections at once for a simple crossfade
+        setUpgradedSections(totalSections);
+        // Brief border glow flash, then stop
+        timers.push(
+          setTimeout(() => setBorderAnimating(false), 1200)
         );
       }
-
-      // 3. Border stops after last section + settling time
-      timers.push(
-        setTimeout(() => {
-          setBorderAnimating(false);
-        }, 600 + totalSections * 500 + 400)
-      );
 
       return () => timers.forEach(clearTimeout);
     }
@@ -585,32 +708,54 @@ function SolutionState({
       <>
         {/* Header Section — streams between v1/v2 */}
         <div className="border-b-2 border-border px-6 py-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div
-              className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-semibold text-white transition-colors duration-500"
-              style={{ backgroundColor: headerAvatarColor }}
-            >
-              {employee.initials}
-            </div>
-            <div>
-              <p className="text-h3 font-normal text-primary" style={{ marginBottom: '0px' }}>
-                {employee.name}
-              </p>
-              <p className="text-body-sm text-primary mb-0">{employee.role}</p>
-            </div>
-          </div>
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={headerSummaryText}
+          {isRefiningStory ? (
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="text-body-sm text-primary mt-0"
+              transition={{ duration: 0.4, ease: 'easeOut' }}
             >
-              {headerSummaryText}
-            </motion.p>
-          </AnimatePresence>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-12 h-12 rounded-full bg-black/8" />
+                <div className="space-y-2">
+                  <div className="h-3.5 w-28 rounded-full bg-black/8" />
+                  <div className="h-3 w-36 rounded-full bg-black/8" />
+                </div>
+              </div>
+              <div className="space-y-2 mt-1">
+                <div className="h-3 w-full rounded-full bg-black/8" />
+                <div className="h-3 w-3/4 rounded-full bg-black/8" />
+              </div>
+            </motion.div>
+          ) : (
+            <>
+              <div className="flex items-center gap-3 mb-2">
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-semibold text-white transition-colors duration-500"
+                  style={{ backgroundColor: headerAvatarColor }}
+                >
+                  {employee.initials}
+                </div>
+                <div>
+                  <p className="text-h3 font-normal text-primary" style={{ marginBottom: '0px' }}>
+                    {employee.name}
+                  </p>
+                  <p className="text-body-sm text-primary mb-0">{employee.role}</p>
+                </div>
+              </div>
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={headerSummaryText}
+                  initial={borderAnimating ? { opacity: 0 } : false}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-body-sm text-primary mt-0"
+                >
+                  {headerSummaryText}
+                </motion.p>
+              </AnimatePresence>
+            </>
+          )}
         </div>
 
         {/* Items — each streams independently */}
@@ -624,7 +769,7 @@ function SolutionState({
                 {upgraded ? (
                   <motion.div
                     key={`after-${index}`}
-                    initial={{ opacity: 0 }}
+                    initial={borderAnimating ? { opacity: 0 } : false}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.35 }}
@@ -654,25 +799,22 @@ function SolutionState({
             );
           }
 
-          // Refining story: same structure, text swaps
+          // Refining story: simplified focused view, detail expands in
           const displayItem = upgraded ? afterItem : refiningBeforeItems[index];
+          const afterParts = refiningBefore.afterParts?.[index];
           return (
             <AnimatePresence mode="wait" key={`refining-${index}`}>
               <motion.div
                 key={`${upgraded}-${index}`}
-                initial={{ opacity: 0 }}
+                initial={borderAnimating ? { opacity: 0 } : false}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.35 }}
+                transition={{ duration: 0.3 }}
               >
-                <CollapsibleItem
+                <FocusedItem
                   item={displayItem}
-                  sectionIndex={index}
-                  isExpanded={expandedIndex === index}
-                  onToggle={() =>
-                    setExpandedIndex(expandedIndex === index ? null : index)
-                  }
-                  blockStyle={{ opacity: 1 }}
+                  summaryParts={upgraded ? afterParts : undefined}
+                  animateExpand={upgraded && borderAnimating}
                 />
               </motion.div>
             </AnimatePresence>
@@ -680,23 +822,36 @@ function SolutionState({
         })}
 
         {/* Footer */}
-        <div
-          className="px-6 py-4 flex items-center gap-2"
-          style={{ opacity: isFullyBefore ? 0.4 : 1, transition: 'opacity 0.3s ease-in-out' }}
-        >
-          <span className="text-body-sm text-secondary">Is this helpful?</span>
-          <button className="p-2 hover:bg-black/5 rounded-lg transition-colors" aria-label="Thumbs up">
-            <span className="material-icons-outlined text-h2 text-primary">thumb_up</span>
-          </button>
-          <button className="p-2 hover:bg-black/5 rounded-lg transition-colors" aria-label="Thumbs down">
-            <span className="material-icons-outlined text-h2 text-primary">thumb_down</span>
-          </button>
-        </div>
+        {isRefiningStory ? (
+          <motion.div
+            className="px-6 py-4 flex items-center gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
+            <div className="h-3 w-20 rounded-full bg-black/8" />
+            <div className="h-5 w-5 rounded-full bg-black/8" />
+            <div className="h-5 w-5 rounded-full bg-black/8" />
+          </motion.div>
+        ) : (
+          <div
+            className="px-6 py-4 flex items-center gap-2"
+            style={{ opacity: isFullyBefore ? 0.4 : 1, transition: 'opacity 0.3s ease-in-out' }}
+          >
+            <span className="text-body-sm text-secondary">Is this helpful?</span>
+            <button className="p-2 hover:bg-black/5 rounded-lg transition-colors" aria-label="Thumbs up">
+              <span className="material-icons-outlined text-h2 text-primary">thumb_up</span>
+            </button>
+            <button className="p-2 hover:bg-black/5 rounded-lg transition-colors" aria-label="Thumbs down">
+              <span className="material-icons-outlined text-h2 text-primary">thumb_down</span>
+            </button>
+          </div>
+        )}
       </>
     );
   };
 
-  const showWireframe = isReframingStory && isFullyBefore;
+  const showWireframe = isFullyBefore;
 
   return (
     <div

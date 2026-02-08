@@ -33,6 +33,8 @@ interface AIHighlightsContent {
   opportunities: HighlightItem[];
 }
 
+export type SummaryPart = string | { detail: string };
+
 export interface BeforeSummaryItem {
   summary: string;
   sources: FeedbackSource[];
@@ -150,6 +152,24 @@ export const storyInteractions = {
           ],
         },
       ] as GenericHighlightItem[],
+      afterParts: [
+        [
+          'Ensured on-time delivery of ',
+          { detail: 'Project Phoenix' },
+          ' through ',
+          { detail: 'proactive communication' },
+        ],
+        [
+          'Accelerated team growth by ',
+          { detail: 'delegating the authentication service redesign' },
+        ],
+        [
+          'Improve workload balance through ',
+          { detail: 'increased visibility' },
+          ' in ',
+          { detail: 'cross-team planning' },
+        ],
+      ] as SummaryPart[][],
       opportunities: [
         {
           type: 'opportunity' as const,
