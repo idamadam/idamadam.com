@@ -344,12 +344,24 @@ function FocusedItem({
             {renderSummary()}
           </div>
 
-          <motion.div
-            className="h-3 w-24 rounded-full bg-black/8 shrink-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-          />
+          <div className="flex items-center gap-3 shrink-0 px-2 py-2 -mx-2 opacity-30">
+            <div className="flex items-center gap-1">
+              <div className="flex -space-x-2">
+                {item.sources.slice(0, 2).map((source, idx) => (
+                  <div
+                    key={idx}
+                    className="w-5 h-5 rounded-full border-2 border-background-elevated flex items-center justify-center text-[8px] font-bold text-white"
+                    style={{ backgroundColor: getAvatarColor(source.reviewer) }}
+                  >
+                    {getInitials(source.reviewer)}
+                  </div>
+                ))}
+              </div>
+              <span className="text-body-sm text-secondary">
+                {item.sources.length} sources
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -576,12 +588,7 @@ function SolutionState({
     }
 
     if (sectionNumber === highlightedSection) {
-      return {
-        opacity: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.04)',
-        borderRadius: '8px',
-        transition,
-      };
+      return { opacity: 1, transition };
     }
 
     return { opacity: 0.4, transition };
@@ -592,12 +599,7 @@ function SolutionState({
       'opacity 0.3s ease-in-out, background-color 0.3s ease-in-out';
     if (!activeStory || hasToggle) return { opacity: 1, transition };
     if (isMeasuringStory) {
-      return {
-        opacity: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.04)',
-        borderRadius: '8px',
-        transition,
-      };
+      return { opacity: 1, transition };
     }
     return { opacity: 0.4, transition };
   };
@@ -708,54 +710,34 @@ function SolutionState({
       <>
         {/* Header Section — streams between v1/v2 */}
         <div className="border-b-2 border-border px-6 py-6">
-          {isRefiningStory ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 rounded-full bg-black/8" />
-                <div className="space-y-2">
-                  <div className="h-3.5 w-28 rounded-full bg-black/8" />
-                  <div className="h-3 w-36 rounded-full bg-black/8" />
-                </div>
+          <div style={{ opacity: isRefiningStory ? 0.3 : 1, transition: 'opacity 0.3s ease-in-out' }}>
+            <div className="flex items-center gap-3 mb-2">
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-semibold text-white transition-colors duration-500"
+                style={{ backgroundColor: headerAvatarColor }}
+              >
+                {employee.initials}
               </div>
-              <div className="space-y-2 mt-1">
-                <div className="h-3 w-full rounded-full bg-black/8" />
-                <div className="h-3 w-3/4 rounded-full bg-black/8" />
+              <div>
+                <p className="text-h3 font-normal text-primary" style={{ marginBottom: '0px' }}>
+                  {employee.name}
+                </p>
+                <p className="text-body-sm text-primary mb-0">{employee.role}</p>
               </div>
-            </motion.div>
-          ) : (
-            <>
-              <div className="flex items-center gap-3 mb-2">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-semibold text-white transition-colors duration-500"
-                  style={{ backgroundColor: headerAvatarColor }}
-                >
-                  {employee.initials}
-                </div>
-                <div>
-                  <p className="text-h3 font-normal text-primary" style={{ marginBottom: '0px' }}>
-                    {employee.name}
-                  </p>
-                  <p className="text-body-sm text-primary mb-0">{employee.role}</p>
-                </div>
-              </div>
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={headerSummaryText}
-                  initial={borderAnimating ? { opacity: 0 } : false}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="text-body-sm text-primary mt-0"
-                >
-                  {headerSummaryText}
-                </motion.p>
-              </AnimatePresence>
-            </>
-          )}
+            </div>
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={headerSummaryText}
+                initial={borderAnimating ? { opacity: 0 } : false}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-body-sm text-primary mt-0"
+              >
+                {headerSummaryText}
+              </motion.p>
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Items — each streams independently */}
@@ -822,31 +804,21 @@ function SolutionState({
         })}
 
         {/* Footer */}
-        {isRefiningStory ? (
-          <motion.div
-            className="px-6 py-4 flex items-center gap-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-          >
-            <div className="h-3 w-20 rounded-full bg-black/8" />
-            <div className="h-5 w-5 rounded-full bg-black/8" />
-            <div className="h-5 w-5 rounded-full bg-black/8" />
-          </motion.div>
-        ) : (
-          <div
-            className="px-6 py-4 flex items-center gap-2"
-            style={{ opacity: isFullyBefore ? 0.4 : 1, transition: 'opacity 0.3s ease-in-out' }}
-          >
-            <span className="text-body-sm text-secondary">Is this helpful?</span>
-            <button className="p-2 hover:bg-black/5 rounded-lg transition-colors" aria-label="Thumbs up">
-              <span className="material-icons-outlined text-h2 text-primary">thumb_up</span>
-            </button>
-            <button className="p-2 hover:bg-black/5 rounded-lg transition-colors" aria-label="Thumbs down">
-              <span className="material-icons-outlined text-h2 text-primary">thumb_down</span>
-            </button>
-          </div>
-        )}
+        <div
+          className="px-6 py-4 flex items-center gap-2"
+          style={{
+            opacity: isRefiningStory ? 0.3 : isFullyBefore ? 0.4 : 1,
+            transition: 'opacity 0.3s ease-in-out',
+          }}
+        >
+          <span className="text-body-sm text-secondary">Is this helpful?</span>
+          <button className="p-2 hover:bg-black/5 rounded-lg transition-colors" aria-label="Thumbs up">
+            <span className="material-icons-outlined text-h2 text-primary">thumb_up</span>
+          </button>
+          <button className="p-2 hover:bg-black/5 rounded-lg transition-colors" aria-label="Thumbs down">
+            <span className="material-icons-outlined text-h2 text-primary">thumb_down</span>
+          </button>
+        </div>
       </>
     );
   };
