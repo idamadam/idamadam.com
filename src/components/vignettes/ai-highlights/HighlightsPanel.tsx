@@ -5,11 +5,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
 import { DecisionStory } from '../shared/DecisionStories';
-import { aiHighlightsContent, FeedbackSource, HighlightItem } from './content';
+import {
+  aiHighlightsContent,
+  storyInteractions,
+  FeedbackSource,
+  HighlightItem,
+  BeforeSummaryItem,
+} from './content';
 
 interface HighlightsPanelProps {
   className?: string;
   activeStory?: DecisionStory | null;
+  showBeforeState?: boolean;
 }
 
 interface SourceCardProps {
@@ -77,126 +84,175 @@ function getAvatarColor(name: string): string {
   return colors[name] || '#6366F1';
 }
 
+function LoadingStyles() {
+  return (
+    <style jsx global>{`
+      @property --gradient-angle {
+        syntax: '<angle>';
+        initial-value: 0deg;
+        inherits: false;
+      }
+
+      @keyframes rotateGradient {
+        to {
+          --gradient-angle: 360deg;
+        }
+      }
+
+      .loading-panel-border {
+        position: absolute;
+        inset: 0;
+        border-radius: 7px;
+        background: conic-gradient(
+          from var(--gradient-angle),
+          var(--ai-gradient-1),
+          var(--ai-gradient-2),
+          var(--ai-gradient-3),
+          var(--ai-gradient-2),
+          var(--ai-gradient-1)
+        );
+        animation: rotateGradient 3s linear infinite;
+        filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.5));
+      }
+
+      .loading-panel-content {
+        position: relative;
+        background: var(--background-elevated);
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        z-index: 1;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
+
+      .skeleton-bar {
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.06) 25%,
+          rgba(0, 0, 0, 0.1) 50%,
+          rgba(0, 0, 0, 0.06) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s ease-in-out infinite;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .loading-panel-border {
+          animation: none;
+          filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.3));
+        }
+        .skeleton-bar {
+          animation: none;
+        }
+      }
+    `}</style>
+  );
+}
+
+function SkeletonContent() {
+  return (
+    <>
+      {/* Header Section */}
+      <div className="border-b-2 border-border px-6 py-8">
+        <p className="text-body-sm font-semibold text-primary mb-3">
+          Loading highlights and opportunities
+        </p>
+        <div className="space-y-3">
+          <div className="skeleton-bar h-[15px] w-full rounded-[7px]" />
+          <div className="skeleton-bar h-[15px] w-full rounded-[7px]" />
+          <div className="skeleton-bar h-[15px] w-[85%] rounded-[7px]" />
+        </div>
+      </div>
+
+      {/* Skeleton Items */}
+      {[0, 1, 2].map((index) => (
+        <div
+          key={index}
+          className={`px-6 py-8 ${index < 2 ? 'border-b-2 border-border' : ''}`}
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex-1 space-y-2">
+              <div className="flex items-center gap-1">
+                <div className="skeleton-bar w-5 h-5 rounded-full" />
+                <div className="skeleton-bar h-[15px] w-20 sm:w-[85px] rounded-[7px]" />
+              </div>
+              <div className="skeleton-bar h-[15px] w-full max-w-[240px] rounded-[7px]" />
+            </div>
+            <div className="flex items-center gap-4 sm:gap-12">
+              <div className="flex items-center gap-1">
+                <div className="skeleton-bar w-5 h-5 rounded-full" />
+                <div className="skeleton-bar h-[15px] w-14 sm:w-[60px] rounded-[7px]" />
+              </div>
+              <div className="skeleton-bar w-5 h-5 rounded-full" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </>
+  );
+}
+
 function LoadingState() {
   return (
     <>
-      <style jsx global>{`
-        @property --gradient-angle {
-          syntax: '<angle>';
-          initial-value: 0deg;
-          inherits: false;
-        }
-
-        @keyframes rotateGradient {
-          to {
-            --gradient-angle: 360deg;
-          }
-        }
-
-        .loading-panel-border {
-          position: absolute;
-          inset: 0;
-          border-radius: 7px;
-          background: conic-gradient(
-            from var(--gradient-angle),
-            var(--ai-gradient-1),
-            var(--ai-gradient-2),
-            var(--ai-gradient-3),
-            var(--ai-gradient-2),
-            var(--ai-gradient-1)
-          );
-          animation: rotateGradient 3s linear infinite;
-          filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.5));
-        }
-
-        .loading-panel-content {
-          position: relative;
-          background: var(--background-elevated);
-          width: 100%;
-          height: 100%;
-          border-radius: 5px;
-          z-index: 1;
-        }
-
-        @keyframes shimmer {
-          0% {
-            background-position: -200% 0;
-          }
-          100% {
-            background-position: 200% 0;
-          }
-        }
-
-        .skeleton-bar {
-          background: linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0.06) 25%,
-            rgba(0, 0, 0, 0.1) 50%,
-            rgba(0, 0, 0, 0.06) 75%
-          );
-          background-size: 200% 100%;
-          animation: shimmer 1.5s ease-in-out infinite;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .loading-panel-border {
-            animation: none;
-            filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.3));
-          }
-          .skeleton-bar {
-            animation: none;
-          }
-        }
-      `}</style>
-
+      <LoadingStyles />
       <div className="relative p-[2px] rounded-[7px]">
         <div className="loading-panel-border"></div>
         <div className="loading-panel-content">
-          {/* Header Section */}
-          <div className="border-b-2 border-border px-6 py-8">
-            <p className="text-body-sm font-semibold text-primary mb-3">
-              Loading highlights and opportunities
-            </p>
-            <div className="space-y-3">
-              <div className="skeleton-bar h-[15px] w-full rounded-[7px]" />
-              <div className="skeleton-bar h-[15px] w-full rounded-[7px]" />
-              <div className="skeleton-bar h-[15px] w-[85%] rounded-[7px]" />
-            </div>
-          </div>
-
-          {/* Skeleton Items */}
-          {[0, 1, 2].map((index) => (
-            <div
-              key={index}
-              className={`px-6 py-8 ${index < 2 ? 'border-b-2 border-border' : ''}`}
-            >
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div className="flex-1 space-y-2">
-                  <div className="flex items-center gap-1">
-                    <div className="skeleton-bar w-5 h-5 rounded-full" />
-                    <div className="skeleton-bar h-[15px] w-20 sm:w-[85px] rounded-[7px]" />
-                  </div>
-                  <div className="skeleton-bar h-[15px] w-full max-w-[240px] rounded-[7px]" />
-                </div>
-                <div className="flex items-center gap-4 sm:gap-12">
-                  <div className="flex items-center gap-1">
-                    <div className="skeleton-bar w-5 h-5 rounded-full" />
-                    <div className="skeleton-bar h-[15px] w-14 sm:w-[60px] rounded-[7px]" />
-                  </div>
-                  <div className="skeleton-bar w-5 h-5 rounded-full" />
-                </div>
-              </div>
-            </div>
-          ))}
+          <SkeletonContent />
         </div>
       </div>
     </>
   );
 }
 
+const WIREFRAME_GRAY = '#C4C4C4';
+
+function BeforeSummaryItemRow({ item }: { item: BeforeSummaryItem }) {
+  return (
+    <div className="border-b-2 border-border">
+      <div className="px-6 py-8">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex-1">
+            <p className="text-body-sm text-primary">{item.summary}</p>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0 px-2 py-2 -mx-2">
+            <div className="flex items-center gap-1">
+              <div className="flex -space-x-2">
+                {item.sources.slice(0, 2).map((source, idx) => (
+                  <div
+                    key={idx}
+                    className="w-5 h-5 rounded-full border-2 border-background-elevated flex items-center justify-center text-[8px] font-bold text-white"
+                    style={{ backgroundColor: WIREFRAME_GRAY }}
+                  >
+                    {getInitials(source.reviewer)}
+                  </div>
+                ))}
+              </div>
+              <span className="text-body-sm text-secondary">
+                {item.sources.length} sources
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface SolutionStateProps {
   className?: string;
   activeStory?: DecisionStory | null;
+  showBeforeState?: boolean;
 }
 
 function CollapsibleItem({
@@ -301,36 +357,101 @@ function CollapsibleItem({
 function SolutionState({
   className = '',
   activeStory = null,
+  showBeforeState = true,
 }: SolutionStateProps) {
   const { employee, summary, highlights, opportunities } = aiHighlightsContent;
   const allItems = [...highlights, ...opportunities];
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [thumbsClicked, setThumbsClicked] = useState(false);
+  const [borderAnimating, setBorderAnimating] = useState(false);
+  // 0 = all v1, totalSections = all v2
+  // Sections: 0=header, 1..N=items
+  const totalSections = allItems.length + 1;
+  const [upgradedSections, setUpgradedSections] = useState(0);
+  const prevBeforeStateRef = useRef(showBeforeState);
+  const reducedMotion = useReducedMotion();
 
   const highlightedSection = activeStory?.highlightSection ?? null;
 
-  // Auto-expand first highlight sources for the trust-verification story
+  const isReframingStory = activeStory?.id === 'reframing-summary';
+  const isRefiningStory = activeStory?.id === 'refining-output';
+  const isMeasuringStory = activeStory?.id === 'measuring-success';
+  const hasToggle = isReframingStory || isRefiningStory;
+
+  // Reset per-story state when activeStory changes
   useEffect(() => {
+    setThumbsClicked(false);
+    setBorderAnimating(false);
+    // When a new story opens, show the correct initial state instantly
+    setUpgradedSections(showBeforeState ? 0 : totalSections);
+    prevBeforeStateRef.current = showBeforeState;
+
     if (activeStory?.id === 'trust-verification') {
       setExpandedIndex(0);
     } else {
       setExpandedIndex(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStory]);
+
+  // Staggered v1 → v2 streaming upgrade
+  useEffect(() => {
+    const isToggleStory = isReframingStory || isRefiningStory;
+    const wasBeforeNowAfter =
+      prevBeforeStateRef.current === true && showBeforeState === false;
+
+    prevBeforeStateRef.current = showBeforeState;
+
+    // v2 → v1: instant reset
+    if (showBeforeState) {
+      setUpgradedSections(0);
+      setBorderAnimating(false);
+      return;
+    }
+
+    if (isToggleStory && wasBeforeNowAfter) {
+      if (reducedMotion) {
+        setUpgradedSections(totalSections);
+        return;
+      }
+
+      // 1. Border starts glowing
+      setBorderAnimating(true);
+
+      // 2. Sections upgrade one by one
+      const timers: ReturnType<typeof setTimeout>[] = [];
+      for (let i = 1; i <= totalSections; i++) {
+        timers.push(
+          setTimeout(() => setUpgradedSections(i), 600 + i * 500)
+        );
+      }
+
+      // 3. Border stops after last section + settling time
+      timers.push(
+        setTimeout(() => {
+          setBorderAnimating(false);
+        }, 600 + totalSections * 500 + 400)
+      );
+
+      return () => timers.forEach(clearTimeout);
+    }
+  }, [showBeforeState, isReframingStory, isRefiningStory, reducedMotion, totalSections]);
+
+  // Derived: is the panel fully in v1 mode?
+  const isFullyBefore = hasToggle && upgradedSections === 0;
 
   // Get block-level style: dimming + optional background highlight
   const getBlockStyle = (sectionNumber: number) => {
     const transition = 'opacity 0.3s ease-in-out, background-color 0.3s ease-in-out';
 
-    if (!activeStory) {
+    if (!activeStory || hasToggle) {
       return { opacity: 1, transition };
     }
 
-    // Process story (no highlightSection) — dim everything
     if (highlightedSection == null) {
       return { opacity: 0.4, transition };
     }
 
-    // Section-specific story — spotlight the matching block
     if (sectionNumber === highlightedSection) {
       return {
         opacity: 1,
@@ -340,88 +461,261 @@ function SolutionState({
       };
     }
 
-    // Non-matching block — dim
     return { opacity: 0.4, transition };
   };
 
   const getFooterStyle = () => {
-    const transition = 'opacity 0.3s ease-in-out';
-    if (!activeStory) return { opacity: 1, transition };
+    const transition =
+      'opacity 0.3s ease-in-out, background-color 0.3s ease-in-out';
+    if (!activeStory || hasToggle) return { opacity: 1, transition };
+    if (isMeasuringStory) {
+      return {
+        opacity: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.04)',
+        borderRadius: '8px',
+        transition,
+      };
+    }
     return { opacity: 0.4, transition };
   };
 
-  return (
-    <div
-      className={`relative rounded-[7px] p-[2px] ${className}`}
-      style={{
-        background:
-          'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
-      }}
-    >
-      <div className="bg-background-elevated rounded-[5px] overflow-visible">
-        {/* Header Section - Summary */}
-        <div
-          className="border-b-2 border-border px-6 py-6"
-          data-section-id="summary"
-          style={getBlockStyle(1)}
-        >
+  // --- Reframing story: per-section before/after ---
+  const reframingBefore = storyInteractions.reframingSummary.before;
+  const refiningBefore = storyInteractions.refiningOutput.before;
+  const refiningBeforeItems = [
+    ...refiningBefore.highlights,
+    ...refiningBefore.opportunities,
+  ] as HighlightItem[];
+
+  const isHeaderUpgraded = upgradedSections >= 1;
+  const isItemUpgraded = (index: number) => upgradedSections >= index + 2;
+
+  const renderContent = () => {
+    // For non-toggle stories, render normal after content
+    if (!hasToggle) {
+      return (
+        <>
+          <div
+            className="border-b-2 border-border px-6 py-6"
+            style={getBlockStyle(1)}
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-semibold text-white"
+                style={{ backgroundColor: employee.avatarColor }}
+              >
+                {employee.initials}
+              </div>
+              <div>
+                <p className="text-h3 font-normal text-primary" style={{ marginBottom: '0px' }}>
+                  {employee.name}
+                </p>
+                <p className="text-body-sm text-primary mb-0">{employee.role}</p>
+              </div>
+            </div>
+            <p className="text-body-sm text-primary mt-0">{summary}</p>
+          </div>
+
+          {allItems.map((item, index) => (
+            <CollapsibleItem
+              key={`default-${index}`}
+              item={item}
+              sectionIndex={index}
+              isExpanded={expandedIndex === index}
+              onToggle={() =>
+                setExpandedIndex(expandedIndex === index ? null : index)
+              }
+              blockStyle={getBlockStyle(index + 2)}
+            />
+          ))}
+
+          <div className="px-6 py-4 flex items-center gap-2" style={getFooterStyle()}>
+            <span className="text-body-sm text-secondary">Is this helpful?</span>
+            <button
+              onClick={isMeasuringStory ? () => setThumbsClicked(true) : undefined}
+              className={`p-2 rounded-lg transition-colors ${
+                isMeasuringStory && !thumbsClicked
+                  ? 'animate-pulse-subtle hover:bg-black/5'
+                  : 'hover:bg-black/5'
+              }`}
+              aria-label="Thumbs up"
+            >
+              <span
+                className={`material-icons${thumbsClicked ? '' : '-outlined'} text-h2 ${
+                  thumbsClicked ? 'text-green-600' : 'text-primary'
+                }`}
+              >
+                thumb_up
+              </span>
+            </button>
+            <AnimatePresence>
+              {thumbsClicked && (
+                <motion.span
+                  initial={{ opacity: 0, scale: 0.8, x: -8 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                  className="text-body-sm font-semibold text-green-600 bg-green-50 px-2.5 py-1 rounded-full"
+                >
+                  93% positive
+                </motion.span>
+              )}
+            </AnimatePresence>
+            {!thumbsClicked && (
+              <button
+                className="p-2 hover:bg-black/5 rounded-lg transition-colors"
+                aria-label="Thumbs down"
+              >
+                <span className="material-icons-outlined text-h2 text-primary">thumb_down</span>
+              </button>
+            )}
+          </div>
+        </>
+      );
+    }
+
+    // --- Toggle stories: per-section streaming ---
+    const headerSummaryText = isReframingStory
+      ? isHeaderUpgraded ? summary : reframingBefore.summary
+      : summary;
+    const headerAvatarColor = isReframingStory
+      ? isHeaderUpgraded ? employee.avatarColor : WIREFRAME_GRAY
+      : employee.avatarColor;
+
+    return (
+      <>
+        {/* Header Section — streams between v1/v2 */}
+        <div className="border-b-2 border-border px-6 py-6">
           <div className="flex items-center gap-3 mb-2">
             <div
-              className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-semibold text-white"
-              style={{ backgroundColor: employee.avatarColor }}
+              className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-semibold text-white transition-colors duration-500"
+              style={{ backgroundColor: headerAvatarColor }}
             >
               {employee.initials}
             </div>
             <div>
-              <p
-                className="text-h3 font-normal text-primary"
-                style={{ marginBottom: '0px' }}
-              >
+              <p className="text-h3 font-normal text-primary" style={{ marginBottom: '0px' }}>
                 {employee.name}
               </p>
               <p className="text-body-sm text-primary mb-0">{employee.role}</p>
             </div>
           </div>
-          <p className="text-body-sm text-primary mt-0">{summary}</p>
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={headerSummaryText}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-body-sm text-primary mt-0"
+            >
+              {headerSummaryText}
+            </motion.p>
+          </AnimatePresence>
         </div>
 
-        {/* Highlight and Opportunity Items */}
-        {allItems.map((item, index) => (
-          <CollapsibleItem
-            key={index}
-            item={item}
-            sectionIndex={index}
-            isExpanded={expandedIndex === index}
-            onToggle={() =>
-              setExpandedIndex(expandedIndex === index ? null : index)
-            }
-            blockStyle={getBlockStyle(index + 2)}
-          />
-        ))}
+        {/* Items — each streams independently */}
+        {allItems.map((afterItem, index) => {
+          const upgraded = isItemUpgraded(index);
 
-        {/* Footer with Feedback Buttons */}
+          if (isReframingStory) {
+            const beforeItem = reframingBefore.items[index];
+            return (
+              <AnimatePresence mode="wait" key={`reframing-${index}`}>
+                {upgraded ? (
+                  <motion.div
+                    key={`after-${index}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.35 }}
+                  >
+                    <CollapsibleItem
+                      item={afterItem}
+                      sectionIndex={index}
+                      isExpanded={expandedIndex === index}
+                      onToggle={() =>
+                        setExpandedIndex(expandedIndex === index ? null : index)
+                      }
+                      blockStyle={{ opacity: 1 }}
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key={`before-${index}`}
+                    initial={false}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.35 }}
+                  >
+                    <BeforeSummaryItemRow item={beforeItem} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            );
+          }
+
+          // Refining story: same structure, text swaps
+          const displayItem = upgraded ? afterItem : refiningBeforeItems[index];
+          return (
+            <AnimatePresence mode="wait" key={`refining-${index}`}>
+              <motion.div
+                key={`${upgraded}-${index}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35 }}
+              >
+                <CollapsibleItem
+                  item={displayItem}
+                  sectionIndex={index}
+                  isExpanded={expandedIndex === index}
+                  onToggle={() =>
+                    setExpandedIndex(expandedIndex === index ? null : index)
+                  }
+                  blockStyle={{ opacity: 1 }}
+                />
+              </motion.div>
+            </AnimatePresence>
+          );
+        })}
+
+        {/* Footer */}
         <div
           className="px-6 py-4 flex items-center gap-2"
-          style={getFooterStyle()}
+          style={{ opacity: isFullyBefore ? 0.4 : 1, transition: 'opacity 0.3s ease-in-out' }}
         >
           <span className="text-body-sm text-secondary">Is this helpful?</span>
-          <button
-            className="p-2 hover:bg-black/5 rounded-lg transition-colors"
-            aria-label="Thumbs up"
-          >
-            <span className="material-icons-outlined text-h2 text-primary">
-              thumb_up
-            </span>
+          <button className="p-2 hover:bg-black/5 rounded-lg transition-colors" aria-label="Thumbs up">
+            <span className="material-icons-outlined text-h2 text-primary">thumb_up</span>
           </button>
-          <button
-            className="p-2 hover:bg-black/5 rounded-lg transition-colors"
-            aria-label="Thumbs down"
-          >
-            <span className="material-icons-outlined text-h2 text-primary">
-              thumb_down
-            </span>
+          <button className="p-2 hover:bg-black/5 rounded-lg transition-colors" aria-label="Thumbs down">
+            <span className="material-icons-outlined text-h2 text-primary">thumb_down</span>
           </button>
         </div>
+      </>
+    );
+  };
+
+  const showWireframe = isReframingStory && isFullyBefore;
+
+  return (
+    <div
+      className={`relative rounded-[7px] p-[2px] ${className}`}
+      style={
+        borderAnimating
+          ? {}
+          : {
+              background: showWireframe
+                ? 'linear-gradient(135deg, #C4C4C4, #A8A8A8, #C4C4C4)'
+                : 'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
+              transition: 'background 0.3s ease-in-out',
+            }
+      }
+    >
+      <LoadingStyles />
+      {borderAnimating && <div className="loading-panel-border" />}
+      <div className="bg-background-elevated rounded-[5px] overflow-visible relative z-[1]">
+        {renderContent()}
       </div>
     </div>
   );
@@ -430,6 +724,7 @@ function SolutionState({
 export default function HighlightsPanel({
   className = '',
   activeStory = null,
+  showBeforeState = true,
 }: HighlightsPanelProps) {
   const reducedMotion = useReducedMotion();
   const { isComplete } = useIntroSequence();
@@ -475,6 +770,7 @@ export default function HighlightsPanel({
           <SolutionState
             className={className}
             activeStory={activeStory}
+            showBeforeState={showBeforeState}
           />
         </motion.div>
       )}

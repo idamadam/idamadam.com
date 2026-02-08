@@ -14,6 +14,7 @@ export interface DecisionStory {
 interface DecisionStoriesProps {
   stories: DecisionStory[];
   onActiveStoryChange?: (story: DecisionStory | null) => void;
+  renderStoryExtra?: (story: DecisionStory) => React.ReactNode;
 }
 
 function ChevronIcon({ className }: { className?: string }) {
@@ -40,6 +41,7 @@ function ChevronIcon({ className }: { className?: string }) {
 export default function DecisionStories({
   stories,
   onActiveStoryChange,
+  renderStoryExtra,
 }: DecisionStoriesProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const reducedMotion = useReducedMotion();
@@ -110,6 +112,7 @@ export default function DecisionStories({
                     <p className="type-body text-primary/80 pb-3">
                       {story.story}
                     </p>
+                    {renderStoryExtra?.(story)}
                   </motion.div>
                 )}
               </AnimatePresence>

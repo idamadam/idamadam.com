@@ -11,10 +11,12 @@ import { DecisionStory } from '../shared/DecisionStories';
 
 export default function AIHighlightsVignette() {
   const [activeStory, setActiveStory] = useState<DecisionStory | null>(null);
+  const [showBeforeState, setShowBeforeState] = useState(false);
 
   const handleActiveStoryChange = useCallback(
     (story: DecisionStory | null) => {
       setActiveStory(story);
+      setShowBeforeState(false);
     },
     []
   );
@@ -27,6 +29,8 @@ export default function AIHighlightsVignette() {
             title={
               <HighlightsTextPanel
                 onActiveStoryChange={handleActiveStoryChange}
+                showBeforeState={showBeforeState}
+                onBeforeAfterToggle={setShowBeforeState}
               />
             }
           >
@@ -34,7 +38,10 @@ export default function AIHighlightsVignette() {
               className="relative w-full max-w-[680px] mx-auto"
               style={{ overflow: 'visible' }}
             >
-              <HighlightsPanel activeStory={activeStory} />
+              <HighlightsPanel
+                activeStory={activeStory}
+                showBeforeState={showBeforeState}
+              />
             </div>
           </VignetteSplit>
         </motion.div>

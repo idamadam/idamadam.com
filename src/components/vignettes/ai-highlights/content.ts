@@ -33,6 +33,147 @@ interface AIHighlightsContent {
   opportunities: HighlightItem[];
 }
 
+export interface BeforeSummaryItem {
+  summary: string;
+  sources: FeedbackSource[];
+}
+
+export interface GenericHighlightItem {
+  type: 'highlight' | 'opportunity';
+  summary: string;
+  sources: FeedbackSource[];
+}
+
+export const storyInteractions = {
+  reframingSummary: {
+    before: {
+      summary:
+        'Based on feedback from 5 reviewers, here are the key themes identified for Maya Chen.',
+      items: [
+        {
+
+          summary:
+            'Team members noted strong communication and proactive project planning',
+          sources: [
+            {
+              quote:
+                'During the Project Phoenix integration phase, Maya clearly articulated technical dependencies to the marketing team before their campaign planning started. This prevented misalignment and ensured marketing\'s launch timelines were realistic.',
+              reviewer: 'David Park',
+              reviewerRole: 'Staff Engineer',
+            },
+            {
+              quote:
+                'Maya flagged a scheduling conflict with the platform team two weeks before it would have blocked us. Because she raised it early, we adjusted the rollout plan and still hit our launch date.',
+              reviewer: 'Rachel Torres',
+              reviewerRole: 'Engineering Manager',
+            },
+          ],
+        },
+        {
+
+          summary:
+            'Multiple reviewers highlighted delegation and team development efforts',
+          sources: [
+            {
+              quote:
+                'Maya handed me the lead on the auth service redesign and checked in just enough to keep me on track. I grew more as an engineer in that project than anything else this year.',
+              reviewer: 'James Liu',
+              reviewerRole: 'Software Engineer II',
+            },
+            {
+              quote:
+                'Instead of owning the auth rewrite herself, Maya scoped it so Liam could drive the architecture. She reviewed his proposals and gave him room to make decisions. That kind of deliberate delegation is rare.',
+              reviewer: 'Priya Sharma',
+              reviewerRole: 'Senior Software Engineer',
+            },
+          ],
+        },
+        {
+
+          summary:
+            'Some feedback suggested improving workload visibility across teams',
+          sources: [
+            {
+              quote:
+                'A few times this cycle, other teams didn\'t know Maya\'s team was already stretched. Work kept getting routed to them because nobody had visibility into their capacity. Earlier flag-raising would help.',
+              reviewer: 'Kevin Wright',
+              reviewerRole: 'Product Manager',
+            },
+            {
+              quote:
+                'Maya tends to absorb extra work quietly rather than pushing back or redistributing. Making her team\'s workload more visible in planning would help avoid the crunches we saw around the Phoenix launch.',
+              reviewer: 'Rachel Torres',
+              reviewerRole: 'Engineering Manager',
+            },
+          ],
+        },
+      ] as BeforeSummaryItem[],
+    },
+  },
+  refiningOutput: {
+    before: {
+      highlights: [
+        {
+          type: 'highlight' as const,
+          summary: 'Demonstrated strong communication skills across teams',
+          sources: [
+            {
+              quote:
+                'During the Project Phoenix integration phase, Maya clearly articulated technical dependencies to the marketing team before their campaign planning started. This prevented misalignment and ensured marketing\'s launch timelines were realistic.',
+              reviewer: 'David Park',
+              reviewerRole: 'Staff Engineer',
+            },
+            {
+              quote:
+                'Maya flagged a scheduling conflict with the platform team two weeks before it would have blocked us. Because she raised it early, we adjusted the rollout plan and still hit our launch date.',
+              reviewer: 'Rachel Torres',
+              reviewerRole: 'Engineering Manager',
+            },
+          ],
+        },
+        {
+          type: 'highlight' as const,
+          summary: 'Showed effective delegation and mentorship abilities',
+          sources: [
+            {
+              quote:
+                'Maya handed me the lead on the auth service redesign and checked in just enough to keep me on track. I grew more as an engineer in that project than anything else this year.',
+              reviewer: 'James Liu',
+              reviewerRole: 'Software Engineer II',
+            },
+            {
+              quote:
+                'Instead of owning the auth rewrite herself, Maya scoped it so Liam could drive the architecture. She reviewed his proposals and gave him room to make decisions. That kind of deliberate delegation is rare.',
+              reviewer: 'Priya Sharma',
+              reviewerRole: 'Senior Software Engineer',
+            },
+          ],
+        },
+      ] as GenericHighlightItem[],
+      opportunities: [
+        {
+          type: 'opportunity' as const,
+          summary: 'Could improve workload management and team capacity planning',
+          sources: [
+            {
+              quote:
+                'A few times this cycle, other teams didn\'t know Maya\'s team was already stretched. Work kept getting routed to them because nobody had visibility into their capacity. Earlier flag-raising would help.',
+              reviewer: 'Kevin Wright',
+              reviewerRole: 'Product Manager',
+            },
+            {
+              quote:
+                'Maya tends to absorb extra work quietly rather than pushing back or redistributing. Making her team\'s workload more visible in planning would help avoid the crunches we saw around the Phoenix launch.',
+              reviewer: 'Rachel Torres',
+              reviewerRole: 'Engineering Manager',
+            },
+          ],
+        } as GenericHighlightItem,
+      ],
+    },
+  },
+};
+
 export const aiHighlightsContent: AIHighlightsContent = {
   // Left panel content
   projectName: 'Highlights and Opportunities',

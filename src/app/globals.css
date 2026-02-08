@@ -433,6 +433,22 @@ a {
   color: #0A66C2;
 }
 
+/* Subtle pulse for interactive hints */
+@keyframes pulse-subtle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-subtle {
+    animation: none;
+  }
+}
+
 /* Background */
 .css-gradient-background {
   position: fixed;
