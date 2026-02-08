@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
@@ -368,6 +368,198 @@ function FocusedItem({
   );
 }
 
+
+// --- Floating Thumbs Animation ---
+
+interface FloatingThumb {
+  id: number;
+  /** Horizontal offset from center in px */
+  startX: number;
+  /** Horizontal drift destination in px */
+  driftX: number;
+  /** Vertical rise distance in px */
+  riseDistance: number;
+  /** Total animation duration in seconds */
+  duration: number;
+  /** Font size in px */
+  size: number;
+  /** Fixed rotation in degrees */
+  rotation: number;
+  /** Starting scale */
+  startScale: number;
+  /** Ending scale */
+  endScale: number;
+}
+
+let thumbIdCounter = 0;
+
+function createFloatingThumb(): FloatingThumb {
+  const id = thumbIdCounter++;
+  // Spawn within ~40px horizontal band around center
+  const startX = (Math.random() - 0.5) * 40;
+  // Horizontal drift: 20-50px amplitude, alternating direction
+  const driftDirection = Math.random() > 0.5 ? 1 : -1;
+  const driftX = driftDirection * (20 + Math.random() * 30);
+  // Vertical rise: 120-180px
+  const riseDistance = 120 + Math.random() * 60;
+  // Duration: 2.5-3.5s
+  const duration = 2.5 + Math.random() * 1.0;
+  // Size: 14-18px
+  const size = 14 + Math.random() * 4;
+  // Fixed rotation: -25 to +25 degrees
+  const rotation = (Math.random() - 0.5) * 50;
+  // Scale: start 0.6-0.9, end 0.6-0.8
+  const startScale = 0.6 + Math.random() * 0.3;
+  const endScale = 0.6 + Math.random() * 0.2;
+
+  return {
+    id,
+    startX,
+    driftX,
+    riseDistance,
+    duration,
+    size,
+    rotation,
+    startScale,
+    endScale,
+  };
+}
+
+function FloatingThumbParticle({
+  thumb,
+  onComplete,
+}: {
+  thumb: FloatingThumb;
+  onComplete: (id: number) => void;
+}) {
+  return (
+    <motion.div
+      style={{
+        position: 'absolute',
+        left: '50%',
+        bottom: 0,
+        pointerEvents: 'none',
+        fontSize: thumb.size,
+        lineHeight: 1,
+        willChange: 'transform, opacity',
+        rotate: thumb.rotation,
+      }}
+      initial={{
+        x: thumb.startX,
+        y: 0,
+        opacity: 0,
+        scale: thumb.startScale,
+      }}
+      animate={{
+        x: thumb.startX + thumb.driftX,
+        y: -thumb.riseDistance,
+        opacity: [0, 1, 1, 0],
+        scale: [thumb.startScale, 1, thumb.endScale + 0.1, thumb.endScale],
+      }}
+      transition={{
+        y: {
+          duration: thumb.duration,
+          ease: [0.2, 0.6, 0.4, 1],
+        },
+        x: {
+          duration: thumb.duration,
+          ease: 'easeInOut',
+        },
+        opacity: {
+          duration: thumb.duration,
+          times: [0, 0.1, 0.7, 1],
+          ease: 'linear',
+        },
+        scale: {
+          duration: thumb.duration,
+          times: [0, 0.15, 0.7, 1],
+          ease: 'easeOut',
+        },
+      }}
+      onAnimationComplete={() => onComplete(thumb.id)}
+    >
+      <span className="material-icons-outlined text-emerald-400" style={{ fontSize: 'inherit' }}>
+        thumb_up
+      </span>
+    </motion.div>
+  );
+}
+
+function FloatingThumbs({ active, burstTrigger = 0 }: { active: boolean; burstTrigger?: number }) {
+  const [particles, setParticles] = useState<FloatingThumb[]>([]);
+  const reducedMotion = useReducedMotion();
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const removeParticle = useCallback((id: number) => {
+    setParticles((prev) => prev.filter((p) => p.id !== id));
+  }, []);
+
+  useEffect(() => {
+    if (!active || reducedMotion) {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      setParticles([]);
+      return;
+    }
+
+    // Spawn first particle immediately
+    setParticles([createFloatingThumb()]);
+
+    // Then spawn every 350ms
+    intervalRef.current = setInterval(() => {
+      setParticles((prev) => {
+        if (prev.length >= 10) return prev;
+        return [...prev, createFloatingThumb()];
+      });
+    }, 350);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [active, reducedMotion]);
+
+  // Burst: spawn 3-4 extra particles on click
+  useEffect(() => {
+    if (burstTrigger === 0 || !active || reducedMotion) return;
+    const burst = Array.from({ length: 3 + Math.floor(Math.random() * 2) }, () => createFloatingThumb());
+    setParticles((prev) => [...prev, ...burst]);
+  }, [burstTrigger, active, reducedMotion]);
+
+  if (reducedMotion || !active) return null;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: '50%',
+        bottom: '100%',
+        width: 0,
+        height: 0,
+        pointerEvents: 'none',
+        zIndex: 10,
+        overflow: 'visible',
+      }}
+    >
+      <AnimatePresence>
+        {particles.map((thumb) => (
+          <FloatingThumbParticle
+            key={thumb.id}
+            thumb={thumb}
+            onComplete={removeParticle}
+          />
+        ))}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// --- End Floating Thumbs Animation ---
+
 interface SolutionStateProps {
   className?: string;
   activeStory?: DecisionStory | null;
@@ -482,7 +674,9 @@ function SolutionState({
   const allItems = [...highlights, ...opportunities];
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [thumbsClicked, setThumbsClicked] = useState(false);
+  const [showStat, setShowStat] = useState(false);
   const [borderAnimating, setBorderAnimating] = useState(false);
+  const [burstTrigger, setBurstTrigger] = useState(0);
   // 0 = all v1, totalSections = all v2
   // Sections: 0=header, 1..N=items
   const totalSections = allItems.length + 1;
@@ -500,7 +694,9 @@ function SolutionState({
   // Reset per-story state when activeStory changes
   useEffect(() => {
     setThumbsClicked(false);
+    setShowStat(false);
     setBorderAnimating(false);
+    setBurstTrigger(0);
     // When a new story opens, show the correct initial state instantly
     setUpgradedSections(showBeforeState ? 0 : totalSections);
     prevBeforeStateRef.current = showBeforeState;
@@ -509,6 +705,14 @@ function SolutionState({
       setExpandedIndex(0);
     } else {
       setExpandedIndex(null);
+    }
+
+    if (activeStory?.id === 'measuring-success') {
+      const timer = setTimeout(() => {
+        setThumbsClicked(true);
+        setShowStat(true);
+      }, 400);
+      return () => clearTimeout(timer);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStory]);
@@ -656,30 +860,33 @@ function SolutionState({
 
           <div className="px-6 py-4 flex items-center gap-2" style={getFooterStyle()}>
             <span className="text-body-sm text-secondary">Is this helpful?</span>
-            <button
-              onClick={isMeasuringStory ? () => setThumbsClicked(true) : undefined}
-              className={`p-2 rounded-lg transition-colors ${
-                isMeasuringStory && !thumbsClicked
-                  ? 'animate-pulse-subtle hover:bg-black/5'
-                  : 'hover:bg-black/5'
-              }`}
-              aria-label="Thumbs up"
-            >
-              <span
-                className={`material-icons${thumbsClicked ? '' : '-outlined'} text-h2 ${
-                  thumbsClicked ? 'text-green-600' : 'text-primary'
-                }`}
+            <div className="relative">
+              <button
+                className="p-2 rounded-lg transition-colors hover:bg-black/5"
+                aria-label="Thumbs up"
+                onClick={() => {
+                  if (thumbsClicked && isMeasuringStory) {
+                    setBurstTrigger((n) => n + 1);
+                  }
+                }}
               >
-                thumb_up
-              </span>
-            </button>
+                <span
+                  className={`material-icons-outlined text-h2 block transition-colors duration-300 ${
+                    thumbsClicked ? 'text-emerald-600' : 'text-primary'
+                  }`}
+                >
+                  thumb_up
+                </span>
+              </button>
+              <FloatingThumbs active={thumbsClicked && isMeasuringStory} burstTrigger={burstTrigger} />
+            </div>
             <AnimatePresence>
-              {thumbsClicked && (
+              {showStat && (
                 <motion.span
                   initial={{ opacity: 0, scale: 0.8, x: -8 }}
                   animate={{ opacity: 1, scale: 1, x: 0 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                  className="text-body-sm font-semibold text-green-600 bg-green-50 px-2.5 py-1 rounded-full"
+                  className="text-body-sm font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full"
                 >
                   93% positive
                 </motion.span>
