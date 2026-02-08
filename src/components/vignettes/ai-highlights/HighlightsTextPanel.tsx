@@ -1,5 +1,7 @@
 import { aiHighlightsContent } from './content';
-import ProcessNotes from '../shared/ProcessNotes';
+import DecisionStories, {
+  DecisionStory,
+} from '../shared/DecisionStories';
 
 function ProjectName() {
   return (
@@ -12,7 +14,13 @@ function ProjectName() {
   );
 }
 
-export default function HighlightsTextPanel() {
+interface HighlightsTextPanelProps {
+  onActiveStoryChange?: (story: DecisionStory | null) => void;
+}
+
+export default function HighlightsTextPanel({
+  onActiveStoryChange,
+}: HighlightsTextPanelProps) {
   return (
     <div className="flex flex-col">
       <ProjectName />
@@ -29,8 +37,11 @@ export default function HighlightsTextPanel() {
         </p>
       )}
 
-      {/* Process notes */}
-      <ProcessNotes notes={aiHighlightsContent.processNotes} />
+      {/* Decision stories */}
+      <DecisionStories
+        stories={aiHighlightsContent.decisionStories}
+        onActiveStoryChange={onActiveStoryChange}
+      />
     </div>
   );
 }

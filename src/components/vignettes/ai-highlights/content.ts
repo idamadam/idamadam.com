@@ -11,10 +11,7 @@ export interface HighlightItem {
   sources: FeedbackSource[];
 }
 
-export interface DesignDetail {
-  number: number;
-  text: string;
-}
+import { DecisionStory } from '../shared/DecisionStories';
 
 interface AIHighlightsContent {
   // Left panel content
@@ -22,10 +19,7 @@ interface AIHighlightsContent {
   headline: string;
   body: string;
   keyResult?: string;
-  processNotes: string[];
-
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: DesignDetail[];
+  decisionStories: DecisionStory[];
 
   // Right panel content (fictional employee review)
   employee: {
@@ -45,25 +39,32 @@ export const aiHighlightsContent: AIHighlightsContent = {
   headline: 'AI summaries to make performance reviews easier',
   body: 'Managers spent hours synthesizing feedback each review cycle. I designed a summary that helped managers understand what impact their direct report had and made it easy to verify the AI output.',
   keyResult: '93% of feedback was positive about the feature.',
-  processNotes: [
-    'I joined after initial discovery and owned design through validation, iteration, and launch.',
-    'I defined the interaction model and worked with data science on prompt quality.',
-    'This was a high visibility project with heavy exec feedback. I played an active part in managing up and getting the framing for the feature right.',
-  ],
-
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: [
+  decisionStories: [
     {
-      number: 1,
-      text: 'Summary surfaces themes across all feedback',
+      id: 'reframing-summary',
+      title: 'Reframing the summary',
+      story:
+        "Early explorations surfaced themes, but they read as generic buckets. I reframed them as highlights and opportunities. The lens managers already use when writing reviews. User testing then showed themes were too abstract, so I worked with data science to tune prompts for specificity: real project names, concrete behaviors.",
+      highlightSection: 1,
     },
     {
-      number: 2,
-      text: 'Each theme links behavior to situation',
+      id: 'trust-verification',
+      title: 'Trust through verification',
+      story:
+        "Managers needed to trust the AI but not drown in detail. We designed a progressive flow. Orient on the summary, review themes, then expand to verify against source quotes. Showing everything upfront defeated the point. Hiding everything broke trust.",
+      highlightSection: 2,
     },
     {
-      number: 3,
-      text: 'Themes link back to source quotes, expand one to see.',
+      id: 'joining-mid-project',
+      title: 'Owning design through launch',
+      story:
+        'I joined after initial discovery and owned design through validation, iteration, and launch. I defined the interaction model and worked with data science on prompt quality.',
+    },
+    {
+      id: 'managing-visibility',
+      title: 'Managing executive visibility',
+      story:
+        'This was a high visibility project with heavy exec feedback. I played an active part in managing up and getting the framing for the feature right.',
     },
   ],
 

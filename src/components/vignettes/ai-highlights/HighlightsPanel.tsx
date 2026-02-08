@@ -4,15 +4,12 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
-import NumberedMarker from './NumberedMarker';
-import MarkerTooltip from '../shared/MarkerTooltip';
+import { DecisionStory } from '../shared/DecisionStories';
 import { aiHighlightsContent, FeedbackSource } from './content';
 
 interface HighlightsPanelProps {
   className?: string;
-  highlightedSection?: number | null;
-  onMarkerClick?: (number: number) => void;
-  onMarkerHover?: (number: number | null) => void;
+  activeStory?: DecisionStory | null;
 }
 
 interface SourceCardProps {
@@ -199,37 +196,62 @@ function LoadingState() {
 
 interface SolutionStateProps {
   className?: string;
-  highlightedSection?: number | null;
-  onMarkerClick?: (number: number) => void;
-  onMarkerHover?: (number: number | null) => void;
+  activeStory?: DecisionStory | null;
 }
 
 function SolutionState({
   className = '',
-  highlightedSection = null,
-  onMarkerClick,
-  onMarkerHover,
+  activeStory = null,
 }: SolutionStateProps) {
   const [highlightExpanded, setHighlightExpanded] = useState(false);
   const [opportunityExpanded, setOpportunityExpanded] = useState(false);
-  const [markersDiscovered, setMarkersDiscovered] = useState(false);
+
+  const highlightedSection = activeStory?.highlightSection ?? null;
+
+  // Auto-expand highlight sources for the trust-verification story
+  useEffect(() => {
+    if (activeStory?.id === 'trust-verification') {
+      setHighlightExpanded(true);
+    } else {
+      setHighlightExpanded(false);
+    }
+  }, [activeStory]);
 
   const { employee, summary, highlights, opportunities } = aiHighlightsContent;
   const highlight = highlights[0];
   const opportunity = opportunities[0];
 
-  // Get highlight ring style for a section
-  const getSectionHighlightStyle = (sectionNumber: number) => {
-    if (highlightedSection === sectionNumber) {
+  // Get block-level style: dimming + optional background highlight
+  const getBlockStyle = (sectionNumber: number) => {
+    const transition = 'opacity 0.3s ease-in-out, background-color 0.3s ease-in-out';
+
+    if (!activeStory) {
+      return { opacity: 1, transition };
+    }
+
+    // Process story (no highlightSection) — dim everything
+    if (highlightedSection == null) {
+      return { opacity: 0.4, transition };
+    }
+
+    // Section-specific story — spotlight the matching block
+    if (sectionNumber === highlightedSection) {
       return {
+        opacity: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.04)',
         borderRadius: '8px',
-        transition: 'background-color 0.3s ease-in-out',
+        transition,
       };
     }
-    return {
-      transition: 'background-color 0.3s ease-in-out',
-    };
+
+    // Non-matching block — dim
+    return { opacity: 0.4, transition };
+  };
+
+  const getFooterStyle = () => {
+    const transition = 'opacity 0.3s ease-in-out';
+    if (!activeStory) return { opacity: 1, transition };
+    return { opacity: 0.4, transition };
   };
 
   return (
@@ -243,49 +265,10 @@ function SolutionState({
       <div className="bg-background-elevated rounded-[5px] overflow-visible">
         {/* Header Section - Summary */}
         <div
-          className="border-b-2 border-border px-6 py-6 relative"
+          className="border-b-2 border-border px-6 py-6"
           data-section-id="summary"
-          style={getSectionHighlightStyle(1)}
+          style={getBlockStyle(1)}
         >
-          {/* Marker 1 - desktop: left side, mobile: left edge */}
-          <motion.div
-            className="absolute -left-10 top-1/2 -translate-y-1/2 hidden xl:block"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.2 }}
-            onMouseEnter={() => onMarkerHover?.(1)}
-            onMouseLeave={() => onMarkerHover?.(null)}
-          >
-            <MarkerTooltip
-              number={1}
-              text={aiHighlightsContent.designDetails[0].text}
-              isVisible={highlightedSection === 1}
-              side="left"
-            >
-              <NumberedMarker
-                number={1}
-                onClick={() => onMarkerClick?.(1)}
-                isActive={highlightedSection === 1}
-                hasBeenDiscovered={markersDiscovered}
-                onDiscover={() => setMarkersDiscovered(true)}
-              />
-            </MarkerTooltip>
-          </motion.div>
-          <motion.div
-            className="absolute -left-4 top-1/2 -translate-y-1/2 xl:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.2 }}
-          >
-            <NumberedMarker
-              number={1}
-              onClick={() => onMarkerClick?.(1)}
-              isActive={highlightedSection === 1}
-              hasBeenDiscovered={markersDiscovered}
-              onDiscover={() => setMarkersDiscovered(true)}
-            />
-          </motion.div>
-
           <div className="flex items-center gap-3 mb-2">
             <div
               className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-semibold text-white"
@@ -308,49 +291,10 @@ function SolutionState({
 
         {/* Highlight Item */}
         <div
-          className="border-b-2 border-border relative"
+          className="border-b-2 border-border"
           data-section-id="highlight"
-          style={getSectionHighlightStyle(2)}
+          style={getBlockStyle(2)}
         >
-          {/* Marker 2 - desktop: left side, mobile: left edge */}
-          <motion.div
-            className="absolute -left-10 top-8 hidden xl:block"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.2, delay: 0.05 }}
-            onMouseEnter={() => onMarkerHover?.(2)}
-            onMouseLeave={() => onMarkerHover?.(null)}
-          >
-            <MarkerTooltip
-              number={2}
-              text={aiHighlightsContent.designDetails[1].text}
-              isVisible={highlightedSection === 2}
-              side="left"
-            >
-              <NumberedMarker
-                number={2}
-                onClick={() => onMarkerClick?.(2)}
-                isActive={highlightedSection === 2}
-                hasBeenDiscovered={markersDiscovered}
-                onDiscover={() => setMarkersDiscovered(true)}
-              />
-            </MarkerTooltip>
-          </motion.div>
-          <motion.div
-            className="absolute -left-4 top-8 xl:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.2, delay: 0.05 }}
-          >
-            <NumberedMarker
-              number={2}
-              onClick={() => onMarkerClick?.(2)}
-              isActive={highlightedSection === 2}
-              hasBeenDiscovered={markersDiscovered}
-              onDiscover={() => setMarkersDiscovered(true)}
-            />
-          </motion.div>
-
           <div className="px-6 py-8">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <div className="flex-1">
@@ -424,8 +368,9 @@ function SolutionState({
 
         {/* Opportunity Item */}
         <div
-          className="border-b-2 border-border relative"
+          className="border-b-2 border-border"
           data-section-id="opportunity"
+          style={getBlockStyle(3)}
         >
           <div className="px-6 py-8">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -446,51 +391,8 @@ function SolutionState({
                 </p>
               </div>
 
-              {/* Sources row with Marker 3 */}
-              <div
-                className="flex items-center gap-2 shrink-0 relative"
-                data-section-id="sources-expand"
-                style={getSectionHighlightStyle(3)}
-              >
-                {/* Marker 3 - desktop: right side, mobile: inline before sources */}
-                <motion.div
-                  className="absolute -right-16 top-1/2 -translate-y-1/2 hidden xl:block"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.2, delay: 0.1 }}
-                  onMouseEnter={() => onMarkerHover?.(3)}
-                  onMouseLeave={() => onMarkerHover?.(null)}
-                >
-                  <MarkerTooltip
-                    number={3}
-                    text={aiHighlightsContent.designDetails[2].text}
-                    isVisible={highlightedSection === 3}
-                    side="right"
-                  >
-                    <NumberedMarker
-                      number={3}
-                      onClick={() => onMarkerClick?.(3)}
-                      isActive={highlightedSection === 3}
-                      hasBeenDiscovered={markersDiscovered}
-                      onDiscover={() => setMarkersDiscovered(true)}
-                    />
-                  </MarkerTooltip>
-                </motion.div>
-                <motion.div
-                  className="xl:hidden"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.2, delay: 0.1 }}
-                >
-                  <NumberedMarker
-                    number={3}
-                    onClick={() => onMarkerClick?.(3)}
-                    isActive={highlightedSection === 3}
-                    hasBeenDiscovered={markersDiscovered}
-                    onDiscover={() => setMarkersDiscovered(true)}
-                  />
-                </motion.div>
-
+              {/* Sources row */}
+              <div className="flex items-center gap-2 shrink-0">
                 <div className="flex items-center gap-1">
                   <div className="flex -space-x-2">
                     {opportunity.sources.slice(0, 2).map((source, idx) => (
@@ -548,7 +450,10 @@ function SolutionState({
         </div>
 
         {/* Footer with Feedback Buttons */}
-        <div className="px-6 py-4 flex items-center gap-2">
+        <div
+          className="px-6 py-4 flex items-center gap-2"
+          style={getFooterStyle()}
+        >
           <span className="text-body-sm text-secondary">Is this helpful?</span>
           <button
             className="p-2 hover:bg-black/5 rounded-lg transition-colors"
@@ -574,9 +479,7 @@ function SolutionState({
 
 export default function HighlightsPanel({
   className = '',
-  highlightedSection = null,
-  onMarkerClick,
-  onMarkerHover,
+  activeStory = null,
 }: HighlightsPanelProps) {
   const reducedMotion = useReducedMotion();
   const { isComplete } = useIntroSequence();
@@ -621,9 +524,7 @@ export default function HighlightsPanel({
         >
           <SolutionState
             className={className}
-            highlightedSection={highlightedSection}
-            onMarkerClick={onMarkerClick}
-            onMarkerHover={onMarkerHover}
+            activeStory={activeStory}
           />
         </motion.div>
       )}
