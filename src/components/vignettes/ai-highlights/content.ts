@@ -42,29 +42,17 @@ export const aiHighlightsContent: AIHighlightsContent = {
   decisionStories: [
     {
       id: 'reframing-summary',
-      title: 'Reframing the summary',
+      title: 'What framing is useful for managers?',
       story:
-        "Early explorations surfaced themes, but they read as generic buckets. I reframed them as highlights and opportunities. The lens managers already use when writing reviews. User testing then showed themes were too abstract, so I worked with data science to tune prompts for specificity: real project names, concrete behaviors.",
+        "Early explorations surfaced themes, but they read as generic buckets. Managers don't think in themes. They think in highlights and opportunities. I reframed around that lens and worked with data science to tune prompts for specificity: real project names, concrete behaviors, not abstractions.",
       highlightSection: 1,
     },
     {
       id: 'trust-verification',
-      title: 'Trust through verification',
+      title: 'How do managers verify AI output?',
       story:
-        "Managers needed to trust the AI but not drown in detail. We designed a progressive flow. Orient on the summary, review themes, then expand to verify against source quotes. Showing everything upfront defeated the point. Hiding everything broke trust.",
+        "Managers needed to trust the AI but not drown in detail. Showing everything upfront defeated the point. Hiding everything broke trust. We landed on a progressive flow: orient on the summary, review themes, then expand to verify against source quotes.",
       highlightSection: 2,
-    },
-    {
-      id: 'joining-mid-project',
-      title: 'Owning design through launch',
-      story:
-        'I joined after initial discovery and owned design through validation, iteration, and launch. I defined the interaction model and worked with data science on prompt quality.',
-    },
-    {
-      id: 'managing-visibility',
-      title: 'Managing executive visibility',
-      story:
-        'This was a high visibility project with heavy exec feedback. I played an active part in managing up and getting the framing for the feature right.',
     },
   ],
 
