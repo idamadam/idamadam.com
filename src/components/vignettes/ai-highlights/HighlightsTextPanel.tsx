@@ -32,7 +32,7 @@ export default function HighlightsTextPanel({
     (story: DecisionStory) => {
       if (!STORIES_WITH_TOGGLE.has(story.id)) return null;
       return (
-        <div className="flex items-center gap-2 -mt-1 pb-4">
+        <div className="hidden lg:flex items-center gap-2 -mt-1 pb-4">
           <span className="text-caption text-primary/70">Compare iterations</span>
           <div className="inline-flex rounded-full bg-black/5 p-0.5">
             <button
