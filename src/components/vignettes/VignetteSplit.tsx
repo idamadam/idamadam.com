@@ -37,7 +37,7 @@ export default function VignetteSplit({
   // Text column widths harmonized with IntroPanel (544px at 2xl)
   const gridClass = compact
     ? 'grid grid-cols-1 gap-6'
-    : 'grid grid-cols-1 xl:grid-cols-[416px_1fr] 2xl:grid-cols-[544px_1fr] gap-6 xl:gap-12 xl:items-start';
+    : 'grid grid-cols-1 xl:grid-cols-[500px_1fr] 2xl:grid-cols-[544px_1fr] gap-6 xl:gap-12 xl:items-start';
 
   // Animation variants for text column (appears first)
   const textVariants = {

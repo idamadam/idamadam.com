@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import HeroContent from './HeroContent';
 import IntroPanel from './IntroPanel';
+import ApproachCards from './ApproachCards';
 import { timing, timingReduced } from '@/lib/animations';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
@@ -90,9 +91,12 @@ export default function HeroVignette() {
           ease: [0.25, 0.1, 0.25, 1],
         }}
       >
-        <article id="hero" className="flex flex-col gap-6 lg:gap-7">
-          <HeroContent />
-          <IntroPanel />
+        <article id="hero" className="grid grid-cols-1 xl:grid-cols-[500px_1fr] 2xl:grid-cols-[544px_1fr] gap-6 xl:gap-12 xl:items-center">
+          <div className="flex flex-col gap-6 lg:gap-7">
+            <HeroContent />
+            <IntroPanel />
+          </div>
+          <ApproachCards />
         </article>
       </motion.div>
     </motion.section>
