@@ -8,16 +8,16 @@ import SectionTitle from './SectionTitle';
 
 const approaches = [
   {
-    heading: 'I design with a wide context',
-    body: 'The people using the product, the business behind it, the technology underneath it. I hold all of that context because the best design decisions come from understanding the full picture.',
+    heading: 'I don\u2019t stop at the user problem',
+    body: 'I go deep on the tech, the data, the business context. That\u2019s where I find the constraints critical to the solution, and the opportunities that live inside them.',
   },
   {
-    heading: 'I earn simplicity through depth',
-    body: 'The right answer rarely shows up in the first, second, or third iteration. I go further than most teams are comfortable with because real simplicity only emerges through rigorous exploration.',
+    heading: 'Simplicity emerges through iteration',
+    body: 'Wide exploration, user feedback, then deep refinement. Great design solutions almost always feel like the obvious thing to do, but refinement is required to get there.',
   },
   {
-    heading: 'I care about the people I work with',
-    body: 'Productive disagreement takes trust. Their problems, their context, their craft. The hard conversations become the best part of the process when you genuinely care about the people in the room.',
+    heading: 'Psychological safety creates the room for productive disagreement',
+    body: 'I invest in relationships first. When people feel understood, they share more, challenge more, and align faster.',
   },
 ];
 
