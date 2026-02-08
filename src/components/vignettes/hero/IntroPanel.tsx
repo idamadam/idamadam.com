@@ -102,7 +102,7 @@ function renderLineWithLinks(
 export default function IntroPanel() {
   const reducedMotion = useReducedMotion();
   const t = reducedMotion ? timingReduced : timing;
-  const { setStage } = useIntroSequence();
+  const { setStage, isComplete } = useIntroSequence();
 
   // Paragraph delay: after name reveal + role fade + small gap
   const paragraphDelay = t.intro.nameReveal + t.intro.stageDelay;
@@ -123,26 +123,17 @@ export default function IntroPanel() {
     return () => clearTimeout(timer);
   }, [reducedMotion, setStage, t]);
 
-  // For reduced motion, use simple fade
-  if (reducedMotion) {
+  // For reduced motion or scroll-skipped intro, show final state immediately
+  if (reducedMotion || isComplete) {
     return (
       <div className="max-w-[544px]">
-        <motion.div
-          className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] space-y-4 text-wrap-balance"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: t.intro.stageDuration,
-            delay: paragraphDelay,
-            ease: [0.25, 0.1, 0.25, 1],
-          }}
-        >
+        <div className="text-body text-primary tracking-[-0.01em] space-y-4 text-wrap-balance">
           {introContent.lines.map((line, lineIndex) => (
             <p key={lineIndex}>
               {renderLineWithLinks(line, introContent.links, `line-${lineIndex}`)}
             </p>
           ))}
-        </motion.div>
+        </div>
       </div>
     );
   }
@@ -177,7 +168,7 @@ export default function IntroPanel() {
 
   return (
     <div className="max-w-[544px]">
-      <div className="text-[1.375rem] leading-[1.55] text-primary tracking-[-0.01em] space-y-4 text-wrap-balance">
+      <div className="text-body text-primary tracking-[-0.01em] space-y-4 text-wrap-balance">
         {lineUnits.map((units, lineIndex) => (
           <motion.p
             key={lineIndex}
