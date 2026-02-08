@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
 import { DecisionStory } from '../shared/DecisionStories';
-import { aiHighlightsContent, FeedbackSource } from './content';
+import { aiHighlightsContent, FeedbackSource, HighlightItem } from './content';
 
 interface HighlightsPanelProps {
   className?: string;
@@ -199,27 +199,123 @@ interface SolutionStateProps {
   activeStory?: DecisionStory | null;
 }
 
+function CollapsibleItem({
+  item,
+  sectionIndex,
+  isExpanded,
+  onToggle,
+  blockStyle,
+}: {
+  item: HighlightItem;
+  sectionIndex: number;
+  isExpanded: boolean;
+  onToggle: () => void;
+  blockStyle: React.CSSProperties;
+}) {
+  const isHighlight = item.type === 'highlight';
+  const label = isHighlight ? 'Highlight' : 'Opportunity';
+  const icon = isHighlight ? 'star_outline' : 'lightbulb';
+  const iconColor = isHighlight ? '#22594A' : 'rgba(135, 100, 0, 1)';
+
+  return (
+    <div
+      className="border-b-2 border-border"
+      data-section-id={`${item.type}-${sectionIndex}`}
+      style={blockStyle}
+    >
+      <div className="px-6 py-8">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex-1">
+            <div className="flex items-center gap-1 mb-2">
+              <span
+                className="material-icons-outlined text-h3"
+                style={{ color: iconColor }}
+              >
+                {icon}
+              </span>
+              <span className="text-body-sm font-semibold text-primary">
+                {label}
+              </span>
+            </div>
+            <p className="text-body-sm text-primary">
+              {item.summary}
+            </p>
+          </div>
+
+          <button
+            onClick={onToggle}
+            className="flex items-center gap-3 shrink-0 hover:bg-black/5 rounded-lg px-2 py-2 -mx-2 transition-colors cursor-pointer"
+            aria-label={
+              isExpanded ? `Collapse ${item.type}` : `Expand ${item.type}`
+            }
+            aria-expanded={isExpanded}
+          >
+            <div className="flex items-center gap-1">
+              <div className="flex -space-x-2">
+                {item.sources.slice(0, 2).map((source, idx) => (
+                  <div
+                    key={idx}
+                    className="w-5 h-5 rounded-full border-2 border-background-elevated flex items-center justify-center text-[8px] font-bold text-white"
+                    style={{ backgroundColor: getAvatarColor(source.reviewer) }}
+                  >
+                    {getInitials(source.reviewer)}
+                  </div>
+                ))}
+              </div>
+              <span className="text-body-sm text-secondary">
+                {item.sources.length} sources
+              </span>
+            </div>
+            <motion.span
+              animate={{ rotate: isExpanded ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="material-icons-outlined text-h3 text-primary block"
+            >
+              keyboard_arrow_down
+            </motion.span>
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="overflow-hidden"
+            >
+              <div className="mt-4 space-y-4">
+                {item.sources.map((source, idx) => (
+                  <SourceCard key={idx} source={source} />
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
 function SolutionState({
   className = '',
   activeStory = null,
 }: SolutionStateProps) {
-  const [highlightExpanded, setHighlightExpanded] = useState(false);
-  const [opportunityExpanded, setOpportunityExpanded] = useState(false);
+  const { employee, summary, highlights, opportunities } = aiHighlightsContent;
+  const allItems = [...highlights, ...opportunities];
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const highlightedSection = activeStory?.highlightSection ?? null;
 
-  // Auto-expand highlight sources for the trust-verification story
+  // Auto-expand first highlight sources for the trust-verification story
   useEffect(() => {
     if (activeStory?.id === 'trust-verification') {
-      setHighlightExpanded(true);
+      setExpandedIndex(0);
     } else {
-      setHighlightExpanded(false);
+      setExpandedIndex(null);
     }
   }, [activeStory]);
-
-  const { employee, summary, highlights, opportunities } = aiHighlightsContent;
-  const highlight = highlights[0];
-  const opportunity = opportunities[0];
 
   // Get block-level style: dimming + optional background highlight
   const getBlockStyle = (sectionNumber: number) => {
@@ -289,165 +385,19 @@ function SolutionState({
           <p className="text-body-sm text-primary mt-0">{summary}</p>
         </div>
 
-        {/* Highlight Item */}
-        <div
-          className="border-b-2 border-border"
-          data-section-id="highlight"
-          style={getBlockStyle(2)}
-        >
-          <div className="px-6 py-8">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <div className="flex-1">
-                <div className="flex items-center gap-1 mb-2">
-                  <span className="material-icons-outlined text-h3 text-[#22594A]">
-                    star_outline
-                  </span>
-                  <span className="text-body-sm font-semibold text-primary">
-                    {highlight.theme}
-                  </span>
-                </div>
-                <p className="text-body-sm text-primary">
-                  {highlight.description}
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
-                <div className="flex items-center gap-1">
-                  <div className="flex -space-x-2">
-                    {highlight.sources.slice(0, 2).map((source, idx) => (
-                      <div
-                        key={idx}
-                        className="w-5 h-5 rounded-full border-2 border-background-elevated flex items-center justify-center text-[8px] font-bold text-white"
-                        style={{ backgroundColor: getAvatarColor(source.reviewer) }}
-                      >
-                        {getInitials(source.reviewer)}
-                      </div>
-                    ))}
-                  </div>
-                  <span className="text-body-sm text-secondary">
-                    {highlight.sources.length} sources
-                  </span>
-                </div>
-                <button
-                  onClick={() => setHighlightExpanded(!highlightExpanded)}
-                  className="p-3 hover:bg-black/5 rounded-lg transition-colors"
-                  aria-label={
-                    highlightExpanded ? 'Collapse highlight' : 'Expand highlight'
-                  }
-                >
-                  <motion.span
-                    animate={{ rotate: highlightExpanded ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="material-icons-outlined text-h3 text-primary block"
-                  >
-                    keyboard_arrow_down
-                  </motion.span>
-                </button>
-              </div>
-            </div>
-
-            <AnimatePresence>
-              {highlightExpanded && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
-                  className="overflow-hidden"
-                >
-                  <div className="mt-4 space-y-4">
-                    {highlight.sources.map((source, idx) => (
-                      <SourceCard key={idx} source={source} />
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* Opportunity Item */}
-        <div
-          className="border-b-2 border-border"
-          data-section-id="opportunity"
-          style={getBlockStyle(3)}
-        >
-          <div className="px-6 py-8">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <div className="flex-1">
-                <div className="flex items-center gap-1 mb-2">
-                  <span
-                    className="material-icons-outlined text-h3"
-                    style={{ color: 'rgba(135, 100, 0, 1)' }}
-                  >
-                    lightbulb
-                  </span>
-                  <span className="text-body-sm font-semibold text-primary">
-                    {opportunity.theme}
-                  </span>
-                </div>
-                <p className="text-body-sm text-primary">
-                  {opportunity.description}
-                </p>
-              </div>
-
-              {/* Sources row */}
-              <div className="flex items-center gap-2 shrink-0">
-                <div className="flex items-center gap-1">
-                  <div className="flex -space-x-2">
-                    {opportunity.sources.slice(0, 2).map((source, idx) => (
-                      <div
-                        key={idx}
-                        className="w-5 h-5 rounded-full border-2 border-background-elevated flex items-center justify-center text-[8px] font-bold text-white"
-                        style={{ backgroundColor: getAvatarColor(source.reviewer) }}
-                      >
-                        {getInitials(source.reviewer)}
-                      </div>
-                    ))}
-                  </div>
-                  <span className="text-body-sm text-secondary">
-                    {opportunity.sources.length} sources
-                  </span>
-                </div>
-                <button
-                  onClick={() => setOpportunityExpanded(!opportunityExpanded)}
-                  className="p-3 hover:bg-black/5 rounded-lg transition-colors"
-                  aria-label={
-                    opportunityExpanded
-                      ? 'Collapse opportunity'
-                      : 'Expand opportunity'
-                  }
-                >
-                  <motion.span
-                    animate={{ rotate: opportunityExpanded ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="material-icons-outlined text-h3 text-primary block"
-                  >
-                    keyboard_arrow_down
-                  </motion.span>
-                </button>
-              </div>
-            </div>
-
-            <AnimatePresence>
-              {opportunityExpanded && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
-                  className="overflow-hidden"
-                >
-                  <div className="mt-4 space-y-4">
-                    {opportunity.sources.map((source, idx) => (
-                      <SourceCard key={idx} source={source} />
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
+        {/* Highlight and Opportunity Items */}
+        {allItems.map((item, index) => (
+          <CollapsibleItem
+            key={index}
+            item={item}
+            sectionIndex={index}
+            isExpanded={expandedIndex === index}
+            onToggle={() =>
+              setExpandedIndex(expandedIndex === index ? null : index)
+            }
+            blockStyle={getBlockStyle(index + 2)}
+          />
+        ))}
 
         {/* Footer with Feedback Buttons */}
         <div

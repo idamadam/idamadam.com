@@ -6,8 +6,8 @@ export interface FeedbackSource {
 }
 
 export interface HighlightItem {
-  theme: string;
-  description: string;
+  type: 'highlight' | 'opportunity';
+  summary: string;
   sources: FeedbackSource[];
 }
 
@@ -64,23 +64,23 @@ export const aiHighlightsContent: AIHighlightsContent = {
     avatarColor: '#6366F1',
   },
   summary:
-    'Maya consistently demonstrates strong technical expertise and a collaborative approach to problem-solving. Her peers highlight her reliability in high-pressure situations, though there\'s opportunity to increase her visibility in cross-team initiatives.',
+    'Maya demonstrated strong leadership in ensuring timely project delivery and effectively supported team members\' growth and contributions. To further enhance team effectiveness, there\'s an opportunity to improve workload visibility and distribution across the team.',
   highlights: [
     {
-      theme: 'Technical problem-solving',
-      description:
-        'Excels at diagnosing complex issues, like identifying a critical race condition during the Q3 payments migration.',
+      type: 'highlight',
+      summary:
+        'Ensured on-time delivery of Project Phoenix through proactive communication',
       sources: [
         {
           quote:
-            'Maya spotted an edge case in our retry logic that nobody else caught during code review. Her attention to detail saved us from a potential incident.',
+            'During the Project Phoenix integration phase, Maya clearly articulated technical dependencies to the marketing team before their campaign planning started. This prevented misalignment and ensured marketing\'s launch timelines were realistic.',
           reviewer: 'David Park',
           reviewerRole: 'Staff Engineer',
           avatarUrl: '/avatars/david-park.svg',
         },
         {
           quote:
-            'When our deployment pipeline broke at 6pm before a major release, Maya stayed calm and walked the team through debugging it systematically. We shipped on time because of her.',
+            'Maya flagged a scheduling conflict with the platform team two weeks before it would have blocked us. Because she raised it early, we adjusted the rollout plan and still hit our launch date.',
           reviewer: 'Rachel Torres',
           reviewerRole: 'Engineering Manager',
           avatarUrl: '/avatars/rachel-torres.svg',
@@ -88,20 +88,20 @@ export const aiHighlightsContent: AIHighlightsContent = {
       ],
     },
     {
-      theme: 'Mentorship and knowledge sharing',
-      description:
-        'Actively invests in growing junior engineers, creating an onboarding guide that cut ramp-up time from 6 weeks to 4.',
+      type: 'highlight',
+      summary:
+        'Accelerated team growth by delegating the authentication service redesign',
       sources: [
         {
           quote:
-            'Maya spent three weeks pairing with me on the authentication service rewrite. I learned more from her in that time than in my previous year on the team.',
+            'Maya handed me the lead on the auth service redesign and checked in just enough to keep me on track. I grew more as an engineer in that project than anything else this year.',
           reviewer: 'James Liu',
           reviewerRole: 'Software Engineer II',
           avatarUrl: '/avatars/james-liu.svg',
         },
         {
           quote:
-            'She doesn\'t just fix problems—she explains the \'why\' behind her decisions. Her API design doc became required reading for the whole backend guild.',
+            'Instead of owning the auth rewrite herself, Maya scoped it so Liam could drive the architecture. She reviewed his proposals and gave him room to make decisions. That kind of deliberate delegation is rare.',
           reviewer: 'Priya Sharma',
           reviewerRole: 'Senior Software Engineer',
           avatarUrl: '/avatars/priya-sharma.svg',
@@ -111,20 +111,20 @@ export const aiHighlightsContent: AIHighlightsContent = {
   ],
   opportunities: [
     {
-      theme: 'Visibility in cross-functional work',
-      description:
-        'Well-recognized within engineering, but could speak up earlier in product discussions to shape technical direction.',
+      type: 'opportunity',
+      summary:
+        'Improve workload balance through increased visibility in cross-team planning',
       sources: [
         {
           quote:
-            'Maya often has great insights about technical constraints, but she usually shares them in Slack after meetings instead of raising them in the room. Her perspective would be valuable earlier in the process.',
+            'A few times this cycle, other teams didn\'t know Maya\'s team was already stretched. Work kept getting routed to them because nobody had visibility into their capacity. Earlier flag-raising would help.',
           reviewer: 'Kevin Wright',
           reviewerRole: 'Product Manager',
           avatarUrl: '/avatars/kevin-wright.svg',
         },
         {
           quote:
-            'I\'d love to see Maya present at our architecture review more often. She has the expertise—she just doesn\'t always put herself forward for those opportunities.',
+            'Maya tends to absorb extra work quietly rather than pushing back or redistributing. Making her team\'s workload more visible in planning would help avoid the crunches we saw around the Phoenix launch.',
           reviewer: 'Rachel Torres',
           reviewerRole: 'Engineering Manager',
           avatarUrl: '/avatars/rachel-torres.svg',
