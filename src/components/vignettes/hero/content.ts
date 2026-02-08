@@ -36,7 +36,7 @@ export const introContent: IntroContent = {
   role: 'Lead Product Designer at',
   lines: [
     "I design intelligent and thoughtful software that makes complex, high-stakes problems feel simple.",
-    "I specialise in turning ambiguous problem spaces into interfaces people can rely on.",
+    "I bring deep technical fluency to my design work. It means I understand constraints others miss, prototype at higher fidelity, and collaborate with engineers in their language.",
     "At Culture Amp, I've shipped AI features used by thousands of managers and built prototyping tools that changed how our design team works.",
   ],
   links: {},
