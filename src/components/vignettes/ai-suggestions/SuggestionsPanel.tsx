@@ -158,7 +158,10 @@ function RecommendationsPanel({
 
       <div className="bg-background-elevated rounded-[5px] px-6 py-6 space-y-6 relative z-10">
         {/* Header */}
-        <div className="flex items-start gap-2">
+        <div
+          className="flex items-start gap-2 transition-opacity duration-300"
+          style={{ opacity: isBorderHighlighted ? 0.4 : 1 }}
+        >
           <span className="material-icons-outlined text-h3 text-primary mt-0.5">
             auto_awesome
           </span>
@@ -173,7 +176,10 @@ function RecommendationsPanel({
         </div>
 
         {/* Recommendations */}
-        <div className="space-y-6" style={getBlockStyle(3, activeStory)}>
+        <div
+          className="space-y-6 transition-opacity duration-300"
+          style={{ opacity: isBorderHighlighted ? 0.4 : (getBlockStyle(3, activeStory)?.opacity ?? 1) }}
+        >
           {content.recommendations.map((rec, index) => (
             <div key={index}>
               <p className="text-base leading-6 text-primary">
@@ -188,7 +194,10 @@ function RecommendationsPanel({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center pt-2">
+        <div
+          className="flex items-center pt-2 transition-opacity duration-300"
+          style={{ opacity: isBorderHighlighted ? 0.4 : 1 }}
+        >
           <div className="flex items-center gap-4">
             <span className="text-sm text-secondary">Is this helpful?</span>
             <button className="p-2 hover:bg-black/5 rounded-lg transition-colors">
