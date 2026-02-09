@@ -35,8 +35,8 @@ const approaches: Approach[] = [
     ),
   },
   {
-    heading: 'If it feels complex, it probably needs more iteration',
-    body: 'Hard problems often have simple solutions. Finding them takes wide exploration and deep refinement.',
+    heading: 'I design in the material of software',
+    body: 'I use AI coding tools to help me build the ideas I\u2019m designing so I can interact with my ideas and get a feel for the end product.',
     accent: '#8B5CF6', // purple
     accentMuted: 'rgba(139, 92, 246, 0.07)',
     accentBorder: 'rgba(139, 92, 246, 0.15)',
@@ -45,12 +45,12 @@ const approaches: Approach[] = [
     gradientTo: '#FFFFFF',
     number: '02',
     illustration: (color, borderColor) => (
-      <ConvergenceIllustration color={color} borderColor={borderColor} />
+      <MaterialIllustration color={color} borderColor={borderColor} />
     ),
   },
   {
-    heading: 'You don\u2019t get good feedback without trust',
-    body: 'I actively build trust in my team to encourage people to challenge my thinking. This way, my work gets sharper.',
+    heading: 'I build trust so people challenge my thinking',
+    body: 'The best work comes from teams who feel safe to openly spar.',
     accent: '#F59E0B', // amber
     accentMuted: 'rgba(245, 158, 11, 0.07)',
     accentBorder: 'rgba(245, 158, 11, 0.15)',
@@ -78,7 +78,9 @@ const staggerOrder = [0, 1, 2];
 function hexPoints(cx: number, cy: number, r: number, rotDeg: number): string {
   return Array.from({ length: 6 }, (_, i) => {
     const angle = ((60 * i + rotDeg) * Math.PI) / 180;
-    return `${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`;
+    const x = Math.round((cx + r * Math.cos(angle)) * 100) / 100;
+    const y = Math.round((cy + r * Math.sin(angle)) * 100) / 100;
+    return `${x},${y}`;
   }).join(' ');
 }
 
@@ -131,24 +133,13 @@ function LayersIllustration({
   );
 }
 
-function ConvergenceIllustration({
+function MaterialIllustration({
   color,
   borderColor,
 }: {
   color: string;
   borderColor: string;
 }) {
-  // Progressive simplification: jagged polygon → square → circle
-  const cy = 36;
-  const r = 12;
-
-  // Jagged 9-sided polygon (complex, rough)
-  const jaggedPoints = Array.from({ length: 9 }, (_, i) => {
-    const angle = ((360 / 9) * i - 90) * (Math.PI / 180);
-    const jitter = i % 2 === 0 ? r : r * 0.65;
-    return `${20 + jitter * Math.cos(angle)},${cy + jitter * Math.sin(angle)}`;
-  }).join(' ');
-
   return (
     <svg
       width="112"
@@ -157,39 +148,53 @@ function ConvergenceIllustration({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Step 1: Jagged polygon — complex, many edges */}
-      <polygon
-        points={jaggedPoints}
+      {/* Left angle bracket — opening tag */}
+      <path
+        d="M24 20 L12 36 L24 52"
         stroke={color}
-        strokeWidth="1.5"
-        strokeOpacity="0.2"
+        strokeWidth="2"
+        strokeOpacity="0.3"
+        strokeLinecap="round"
         strokeLinejoin="round"
+        fill="none"
       />
 
-      {/* Step 2: Rounded square — simpler */}
-      <rect
-        x="45"
-        y={cy - 11}
-        width="22"
-        height="22"
-        rx="4"
+      {/* Right angle bracket — closing tag */}
+      <path
+        d="M88 20 L100 36 L88 52"
         stroke={color}
-        strokeWidth="1.5"
-        strokeOpacity="0.35"
-        fill={color}
-        fillOpacity="0.06"
+        strokeWidth="2"
+        strokeOpacity="0.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
       />
 
-      {/* Step 3: Circle — the simplest, most refined form */}
-      <circle
-        cx="92"
-        cy={cy}
-        r="11"
+      {/* Shape emerging between the brackets — diamond being formed */}
+      <rect
+        x="42"
+        y="22"
+        width="28"
+        height="28"
+        rx="4"
+        transform="rotate(45 56 36)"
         stroke={color}
         strokeWidth="2"
         strokeOpacity="0.5"
         fill={color}
-        fillOpacity="0.12"
+        fillOpacity="0.1"
+      />
+
+      {/* Cursor line — direct manipulation */}
+      <line
+        x1="56"
+        y1="26"
+        x2="56"
+        y2="46"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeOpacity="0.25"
+        strokeLinecap="round"
       />
     </svg>
   );
@@ -300,7 +305,7 @@ function CardContent({ approach }: { approach: Approach }) {
       </h3>
 
       {/* Body text */}
-      <p className="type-body text-secondary mt-2">{approach.body}</p>
+      <p className="text-sm text-primary mt-2" style={{ lineHeight: 1.65 }}>{approach.body}</p>
     </>
   );
 }
@@ -314,15 +319,7 @@ export default function ApproachCards() {
 
   return (
     <div className="w-full">
-      {/* Section label */}
-      <motion.p
-        className="type-body text-secondary mb-8 xl:text-center"
-        initial={reducedMotion ? { opacity: 1 } : { opacity: 0 }}
-        animate={shouldShow ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: reducedMotion ? 0 : 0.4, delay: shouldShow && !reducedMotion ? 0.1 : 0 }}
-      >
-        How I think about design
-      </motion.p>
+      <h2 className="sr-only">Design approach</h2>
 
       {/* Desktop: fanned cards centered in the 1fr column */}
       <div className="hidden xl:flex items-start justify-center relative h-[360px] pt-6">
