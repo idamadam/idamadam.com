@@ -213,7 +213,7 @@ export default function SuggestionsPanel({
     <div className="space-y-2 flex flex-col">
       <GradientBorderStyles />
       {/* Editor — always visible */}
-      <div style={getBlockStyle(1, activeStory)}>
+      <div style={activeStory?.highlightSection === 1 ? { transition: 'opacity 0.3s ease-in-out' } : getBlockStyle(1, activeStory)}>
         <RichTextEditor
           content={content.beforeText}
           placeholder="Write feedback..."
@@ -221,6 +221,7 @@ export default function SuggestionsPanel({
           isImproving={showLoading}
           isImproveActivated={!showLoading}
           mobileFormatting="dots"
+          dimmed={activeStory?.highlightSection === 1}
         />
       </div>
 
