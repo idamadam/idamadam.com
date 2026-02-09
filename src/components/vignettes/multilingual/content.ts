@@ -1,7 +1,4 @@
-export interface DesignDetail {
-  number: number;
-  text: string;
-}
+import type { DecisionStory } from '../shared/DecisionStories';
 
 interface TranslationField {
   id: number;
@@ -21,11 +18,9 @@ export interface MultilingualContent {
   projectName: string;
   headline: string;
   body: string;
-  keyResult?: string;
-  processNotes: string[];
 
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: DesignDetail[];
+  // Decision stories
+  decisionStories: DecisionStory[];
 
   // Right panel content
   translationFields: TranslationField[];
@@ -36,28 +31,24 @@ export const multilingualContent: MultilingualContent = {
   // Left panel content
   projectName: 'Multilingual Performance Cycles',
   headline: 'A simple workflow to run a multilingual performance cycle',
-  body: 'Lack of support for multilingual workflows was a top reason for lost deals. I designed a simple but powerful workflow to add and manage translations based on research I conducted with admins.',
-  keyResult: 'Zero support tickets and actively used since launch.',
+  body: 'Lack of support for multilingual workflows was a top reason for lost deals. Through research with admins, I discovered they were already using machine translation and managing via spreadsheets. I advocated to expand scope beyond a basic form to include both. The result was simpler than existing flows, and customers started requesting it in other areas of the product.',
 
-  processNotes: [
-    'I advocated for the inclusion of machine translation and spreadsheet import/export based on research. The original scope was just a basic form to add translations.',
-    'I designed the the translation layer to seamlessly fit into the existing performance cycle setup processes.',
-    'The workflow I designed here became a template for multilingual content across Culture Amp.',
-  ],
-
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: [
+  // Decision stories
+  decisionStories: [
     {
-      number: 1,
-      text: 'Unified dropdown replaces separate cycles per language',
+      id: 'scope-expansion',
+      title: 'Why expand beyond a basic form?',
+      story:
+        'The original scope was a basic form with manual text fields for each translation. Through research, I found that admins were already using Google Translate and other tools to translate their content, despite our assumption that they wouldn\'t trust machine translation quality. The org didn\'t see the need for anything more than the basic form. I used the research to demonstrate that admins had already built their own workflows around machine translation and spreadsheets, and advocated to bring both into the product as a package.',
+      highlightSection: 1,
+      toggleLabels: ['Before', 'After'],
     },
     {
-      number: 2,
-      text: 'One-click translation built in',
-    },
-    {
-      number: 3,
-      text: 'Importing & exporting a spreadsheet fit the existing workflows admins used to manage translations',
+      id: 'spreadsheet-workflow',
+      title: 'Why design around spreadsheets?',
+      story:
+        'Research showed that spreadsheets were how admins actually managed their translations. Rather than build a full in-product translation management tool, I designed around their existing workflow with import and export. The result was simpler than other translation flows in the product, and customers started asking for this workflow in other areas of Culture Amp.',
+      highlightSection: 2,
     },
   ],
 
@@ -77,38 +68,38 @@ export const multilingualContent: MultilingualContent = {
   languages: [
     {
       code: 'fr',
-      name: 'Français (French)',
+      name: 'Fran\u00e7ais (French)',
       texts: [
-        "Comment cette personne a-t-elle performé au cours de cette période d'évaluation?",
-        "Quels progrès ont été réalisés vers leurs objectifs?"
+        "Comment cette personne a-t-elle perform\u00e9 au cours de cette p\u00e9riode d'\u00e9valuation?",
+        "Quels progr\u00e8s ont \u00e9t\u00e9 r\u00e9alis\u00e9s vers leurs objectifs?"
       ],
       words: [
-        ['Comment', 'cette', 'personne', 'a-t-elle', 'performé', 'au', 'cours', 'de', 'cette', 'période', "d'évaluation?"],
-        ['Quels', 'progrès', 'ont', 'été', 'réalisés', 'vers', 'leurs', 'objectifs?']
+        ['Comment', 'cette', 'personne', 'a-t-elle', 'perform\u00e9', 'au', 'cours', 'de', 'cette', 'p\u00e9riode', "d'\u00e9valuation?"],
+        ['Quels', 'progr\u00e8s', 'ont', '\u00e9t\u00e9', 'r\u00e9alis\u00e9s', 'vers', 'leurs', 'objectifs?']
       ],
     },
     {
       code: 'es',
-      name: 'Español (Spanish)',
+      name: 'Espa\u00f1ol (Spanish)',
       texts: [
-        '¿Cómo se desempeñó esta persona durante este período de evaluación?',
-        '¿Qué progreso se hizo hacia sus objetivos?'
+        '\u00bfC\u00f3mo se desempe\u00f1\u00f3 esta persona durante este per\u00edodo de evaluaci\u00f3n?',
+        '\u00bfQu\u00e9 progreso se hizo hacia sus objetivos?'
       ],
       words: [
-        ['¿Cómo', 'se', 'desempeñó', 'esta', 'persona', 'durante', 'este', 'período', 'de', 'evaluación?'],
-        ['¿Qué', 'progreso', 'se', 'hizo', 'hacia', 'sus', 'objetivos?']
+        ['\u00bfC\u00f3mo', 'se', 'desempe\u00f1\u00f3', 'esta', 'persona', 'durante', 'este', 'per\u00edodo', 'de', 'evaluaci\u00f3n?'],
+        ['\u00bfQu\u00e9', 'progreso', 'se', 'hizo', 'hacia', 'sus', 'objetivos?']
       ],
     },
     {
       code: 'dv',
-      name: 'ދިވެހި (Dhivehi)',
+      name: '\u078b\u07a8\u0788\u07ac\u0780\u07a8 (Dhivehi)',
       texts: [
-        'މި މީހާ މި ރިވިއު ތެރޭގައި ކިހިނެއް ކުރިއަރައިފި؟',
-        'އެމީހުންގެ ލަނޑުދަނޑިތަކަށް ކޮން ކުރިއެރުމެއް ލިބުނީ؟'
+        '\u0789\u07a8 \u0789\u07a9\u0780\u07a7 \u0789\u07a8 \u0783\u07a8\u0788\u07a8\u0787\u07aa \u078e\u07ac\u0783\u07ad\u078e\u07a6\u0787\u07a8 \u0786\u07a8\u0780\u07a8\u0782\u07ac\u0787\u07b0 \u0786\u07aa\u0783\u07a8\u0787\u07a6\u0783\u07a6\u0787\u07a8\u078a\u07a8\u061f',
+        '\u0787\u07ac\u0789\u07a9\u0780\u07aa\u0782\u07b0\u078e\u07ac \u078d\u07a6\u0782\u07b0\u0791\u07aa\u078b\u07a6\u0782\u07b0\u0791\u07a8\u078c\u07a6\u0786\u07a6\u0781\u07b0 \u0786\u07ae\u0782\u07b0 \u0786\u07aa\u0783\u07a8\u0787\u07ac\u0783\u07aa\u0789\u07ac\u0787\u07b0 \u078d\u07a8\u0784\u07aa\u0782\u07a9\u061f'
       ],
       words: [
-        ['މި', 'މީހާ', 'މި', 'ރިވިއު', 'ތެރޭގައި', 'ކިހިނެއް', 'ކުރިއަރައިފި؟'],
-        ['އެމީހުންގެ', 'ލަނޑުދަނޑިތަކަށް', 'ކޮން', 'ކުރިއެރުމެއް', 'ލިބުނީ؟']
+        ['\u0789\u07a8', '\u0789\u07a9\u0780\u07a7', '\u0789\u07a8', '\u0783\u07a8\u0788\u07a8\u0787\u07aa', '\u078e\u07ac\u0783\u07ad\u078e\u07a6\u0787\u07a8', '\u0786\u07a8\u0780\u07a8\u0782\u07ac\u0787\u07b0', '\u0786\u07aa\u0783\u07a8\u0787\u07a6\u0783\u07a6\u0787\u07a8\u078a\u07a8\u061f'],
+        ['\u0787\u07ac\u0789\u07a9\u0780\u07aa\u0782\u07b0\u078e\u07ac', '\u078d\u07a6\u0782\u07b0\u0791\u07aa\u078b\u07a6\u0782\u07b0\u0791\u07a8\u078c\u07a6\u0786\u07a6\u0781\u07b0', '\u0786\u07ae\u0782\u07b0', '\u0786\u07aa\u0783\u07a8\u0787\u07ac\u0783\u07aa\u0789\u07ac\u0787\u07b0', '\u078d\u07a8\u0784\u07aa\u0782\u07a9\u061f']
       ],
     },
   ],

@@ -66,11 +66,7 @@ export default function DesktopMarkerTooltip({
               w-[240px]
             `}
             style={{
-              boxShadow: `
-                0 1px 2px rgba(0, 0, 0, 0.04),
-                0 4px 12px rgba(0, 0, 0, 0.06),
-                0 0 0 1px rgba(138, 85, 48, 0.04)
-              `,
+              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
             }}
           >
             {/* Number badge - matches the marker style */}
@@ -78,8 +74,7 @@ export default function DesktopMarkerTooltip({
               className="
                 flex items-center justify-center flex-shrink-0
                 size-5 rounded-full
-                bg-transparent border border-accent-300
-                text-accent-600 text-[10px] font-semibold
+                bg-neutral-700 text-white text-[10px] font-medium
                 mt-px
               "
             >

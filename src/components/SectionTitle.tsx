@@ -28,7 +28,7 @@ export default function SectionTitle({ children, disableScrollTrigger = false }:
 
   return (
     <motion.h2
-      className="text-[3rem] font-normal tracking-tight text-primary font-[family-name:var(--font-display)]"
+      className="type-h2"
       {...motionProps}
       transition={{
         duration: t.duration.slow,

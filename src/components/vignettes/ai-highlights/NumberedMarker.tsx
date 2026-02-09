@@ -53,14 +53,11 @@ const NumberedMarker = forwardRef<HTMLButtonElement, NumberedMarkerProps>(
         className={`
           flex items-center justify-center
           size-8 rounded-full
-          bg-white border border-accent-300 shadow-sm
-          text-accent-600 text-[13px] font-medium
+          bg-white border border-black/15 hover:border-black/30
+          text-primary text-[13px] font-medium
           cursor-pointer
-          transition-all duration-200
-          hover:bg-accent-50 hover:border-accent-400 hover:text-accent-700
-          focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2
-          ${isActive ? 'bg-accent-50 border-accent-400' : ''}
-          ${shouldAnimate ? 'breathe-glow' : ''}
+          transition-colors duration-150
+          focus:outline-none focus:ring-2 focus:ring-black/20 focus:ring-offset-2
           ${className}
         `}
         {...props}

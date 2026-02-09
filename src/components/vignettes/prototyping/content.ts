@@ -1,7 +1,4 @@
-export interface DesignDetail {
-  number: number;
-  text: string;
-}
+import type { DecisionStory } from '../shared/DecisionStories';
 
 export interface PrototypeItem {
   id: number;
@@ -21,11 +18,9 @@ export interface PrototypingContent {
   projectName: string;
   headline: string;
   body: string;
-  keyResult?: string;
-  processNotes: string[];
 
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: DesignDetail[];
+  // Decision stories
+  decisionStories: DecisionStory[];
 
   // Right panel content
   sandboxTitle: string;
@@ -41,27 +36,23 @@ export const prototypingContent: PrototypingContent = {
   // Left panel content
   projectName: 'Design Sandbox',
   headline: 'Built an internal repository to make AI prototyping faster and easier',
-  body: 'Designers had no way to deploy or share AI prototypes. I built a repository that made it easy to get started and deploy AI prototypes to our infrastructure.',
-  keyResult: '15 designers and PMs actively using it.',
-  processNotes: [
-    'In addition to building the tools, I wrote documentation & ran onboarding sessions internally.',
-    'Introduced a new novel workflow where designers can pull the newest prototypes and remix existing ones.',
-    'One team prototyped a feature that got executives bought in on a major release.',
-  ],
+  body: 'Designers had no way to deploy or share AI prototypes. I built the infrastructure myself and designed onboarding so anyone could start with a single slash command. 15 designers and PMs adopted it, and one team used it to prototype with real survey data for executive demos that got a major release funded.',
 
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: [
+  // Decision stories
+  decisionStories: [
     {
-      number: 1,
-      text: 'Shared library shows all prototypes across the org',
+      id: 'build-it-yourself',
+      title: 'Why did you build this?',
+      story:
+        'I was building a lot of AI prototypes and needed a way to deploy and share them. But beyond solving my own problem, I wanted to build a discipline of prototyping across the design team. There wasn\'t dedicated engineering for this, but I had the skills to build the infrastructure myself. Making it easy for other designers to get started meant prototyping could become a shared practice, not just something one person did.',
+      highlightSection: 1,
     },
     {
-      number: 2,
-      text: 'Each designer gets a personal homepage for their work',
-    },
-    {
-      number: 3,
-      text: 'Custom slash commands make onboarding fast and easy',
+      id: 'onboarding',
+      title: 'How did I make it easy to adopt?',
+      story:
+        'I designed custom slash commands like /add-designer and /add-prototype that scaffolded everything for you. Designers didn\'t need to learn how the system worked or touch any infrastructure. They could just run a command and start prototyping. Lowering that barrier was key to getting the whole team on board.',
+      highlightSection: 2,
     },
   ],
 

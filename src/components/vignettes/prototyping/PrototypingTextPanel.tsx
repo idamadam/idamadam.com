@@ -1,10 +1,10 @@
 import { prototypingContent } from './content';
-import ProcessNotes from '../shared/ProcessNotes';
+import DecisionStories, { DecisionStory } from '../shared/DecisionStories';
 
 function ProjectName() {
   return (
     <div className="flex items-center gap-2 mb-4">
-      <div className="size-1.5 rounded-full bg-accent-600" />
+      <div className="size-1.5 rounded-full bg-neutral-400" />
       <span className="text-[13px] font-medium tracking-tight text-primary font-[family-name:var(--font-inter)]">
         {prototypingContent.projectName}
       </span>
@@ -12,7 +12,13 @@ function ProjectName() {
   );
 }
 
-export default function PrototypingTextPanel() {
+interface PrototypingTextPanelProps {
+  onActiveStoryChange?: (story: DecisionStory | null) => void;
+}
+
+export default function PrototypingTextPanel({
+  onActiveStoryChange,
+}: PrototypingTextPanelProps) {
   return (
     <div className="flex flex-col">
       <ProjectName />
@@ -22,15 +28,12 @@ export default function PrototypingTextPanel() {
 
       {/* Body */}
       <p className="type-body text-primary mt-5">{prototypingContent.body}</p>
-      {prototypingContent.keyResult && (
-        <p className="type-body text-primary mt-4">
-          <span className="key-result-label">Key result: </span>
-          {prototypingContent.keyResult}
-        </p>
-      )}
 
-      {/* Process notes */}
-      <ProcessNotes notes={prototypingContent.processNotes} />
+      {/* Decision stories */}
+      <DecisionStories
+        stories={prototypingContent.decisionStories}
+        onActiveStoryChange={onActiveStoryChange}
+      />
     </div>
   );
 }

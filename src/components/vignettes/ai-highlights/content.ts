@@ -6,15 +6,12 @@ export interface FeedbackSource {
 }
 
 export interface HighlightItem {
-  theme: string;
-  description: string;
+  type: 'highlight' | 'opportunity';
+  summary: string;
   sources: FeedbackSource[];
 }
 
-export interface DesignDetail {
-  number: number;
-  text: string;
-}
+import { DecisionStory } from '../shared/DecisionStories';
 
 interface AIHighlightsContent {
   // Left panel content
@@ -22,10 +19,7 @@ interface AIHighlightsContent {
   headline: string;
   body: string;
   keyResult?: string;
-  processNotes: string[];
-
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: DesignDetail[];
+  decisionStories: DecisionStory[];
 
   // Right panel content (fictional employee review)
   employee: {
@@ -39,31 +33,196 @@ interface AIHighlightsContent {
   opportunities: HighlightItem[];
 }
 
+export type SummaryPart = string | { detail: string };
+
+export interface BeforeSummaryItem {
+  summary: string;
+  sources: FeedbackSource[];
+}
+
+export interface GenericHighlightItem {
+  type: 'highlight' | 'opportunity';
+  summary: string;
+  sources: FeedbackSource[];
+}
+
+export const storyInteractions = {
+  reframingSummary: {
+    before: {
+      summary:
+        'Based on feedback from 5 reviewers, here are the key themes identified for Maya Chen.',
+      items: [
+        {
+
+          summary:
+            'Team members noted strong communication and proactive project planning',
+          sources: [
+            {
+              quote:
+                'During the Project Phoenix integration phase, Maya clearly articulated technical dependencies to the marketing team before their campaign planning started. This prevented misalignment and ensured marketing\'s launch timelines were realistic.',
+              reviewer: 'David Park',
+              reviewerRole: 'Staff Engineer',
+            },
+            {
+              quote:
+                'Maya flagged a scheduling conflict with the platform team two weeks before it would have blocked us. Because she raised it early, we adjusted the rollout plan and still hit our launch date.',
+              reviewer: 'Rachel Torres',
+              reviewerRole: 'Engineering Manager',
+            },
+          ],
+        },
+        {
+
+          summary:
+            'Multiple reviewers highlighted delegation and team development efforts',
+          sources: [
+            {
+              quote:
+                'Maya handed me the lead on the auth service redesign and checked in just enough to keep me on track. I grew more as an engineer in that project than anything else this year.',
+              reviewer: 'James Liu',
+              reviewerRole: 'Software Engineer II',
+            },
+            {
+              quote:
+                'Instead of owning the auth rewrite herself, Maya scoped it so Liam could drive the architecture. She reviewed his proposals and gave him room to make decisions. That kind of deliberate delegation is rare.',
+              reviewer: 'Priya Sharma',
+              reviewerRole: 'Senior Software Engineer',
+            },
+          ],
+        },
+        {
+
+          summary:
+            'Some feedback suggested improving workload visibility across teams',
+          sources: [
+            {
+              quote:
+                'A few times this cycle, other teams didn\'t know Maya\'s team was already stretched. Work kept getting routed to them because nobody had visibility into their capacity. Earlier flag-raising would help.',
+              reviewer: 'Kevin Wright',
+              reviewerRole: 'Product Manager',
+            },
+            {
+              quote:
+                'Maya tends to absorb extra work quietly rather than pushing back or redistributing. Making her team\'s workload more visible in planning would help avoid the crunches we saw around the Phoenix launch.',
+              reviewer: 'Rachel Torres',
+              reviewerRole: 'Engineering Manager',
+            },
+          ],
+        },
+      ] as BeforeSummaryItem[],
+    },
+  },
+  refiningOutput: {
+    before: {
+      highlights: [
+        {
+          type: 'highlight' as const,
+          summary: 'Demonstrated strong communication skills across teams',
+          sources: [
+            {
+              quote:
+                'During the Project Phoenix integration phase, Maya clearly articulated technical dependencies to the marketing team before their campaign planning started. This prevented misalignment and ensured marketing\'s launch timelines were realistic.',
+              reviewer: 'David Park',
+              reviewerRole: 'Staff Engineer',
+            },
+            {
+              quote:
+                'Maya flagged a scheduling conflict with the platform team two weeks before it would have blocked us. Because she raised it early, we adjusted the rollout plan and still hit our launch date.',
+              reviewer: 'Rachel Torres',
+              reviewerRole: 'Engineering Manager',
+            },
+          ],
+        },
+        {
+          type: 'highlight' as const,
+          summary: 'Showed effective delegation and mentorship abilities',
+          sources: [
+            {
+              quote:
+                'Maya handed me the lead on the auth service redesign and checked in just enough to keep me on track. I grew more as an engineer in that project than anything else this year.',
+              reviewer: 'James Liu',
+              reviewerRole: 'Software Engineer II',
+            },
+            {
+              quote:
+                'Instead of owning the auth rewrite herself, Maya scoped it so Liam could drive the architecture. She reviewed his proposals and gave him room to make decisions. That kind of deliberate delegation is rare.',
+              reviewer: 'Priya Sharma',
+              reviewerRole: 'Senior Software Engineer',
+            },
+          ],
+        },
+      ] as GenericHighlightItem[],
+      afterParts: [
+        [
+          'Ensured on-time delivery of ',
+          { detail: 'Project Phoenix' },
+          ' through ',
+          { detail: 'proactive communication' },
+        ],
+        [
+          'Accelerated team growth by ',
+          { detail: 'delegating the authentication service redesign' },
+        ],
+        [
+          'Improve workload balance through ',
+          { detail: 'increased visibility' },
+          ' in ',
+          { detail: 'cross-team planning' },
+        ],
+      ] as SummaryPart[][],
+      opportunities: [
+        {
+          type: 'opportunity' as const,
+          summary: 'Could improve workload management and team capacity planning',
+          sources: [
+            {
+              quote:
+                'A few times this cycle, other teams didn\'t know Maya\'s team was already stretched. Work kept getting routed to them because nobody had visibility into their capacity. Earlier flag-raising would help.',
+              reviewer: 'Kevin Wright',
+              reviewerRole: 'Product Manager',
+            },
+            {
+              quote:
+                'Maya tends to absorb extra work quietly rather than pushing back or redistributing. Making her team\'s workload more visible in planning would help avoid the crunches we saw around the Phoenix launch.',
+              reviewer: 'Rachel Torres',
+              reviewerRole: 'Engineering Manager',
+            },
+          ],
+        } as GenericHighlightItem,
+      ],
+    },
+  },
+};
+
 export const aiHighlightsContent: AIHighlightsContent = {
   // Left panel content
   projectName: 'Highlights and Opportunities',
   headline: 'AI summaries to make performance reviews easier',
-  body: 'Managers spent hours synthesizing feedback each review cycle. I designed a summary that helped managers understand what impact their direct report had and made it easy to verify the AI output.',
-  keyResult: '93% of feedback was positive about the feature.',
-  processNotes: [
-    'I joined after initial discovery and owned design through validation, iteration, and launch.',
-    'I defined the interaction model and worked with data science on prompt quality.',
-    'This was a high visibility project with heavy exec feedback. I played an active part in managing up and getting the framing for the feature right.',
-  ],
-
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: [
+  body: "Managers spent hours synthesizing feedback each review cycle. I reframed AI-generated themes into Highlights & Opportunities to match how managers actually evaluate performance, and worked with data science to tune prompts so output cited specific projects instead of generic summaries. The feature launched to a 93% positive feedback rating.",
+  keyResult: undefined,
+  decisionStories: [
     {
-      number: 1,
-      text: 'Summary surfaces themes across all feedback',
+      id: 'reframing-summary',
+      title: 'What framing is useful for managers?',
+      story:
+        "Early iterations of this feature generated and displayed themes. Through my work designing for performance reviews, I knew that managers were looking for what went well and what could be improved. I reframed the summaries around the concept of Highlights & Opportunities to reflect how managers evaluate performance.",
+      highlightSection: 1,
+      toggleLabels: ['Before', 'After'],
     },
     {
-      number: 2,
-      text: 'Each theme links behavior to situation',
+      id: 'refining-output',
+      title: 'How did feedback shape the AI output?',
+      story:
+        "As part of validating this feature, I developed a process to test actual output from the prompt we were developing rather than generic copy. Managers indicated that the theme titles were too generic to help them understand what their direct report did. I worked with data science to tune the prompts so that the output cited specific projects and moments where the behaviour actually occurred.",
+      highlightSection: 2,
+      toggleLabels: ['Generic', 'Specific'],
     },
     {
-      number: 3,
-      text: 'Themes link back to source quotes, expand one to see.',
+      id: 'trust-verification',
+      title: 'How do managers verify AI output?',
+      story:
+        "As part of our research, we identified that managers wanted to verify the themes generated by the AI. In each theme card, I used avatars to emphasize that the feedback came from people and made it easy to see the direct feedback that corresponded to the theme.",
+      highlightSection: 2,
     },
   ],
 
@@ -75,23 +234,23 @@ export const aiHighlightsContent: AIHighlightsContent = {
     avatarColor: '#6366F1',
   },
   summary:
-    'Maya consistently demonstrates strong technical expertise and a collaborative approach to problem-solving. Her peers highlight her reliability in high-pressure situations, though there\'s opportunity to increase her visibility in cross-team initiatives.',
+    'Maya demonstrated strong leadership in ensuring timely project delivery and effectively supported team members\' growth and contributions. To further enhance team effectiveness, there\'s an opportunity to improve workload visibility and distribution across the team.',
   highlights: [
     {
-      theme: 'Technical problem-solving',
-      description:
-        'Excels at diagnosing complex issues, like identifying a critical race condition during the Q3 payments migration.',
+      type: 'highlight',
+      summary:
+        'Ensured on-time delivery of Project Phoenix through proactive communication',
       sources: [
         {
           quote:
-            'Maya spotted an edge case in our retry logic that nobody else caught during code review. Her attention to detail saved us from a potential incident.',
+            'During the Project Phoenix integration phase, Maya clearly articulated technical dependencies to the marketing team before their campaign planning started. This prevented misalignment and ensured marketing\'s launch timelines were realistic.',
           reviewer: 'David Park',
           reviewerRole: 'Staff Engineer',
           avatarUrl: '/avatars/david-park.svg',
         },
         {
           quote:
-            'When our deployment pipeline broke at 6pm before a major release, Maya stayed calm and walked the team through debugging it systematically. We shipped on time because of her.',
+            'Maya flagged a scheduling conflict with the platform team two weeks before it would have blocked us. Because she raised it early, we adjusted the rollout plan and still hit our launch date.',
           reviewer: 'Rachel Torres',
           reviewerRole: 'Engineering Manager',
           avatarUrl: '/avatars/rachel-torres.svg',
@@ -99,20 +258,20 @@ export const aiHighlightsContent: AIHighlightsContent = {
       ],
     },
     {
-      theme: 'Mentorship and knowledge sharing',
-      description:
-        'Actively invests in growing junior engineers, creating an onboarding guide that cut ramp-up time from 6 weeks to 4.',
+      type: 'highlight',
+      summary:
+        'Accelerated team growth by delegating the authentication service redesign',
       sources: [
         {
           quote:
-            'Maya spent three weeks pairing with me on the authentication service rewrite. I learned more from her in that time than in my previous year on the team.',
+            'Maya handed me the lead on the auth service redesign and checked in just enough to keep me on track. I grew more as an engineer in that project than anything else this year.',
           reviewer: 'James Liu',
           reviewerRole: 'Software Engineer II',
           avatarUrl: '/avatars/james-liu.svg',
         },
         {
           quote:
-            'She doesn\'t just fix problems—she explains the \'why\' behind her decisions. Her API design doc became required reading for the whole backend guild.',
+            'Instead of owning the auth rewrite herself, Maya scoped it so Liam could drive the architecture. She reviewed his proposals and gave him room to make decisions. That kind of deliberate delegation is rare.',
           reviewer: 'Priya Sharma',
           reviewerRole: 'Senior Software Engineer',
           avatarUrl: '/avatars/priya-sharma.svg',
@@ -122,20 +281,20 @@ export const aiHighlightsContent: AIHighlightsContent = {
   ],
   opportunities: [
     {
-      theme: 'Visibility in cross-functional work',
-      description:
-        'Well-recognized within engineering, but could speak up earlier in product discussions to shape technical direction.',
+      type: 'opportunity',
+      summary:
+        'Improve workload balance through increased visibility in cross-team planning',
       sources: [
         {
           quote:
-            'Maya often has great insights about technical constraints, but she usually shares them in Slack after meetings instead of raising them in the room. Her perspective would be valuable earlier in the process.',
+            'A few times this cycle, other teams didn\'t know Maya\'s team was already stretched. Work kept getting routed to them because nobody had visibility into their capacity. Earlier flag-raising would help.',
           reviewer: 'Kevin Wright',
           reviewerRole: 'Product Manager',
           avatarUrl: '/avatars/kevin-wright.svg',
         },
         {
           quote:
-            'I\'d love to see Maya present at our architecture review more often. She has the expertise—she just doesn\'t always put herself forward for those opportunities.',
+            'Maya tends to absorb extra work quietly rather than pushing back or redistributing. Making her team\'s workload more visible in planning would help avoid the crunches we saw around the Phoenix launch.',
           reviewer: 'Rachel Torres',
           reviewerRole: 'Engineering Manager',
           avatarUrl: '/avatars/rachel-torres.svg',

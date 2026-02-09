@@ -13,10 +13,10 @@ export default function Home() {
           {/* Hero Section with Staged Intro */}
           <HeroVignette />
 
-          {/* Selected Work Section - fades in after intro */}
+          {/* Selected Work - interactive vignettes */}
           <SelectedWorkSection />
 
-          {/* Footer */}
+          {/* Footer - contact & closing */}
           <Footer />
         </div>
       </main>

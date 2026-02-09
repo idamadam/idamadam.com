@@ -3,19 +3,17 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
-import NumberedMarker from '../ai-highlights/NumberedMarker';
-import MarkerTooltip from '../shared/MarkerTooltip';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
-import type { AISuggestionsContent } from './content';
+import type { AISuggestionsContent, BorderSettings } from './content';
+import type { DecisionStory } from '../shared/DecisionStories';
 
 interface SuggestionsPanelProps {
   className?: string;
   content: AISuggestionsContent;
-  highlightedSection?: number | null;
-  onMarkerClick?: (number: number) => void;
-  onMarkerHover?: (number: number | null) => void;
-  hideMarkers?: boolean;
+  activeStory?: DecisionStory | null;
+  borderSettings?: BorderSettings;
+  showBeforeState?: boolean;
 }
 
 // Global styles for animated gradient border
@@ -47,8 +45,28 @@ function GradientBorderStyles() {
           var(--ai-gradient-2),
           var(--ai-gradient-1)
         );
-        animation: rotateGradient 3s linear infinite;
-        filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.5));
+        animation: rotateGradient var(--rotation-speed, 3s) linear infinite;
+        isolation: isolate;
+      }
+
+      .suggestions-loading-border::before,
+      .suggestions-animated-border::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 7px;
+        background: conic-gradient(
+          from var(--gradient-angle),
+          var(--ai-gradient-1),
+          var(--ai-gradient-2),
+          var(--ai-gradient-3),
+          var(--ai-gradient-2),
+          var(--ai-gradient-1)
+        );
+        filter: blur(3rem);
+        opacity: var(--glow-opacity, 0.6);
+        z-index: -1;
+        animation: rotateGradient var(--rotation-speed, 3s) linear infinite;
       }
 
       .suggestions-loading-content {
@@ -62,7 +80,9 @@ function GradientBorderStyles() {
 
       @media (prefers-reduced-motion: reduce) {
         .suggestions-loading-border,
-        .suggestions-animated-border {
+        .suggestions-animated-border,
+        .suggestions-loading-border::before,
+        .suggestions-animated-border::before {
           animation: none;
         }
       }
@@ -91,45 +111,55 @@ function LoadingPanel() {
   );
 }
 
+// Get opacity style for story-driven highlighting
+function getBlockStyle(
+  sectionNumber: number,
+  activeStory: DecisionStory | null
+) {
+  if (!activeStory || !activeStory.highlightSection) {
+    return undefined;
+  }
+  const isActive = activeStory.highlightSection === sectionNumber;
+  return {
+    opacity: isActive ? 1 : 0.4,
+    transition: 'opacity 0.3s ease-in-out',
+  };
+}
+
 interface RecommendationsPanelProps {
   content: AISuggestionsContent;
-  highlightedSection?: number | null;
-  onMarkerClick?: (number: number) => void;
-  onMarkerHover?: (number: number | null) => void;
-  hideMarkers?: boolean;
-  markersDiscovered?: boolean;
-  onMarkersDiscover?: () => void;
+  activeStory?: DecisionStory | null;
+  borderSettings?: BorderSettings;
 }
 
 function RecommendationsPanel({
   content,
-  highlightedSection = null,
-  onMarkerClick,
-  onMarkerHover,
-  hideMarkers = false,
-  markersDiscovered = false,
-  onMarkersDiscover,
+  activeStory = null,
+  borderSettings,
 }: RecommendationsPanelProps) {
-  // Get highlight style for a section
-  const getSectionHighlightStyle = (sectionNumber: number) => {
-    if (highlightedSection === sectionNumber) {
-      return {
-        backgroundColor: 'rgba(240, 217, 200, 0.3)',
-        borderRadius: '8px',
-        transition: 'background-color 0.3s ease-in-out',
-      };
-    }
-    return {
-      transition: 'background-color 0.3s ease-in-out',
-    };
-  };
+  const isBorderHighlighted = activeStory?.highlightSection === 2;
+  const isSuggestionsHighlighted = activeStory?.highlightSection === 3;
+  const isPanelDimmed = activeStory?.highlightSection != null && !isBorderHighlighted && !isSuggestionsHighlighted;
 
-  const isBorderHighlighted = highlightedSection === 2;
+  const borderOverrides =
+    isBorderHighlighted && borderSettings
+      ? ({
+          '--ai-gradient-1': borderSettings.colors[0],
+          '--ai-gradient-2': borderSettings.colors[1],
+          '--ai-gradient-3': borderSettings.colors[2],
+          '--rotation-speed': `${borderSettings.speed}s`,
+          '--glow-opacity': borderSettings.glow,
+        } as React.CSSProperties)
+      : undefined;
 
   return (
     <div
       className="relative rounded-[7px] p-[2px]"
-      data-section-id="gradient-border"
+      style={{
+        opacity: isPanelDimmed ? 0.4 : 1,
+        transition: 'opacity 0.3s ease-in-out',
+        ...borderOverrides,
+      }}
     >
       {/* Static gradient border (default state) */}
       <div
@@ -146,60 +176,13 @@ function RecommendationsPanel({
           isBorderHighlighted ? 'opacity-100' : 'opacity-0'
         }`}
       />
-      {/* Marker 2 - AI gradient border - desktop: left side, mobile: left edge */}
-      <AnimatePresence>
-        {!hideMarkers && (
-          <>
-            <motion.div
-              key="marker-2-desktop"
-              className="absolute -left-10 top-6 hidden xl:block z-20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2, delay: 0.05 }}
-              onMouseEnter={() => onMarkerHover?.(2)}
-              onMouseLeave={() => onMarkerHover?.(null)}
-            >
-              <MarkerTooltip
-                number={2}
-                text={content.designDetails[1].text}
-                isVisible={highlightedSection === 2}
-                side="left"
-              >
-                <NumberedMarker
-                  number={2}
-                  onClick={() => onMarkerClick?.(2)}
-                  isActive={highlightedSection === 2}
-                  hasBeenDiscovered={markersDiscovered}
-                  onDiscover={onMarkersDiscover}
-                />
-              </MarkerTooltip>
-            </motion.div>
-            <motion.div
-              key="marker-2-mobile"
-              className="absolute -left-4 top-6 xl:hidden z-20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2, delay: 0.05 }}
-            >
-              <NumberedMarker
-                number={2}
-                onClick={() => onMarkerClick?.(2)}
-                isActive={highlightedSection === 2}
-                hasBeenDiscovered={markersDiscovered}
-                onDiscover={onMarkersDiscover}
-              />
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
 
-      <div
-        className="bg-background-elevated rounded-[5px] px-6 py-6 space-y-6 relative z-10"
-      >
+      <div className="bg-background-elevated rounded-[5px] px-6 py-6 space-y-6 relative z-10">
         {/* Header */}
-        <div className="flex items-start gap-2">
+        <div
+          className="flex items-start gap-2 transition-opacity duration-300"
+          style={{ opacity: isBorderHighlighted || isSuggestionsHighlighted ? 0.4 : 1 }}
+        >
           <span className="material-icons-outlined text-h3 text-primary mt-0.5">
             auto_awesome
           </span>
@@ -213,61 +196,11 @@ function RecommendationsPanel({
           </div>
         </div>
 
-        {/* Recommendations with Marker 3 */}
+        {/* Recommendations */}
         <div
-          className="space-y-6 relative"
-          data-section-id="recommendations"
-          style={getSectionHighlightStyle(3)}
+          className="space-y-6 transition-opacity duration-300"
+          style={{ opacity: isBorderHighlighted ? 0.4 : 1 }}
         >
-          {/* Marker 3 - Recommendations - desktop: right side, mobile: right edge */}
-          <AnimatePresence>
-            {!hideMarkers && (
-              <>
-                <motion.div
-                  key="marker-3-desktop"
-                  className="absolute -right-16 top-4 hidden xl:block"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, delay: 0.1 }}
-                  onMouseEnter={() => onMarkerHover?.(3)}
-                  onMouseLeave={() => onMarkerHover?.(null)}
-                >
-                  <MarkerTooltip
-                    number={3}
-                    text={content.designDetails[2].text}
-                    isVisible={highlightedSection === 3}
-                    side="right"
-                  >
-                    <NumberedMarker
-                      number={3}
-                      onClick={() => onMarkerClick?.(3)}
-                      isActive={highlightedSection === 3}
-                      hasBeenDiscovered={markersDiscovered}
-                      onDiscover={onMarkersDiscover}
-                    />
-                  </MarkerTooltip>
-                </motion.div>
-                <motion.div
-                  key="marker-3-mobile"
-                  className="absolute -right-4 top-4 xl:hidden"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, delay: 0.1 }}
-                >
-                  <NumberedMarker
-                    number={3}
-                    onClick={() => onMarkerClick?.(3)}
-                    isActive={highlightedSection === 3}
-                    hasBeenDiscovered={markersDiscovered}
-                    onDiscover={onMarkersDiscover}
-                  />
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-
           {content.recommendations.map((rec, index) => (
             <div key={index}>
               <p className="text-base leading-6 text-primary">
@@ -282,7 +215,10 @@ function RecommendationsPanel({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center pt-2">
+        <div
+          className="flex items-center pt-2 transition-opacity duration-300"
+          style={{ opacity: isBorderHighlighted || isSuggestionsHighlighted ? 0.4 : 1 }}
+        >
           <div className="flex items-center gap-4">
             <span className="text-sm text-secondary">Is this helpful?</span>
             <button className="p-2 hover:bg-black/5 rounded-lg transition-colors">
@@ -304,22 +240,18 @@ function RecommendationsPanel({
 
 export default function SuggestionsPanel({
   content,
-  highlightedSection = null,
-  onMarkerClick,
-  onMarkerHover,
-  hideMarkers = false,
+  activeStory = null,
+  borderSettings,
+  showBeforeState = true,
 }: SuggestionsPanelProps) {
   const reducedMotion = useReducedMotion();
   const { isComplete } = useIntroSequence();
   const [showLoading, setShowLoading] = useState(true);
   const hasStartedRef = useRef(false);
-  const [markersDiscovered, setMarkersDiscovered] = useState(false);
 
   useEffect(() => {
-    // Only start timer once intro is complete AND we haven't started yet
     if (isComplete && showLoading && !hasStartedRef.current) {
       hasStartedRef.current = true;
-      // Small delay for fadeInUp to complete, then show loading for 1.5s
       const entranceDelay = reducedMotion ? 0 : 600;
       const loadingDuration = reducedMotion ? 0 : 1500;
 
@@ -331,78 +263,11 @@ export default function SuggestionsPanel({
     }
   }, [isComplete, showLoading, reducedMotion]);
 
-  // Get highlight style for a section
-  const getSectionHighlightStyle = (sectionNumber: number) => {
-    if (highlightedSection === sectionNumber) {
-      return {
-        backgroundColor: 'rgba(240, 217, 200, 0.3)',
-        borderRadius: '8px',
-        transition: 'background-color 0.3s ease-in-out',
-      };
-    }
-    return {
-      transition: 'background-color 0.3s ease-in-out',
-    };
-  };
-
   return (
-    <div className="space-y-2 flex flex-col">
+    <div className="space-y-2 flex flex-col overflow-visible">
       <GradientBorderStyles />
-      {/* Editor with marker - always visible */}
-      <div
-        className="relative"
-        data-section-id="improve-button"
-        style={getSectionHighlightStyle(1)}
-      >
-        {/* Marker 1 - Improve button - desktop: left side, mobile: left edge */}
-        <AnimatePresence>
-          {!hideMarkers && !showLoading && (
-            <>
-              <motion.div
-                key="marker-1-desktop"
-                className="absolute -left-10 top-5 hidden xl:block z-20"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                onMouseEnter={() => onMarkerHover?.(1)}
-                onMouseLeave={() => onMarkerHover?.(null)}
-              >
-                <MarkerTooltip
-                  number={1}
-                  text={content.designDetails[0].text}
-                  isVisible={highlightedSection === 1}
-                  side="left"
-                >
-                  <NumberedMarker
-                    number={1}
-                    onClick={() => onMarkerClick?.(1)}
-                    isActive={highlightedSection === 1}
-                    hasBeenDiscovered={markersDiscovered}
-                    onDiscover={() => setMarkersDiscovered(true)}
-                  />
-                </MarkerTooltip>
-              </motion.div>
-              <motion.div
-                key="marker-1-mobile"
-                className="absolute -left-4 top-5 xl:hidden z-20"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <NumberedMarker
-                  number={1}
-                  onClick={() => onMarkerClick?.(1)}
-                  isActive={highlightedSection === 1}
-                  hasBeenDiscovered={markersDiscovered}
-                  onDiscover={() => setMarkersDiscovered(true)}
-                />
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-
+      {/* Editor */}
+      <div style={activeStory?.highlightSection === 1 ? { transition: 'opacity 0.3s ease-in-out' } : getBlockStyle(1, activeStory)}>
         <RichTextEditor
           content={content.beforeText}
           placeholder="Write feedback..."
@@ -410,10 +275,11 @@ export default function SuggestionsPanel({
           isImproving={showLoading}
           isImproveActivated={!showLoading}
           mobileFormatting="dots"
+          dimmed={activeStory?.highlightSection === 1}
         />
       </div>
 
-      {/* Panel below - animates between loading and recommendations */}
+      {/* Panel below — animates between loading and recommendations */}
       <AnimatePresence mode="wait">
         {showLoading && (
           <motion.div
@@ -422,6 +288,7 @@ export default function SuggestionsPanel({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.25 }}
+            style={{ overflow: 'visible' }}
           >
             <LoadingPanel />
           </motion.div>
@@ -433,15 +300,12 @@ export default function SuggestionsPanel({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            style={{ overflow: 'visible' }}
           >
             <RecommendationsPanel
               content={content}
-              highlightedSection={highlightedSection}
-              onMarkerClick={onMarkerClick}
-              onMarkerHover={onMarkerHover}
-              hideMarkers={hideMarkers}
-              markersDiscovered={markersDiscovered}
-              onMarkersDiscover={() => setMarkersDiscovered(true)}
+              activeStory={activeStory}
+              borderSettings={borderSettings}
             />
           </motion.div>
         )}

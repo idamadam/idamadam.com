@@ -3,6 +3,7 @@ import { Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { CSSGradientBackground } from "@/components/CSSGradientBackground";
+import { Agentation } from "agentation";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -77,6 +78,7 @@ export default function RootLayout({
         <CSSGradientBackground />
           {children}
         <Analytics />
+        {process.env.NODE_ENV === "development" && <Agentation />}
       </body>
     </html>
   );

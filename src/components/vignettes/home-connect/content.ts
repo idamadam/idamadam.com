@@ -1,44 +1,37 @@
-export interface DesignDetail {
-  number: number;
-  text: string;
-}
+import type { DecisionStory } from '../shared/DecisionStories';
 
 export interface HomeConnectContent {
   // Left panel content
   projectName: string;
   headline: string;
   body: string;
-  keyResult?: string;
-  processNotes: string[];
 
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: DesignDetail[];
+  // Decision stories
+  decisionStories: DecisionStory[];
 }
 
 export const homeConnectContent: HomeConnectContent = {
   // Left panel content
   projectName: 'Home Connect',
   headline: 'A unified homepage for Culture Amp organised around people',
-  body: 'Managers were missing signals about their direct reports. Goals going stale, feedback sitting unread. I designed a new homepage for Culture Amp.',
-  keyResult: '255% increase in managers scheduling 1-on-1s for the first time.',
-  processNotes: [
-    'The team were originally considering a dashboard style structure to give each feature team their own real-estate on the page. I advocated for a different approach organised around the people that you work with and updates about them',
-    'To get buy-in, we ran a small experiment to prove our hypothesis around a new homepage',
-  ],
+  body: 'Managers were missing signals about their direct reports. Goals going stale, feedback sitting unread. The team was building a feature dashboard, but I pushed for a different direction and ran an experiment to prove it out. Managers who used the new homepage were 255% more likely to schedule their first 1-on-1.',
 
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: [
+  // Decision stories
+  decisionStories: [
     {
-      number: 1,
-      text: 'A unified feed brings critical updates from across the product',
+      id: 'people-centric',
+      title: 'Why organize around people, not features?',
+      story:
+        'The team was originally considering a dashboard structure to give each feature team their own real-estate on the page. I advocated for a different approach organized around the people you work with and updates about them. Instead of siloed feature cards, the homepage surfaces signals across performance, goals, and 1-on-1s in a unified feed.',
+      highlightSection: 1,
+      toggleLabels: ['Before', 'After'],
     },
     {
-      number: 2,
-      text: 'Cards surface people who need attention, not feature categories',
-    },
-    {
-      number: 3,
-      text: 'New notification type nudges managers about stale goals',
+      id: 'experiment',
+      title: 'How did you prove the approach?',
+      story:
+        'To get buy-in for this direction, we ran a small experiment. Managers who used the people-centric homepage were 255% more likely to schedule their first 1-on-1. The results shifted the team\'s direction from the feature dashboard to the people-centric model as the long-term approach.',
+      highlightSection: 2,
     },
   ],
 };

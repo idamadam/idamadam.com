@@ -153,7 +153,7 @@ export function MobileDesignNotesSheet({
                 Previous
               </button>
               <button
-                className="flex-1 py-3 px-4 rounded-xl bg-accent-600 hover:bg-accent-700 text-white text-[0.9375rem] font-medium transition-colors"
+                className="flex-1 py-3 px-4 rounded-xl bg-primary hover:bg-neutral-800 text-white text-[0.9375rem] font-medium transition-colors"
                 onClick={() => {
                   if (currentIndex === notes.length - 1) {
                     onClose();

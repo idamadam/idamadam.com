@@ -37,14 +37,14 @@ export function DesignNotesOverlay({ notes, onActiveNoteChange }: DesignNotesOve
       {/* Mobile: Button below panel to open notes sheet */}
       <motion.button
         className="lg:hidden mt-4 ml-auto z-20 flex items-center gap-2 px-4 py-2.5
-                   bg-accent-600 text-white text-[0.875rem] font-medium rounded-full shadow-md
-                   hover:bg-accent-700 transition-colors duration-200"
+                   bg-neutral-700 text-white text-[0.875rem] font-medium rounded-full shadow-sm
+                   hover:bg-neutral-800 transition-colors duration-150"
         onClick={() => openMobileSheet(0)}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        <span className="w-5 h-5 rounded-full bg-white text-accent-600 text-[11px] font-medium flex items-center justify-center">
+        <span className="w-5 h-5 rounded-full bg-white text-primary text-[11px] font-medium flex items-center justify-center">
           {notes.length}
         </span>
         Design notes
