@@ -100,7 +100,6 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
     // Schedule messages
     DEMO_MESSAGES.forEach((message) => {
       const timeout = setTimeout(() => {
-        console.log('[DemoCreationFlow] Showing message:', message.text);
         setVisibleMessages((prev) => [...prev, message]);
       }, message.delay);
       timeoutsRef.current.push(timeout);
@@ -108,7 +107,6 @@ export default function DemoCreationFlow({ onComplete }: DemoCreationFlowProps) 
 
     // Schedule result reveal
     const resultTimeout = setTimeout(() => {
-      console.log('[DemoCreationFlow] Showing result');
       setShowResult(true);
       setIsPlaying(false);
       setHasPlayed(true);

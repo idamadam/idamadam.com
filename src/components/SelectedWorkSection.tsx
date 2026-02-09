@@ -30,7 +30,7 @@ export default function SelectedWorkSection() {
         ease: [0.25, 0.1, 0.25, 1],
       }}
     >
-      <section id="work" className="w-full pb-12 lg:pb-20 px-6 lg:px-10 2xl:px-16">
+      <section id="work" className="w-full pb-12 lg:pb-20 px-6 lg:px-10 2xl:px-16 scroll-mt-20">
         <div className="max-w-[1408px] mx-auto border-t border-border/60 pt-10 lg:pt-14">
           <SectionTitle disableScrollTrigger>Selected work</SectionTitle>
         </div>

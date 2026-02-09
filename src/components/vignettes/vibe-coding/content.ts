@@ -12,7 +12,7 @@ interface VibeCodingContent {
 export const vibeCodingContent: VibeCodingContent = {
   projectName: 'Personal Exploration',
   headline: 'Building my own web-based prototyping tool',
-  body: 'A personal project to make complex prototyping via a coding agent more accesible via a web interface.',
+  body: 'A personal project to make complex prototyping via a coding agent more accessible via a web interface.',
 
   notes: [
     {

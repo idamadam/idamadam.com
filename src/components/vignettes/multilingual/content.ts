@@ -39,7 +39,7 @@ export const multilingualContent: MultilingualContent = {
       id: 'scope-expansion',
       title: 'Why expand beyond a basic form?',
       story:
-        'The original scope was a basic form with manual text fields for each translation. Through research, I found that admins were already using Google Translate and other tools to translate their content, despite our assumption that they wouldn\'t trust machine translation quality. I advocated to bring machine translation and spreadsheet import into the product as a package.',
+        'The original scope was a basic form with manual text fields for each translation. Through research, I found that admins were already using Google Translate and other tools to translate their content, despite our assumption that they wouldn\'t trust machine translation quality. The org didn\'t see the need for anything more than the basic form. I used the research to demonstrate that admins had already built their own workflows around machine translation and spreadsheets, and advocated to bring both into the product as a package.',
       highlightSection: 1,
       toggleLabels: ['Before', 'After'],
     },

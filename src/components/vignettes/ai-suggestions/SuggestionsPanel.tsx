@@ -111,36 +111,6 @@ function LoadingPanel() {
   );
 }
 
-function SuccessPanel() {
-  return (
-    <>
-      <GradientBorderStyles />
-      <div className="relative p-[2px] rounded-[7px]">
-        <div
-          className="absolute inset-0 rounded-[7px]"
-          style={{
-            background:
-              'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
-          }}
-        />
-        <div className="relative bg-background-elevated rounded-[5px] px-6 py-4 z-10 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="material-icons-outlined text-h3 text-primary">
-              auto_awesome
-            </span>
-            <span className="text-lg font-semibold text-primary leading-6">
-              No improvements to suggest
-            </span>
-          </div>
-          <span className="material-icons-outlined text-body-sm text-secondary">
-            close
-          </span>
-        </div>
-      </div>
-    </>
-  );
-}
-
 // Get opacity style for story-driven highlighting
 function getBlockStyle(
   sectionNumber: number,
@@ -274,13 +244,10 @@ export default function SuggestionsPanel({
   borderSettings,
   showBeforeState = true,
 }: SuggestionsPanelProps) {
-  const isShowingAfter = activeStory?.id === 'measuring-success' && !showBeforeState;
   const reducedMotion = useReducedMotion();
   const { isComplete } = useIntroSequence();
   const [showLoading, setShowLoading] = useState(true);
   const hasStartedRef = useRef(false);
-  const [displayedAfter, setDisplayedAfter] = useState(false);
-  const prevBeforeStateRef = useRef(showBeforeState);
 
   useEffect(() => {
     if (isComplete && showLoading && !hasStartedRef.current) {
@@ -296,72 +263,25 @@ export default function SuggestionsPanel({
     }
   }, [isComplete, showLoading, reducedMotion]);
 
-  // Rewrite animation: crossfade text and panel
-  useEffect(() => {
-    const wasBeforeNowAfter =
-      prevBeforeStateRef.current === true && !showBeforeState;
-    const wasAfterNowBefore =
-      prevBeforeStateRef.current === false && showBeforeState;
-    prevBeforeStateRef.current = showBeforeState;
-
-    if (activeStory?.id !== 'measuring-success') return;
-
-    if (wasAfterNowBefore) {
-      setDisplayedAfter(false);
-      return;
-    }
-
-    if (wasBeforeNowAfter) {
-      if (reducedMotion) {
-        setDisplayedAfter(true);
-        return;
-      }
-
-      const timer = setTimeout(() => setDisplayedAfter(true), 400);
-      return () => clearTimeout(timer);
-    }
-  }, [showBeforeState, activeStory, reducedMotion]);
-
-  // Reset when leaving the story
-  useEffect(() => {
-    if (activeStory?.id !== 'measuring-success') {
-      setDisplayedAfter(false);
-    }
-  }, [activeStory]);
-
-  const showAfterContent = displayedAfter && isShowingAfter;
-
   return (
     <div className="space-y-2 flex flex-col overflow-visible">
       <GradientBorderStyles />
-      {/* Editor — shell stays, text crossfades inside */}
+      {/* Editor */}
       <div style={activeStory?.highlightSection === 1 ? { transition: 'opacity 0.3s ease-in-out' } : getBlockStyle(1, activeStory)}>
         <RichTextEditor
-          content={showAfterContent ? content.afterText : content.beforeText}
+          content={content.beforeText}
           placeholder="Write feedback..."
           showImproveButton={true}
-          isImproving={showAfterContent ? false : showLoading}
-          isImproveActivated={showAfterContent ? true : !showLoading}
+          isImproving={showLoading}
+          isImproveActivated={!showLoading}
           mobileFormatting="dots"
           dimmed={activeStory?.highlightSection === 1}
         />
       </div>
 
-      {/* Panel below — animates between loading, recommendations, and success */}
+      {/* Panel below — animates between loading and recommendations */}
       <AnimatePresence mode="wait">
-        {showAfterContent && (
-          <motion.div
-            key="success"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            style={{ overflow: 'visible' }}
-          >
-            <SuccessPanel />
-          </motion.div>
-        )}
-        {!showAfterContent && showLoading && (
+        {showLoading && (
           <motion.div
             key="loading"
             initial={{ opacity: 0, y: -10 }}
@@ -373,7 +293,7 @@ export default function SuggestionsPanel({
             <LoadingPanel />
           </motion.div>
         )}
-        {!showAfterContent && !showLoading && (
+        {!showLoading && (
           <motion.div
             key="recommendations"
             initial={{ opacity: 0, y: -10 }}

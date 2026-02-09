@@ -74,15 +74,8 @@ export const aiSuggestionsContent: AISuggestionsContent = {
       id: 'suggest-not-rewrite',
       title: 'Why suggest instead of rewrite?',
       story:
-        "This was early on in the advent of LLMs. We were concerned about how we would encourage managers to keep their critical thinking and not simply offload writing feedback to an LLM. Working with Culture Amp's People Scientists, we identified 4 aspects of good feedback and designed the feature around these suggestions. The idea was that managers learned the principles of good feedback over time rather than just getting it written for them.",
+        "This was early on in the advent of LLMs. There was pressure to show dramatic AI capability with full rewrites, but we were concerned about managers offloading critical thinking. Working with Culture Amp's People Scientists, we identified 4 aspects of good feedback and designed the feature around these suggestions. We gave up the wow factor of AI-written feedback in exchange for a tool that actually built skill over time.",
       highlightSection: 3,
-    },
-    {
-      id: 'measuring-success',
-      title: 'How did I measure success?',
-      story:
-        '80% of managers made changes to their feedback after clicking Improve. This validated that suggestions were genuinely useful, not just novelty clicks.',
-      toggleLabels: ['Before', 'After'],
     },
   ],
 

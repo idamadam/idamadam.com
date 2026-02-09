@@ -54,13 +54,6 @@ export const prototypingContent: PrototypingContent = {
         'I designed custom slash commands like /add-designer and /add-prototype that scaffolded everything for you. Designers didn\'t need to learn how the system worked or touch any infrastructure. They could just run a command and start prototyping. Lowering that barrier was key to getting the whole team on board.',
       highlightSection: 2,
     },
-    {
-      id: 'impact',
-      title: 'What impact did it have?',
-      story:
-        '15 designers and PMs started actively using the sandbox. I wrote documentation and ran onboarding sessions to drive adoption. One team used it to prototype a feature with real survey data, personalizing demos for each executive. It got them bought in on a major release.',
-      highlightSection: 3,
-    },
   ],
 
   // Right panel content

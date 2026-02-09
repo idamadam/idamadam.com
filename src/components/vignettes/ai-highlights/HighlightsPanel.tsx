@@ -113,7 +113,6 @@ function SolutionState({
 
   const isReframingStory = activeStory?.id === 'reframing-summary';
   const isRefiningStory = activeStory?.id === 'refining-output';
-  const isMeasuringStory = activeStory?.id === 'measuring-success';
   const hasToggle = isReframingStory || isRefiningStory;
 
   useEffect(() => {
@@ -130,13 +129,6 @@ function SolutionState({
       setExpandedIndex(null);
     }
 
-    if (activeStory?.id === 'measuring-success') {
-      const timer = setTimeout(() => {
-        setThumbsClicked(true);
-        setShowStat(true);
-      }, 400);
-      return () => clearTimeout(timer);
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStory]);
 
@@ -216,9 +208,6 @@ function SolutionState({
     const transition =
       'opacity 0.3s ease-in-out, background-color 0.3s ease-in-out';
     if (!activeStory || hasToggle) return { opacity: 1, transition };
-    if (isMeasuringStory) {
-      return { opacity: 1, transition };
-    }
     return { opacity: 0.4, transition };
   };
 
@@ -279,11 +268,7 @@ function SolutionState({
               <button
                 className="p-2 rounded-lg transition-colors hover:bg-black/5"
                 aria-label="Thumbs up"
-                onClick={() => {
-                  if (thumbsClicked && isMeasuringStory) {
-                    setBurstTrigger((n) => n + 1);
-                  }
-                }}
+                onClick={() => {}}
               >
                 <span
                   className={`material-icons-outlined text-h2 block transition-colors duration-300 ${
@@ -293,7 +278,7 @@ function SolutionState({
                   thumb_up
                 </span>
               </button>
-              <FloatingThumbs active={thumbsClicked && isMeasuringStory} burstTrigger={burstTrigger} />
+              <FloatingThumbs active={false} burstTrigger={burstTrigger} />
             </div>
             <AnimatePresence>
               {showStat && (

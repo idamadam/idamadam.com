@@ -14,7 +14,7 @@ export const homeConnectContent: HomeConnectContent = {
   // Left panel content
   projectName: 'Home Connect',
   headline: 'A unified homepage for Culture Amp organised around people',
-  body: 'Managers were missing signals about their direct reports. Goals going stale, feedback sitting unread. I advocated for organizing the homepage around people rather than features, and ran an experiment to prove it. Managers who used the new homepage were 255% more likely to schedule their first 1-on-1.',
+  body: 'Managers were missing signals about their direct reports. Goals going stale, feedback sitting unread. The team was building a feature dashboard, but I pushed for a different direction and ran an experiment to prove it out. Managers who used the new homepage were 255% more likely to schedule their first 1-on-1.',
 
   // Decision stories
   decisionStories: [
@@ -30,7 +30,7 @@ export const homeConnectContent: HomeConnectContent = {
       id: 'experiment',
       title: 'How did you prove the approach?',
       story:
-        'To get buy-in for this direction, we ran a small experiment to prove our hypothesis around a people-centric homepage. The results were clear. Managers who used the new homepage were 255% more likely to schedule 1-on-1s for the first time.',
+        'To get buy-in for this direction, we ran a small experiment. Managers who used the people-centric homepage were 255% more likely to schedule their first 1-on-1. The results shifted the team\'s direction from the feature dashboard to the people-centric model as the long-term approach.',
       highlightSection: 2,
     },
   ],
