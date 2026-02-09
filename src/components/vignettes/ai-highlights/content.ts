@@ -198,7 +198,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
   // Left panel content
   projectName: 'Highlights and Opportunities',
   headline: 'AI summaries to make performance reviews easier',
-  body: "Managers spent hours synthesizing feedback each review cycle. I designed a summary of a direct report's feedback that helped managers understand what impact their direct report had as well as making it easy to verify the AI output.",
+  body: "Managers spent hours synthesizing feedback each review cycle. I reframed AI-generated themes into Highlights & Opportunities to match how managers actually evaluate performance, and worked with data science to tune prompts so output cited specific projects instead of generic summaries. The feature launched to a 93% positive feedback rating.",
   keyResult: undefined,
   decisionStories: [
     {

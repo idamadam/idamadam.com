@@ -36,7 +36,7 @@ export const prototypingContent: PrototypingContent = {
   // Left panel content
   projectName: 'Design Sandbox',
   headline: 'Built an internal repository to make AI prototyping faster and easier',
-  body: 'Designers had no way to deploy or share AI prototypes. I built a repository that made it easy to get started and deploy AI prototypes to our infrastructure.',
+  body: 'Designers had no way to deploy or share AI prototypes. I built the infrastructure myself and designed onboarding so anyone could start with a single slash command. 15 designers and PMs adopted it, and one team used it to prototype with real survey data for executive demos that got a major release funded.',
 
   // Decision stories
   decisionStories: [

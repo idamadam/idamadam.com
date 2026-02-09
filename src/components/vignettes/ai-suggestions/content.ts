@@ -54,7 +54,7 @@ export const aiSuggestionsContent: AISuggestionsContent = {
   // Left panel content
   projectName: 'AI Suggest Improvements',
   headline: 'AI suggestions to help managers write better feedback',
-  body: "We saw AI assistance as a natural fit for making feedback better, but we didn't want AI to take over critical thinking. I designed suggestions that helped managers understand how to give better feedback.",
+  body: "We saw AI assistance as a natural fit for making feedback better, but didn't want AI to take over critical thinking. Working with People Scientists, I designed suggestions around principles of good feedback so managers learned over time rather than offloading to an LLM. After launch, 80% of managers improved their feedback after using it.",
   decisionStories: [
     {
       id: 'improve-button-placement',

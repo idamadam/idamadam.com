@@ -24,7 +24,7 @@ const gradientTo = '#FFFFFF';
 const approaches: Approach[] = [
   {
     heading: 'I don\u2019t stop at the user problem',
-    body: 'I go deep on the tech, the data and the business context to identify hidden opportunities and constraints.',
+    body: 'I dig into the tech, the data, and the business context. That breadth has helped me expand project scope, challenge assumptions, and find opportunities others miss.',
     number: '01',
     illustration: (color, borderColor) => (
       <LayersIllustration color={color} borderColor={borderColor} />
@@ -32,7 +32,7 @@ const approaches: Approach[] = [
   },
   {
     heading: 'I design in the material of software',
-    body: 'I use AI coding tools to help me build the ideas I\u2019m designing so I can interact with my ideas and get a feel for the end product.',
+    body: 'I prototype in code so I can interact with my ideas and feel how they work. It means I speak engineers\u2019 language and understand constraints early.',
     number: '02',
     illustration: (color, borderColor) => (
       <MaterialIllustration color={color} borderColor={borderColor} />
@@ -40,7 +40,7 @@ const approaches: Approach[] = [
   },
   {
     heading: 'I build trust so people challenge my thinking',
-    body: 'The best work comes from teams who feel safe to openly spar.',
+    body: 'The best work comes from psychological safety. I invest in relationships so my teams feel comfortable pushing back, sparring openly, and arriving at better answers together.',
     number: '03',
     illustration: (color, borderColor) => (
       <OverlapIllustration color={color} borderColor={borderColor} />

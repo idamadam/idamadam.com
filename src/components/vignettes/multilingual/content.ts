@@ -31,7 +31,7 @@ export const multilingualContent: MultilingualContent = {
   // Left panel content
   projectName: 'Multilingual Performance Cycles',
   headline: 'A simple workflow to run a multilingual performance cycle',
-  body: 'Lack of support for multilingual workflows was a top reason for lost deals. I designed a simple but powerful workflow to add and manage translations based on research I conducted with admins.',
+  body: 'Lack of support for multilingual workflows was a top reason for lost deals. Through research with admins, I discovered they were already using machine translation and managing via spreadsheets. I advocated to expand scope beyond a basic form to include both. The result was simpler than existing flows, and customers started requesting it in other areas of the product.',
 
   // Decision stories
   decisionStories: [

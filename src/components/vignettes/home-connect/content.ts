@@ -14,7 +14,7 @@ export const homeConnectContent: HomeConnectContent = {
   // Left panel content
   projectName: 'Home Connect',
   headline: 'A unified homepage for Culture Amp organised around people',
-  body: 'Managers were missing signals about their direct reports. Goals going stale, feedback sitting unread. I designed a new homepage for Culture Amp.',
+  body: 'Managers were missing signals about their direct reports. Goals going stale, feedback sitting unread. I advocated for organizing the homepage around people rather than features, and ran an experiment to prove it. Managers who used the new homepage were 255% more likely to schedule their first 1-on-1.',
 
   // Decision stories
   decisionStories: [
