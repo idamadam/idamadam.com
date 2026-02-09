@@ -1,5 +1,6 @@
+import { useCallback } from 'react';
 import { multilingualContent } from './content';
-import ProcessNotes from '../shared/ProcessNotes';
+import DecisionStories, { DecisionStory } from '../shared/DecisionStories';
 
 function ProjectName() {
   return (
@@ -12,7 +13,52 @@ function ProjectName() {
   );
 }
 
-export default function MultilingualTextPanel() {
+interface MultilingualTextPanelProps {
+  onActiveStoryChange?: (story: DecisionStory | null) => void;
+  showBeforeState: boolean;
+  onBeforeAfterToggle: (before: boolean) => void;
+}
+
+export default function MultilingualTextPanel({
+  onActiveStoryChange,
+  showBeforeState,
+  onBeforeAfterToggle,
+}: MultilingualTextPanelProps) {
+  const renderStoryExtra = useCallback(
+    (story: DecisionStory) => {
+      if (story.id !== 'scope-expansion') return null;
+
+      return (
+        <div className="hidden lg:flex items-center gap-2 -mt-1 pb-4">
+          <span className="text-caption text-primary/70">Compare</span>
+          <div className="inline-flex rounded-full bg-black/5 p-0.5">
+            <button
+              onClick={() => onBeforeAfterToggle(true)}
+              className={`px-3 py-1 rounded-full text-caption font-medium transition-all duration-200 cursor-pointer ${
+                showBeforeState
+                  ? 'bg-white text-primary shadow-sm'
+                  : 'text-secondary hover:text-primary'
+              }`}
+            >
+              {story.toggleLabels?.[0] ?? 'Before'}
+            </button>
+            <button
+              onClick={() => onBeforeAfterToggle(false)}
+              className={`px-3 py-1 rounded-full text-caption font-medium transition-all duration-200 cursor-pointer ${
+                !showBeforeState
+                  ? 'bg-white text-primary shadow-sm'
+                  : 'text-secondary hover:text-primary'
+              }`}
+            >
+              {story.toggleLabels?.[1] ?? 'After'}
+            </button>
+          </div>
+        </div>
+      );
+    },
+    [showBeforeState, onBeforeAfterToggle]
+  );
+
   return (
     <div className="flex flex-col">
       <ProjectName />
@@ -22,15 +68,13 @@ export default function MultilingualTextPanel() {
 
       {/* Body */}
       <p className="type-body text-primary mt-5">{multilingualContent.body}</p>
-      {multilingualContent.keyResult && (
-        <p className="type-body text-primary mt-4">
-          <span className="key-result-label">Key result: </span>
-          {multilingualContent.keyResult}
-        </p>
-      )}
 
-      {/* Process notes */}
-      <ProcessNotes notes={multilingualContent.processNotes} />
+      {/* Decision stories */}
+      <DecisionStories
+        stories={multilingualContent.decisionStories}
+        onActiveStoryChange={onActiveStoryChange}
+        renderStoryExtra={renderStoryExtra}
+      />
     </div>
   );
 }
