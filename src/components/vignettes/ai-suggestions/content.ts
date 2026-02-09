@@ -46,6 +46,7 @@ export interface AISuggestionsContent {
   // Right panel content
   questionText: string;
   beforeText: string;
+  afterText: string;
   recommendations: AISuggestionsRecommendation[];
 }
 
@@ -81,6 +82,7 @@ export const aiSuggestionsContent: AISuggestionsContent = {
       title: 'How did I measure success?',
       story:
         '80% of managers made changes to their feedback after clicking Improve. This validated that suggestions were genuinely useful, not just novelty clicks.',
+      toggleLabels: ['Before', 'After'],
     },
   ],
 
@@ -88,6 +90,8 @@ export const aiSuggestionsContent: AISuggestionsContent = {
   questionText: 'How has this person progressed over this review period?',
   beforeText:
     "Alex Johnson has made some progress, but it's not really enough. They still have a long way to go. Their performance hasn't improved much, and they haven't met their goals in a meaningful way. They should try to be better next review period.",
+  afterText:
+    "Alex Johnson completed 2 of their 5 quarterly goals this period. The three outstanding goals — improving test coverage, reducing incident response time, and completing the onboarding documentation — didn't see meaningful progress. To improve next quarter, I'd suggest Alex break each goal into smaller milestones with clear deadlines and schedule regular check-ins to stay on track.",
   recommendations: [
     {
       title: 'Be specific:',

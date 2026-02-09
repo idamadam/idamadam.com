@@ -25,15 +25,49 @@ interface SuggestionsTextPanelProps {
   onActiveStoryChange?: (story: DecisionStory | null) => void;
   borderSettings: BorderSettings;
   onBorderSettingsChange: (settings: BorderSettings) => void;
+  showBeforeState: boolean;
+  onBeforeAfterToggle: (before: boolean) => void;
 }
 
 export default function SuggestionsTextPanel({
   onActiveStoryChange,
   borderSettings,
   onBorderSettingsChange,
+  showBeforeState,
+  onBeforeAfterToggle,
 }: SuggestionsTextPanelProps) {
   const renderStoryExtra = useCallback(
     (story: DecisionStory) => {
+      if (story.id === 'measuring-success') {
+        return (
+          <div className="hidden lg:flex items-center gap-2 -mt-1 pb-4">
+            <span className="text-caption text-primary/70">Compare</span>
+            <div className="inline-flex rounded-full bg-black/5 p-0.5">
+              <button
+                onClick={() => onBeforeAfterToggle(true)}
+                className={`px-3 py-1 rounded-full text-caption font-medium transition-all duration-200 cursor-pointer ${
+                  showBeforeState
+                    ? 'bg-white text-primary shadow-sm'
+                    : 'text-secondary hover:text-primary'
+                }`}
+              >
+                {story.toggleLabels?.[0] ?? 'Before'}
+              </button>
+              <button
+                onClick={() => onBeforeAfterToggle(false)}
+                className={`px-3 py-1 rounded-full text-caption font-medium transition-all duration-200 cursor-pointer ${
+                  !showBeforeState
+                    ? 'bg-white text-primary shadow-sm'
+                    : 'text-secondary hover:text-primary'
+                }`}
+              >
+                {story.toggleLabels?.[1] ?? 'After'}
+              </button>
+            </div>
+          </div>
+        );
+      }
+
       if (story.id !== 'designing-feel-of-ai') return null;
 
       return (
@@ -133,7 +167,7 @@ export default function SuggestionsTextPanel({
         </div>
       );
     },
-    [borderSettings, onBorderSettingsChange]
+    [borderSettings, onBorderSettingsChange, showBeforeState, onBeforeAfterToggle]
   );
 
   return (
