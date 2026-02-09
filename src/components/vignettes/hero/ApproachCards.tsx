@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
+import { useState, useRef, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
@@ -313,7 +313,13 @@ function CardContent({ approach }: { approach: Approach }) {
 export default function ApproachCards() {
   const reducedMotion = useReducedMotion();
   const { isComplete } = useIntroSequence();
-  const [lastHovered, setLastHovered] = useState<number | null>(null);
+  const [zOrder, setZOrder] = useState<Record<number, number>>({});
+  const zCounterRef = useRef(0);
+
+  const handleHover = (index: number) => {
+    zCounterRef.current += 1;
+    setZOrder((prev) => ({ ...prev, [index]: zCounterRef.current }));
+  };
 
   const shouldShow = reducedMotion || isComplete;
 
@@ -332,7 +338,7 @@ export default function ApproachCards() {
             <motion.div
               key={approach.heading}
               className="absolute left-1/2 top-0 w-[290px] rounded-2xl px-7 py-6 cursor-default select-none flex flex-col"
-              onHoverStart={() => setLastHovered(index)}
+              onHoverStart={() => handleHover(index)}
               initial={
                 reducedMotion
                   ? { opacity: 1, rotate: pos.rotate, x: '-50%', y: pos.y }
@@ -361,7 +367,7 @@ export default function ApproachCards() {
                 ease: easings.decel,
               }}
               style={{
-                zIndex: lastHovered === index ? 10 : 3 - index,
+                zIndex: zOrder[index] ?? 0,
                 transformOrigin: 'bottom center',
                 background: `linear-gradient(170deg, ${approach.gradientFrom} 0%, ${approach.gradientTo} 50%)`,
                 border: `1px solid ${approach.accentBorder}`,
