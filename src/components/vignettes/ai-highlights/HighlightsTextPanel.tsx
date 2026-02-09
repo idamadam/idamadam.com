@@ -43,7 +43,7 @@ export default function HighlightsTextPanel({
                   : 'text-secondary hover:text-primary'
               }`}
             >
-              v1
+              {story.toggleLabels?.[0] ?? 'v1'}
             </button>
             <button
               onClick={() => onBeforeAfterToggle(false)}
@@ -53,7 +53,7 @@ export default function HighlightsTextPanel({
                   : 'text-secondary hover:text-primary'
               }`}
             >
-              v2
+              {story.toggleLabels?.[1] ?? 'v2'}
             </button>
           </div>
         </div>

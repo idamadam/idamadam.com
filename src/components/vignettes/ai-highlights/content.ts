@@ -207,6 +207,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       story:
         "Eary iterations of this feature generated themes and displayed. Through my work designing for performance reviews, I knew that managers were looking for what went well and what could be improved. I reframed the summaries around the concept of Highlights & Opportunities to reflect how managers evaluate performance.",
       highlightSection: 1,
+      toggleLabels: ['Before', 'After'],
     },
     {
       id: 'refining-output',
@@ -214,6 +215,7 @@ export const aiHighlightsContent: AIHighlightsContent = {
       story:
         "As part of validating this feature, I developed a process to test actual output from the prompt we were developing rather than generic copy. Managers indicated that the theme titles were too generic to be useful to understand what their direct report did. I worked with data science to tune the prompts so that the output cited when the behaviour cited actually occured (eg. projects).",
       highlightSection: 2,
+      toggleLabels: ['Generic', 'Specific'],
     },
     {
       id: 'trust-verification',
