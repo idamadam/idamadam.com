@@ -1,5 +1,7 @@
 import { aiSuggestionsContent } from './content';
-import ProcessNotes from '../shared/ProcessNotes';
+import DecisionStories, {
+  DecisionStory,
+} from '../shared/DecisionStories';
 
 function ProjectName() {
   return (
@@ -12,7 +14,13 @@ function ProjectName() {
   );
 }
 
-export default function SuggestionsTextPanel() {
+interface SuggestionsTextPanelProps {
+  onActiveStoryChange?: (story: DecisionStory | null) => void;
+}
+
+export default function SuggestionsTextPanel({
+  onActiveStoryChange,
+}: SuggestionsTextPanelProps) {
   return (
     <div className="flex flex-col">
       <ProjectName />
@@ -22,15 +30,12 @@ export default function SuggestionsTextPanel() {
 
       {/* Body */}
       <p className="type-body text-primary mt-5">{aiSuggestionsContent.body}</p>
-      {aiSuggestionsContent.keyResult && (
-        <p className="type-body text-primary mt-4">
-          <span className="key-result-label">Key result: </span>
-          {aiSuggestionsContent.keyResult}
-        </p>
-      )}
 
-      {/* Process notes */}
-      <ProcessNotes notes={aiSuggestionsContent.processNotes} />
+      {/* Decision stories */}
+      <DecisionStories
+        stories={aiSuggestionsContent.decisionStories}
+        onActiveStoryChange={onActiveStoryChange}
+      />
     </div>
   );
 }

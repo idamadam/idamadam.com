@@ -1,7 +1,4 @@
-export interface DesignDetail {
-  number: number;
-  text: string;
-}
+import { DecisionStory } from '../shared/DecisionStories';
 
 interface AISuggestionsRecommendation {
   title: string;
@@ -13,11 +10,7 @@ export interface AISuggestionsContent {
   projectName: string;
   headline: string;
   body: string;
-  keyResult?: string;
-  processNotes: string[];
-
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: DesignDetail[];
+  decisionStories: DecisionStory[];
 
   // Right panel content
   questionText: string;
@@ -29,26 +22,34 @@ export const aiSuggestionsContent: AISuggestionsContent = {
   // Left panel content
   projectName: 'AI Suggest Improvements',
   headline: 'AI suggestions to help managers write better feedback',
-  body: 'We saw AI assistance as a natural fit for making feedback better, but we didn\'t want AI to take over critical thinking. I designed suggestions that helped managers understand how to give better feedback.',
-  keyResult: '80% made changes after clicking Improve.',
-  processNotes: [
-    'I worked with our People Scientists to craft suggestions grounded in feedback best practices',
-    'I designed this to fit into any Rich Text Editor at Culture Amp. This has allowed other teams to easily adopt this into their products',
-  ],
-
-  // Marker callouts (shown on hover/tap on panel markers)
-  designDetails: [
+  body: "We saw AI assistance as a natural fit for making feedback better, but we didn't want AI to take over critical thinking. I designed suggestions that helped managers understand how to give better feedback.",
+  decisionStories: [
     {
-      number: 1,
-      text: 'Improve button lives in the editor, not buried in a menu',
+      id: 'improve-button-placement',
+      title: 'Why does the Improve button live in the editor?',
+      story:
+        "We explored several approaches: a menu option, a Grammarly-style floating circle, and automatic review that would analyse text without any user action. Auto-review wasn't viable — calling the LLM on every keystroke was too costly. The floating circle conflicted with tools managers already used, like Grammarly itself. The explicit button in the editor toolbar felt most natural in context and had a crucial side benefit: it made the feature portable to any Rich Text Editor across Culture Amp.",
+      highlightSection: 1,
     },
     {
-      number: 2,
-      text: 'AI gradient signals assistance without being intrusive',
+      id: 'designing-feel-of-ai',
+      title: 'How did I design the feel of AI?',
+      story:
+        'I prototyped every detail of this interaction — gradient colours, rotation speed, transition timing, micro-interactions — using an LLM-assisted workflow to iterate rapidly on the code directly. This let me tune the feel of the AI experience to be helpful without being aggressive, designing in the material rather than specifying from mockups.',
+      highlightSection: 2,
     },
     {
-      number: 3,
-      text: 'Each suggestion explains what makes feedback effective',
+      id: 'suggest-not-rewrite',
+      title: 'Why suggest improvements instead of rewriting?',
+      story:
+        "This was early 2024 — LLM capabilities were uncertain and we were concerned about human autonomy. Managers needed to keep their own judgment, not outsource it to AI. Working with Culture Amp's People Scientists, we shaped suggestions that explain why feedback falls short, so managers learn the principle rather than accept a rewrite.",
+      highlightSection: 3,
+    },
+    {
+      id: 'measuring-success',
+      title: 'How did I measure success?',
+      story:
+        '80% of managers made changes to their feedback after clicking Improve, validating that the suggestions were genuinely useful — not just novelty clicks.',
     },
   ],
 
