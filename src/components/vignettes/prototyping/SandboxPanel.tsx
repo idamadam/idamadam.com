@@ -1,39 +1,43 @@
 'use client';
 
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import NumberedMarker from '../ai-highlights/NumberedMarker';
-import MarkerTooltip from '../shared/MarkerTooltip';
 import TerminalPanel from './TerminalPanel';
 import PrototypePreview from './PrototypePreview';
 import { useSandboxDemo } from './useSandboxDemo';
 import { useReducedMotion } from '@/lib/useReducedMotion';
-import type { PrototypingContent, DesignerItem } from './content';
+import { prototypingContent } from './content';
+import type { DesignerItem } from './content';
+import type { DecisionStory } from '../shared/DecisionStories';
 
 interface SandboxPanelProps {
   className?: string;
-  content: PrototypingContent;
-  highlightedSection?: number | null;
-  onMarkerClick?: (number: number) => void;
-  onMarkerHover?: (number: number | null) => void;
-  hideMarkers?: boolean;
+  activeStory?: DecisionStory | null;
 }
 
-// Get highlight style for a section
-function getSectionHighlightStyle(
-  sectionNumber: number,
-  highlightedSection: number | null
-) {
-  if (highlightedSection === sectionNumber) {
-    return {
-      backgroundColor: 'rgba(0, 0, 0, 0.04)',
-      borderRadius: '8px',
-      transition: 'background-color 0.3s ease-in-out',
-    };
+// Get dim style for story-driven highlighting
+function getDimStyle(activeStory: DecisionStory | null, section: number) {
+  if (!activeStory) return {};
+
+  const highlighted = activeStory.highlightSection;
+
+  // Story 1 (build-it-yourself, section 1): sandbox full, terminal dim
+  // Story 2 (remix-workflow, section 2): terminal full, sandbox+grid dim
+  // Story 3 (impact, section 3): sandbox+grid full, terminal dim
+
+  if (highlighted === 1) {
+    // Highlight sandbox container, dim terminal
+    return section === 2 ? { opacity: 0.4, transition: 'opacity 0.3s ease-in-out' } : {};
   }
-  return {
-    transition: 'background-color 0.3s ease-in-out',
-  };
+  if (highlighted === 2) {
+    // Highlight terminal, dim sandbox+grid
+    return section === 2 ? {} : { opacity: 0.4, transition: 'opacity 0.3s ease-in-out' };
+  }
+  if (highlighted === 3) {
+    // Highlight sandbox+grid (people + stats), dim terminal
+    return section === 2 ? { opacity: 0.4, transition: 'opacity 0.3s ease-in-out' } : {};
+  }
+
+  return {};
 }
 
 // Designer card component with refined styling
@@ -119,141 +123,27 @@ function StatBadge({ value, label }: { value: string | number; label: string }) 
 }
 
 function SolutionState({
-  content,
-  highlightedSection = null,
-  onMarkerClick,
-  onMarkerHover,
-  hideMarkers = false,
+  activeStory = null,
 }: {
-  content: PrototypingContent;
-  highlightedSection?: number | null;
-  onMarkerClick?: (number: number) => void;
-  onMarkerHover?: (number: number | null) => void;
-  hideMarkers?: boolean;
+  activeStory?: DecisionStory | null;
 }) {
-  const [markersDiscovered, setMarkersDiscovered] = useState(false);
   const demo = useSandboxDemo();
+  const content = prototypingContent;
 
   return (
     <div className="w-full space-y-2">
-      {/* Outer wrapper for markers - no overflow clipping */}
-      <div className="relative">
-        {/* Marker 1 - Shared library - desktop: left side, mobile: left edge */}
-        <AnimatePresence>
-          {!hideMarkers && (
-            <>
-              <motion.div
-                key="marker-1-desktop"
-                className="absolute -left-10 top-6 hidden xl:block z-20"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                onMouseEnter={() => onMarkerHover?.(1)}
-                onMouseLeave={() => onMarkerHover?.(null)}
-              >
-                <MarkerTooltip
-                  number={1}
-                  text={content.designDetails[0].text}
-                  isVisible={highlightedSection === 1}
-                  side="left"
-                >
-                  <NumberedMarker
-                    number={1}
-                    onClick={() => onMarkerClick?.(1)}
-                    isActive={highlightedSection === 1}
-                    hasBeenDiscovered={markersDiscovered}
-                    onDiscover={() => setMarkersDiscovered(true)}
-                  />
-                </MarkerTooltip>
-              </motion.div>
-              <motion.div
-                key="marker-1-mobile"
-                className="absolute -left-4 top-6 xl:hidden z-20"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <NumberedMarker
-                  number={1}
-                  onClick={() => onMarkerClick?.(1)}
-                  isActive={highlightedSection === 1}
-                  hasBeenDiscovered={markersDiscovered}
-                  onDiscover={() => setMarkersDiscovered(true)}
-                />
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-
-        {/* Marker 2 - Designer homepage - desktop: right side, mobile: right edge */}
-        <AnimatePresence>
-          {!hideMarkers && (
-            <>
-              <motion.div
-                key="marker-2-desktop"
-                className="absolute -right-16 top-[140px] hidden xl:block z-20"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, delay: 0.05 }}
-                onMouseEnter={() => onMarkerHover?.(2)}
-                onMouseLeave={() => onMarkerHover?.(null)}
-              >
-                <MarkerTooltip
-                  number={2}
-                  text={content.designDetails[1].text}
-                  isVisible={highlightedSection === 2}
-                  side="right"
-                >
-                  <NumberedMarker
-                    number={2}
-                    onClick={() => onMarkerClick?.(2)}
-                    isActive={highlightedSection === 2}
-                    hasBeenDiscovered={markersDiscovered}
-                    onDiscover={() => setMarkersDiscovered(true)}
-                  />
-                </MarkerTooltip>
-              </motion.div>
-              <motion.div
-                key="marker-2-mobile"
-                className="absolute -right-4 top-[140px] xl:hidden z-20"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, delay: 0.05 }}
-              >
-                <NumberedMarker
-                  number={2}
-                  onClick={() => onMarkerClick?.(2)}
-                  isActive={highlightedSection === 2}
-                  hasBeenDiscovered={markersDiscovered}
-                  onDiscover={() => setMarkersDiscovered(true)}
-                />
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-
-        {/* Main Sandbox Container - Internal Tool Dashboard Style */}
-        <div
-          className="relative rounded-xl overflow-hidden w-full"
-          data-section-id="sandbox-container"
-          style={{
-            backgroundImage: highlightedSection === 1
-              ? 'none'
-              : 'linear-gradient(to bottom, #fafafa 0%, #f5f5f5 100%)',
-            backgroundColor: highlightedSection === 1
-              ? 'rgba(0, 0, 0, 0.04)'
-              : undefined,
-            boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8)',
-            border: '1px solid rgba(0,0,0,0.06)',
-            borderRadius: '8px',
-            transition: 'background-color 0.3s ease-in-out',
-          }}
-        >
-          {/* App Bar Header */}
+      {/* Main Sandbox Container */}
+      <div
+        className="relative rounded-xl overflow-hidden w-full"
+        style={{
+          backgroundImage: 'linear-gradient(to bottom, #fafafa 0%, #f5f5f5 100%)',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8)',
+          border: '1px solid rgba(0,0,0,0.06)',
+          borderRadius: '8px',
+          ...getDimStyle(activeStory, 1),
+        }}
+      >
+        {/* App Bar Header */}
         <div
           className="px-3 py-2.5 border-b border-black/[0.06]"
           style={{
@@ -264,7 +154,6 @@ function SolutionState({
           <div className="flex items-center justify-between">
             {/* Logo and Title */}
             <div className="flex items-center gap-2.5">
-              {/* Culture Amp Logo - refined square with icon */}
               <div
                 className="w-7 h-7 rounded-md flex items-center justify-center shadow-sm"
                 style={{
@@ -294,114 +183,60 @@ function SolutionState({
               <StatBadge value={`${content.adoptionStats.prototypes}+`} label="prototypes" />
             </div>
           </div>
-
         </div>
 
-        {/* Content area - transitions between Designer Directory and Prototype Preview */}
+        {/* Content area */}
         <div className="p-2.5">
-        <AnimatePresence mode="wait">
-          {demo.showPreview ? (
-            <motion.div
-              key="prototype-preview"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <PrototypePreview
-                isVisible={demo.showPreview}
-                prototypeName={demo.newPrototype.name}
-                onReset={demo.reset}
-                isComplete={demo.phase === 'prototypeCreated'}
-              />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="designer-directory"
-              className="relative grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5"
-              data-section-id="designer-directory"
-              style={getSectionHighlightStyle(2, highlightedSection)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {content.designers.map((designer) => (
-                <DesignerCard key={designer.id} designer={designer} />
-              ))}
+          <AnimatePresence mode="wait">
+            {demo.showPreview ? (
+              <motion.div
+                key="prototype-preview"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <PrototypePreview
+                  isVisible={demo.showPreview}
+                  prototypeName={demo.newPrototype.name}
+                  onReset={demo.reset}
+                  isComplete={demo.phase === 'prototypeCreated'}
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="designer-directory"
+                className="relative grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {content.designers.map((designer) => (
+                  <DesignerCard key={designer.id} designer={designer} />
+                ))}
 
-              {/* New designer card - appears after /add-designer */}
-              <AnimatePresence>
-                {demo.showNewDesigner && (
-                  <DesignerCard
-                    key="new-designer"
-                    designer={demo.newDesigner}
-                    isNew
-                  />
-                )}
-              </AnimatePresence>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        </div>
+                {/* New designer card - appears after /add-designer */}
+                <AnimatePresence>
+                  {demo.showNewDesigner && (
+                    <DesignerCard
+                      key="new-designer"
+                      designer={demo.newDesigner}
+                      isNew
+                    />
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
       {/* Interactive Terminal */}
       <div
         className="relative"
-        data-section-id="fork-command"
-        style={getSectionHighlightStyle(3, highlightedSection)}
+        style={getDimStyle(activeStory, 2)}
       >
-        {/* Marker 3 - Fork command - desktop: left side, mobile: left edge */}
-        <AnimatePresence>
-          {!hideMarkers && (
-            <>
-              <motion.div
-                key="marker-3-desktop"
-                className="absolute -left-10 top-1/2 -translate-y-1/2 hidden xl:block z-20"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, delay: 0.1 }}
-                onMouseEnter={() => onMarkerHover?.(3)}
-                onMouseLeave={() => onMarkerHover?.(null)}
-              >
-                <MarkerTooltip
-                  number={3}
-                  text={content.designDetails[2].text}
-                  isVisible={highlightedSection === 3}
-                  side="left"
-                >
-                  <NumberedMarker
-                    number={3}
-                    onClick={() => onMarkerClick?.(3)}
-                    isActive={highlightedSection === 3}
-                    hasBeenDiscovered={markersDiscovered}
-                    onDiscover={() => setMarkersDiscovered(true)}
-                  />
-                </MarkerTooltip>
-              </motion.div>
-              <motion.div
-                key="marker-3-mobile"
-                className="absolute -left-4 top-1/2 -translate-y-1/2 xl:hidden z-20"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, delay: 0.1 }}
-              >
-                <NumberedMarker
-                  number={3}
-                  onClick={() => onMarkerClick?.(3)}
-                  isActive={highlightedSection === 3}
-                  hasBeenDiscovered={markersDiscovered}
-                  onDiscover={() => setMarkersDiscovered(true)}
-                />
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-
         <TerminalPanel
           messages={demo.terminalMessages}
           phase={demo.phase}
@@ -444,21 +279,11 @@ function SolutionState({
 
 export default function SandboxPanel({
   className = '',
-  content,
-  highlightedSection = null,
-  onMarkerClick,
-  onMarkerHover,
-  hideMarkers = false,
+  activeStory = null,
 }: SandboxPanelProps) {
   return (
     <div className={className}>
-      <SolutionState
-        content={content}
-        highlightedSection={highlightedSection}
-        onMarkerClick={onMarkerClick}
-        onMarkerHover={onMarkerHover}
-        hideMarkers={hideMarkers}
-      />
+      <SolutionState activeStory={activeStory} />
     </div>
   );
 }
