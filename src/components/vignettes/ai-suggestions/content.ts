@@ -8,14 +8,14 @@ export interface BorderSettings {
 }
 
 export const defaultBorderSettings: BorderSettings = {
-  colors: ['#E4C8F2', '#C888E2', '#9A36B2'],
+  colors: ['#A6E5E7', '#64D2D7', '#9A36B2'],
   speed: 3,
   glow: 0.6,
 };
 
 export const colorPresets: { name: string; colors: [string, string, string] }[] =
   [
-    { name: 'Purple', colors: ['#E4C8F2', '#C888E2', '#9A36B2'] },
+    { name: 'Default', colors: ['#A6E5E7', '#64D2D7', '#9A36B2'] },
     { name: 'Rainbow', colors: ['#FFB600', '#FF5C0B', '#9A36B2'] },
   ];
 

@@ -11,12 +11,12 @@ import { DecisionStory } from '../shared/DecisionStories';
 
 export default function AIHighlightsVignette() {
   const [activeStory, setActiveStory] = useState<DecisionStory | null>(null);
-  const [showBeforeState, setShowBeforeState] = useState(false);
+  const [showBeforeState, setShowBeforeState] = useState(true);
 
   const handleActiveStoryChange = useCallback(
     (story: DecisionStory | null) => {
       setActiveStory(story);
-      setShowBeforeState(false);
+      setShowBeforeState(true);
     },
     []
   );
