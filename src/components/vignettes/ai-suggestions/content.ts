@@ -1,5 +1,36 @@
 import { DecisionStory } from '../shared/DecisionStories';
 
+// Border prototyping controls
+export interface BorderSettings {
+  colors: [string, string, string];
+  speed: number;
+  glow: number;
+}
+
+export const defaultBorderSettings: BorderSettings = {
+  colors: ['#E4C8F2', '#C888E2', '#9A36B2'],
+  speed: 3,
+  glow: 0.6,
+};
+
+export const colorPresets: { name: string; colors: [string, string, string] }[] =
+  [
+    { name: 'Purple', colors: ['#E4C8F2', '#C888E2', '#9A36B2'] },
+    { name: 'Rainbow', colors: ['#FFB600', '#FF5C0B', '#9A36B2'] },
+  ];
+
+export const speedPresets: { name: string; value: number }[] = [
+  { name: 'Slow', value: 5 },
+  { name: 'Medium', value: 3 },
+  { name: 'Fast', value: 1.5 },
+];
+
+export const glowPresets: { name: string; value: number }[] = [
+  { name: 'Subtle', value: 0.3 },
+  { name: 'Medium', value: 0.6 },
+  { name: 'Strong', value: 0.9 },
+];
+
 interface AISuggestionsRecommendation {
   title: string;
   description: string;
@@ -26,30 +57,30 @@ export const aiSuggestionsContent: AISuggestionsContent = {
   decisionStories: [
     {
       id: 'improve-button-placement',
-      title: 'Why does the Improve button live in the editor?',
+      title: 'Where should the AI trigger live?',
       story:
-        "We explored several approaches: a menu option, a Grammarly-style floating circle, and automatic review that would analyse text without any user action. Auto-review wasn't viable — calling the LLM on every keystroke was too costly. The floating circle conflicted with tools managers already used, like Grammarly itself. The explicit button in the editor toolbar felt most natural in context and had a crucial side benefit: it made the feature portable to any Rich Text Editor across Culture Amp.",
+        'I explored several triggers: a Grammarly-style floating circle, a dedicated option in the toolbar menu, and automatic review as the user typed. The floating circle was discarded due to accessibility concerns and conflicting with tools like Grammarly. Auto-review was too costly. An explicit button in the editor toolbar felt most natural and made it easy to extend to other text editors inside Culture Amp.',
       highlightSection: 1,
     },
     {
       id: 'designing-feel-of-ai',
-      title: 'How did I design the feel of AI?',
+      title: 'How did I give AI personality?',
       story:
-        'I prototyped every detail of this interaction — gradient colours, rotation speed, transition timing, micro-interactions — using an LLM-assisted workflow to iterate rapidly on the code directly. This let me tune the feel of the AI experience to be helpful without being aggressive, designing in the material rather than specifying from mockups.',
+        'We initially tried a flat colour well with a border to match our design system, but we needed to differentiate AI content from regular content. I designed a loading animation alongside our "Sparkle" icon to add visual flair, tuning the gradient colours, rotation speed and border strength in code. Getting these details right made the final interaction feel refined.',
       highlightSection: 2,
     },
     {
       id: 'suggest-not-rewrite',
-      title: 'Why suggest improvements instead of rewriting?',
+      title: 'Why suggest instead of rewrite?',
       story:
-        "This was early 2024 — LLM capabilities were uncertain and we were concerned about human autonomy. Managers needed to keep their own judgment, not outsource it to AI. Working with Culture Amp's People Scientists, we shaped suggestions that explain why feedback falls short, so managers learn the principle rather than accept a rewrite.",
+        "This was early on in the advent of LLMs. We were concerned about how we would encourage managers to keep their critical thinking and not simply offload writing feedback to an LLM. Working with Culture Amp's People Scientists, we identified 4 aspects of good feedback and designed the feature around these suggestions. The idea was that managers learned the principles of good feedback over time rather than just getting it written for them.",
       highlightSection: 3,
     },
     {
       id: 'measuring-success',
       title: 'How did I measure success?',
       story:
-        '80% of managers made changes to their feedback after clicking Improve, validating that the suggestions were genuinely useful — not just novelty clicks.',
+        '80% of managers made changes to their feedback after clicking Improve. This validated that suggestions were genuinely useful, not just novelty clicks.',
     },
   ],
 

@@ -5,13 +5,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
-import type { AISuggestionsContent } from './content';
+import type { AISuggestionsContent, BorderSettings } from './content';
 import type { DecisionStory } from '../shared/DecisionStories';
 
 interface SuggestionsPanelProps {
   className?: string;
   content: AISuggestionsContent;
   activeStory?: DecisionStory | null;
+  borderSettings?: BorderSettings;
 }
 
 // Global styles for animated gradient border
@@ -43,7 +44,7 @@ function GradientBorderStyles() {
           var(--ai-gradient-2),
           var(--ai-gradient-1)
         );
-        animation: rotateGradient 3s linear infinite;
+        animation: rotateGradient var(--rotation-speed, 3s) linear infinite;
         isolation: isolate;
       }
 
@@ -62,9 +63,9 @@ function GradientBorderStyles() {
           var(--ai-gradient-1)
         );
         filter: blur(3rem);
-        opacity: 0.6;
+        opacity: var(--glow-opacity, 0.6);
         z-index: -1;
-        animation: rotateGradient 3s linear infinite;
+        animation: rotateGradient var(--rotation-speed, 3s) linear infinite;
       }
 
       .suggestions-loading-content {
@@ -127,18 +128,31 @@ function getBlockStyle(
 interface RecommendationsPanelProps {
   content: AISuggestionsContent;
   activeStory?: DecisionStory | null;
+  borderSettings?: BorderSettings;
 }
 
 function RecommendationsPanel({
   content,
   activeStory = null,
+  borderSettings,
 }: RecommendationsPanelProps) {
   const isBorderHighlighted = activeStory?.highlightSection === 2;
+
+  const borderOverrides =
+    isBorderHighlighted && borderSettings
+      ? ({
+          '--ai-gradient-1': borderSettings.colors[0],
+          '--ai-gradient-2': borderSettings.colors[1],
+          '--ai-gradient-3': borderSettings.colors[2],
+          '--rotation-speed': `${borderSettings.speed}s`,
+          '--glow-opacity': borderSettings.glow,
+        } as React.CSSProperties)
+      : undefined;
 
   return (
     <div
       className="relative rounded-[7px] p-[2px]"
-      style={getBlockStyle(2, activeStory)}
+      style={{ ...getBlockStyle(2, activeStory), ...borderOverrides }}
     >
       {/* Static gradient border (default state) */}
       <div
@@ -220,6 +234,7 @@ function RecommendationsPanel({
 export default function SuggestionsPanel({
   content,
   activeStory = null,
+  borderSettings,
 }: SuggestionsPanelProps) {
   const reducedMotion = useReducedMotion();
   const { isComplete } = useIntroSequence();
@@ -282,6 +297,7 @@ export default function SuggestionsPanel({
             <RecommendationsPanel
               content={content}
               activeStory={activeStory}
+              borderSettings={borderSettings}
             />
           </motion.div>
         )}
