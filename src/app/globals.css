@@ -29,9 +29,9 @@
   --border-strong: rgba(0, 0, 0, 0.1);
 
   /* AI gradient - sophisticated, muted spectrum */
-  --ai-gradient-1: #94A3B8;
-  --ai-gradient-2: #6366F1;
-  --ai-gradient-3: #8B5CF6;
+  --ai-gradient-1: #A6E5E7;
+  --ai-gradient-2: #64D2D7;
+  --ai-gradient-3: #9A36B2;
 
   /* Text hierarchy - refined contrast */
   --primary: var(--neutral-900);

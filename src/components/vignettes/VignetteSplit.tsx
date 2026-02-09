@@ -108,7 +108,7 @@ export default function VignetteSplit({
 
       {/* Panel column - animates after text */}
       <motion.div
-        className="w-full"
+        className="w-full overflow-visible"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-80px' }}

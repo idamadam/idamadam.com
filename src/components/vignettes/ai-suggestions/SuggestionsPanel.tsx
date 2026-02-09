@@ -44,7 +44,27 @@ function GradientBorderStyles() {
           var(--ai-gradient-1)
         );
         animation: rotateGradient 3s linear infinite;
-        filter: drop-shadow(0 0 20px rgba(166, 229, 231, 0.5));
+        isolation: isolate;
+      }
+
+      .suggestions-loading-border::before,
+      .suggestions-animated-border::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 7px;
+        background: conic-gradient(
+          from var(--gradient-angle),
+          var(--ai-gradient-1),
+          var(--ai-gradient-2),
+          var(--ai-gradient-3),
+          var(--ai-gradient-2),
+          var(--ai-gradient-1)
+        );
+        filter: blur(3rem);
+        opacity: 0.6;
+        z-index: -1;
+        animation: rotateGradient 3s linear infinite;
       }
 
       .suggestions-loading-content {
@@ -58,7 +78,9 @@ function GradientBorderStyles() {
 
       @media (prefers-reduced-motion: reduce) {
         .suggestions-loading-border,
-        .suggestions-animated-border {
+        .suggestions-animated-border,
+        .suggestions-loading-border::before,
+        .suggestions-animated-border::before {
           animation: none;
         }
       }
@@ -93,7 +115,7 @@ function getBlockStyle(
   activeStory: DecisionStory | null
 ) {
   if (!activeStory || !activeStory.highlightSection) {
-    return { opacity: 1, transition: 'opacity 0.3s ease-in-out' };
+    return undefined;
   }
   const isActive = activeStory.highlightSection === sectionNumber;
   return {
@@ -210,7 +232,7 @@ export default function SuggestionsPanel({
   }, [isComplete, showLoading, reducedMotion]);
 
   return (
-    <div className="space-y-2 flex flex-col">
+    <div className="space-y-2 flex flex-col overflow-visible">
       <GradientBorderStyles />
       {/* Editor — always visible */}
       <div style={activeStory?.highlightSection === 1 ? { transition: 'opacity 0.3s ease-in-out' } : getBlockStyle(1, activeStory)}>
@@ -234,6 +256,7 @@ export default function SuggestionsPanel({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.25 }}
+            style={{ overflow: 'visible' }}
           >
             <LoadingPanel />
           </motion.div>
@@ -245,6 +268,7 @@ export default function SuggestionsPanel({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            style={{ overflow: 'visible' }}
           >
             <RecommendationsPanel
               content={content}
