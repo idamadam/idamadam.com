@@ -1,34 +1,30 @@
 'use client';
 
-import { useState, useRef, type ReactNode } from 'react';
+import { useState, useRef, useCallback, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
 import { easings } from '@/lib/animations';
 
+const CARD_COLOR = '#6B7280'; // neutral gray for all cards
+
 type Approach = {
   heading: string;
   body: string;
-  accent: string;
-  accentMuted: string;
-  accentBorder: string;
-  accentGlow: string;
-  gradientFrom: string;
-  gradientTo: string;
   number: string;
   illustration: (color: string, borderColor: string) => ReactNode;
 };
+
+const accentMuted = 'rgba(107, 114, 128, 0.07)';
+const accentBorder = 'rgba(107, 114, 128, 0.18)';
+const accentGlow = 'rgba(107, 114, 128, 0.12)';
+const gradientFrom = '#F4F5F7';
+const gradientTo = '#FFFFFF';
 
 const approaches: Approach[] = [
   {
     heading: 'I don\u2019t stop at the user problem',
     body: 'I go deep on the tech, the data and the business context to identify hidden opportunities and constraints.',
-    accent: '#3B82F6', // blue
-    accentMuted: 'rgba(59, 130, 246, 0.07)',
-    accentBorder: 'rgba(59, 130, 246, 0.15)',
-    accentGlow: 'rgba(59, 130, 246, 0.12)',
-    gradientFrom: '#EFF6FF',
-    gradientTo: '#FFFFFF',
     number: '01',
     illustration: (color, borderColor) => (
       <LayersIllustration color={color} borderColor={borderColor} />
@@ -37,12 +33,6 @@ const approaches: Approach[] = [
   {
     heading: 'I design in the material of software',
     body: 'I use AI coding tools to help me build the ideas I\u2019m designing so I can interact with my ideas and get a feel for the end product.',
-    accent: '#8B5CF6', // purple
-    accentMuted: 'rgba(139, 92, 246, 0.07)',
-    accentBorder: 'rgba(139, 92, 246, 0.15)',
-    accentGlow: 'rgba(139, 92, 246, 0.12)',
-    gradientFrom: '#F5F3FF',
-    gradientTo: '#FFFFFF',
     number: '02',
     illustration: (color, borderColor) => (
       <MaterialIllustration color={color} borderColor={borderColor} />
@@ -51,12 +41,6 @@ const approaches: Approach[] = [
   {
     heading: 'I build trust so people challenge my thinking',
     body: 'The best work comes from teams who feel safe to openly spar.',
-    accent: '#F59E0B', // amber
-    accentMuted: 'rgba(245, 158, 11, 0.07)',
-    accentBorder: 'rgba(245, 158, 11, 0.15)',
-    accentGlow: 'rgba(245, 158, 11, 0.12)',
-    gradientFrom: '#FFFBEB',
-    gradientTo: '#FFFFFF',
     number: '03',
     illustration: (color, borderColor) => (
       <OverlapIllustration color={color} borderColor={borderColor} />
@@ -285,18 +269,18 @@ function CardContent({ approach }: { approach: Approach }) {
     <>
       {/* Number + accent line */}
       <div className="flex items-center gap-3 mb-4">
-        <span className="type-label" style={{ color: approach.accent }}>
+        <span className="type-label" style={{ color: CARD_COLOR }}>
           {approach.number}
         </span>
         <div
           className="flex-1 h-px"
-          style={{ backgroundColor: approach.accentBorder }}
+          style={{ backgroundColor: accentBorder }}
         />
       </div>
 
       {/* Illustration */}
       <div className="mb-3">
-        {approach.illustration(approach.accent, approach.accentBorder)}
+        {approach.illustration(CARD_COLOR, accentBorder)}
       </div>
 
       {/* Heading */}
@@ -315,11 +299,90 @@ export default function ApproachCards() {
   const { isComplete } = useIntroSequence();
   const [zOrder, setZOrder] = useState<Record<number, number>>({});
   const zCounterRef = useRef(0);
+  // Refs for direct DOM manipulation — avoids re-renders on every mousemove
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const tiltRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const rainbowRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const spotRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const sparkleRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const handleHover = (index: number) => {
     zCounterRef.current += 1;
     setZOrder((prev) => ({ ...prev, [index]: zCounterRef.current }));
+
+    // Show overlays
+    const rainbow = rainbowRefs.current[index];
+    const spot = spotRefs.current[index];
+    const sparkle = sparkleRefs.current[index];
+    if (rainbow) rainbow.style.opacity = '0.08';
+    if (spot) spot.style.opacity = '1';
+    if (sparkle) sparkle.style.opacity = '0.6';
+
+    // Hover shadow
+    const tilt = tiltRefs.current[index];
+    if (tilt) {
+      tilt.style.boxShadow = `0 20px 40px -8px rgba(0,0,0,0.1), 0 8px 16px -4px rgba(0,0,0,0.06), 0 0 0 1px ${accentBorder}, 0 0 24px ${accentGlow}`;
+    }
   };
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+      if (reducedMotion) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const mx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const my = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+
+      const tiltX = my * -15;
+      const tiltY = mx * 15;
+      const gradAngle = Math.round(mx * 60 + 130);
+      const spotX = 50 + mx * 50;
+      const spotY = 50 + my * 50;
+      const bgPosX = 50 + mx * 50;
+      const bgPosY = 50 + my * 50;
+
+      const tilt = tiltRefs.current[index];
+      if (tilt) {
+        tilt.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        tilt.style.transition = 'transform 0.1s ease-out, box-shadow 0.25s ease';
+      }
+
+      const rainbow = rainbowRefs.current[index];
+      if (rainbow) {
+        rainbow.style.backgroundImage = `repeating-linear-gradient(${gradAngle}deg, #ff4040 0%, #ffcc00 14%, #30d158 28%, #2979ff 42%, #9c27b0 57%, #ff4081 71%, #ff4040 85%, #ffcc00 100%)`;
+        rainbow.style.backgroundPosition = `${bgPosX}% ${bgPosY}%`;
+      }
+
+      const spot = spotRefs.current[index];
+      if (spot) {
+        spot.style.backgroundImage = `radial-gradient(circle at ${spotX}% ${spotY}%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 25%, transparent 55%)`;
+      }
+
+      const sparkle = sparkleRefs.current[index];
+      if (sparkle) {
+        sparkle.style.backgroundPosition = `${mx * 3}px ${my * 3}px`;
+      }
+    },
+    [reducedMotion]
+  );
+
+  const handleMouseLeave = useCallback(
+    (index: number) => {
+      const tilt = tiltRefs.current[index];
+      if (tilt) {
+        tilt.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
+        tilt.style.transition = 'transform 0.5s ease-out, box-shadow 0.25s ease';
+        tilt.style.boxShadow = `0 8px 24px -4px rgba(0,0,0,0.08), 0 4px 8px -2px rgba(0,0,0,0.04), 0 0 0 1px ${accentBorder}`;
+      }
+
+      const rainbow = rainbowRefs.current[index];
+      const spot = spotRefs.current[index];
+      const sparkle = sparkleRefs.current[index];
+      if (rainbow) rainbow.style.opacity = '0';
+      if (spot) spot.style.opacity = '0';
+      if (sparkle) sparkle.style.opacity = '0';
+    },
+    []
+  );
 
   const shouldShow = reducedMotion || isComplete;
 
@@ -337,8 +400,11 @@ export default function ApproachCards() {
           return (
             <motion.div
               key={approach.heading}
-              className="absolute left-1/2 top-0 w-[290px] rounded-2xl px-7 py-6 cursor-default select-none flex flex-col"
+              ref={(el) => { cardRefs.current[index] = el; }}
+              className="absolute left-1/2 top-0 w-[290px] cursor-default select-none"
               onHoverStart={() => handleHover(index)}
+              onHoverEnd={() => handleMouseLeave(index)}
+              onMouseMove={(e) => handleMouseMove(e, index)}
               initial={
                 reducedMotion
                   ? { opacity: 1, rotate: pos.rotate, x: '-50%', y: pos.y }
@@ -358,7 +424,6 @@ export default function ApproachCards() {
               whileHover={{
                 y: pos.y - 10,
                 scale: 1.04,
-                boxShadow: `0 20px 40px -8px rgba(0,0,0,0.1), 0 8px 16px -4px rgba(0,0,0,0.06), 0 0 0 1px ${approach.accentBorder}, 0 0 24px ${approach.accentGlow}`,
                 transition: { duration: 0.25, ease: easings.decel },
               }}
               transition={{
@@ -367,14 +432,70 @@ export default function ApproachCards() {
                 ease: easings.decel,
               }}
               style={{
-                zIndex: zOrder[index] ?? 0,
+                zIndex: zOrder[index] ?? (approaches.length - index),
                 transformOrigin: 'bottom center',
-                background: `linear-gradient(170deg, ${approach.gradientFrom} 0%, ${approach.gradientTo} 50%)`,
-                border: `1px solid ${approach.accentBorder}`,
-                boxShadow: `0 8px 24px -4px rgba(0,0,0,0.08), 0 4px 8px -2px rgba(0,0,0,0.04), 0 0 0 1px ${approach.accentBorder}`,
               }}
             >
-              <CardContent approach={approach} />
+              {/* Inner card with 3D tilt */}
+              <div
+                ref={(el) => { tiltRefs.current[index] = el; }}
+                className="relative rounded-2xl px-7 py-6"
+                style={{
+                  backgroundImage: `linear-gradient(170deg, ${gradientFrom} 0%, ${gradientTo} 50%)`,
+                  border: `1px solid ${accentBorder}`,
+                  transform: 'perspective(800px) rotateX(0deg) rotateY(0deg)',
+                  transition: 'transform 0.5s ease-out, box-shadow 0.25s ease',
+                  transformStyle: 'preserve-3d',
+                  willChange: 'transform',
+                  boxShadow: `0 8px 24px -4px rgba(0,0,0,0.08), 0 4px 8px -2px rgba(0,0,0,0.04), 0 0 0 1px ${accentBorder}`,
+                }}
+              >
+                <div className="relative z-10">
+                  <CardContent approach={approach} />
+                </div>
+
+                {/* Foil overlays — only when motion enabled */}
+                {!reducedMotion && (
+                  <>
+                    {/* Rainbow holographic gradient */}
+                    <div
+                      ref={(el) => { rainbowRefs.current[index] = el; }}
+                      className="absolute inset-0 rounded-2xl pointer-events-none"
+                      style={{
+                        backgroundImage: `repeating-linear-gradient(130deg, #ff4040 0%, #ffcc00 14%, #30d158 28%, #2979ff 42%, #9c27b0 57%, #ff4081 71%, #ff4040 85%, #ffcc00 100%)`,
+                        backgroundSize: '200% 200%',
+                        backgroundPosition: '50% 50%',
+                        opacity: 0,
+                        transition: 'opacity 0.4s ease',
+                      }}
+                    />
+
+                    {/* Light reflection spot */}
+                    <div
+                      ref={(el) => { spotRefs.current[index] = el; }}
+                      className="absolute inset-0 rounded-2xl pointer-events-none"
+                      style={{
+                        backgroundImage: `radial-gradient(circle at 50% 50%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 25%, transparent 55%)`,
+                        opacity: 0,
+                        transition: 'opacity 0.4s ease',
+                      }}
+                    />
+
+                    {/* Foil sparkle texture */}
+                    <div
+                      ref={(el) => { sparkleRefs.current[index] = el; }}
+                      className="absolute inset-0 rounded-2xl pointer-events-none"
+                      style={{
+                        backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)`,
+                        backgroundSize: '4px 4px',
+                        backgroundPosition: '0px 0px',
+                        opacity: 0,
+                        transition: 'opacity 0.5s ease',
+                      }}
+                    />
+                  </>
+                )}
+              </div>
             </motion.div>
           );
         })}
@@ -399,9 +520,9 @@ export default function ApproachCards() {
                 ease: easings.decel,
               }}
               style={{
-                background: `linear-gradient(170deg, ${approach.gradientFrom} 0%, ${approach.gradientTo} 50%)`,
-                border: `1px solid ${approach.accentBorder}`,
-                boxShadow: `0 2px 8px -2px rgba(0,0,0,0.06), 0 0 0 1px ${approach.accentBorder}`,
+                backgroundImage: `linear-gradient(170deg, ${gradientFrom} 0%, ${gradientTo} 50%)`,
+                border: `1px solid ${accentBorder}`,
+                boxShadow: `0 2px 8px -2px rgba(0,0,0,0.06), 0 0 0 1px ${accentBorder}`,
               }}
             >
               <CardContent approach={approach} />

@@ -9,7 +9,7 @@ export interface DecisionStory {
   title: string;
   story: string;
   highlightSection?: number;
-  toggleLabels?: [string, string];
+  toggleLabels?: string[];
 }
 
 interface DecisionStoriesProps {
