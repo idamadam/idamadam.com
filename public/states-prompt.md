@@ -1,4 +1,4 @@
-export const promptText = `# States
+# States
 
 Add a control panel to any React interface so designers and developers can quickly explore every variation the UI can produce — without clicking through flows to reach each one.
 
@@ -64,7 +64,7 @@ The trigger should look like it belongs — same font, icon size, color, and spa
 Clicking the trigger opens an **anchored popover panel** near the trigger:
 
 - **Size**: ~360 px wide, max ~60 vh tall, scrollable if content overflows.
-- **Position**: Anchored to the trigger element. For sidebar triggers, anchor to the right of the sidebar. For top-bar triggers, anchor below the button. Use \`position: fixed\` or \`position: absolute\` as needed to stay near the trigger.
+- **Position**: Anchored to the trigger element. For sidebar triggers, anchor to the right of the sidebar. For top-bar triggers, anchor below the button. Use `position: fixed` or `position: absolute` as needed to stay near the trigger.
 - **Appearance**: Styled to match the app — same card background, border radius, shadow, and font as the rest of the UI. Include a small header with the title "States" and an X close button.
 - **Dismiss**: Click the X button or click outside the popover to close it.
 - **Non-blocking**: The main UI stays visible and interactive behind the popover. Adjusting any control updates the UI **immediately** in real-time — this is the whole point. No "apply" button.
@@ -104,7 +104,7 @@ Match each state dimension to the control that fits its data shape:
 |---|---|---|
 | Boolean on/off | Toggle switch | Pill-shaped switch, label on left, toggle on right |
 | 2-4 mutually exclusive options | Segmented control | Row of buttons in a rounded container, active option highlighted |
-| 5+ mutually exclusive options | Dropdown | Native \`<select>\` styled to match the app |
+| 5+ mutually exclusive options | Dropdown | Native `<select>` styled to match the app |
 | Numeric range (10+ possible values) | Slider | Track with filled portion, label + current value above |
 | Small integer (8 values or fewer) | Stepper | Compact [-] value [+] with disabled states at bounds |
 
@@ -126,12 +126,12 @@ Controls must actually mutate state. Refactor hardcoded data into state where ne
 
 | Variant | How to generate |
 |---|---|
-| **Empty** | \`[]\` or \`{}\` — return empty collections |
-| **Sparse** | \`.slice(0, 2)\` — take the first 2 items from existing data |
+| **Empty** | `[]` or `{}` — return empty collections |
+| **Sparse** | `.slice(0, 2)` — take the first 2 items from existing data |
 | **Normal** | Return the existing data unchanged — this is the baseline |
-| **Overflow** | \`Array.from({ length: n }, (_, i) => ({ ...existing[i % existing.length], id: \\\`gen-\${i}\\\` }))\` — repeat existing data with new IDs |
-| **Long text** | \`.map(item => ({ ...item, name: item.name + ' Worthington-Blackwell III' }))\` — extend existing strings |
-| **Missing fields** | \`.map(item => ({ ...item, email: '', avatar: null }))\` — null out fields on existing data |
+| **Overflow** | `Array.from({ length: n }, (_, i) => ({ ...existing[i % existing.length], id: `gen-${i}` }))` — repeat existing data with new IDs |
+| **Long text** | `.map(item => ({ ...item, name: item.name + ' Worthington-Blackwell III' }))` — extend existing strings |
+| **Missing fields** | `.map(item => ({ ...item, email: '', avatar: null }))` — null out fields on existing data |
 
 This keeps variant code to ~10-20 lines instead of hundreds, stays grounded in real data, and avoids streaming large volumes of fabricated content.
 
@@ -186,4 +186,3 @@ A single card or form with no navigation.
 - Not a feature development tool — do not invent new states, UI elements, or behaviors that don't exist in the original code
 
 It's a fast way to reveal and traverse every variation an interface can already produce, so you can check that designs hold up when the data gets weird.
-`
