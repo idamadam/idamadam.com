@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { Check, Copy } from 'lucide-react'
 import BrowserFrame from './BrowserFrame'
 import DemoApp from './demo/DemoApp'
@@ -25,6 +26,13 @@ export default function StateExplorerPage() {
 
   return (
     <div className="min-h-screen">
+      <header className="px-6 border-b border-border/50">
+        <div className="max-w-7xl mx-auto h-14 flex items-center">
+          <Link href="/" className="text-[1rem] font-semibold text-primary tracking-[-0.01em] hover:opacity-70 transition-opacity">
+            Idam Adam
+          </Link>
+        </div>
+      </header>
       <section className="relative min-h-screen">
         <div className="max-w-7xl mx-auto px-6 py-20">
           <div className="grid lg:grid-cols-[minmax(0,460px)_1fr] gap-10 lg:gap-14 items-start">
