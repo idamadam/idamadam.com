@@ -47,7 +47,7 @@ export default function AgentOverlay() {
             <div className="w-2 h-2 rounded-full bg-neutral-600" />
             <div className="w-2 h-2 rounded-full bg-neutral-600" />
           </div>
-          <span className="text-demo-sm text-neutral-500 font-mono">state-explorer</span>
+          <span className="text-demo-sm text-neutral-500 font-mono">states</span>
         </div>
 
         <div className="font-mono text-demo-md leading-[1.7] space-y-0.5">

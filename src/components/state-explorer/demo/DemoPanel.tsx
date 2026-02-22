@@ -31,7 +31,7 @@ export default function DemoPanel({ open, onClose }: DemoPanelProps) {
           className="text-demo-md font-semibold tracking-tight"
           style={{ color: 'var(--demo-text)' }}
         >
-          State Explorer
+          States
         </span>
         <button
           onClick={onClose}
