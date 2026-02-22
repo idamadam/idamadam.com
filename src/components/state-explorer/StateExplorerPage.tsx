@@ -5,7 +5,6 @@ import { Check, Copy } from 'lucide-react'
 import BrowserFrame from './BrowserFrame'
 import DemoApp from './demo/DemoApp'
 import AgentOverlay from './demo/AgentOverlay'
-import FooterSection from './FooterSection'
 import { useDemoStore } from './demo/demoStore'
 import { promptText } from './prompt'
 
@@ -85,7 +84,6 @@ export default function StateExplorerPage() {
           </div>
         </div>
       </section>
-      <FooterSection />
     </div>
   )
 }
