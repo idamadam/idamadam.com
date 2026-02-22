@@ -146,6 +146,15 @@
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
+
+  /* Demo type scale (miniature dashboard) */
+  --font-size-demo-xl: 14px;
+  --font-size-demo-lg: 13px;
+  --font-size-demo-md: 11px;
+  --font-size-demo-sm: 10px;
+  --font-size-demo-xs: 9px;
+  --font-size-demo-xxs: 8px;
+  --font-size-demo-micro: 7px;
 }
 
 /* Typography */
@@ -195,6 +204,26 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   font-weight: 500;
+}
+
+.type-small {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #999;
+}
+
+.type-fine {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #999;
+}
+
+.type-code {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+  font-size: 0.75rem;
+  line-height: 1.6;
 }
 
 /* Light mode is now the default - no system preference toggle */
@@ -465,4 +494,43 @@ a {
   z-index: -1;
   background: #FAFAFA;
   pointer-events: none;
+}
+
+/* =================================================
+   STATE EXPLORER DEMO
+   Scoped color tokens and animations for the embedded demo
+   ================================================= */
+
+.demo-theme {
+  --demo-sidebar: #111;
+  --demo-sidebar-hover: #222;
+  --demo-card: #fff;
+  --demo-border: #d4d4d4;
+  --demo-text: #000;
+  --demo-text-2: #666;
+  --demo-bg: #fafafa;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseOnce {
+  0%, 100% { box-shadow: none; }
+  50% { box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.15); }
+}
+.pulse-once { animation: pulseOnce 1s ease-in-out 2; }
+
+@keyframes shimmer {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+.demo-shimmer {
+  background: linear-gradient(90deg, #999 25%, #ddd 50%, #999 75%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 1.5s ease-in-out infinite;
 }
