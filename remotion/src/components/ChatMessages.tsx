@@ -50,7 +50,7 @@ function ShimmerText({ text, frame }: { text: string; frame: number }) {
   return (
     <p
       style={{
-        fontSize: 13,
+        fontSize: 17,
         fontWeight: 500,
         color: colors.text2,
         opacity: shimmerOpacity,
@@ -81,7 +81,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {visible.map((msg, i) => {
         const staggerDelay = messageAppearFrame + i * 8;
         const opacity = interpolate(frame, [staggerDelay, staggerDelay + 10], [0, 1], {
@@ -102,7 +102,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
           >
             <p
               style={{
-                fontSize: 11,
+                fontSize: 15,
                 fontWeight: 600,
                 color: isAi ? colors.text2 : colors.text,
                 marginBottom: 2,
@@ -112,7 +112,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
             </p>
             <p
               style={{
-                fontSize: 13,
+                fontSize: 17,
                 lineHeight: 1.4,
                 color: colors.text,
               }}
@@ -127,7 +127,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
                   alignItems: "center",
                   gap: 8,
                   borderRadius: 4,
-                  padding: "4px 8px",
+                  padding: "5px 10px",
                   border: isActive
                     ? `2px solid ${colors.text}`
                     : `1px solid ${colors.border}`,
@@ -136,8 +136,8 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
               >
                 {/* File icon */}
                 <svg
-                  width="14"
-                  height="14"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke={isActive ? colors.text : colors.text2}
@@ -152,7 +152,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
                 </svg>
                 <p
                   style={{
-                    fontSize: 11,
+                    fontSize: 15,
                     fontWeight: 600,
                     color: colors.text,
                   }}
@@ -176,7 +176,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
         >
           <p
             style={{
-              fontSize: 11,
+              fontSize: 15,
               fontWeight: 600,
               color: colors.text2,
               marginBottom: 2,
@@ -200,7 +200,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
           >
             <p
               style={{
-                fontSize: 11,
+                fontSize: 15,
                 fontWeight: 600,
                 color: colors.text2,
                 marginBottom: 2,
@@ -210,7 +210,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
             </p>
             <p
               style={{
-                fontSize: 13,
+                fontSize: 17,
                 lineHeight: 1.4,
                 color: "#ef4444",
               }}
@@ -227,7 +227,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
           >
             <p
               style={{
-                fontSize: 11,
+                fontSize: 15,
                 fontWeight: 600,
                 color: colors.text2,
                 marginBottom: 2,

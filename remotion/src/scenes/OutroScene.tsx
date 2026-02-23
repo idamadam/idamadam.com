@@ -56,7 +56,7 @@ export const OutroScene: React.FC = () => {
           margin: 0,
         }}
       >
-        idamadam.com/state-explorer
+        idamadam.com/states
       </p>
     </div>
   );

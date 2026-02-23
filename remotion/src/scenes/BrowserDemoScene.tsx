@@ -1,5 +1,5 @@
 import React from "react";
-import { useCurrentFrame, spring } from "remotion";
+import { useCurrentFrame, spring, interpolate } from "remotion";
 import { colors } from "../lib/colors";
 import { FPS, WIDTH, HEIGHT } from "../lib/constants";
 import { BrowserFrame } from "../components/BrowserFrame";
@@ -35,17 +35,17 @@ import { Caption } from "../components/Caption";
 */
 
 // Preset button positions relative to the DemoPanel (top-left of preview area)
-// Panel is at top:12 left:12, header ~44px, padding 12px, grid starts
-// Each button is ~147px wide, 32px tall, 6px gap, grid is 2x2
-const PANEL_LEFT = 12;
-const PANEL_TOP = 12 + 44 + 12; // panel offset + header + padding
-const BTN_W = 147;
-const BTN_H = 32;
-const BTN_GAP = 6;
+// Panel is at top:16 left:16, header ~58px, padding 16px, grid starts
+// Each button is ~183px wide, 42px tall, 10px gap, grid is 2x2
+const PANEL_LEFT = 16;
+const PANEL_TOP = 16 + 58 + 16; // panel offset + header + padding
+const BTN_W = 183;
+const BTN_H = 42;
+const BTN_GAP = 10;
 
 // Button centers relative to the preview area left edge
-// Offset by chat panel width (280) in the browser
-const PREVIEW_OFFSET_X = 280;
+// Offset by chat panel width (350) in the browser
+const PREVIEW_OFFSET_X = 350;
 
 const presetPositions = {
   Latest: {
@@ -66,13 +66,14 @@ const presetPositions = {
   },
 };
 
-// Browser frame offset within the 1080 canvas (centered, with title bar ~52px)
-const BROWSER_TITLE_BAR = 52;
+// Browser frame offset within the 1080 canvas (centered, with title bar ~70px)
+const BROWSER_TITLE_BAR = 70;
 
 // Caption definitions: [enterFrame, exitFrame, text]
 const CAPTIONS: [number, number, string][] = [
-  [10, 170, "Agent scans your prototype and maps every state"],
-  [190, 290, "One-click presets for any state combination"],
+  [0, 50, "Start with an existing prototype"],
+  [60, 170, "Agent scans your prototype and maps every state"],
+  [190, 290, "One-click presets for common state combinations"],
   [340, 380, "Latest version"],
   [430, 470, "Mid-generation"],
   [520, 560, "Error state"],
@@ -234,16 +235,39 @@ export const BrowserDemoScene: React.FC = () => {
             transitionFrame={transitionFrame}
             transitionDuration={15}
           >
-            {/* Agent terminal overlay */}
-            {frame < 180 && (
-              <AgentTerminal enterFrame={10} exitFrame={135} />
-            )}
-
             {/* State Explorer panel */}
             {frame >= 180 && (
               <DemoPanel enterFrame={180} activePreset={activePreset} />
             )}
           </PreviewArea>
+
+          {/* Agent terminal — centered on full browser content */}
+          {frame < 180 && (
+            <AgentTerminal enterFrame={10} exitFrame={135} />
+          )}
+
+          {/* Dark scrim during agent scan to focus attention on terminal */}
+          {frame < 180 && (() => {
+            const scrimIn = interpolate(
+              frame, [10, 25], [0, 1],
+              { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+            );
+            const scrimOut = interpolate(
+              frame, [135, 165], [1, 0],
+              { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+            );
+            return (
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  backgroundColor: `rgba(0,0,0,${0.4 * scrimIn * scrimOut})`,
+                  zIndex: 20,
+                  pointerEvents: "none",
+                }}
+              />
+            );
+          })()}
         </BrowserFrame>
 
         {/* Animated cursor */}
@@ -252,7 +276,7 @@ export const BrowserDemoScene: React.FC = () => {
         )}
       </div>
 
-      {/* Captions below browser frame */}
+      {/* Caption pills below browser */}
       {CAPTIONS.map(([enter, exit, text]) => (
         <Caption
           key={text}

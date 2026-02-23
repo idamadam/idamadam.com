@@ -12,7 +12,7 @@ export const BrowserFrame: React.FC<BrowserFrameProps> = ({ children }) => {
     <div
       style={{
         width: BROWSER_WIDTH,
-        height: 680,
+        height: 860,
         borderRadius: 16,
         overflow: "hidden",
         border: `1px solid ${colors.border}`,
@@ -29,7 +29,7 @@ export const BrowserFrame: React.FC<BrowserFrameProps> = ({ children }) => {
         style={{
           display: "flex",
           alignItems: "center",
-          padding: "12px 16px",
+          padding: "16px 18px",
           borderBottom: `1px solid ${colors.border}`,
           backgroundColor: colors.card,
         }}
@@ -38,25 +38,25 @@ export const BrowserFrame: React.FC<BrowserFrameProps> = ({ children }) => {
         <div style={{ display: "flex", gap: 8 }}>
           <div
             style={{
-              width: 12,
-              height: 12,
-              borderRadius: 6,
+              width: 16,
+              height: 16,
+              borderRadius: 8,
               backgroundColor: "#ff5f57",
             }}
           />
           <div
             style={{
-              width: 12,
-              height: 12,
-              borderRadius: 6,
+              width: 16,
+              height: 16,
+              borderRadius: 8,
               backgroundColor: "#febc2e",
             }}
           />
           <div
             style={{
-              width: 12,
-              height: 12,
-              borderRadius: 6,
+              width: 16,
+              height: 16,
+              borderRadius: 8,
               backgroundColor: "#28c840",
             }}
           />
@@ -67,7 +67,7 @@ export const BrowserFrame: React.FC<BrowserFrameProps> = ({ children }) => {
             flex: 1,
             marginLeft: 16,
             marginRight: 16,
-            height: 28,
+            height: 38,
             borderRadius: 6,
             backgroundColor: colors.bg,
             border: `1px solid ${colors.border}`,
@@ -78,7 +78,7 @@ export const BrowserFrame: React.FC<BrowserFrameProps> = ({ children }) => {
         >
           <span
             style={{
-              fontSize: 13,
+              fontSize: 17,
               color: colors.text2,
               fontFamily: interFamily,
             }}
@@ -89,7 +89,7 @@ export const BrowserFrame: React.FC<BrowserFrameProps> = ({ children }) => {
       </div>
 
       {/* Content area */}
-      <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+      <div style={{ flex: 1, display: "flex", overflow: "hidden", position: "relative" }}>
         {children}
       </div>
     </div>

@@ -86,8 +86,8 @@ export const CursorPointer: React.FC<CursorPointerProps> = ({
     >
       {/* macOS-style cursor */}
       <svg
-        width="24"
-        height="28"
+        width="32"
+        height="38"
         viewBox="0 0 24 28"
         fill="none"
       >

@@ -21,27 +21,27 @@ export const SkeletonPreview: React.FC = () => {
         alignItems: "center",
         justifyContent: "center",
         height: "100%",
-        gap: 16,
+        gap: 20,
       }}
     >
       {[0, 1, 2].map((i) => (
         <div
           key={i}
           style={{
-            width: 155,
+            width: 190,
             borderRadius: 12,
-            padding: 14,
+            padding: 18,
             backgroundColor: colors.card,
             border: `1px solid ${colors.border}`,
             display: "flex",
             flexDirection: "column",
-            gap: 10,
+            gap: 12,
           }}
         >
           <div
             style={{
-              height: 14,
-              width: 60,
+              height: 18,
+              width: 80,
               margin: "0 auto",
               borderRadius: 4,
               backgroundColor: skeletonColor,
@@ -49,8 +49,8 @@ export const SkeletonPreview: React.FC = () => {
           />
           <div
             style={{
-              height: 20,
-              width: 48,
+              height: 28,
+              width: 64,
               margin: "0 auto",
               borderRadius: 4,
               backgroundColor: skeletonColor,
@@ -60,12 +60,12 @@ export const SkeletonPreview: React.FC = () => {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 5,
+              gap: 6,
             }}
           >
             <div
               style={{
-                height: 8,
+                height: 12,
                 width: "100%",
                 borderRadius: 4,
                 backgroundColor: skeletonLightColor,
@@ -73,7 +73,7 @@ export const SkeletonPreview: React.FC = () => {
             />
             <div
               style={{
-                height: 8,
+                height: 12,
                 width: "75%",
                 margin: "0 auto",
                 borderRadius: 4,
@@ -83,7 +83,7 @@ export const SkeletonPreview: React.FC = () => {
           </div>
           <div
             style={{
-              height: 18,
+              height: 26,
               width: "100%",
               borderRadius: 4,
               backgroundColor: skeletonColor,

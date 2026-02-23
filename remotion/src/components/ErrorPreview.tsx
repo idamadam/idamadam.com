@@ -11,15 +11,15 @@ export const ErrorPreview: React.FC = () => {
         alignItems: "center",
         justifyContent: "center",
         height: "100%",
-        gap: 8,
+        gap: 10,
         fontFamily: interFamily,
       }}
     >
       <div
         style={{
-          width: 32,
-          height: 32,
-          borderRadius: 16,
+          width: 46,
+          height: 46,
+          borderRadius: 23,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -28,7 +28,7 @@ export const ErrorPreview: React.FC = () => {
       >
         <span
           style={{
-            fontSize: 16,
+            fontSize: 24,
             fontWeight: 700,
             color: colors.red500,
           }}
@@ -38,7 +38,7 @@ export const ErrorPreview: React.FC = () => {
       </div>
       <p
         style={{
-          fontSize: 16,
+          fontSize: 24,
           fontWeight: 600,
           color: colors.text,
         }}
@@ -47,7 +47,7 @@ export const ErrorPreview: React.FC = () => {
       </p>
       <p
         style={{
-          fontSize: 12,
+          fontSize: 16,
           color: colors.text2,
         }}
       >

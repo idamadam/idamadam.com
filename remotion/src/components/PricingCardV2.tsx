@@ -34,7 +34,7 @@ export const PricingCardV2: React.FC = () => {
         alignItems: "center",
         justifyContent: "center",
         height: "100%",
-        gap: 16,
+        gap: 20,
         fontFamily: interFamily,
       }}
     >
@@ -42,9 +42,9 @@ export const PricingCardV2: React.FC = () => {
         <div
           key={c.name}
           style={{
-            width: 155,
+            width: 190,
             borderRadius: 12,
-            padding: 14,
+            padding: 18,
             textAlign: "center",
             position: "relative",
             backgroundColor: c.popular ? colors.text : colors.card,
@@ -58,10 +58,10 @@ export const PricingCardV2: React.FC = () => {
                 top: -10,
                 left: "50%",
                 transform: "translateX(-50%)",
-                padding: "2px 8px",
+                padding: "2px 10px",
                 borderRadius: 10,
-                fontSize: 10,
-                lineHeight: "16px",
+                fontSize: 14,
+                lineHeight: "20px",
                 fontWeight: 600,
                 whiteSpace: "nowrap",
                 backgroundColor: colors.card,
@@ -73,7 +73,7 @@ export const PricingCardV2: React.FC = () => {
           )}
           <p
             style={{
-              fontSize: 13,
+              fontSize: 17,
               fontWeight: 500,
               letterSpacing: "0.05em",
               textTransform: "uppercase",
@@ -84,7 +84,7 @@ export const PricingCardV2: React.FC = () => {
           </p>
           <p
             style={{
-              fontSize: 28,
+              fontSize: 40,
               fontWeight: 700,
               marginTop: 4,
               color: c.popular ? "#fff" : colors.text,
@@ -93,7 +93,7 @@ export const PricingCardV2: React.FC = () => {
             {c.price}
             <span
               style={{
-                fontSize: 13,
+                fontSize: 17,
                 fontWeight: 400,
                 color: c.popular ? "rgba(255,255,255,0.5)" : colors.text2,
               }}
@@ -103,21 +103,21 @@ export const PricingCardV2: React.FC = () => {
           </p>
           <div
             style={{
-              marginTop: 10,
-              paddingTop: 10,
+              marginTop: 12,
+              paddingTop: 12,
               borderTop: c.popular
                 ? "1px solid rgba(255,255,255,0.15)"
                 : `1px solid ${colors.border}`,
               display: "flex",
               flexDirection: "column",
-              gap: 3,
+              gap: 4,
             }}
           >
             {c.features.map((f) => (
               <p
                 key={f}
                 style={{
-                  fontSize: 12,
+                  fontSize: 16,
                   color: c.popular ? "rgba(255,255,255,0.6)" : colors.text2,
                 }}
               >
@@ -127,11 +127,11 @@ export const PricingCardV2: React.FC = () => {
           </div>
           <button
             style={{
-              marginTop: 12,
+              marginTop: 14,
               width: "100%",
-              padding: "6px 0",
+              padding: "8px 0",
               borderRadius: 6,
-              fontSize: 13,
+              fontSize: 17,
               fontWeight: 500,
               fontFamily: interFamily,
               ...(c.popular

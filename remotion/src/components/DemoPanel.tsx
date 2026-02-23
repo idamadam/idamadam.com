@@ -43,9 +43,9 @@ export const DemoPanel: React.FC<DemoPanelProps> = ({
       style={{
         position: "absolute",
         zIndex: 50,
-        top: 12,
-        left: 12,
-        width: 310,
+        top: 16,
+        left: 16,
+        width: 410,
         borderRadius: 16,
         overflow: "hidden",
         border: `1px solid ${colors.border}`,
@@ -64,13 +64,13 @@ export const DemoPanel: React.FC<DemoPanelProps> = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "12px 16px",
+          padding: "17px 20px",
           borderBottom: `1px solid ${colors.border}`,
         }}
       >
         <span
           style={{
-            fontSize: 15,
+            fontSize: 20,
             fontWeight: 600,
             letterSpacing: "-0.01em",
             color: colors.text,
@@ -80,8 +80,8 @@ export const DemoPanel: React.FC<DemoPanelProps> = ({
         </span>
         {/* X icon */}
         <svg
-          width="16"
-          height="16"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
           fill="none"
           stroke={colors.text2}
@@ -95,7 +95,7 @@ export const DemoPanel: React.FC<DemoPanelProps> = ({
       </div>
 
       {/* Presets */}
-      <div style={{ padding: 12 }}>
+      <div style={{ padding: 16 }}>
         <PresetGrid activePreset={activePreset} />
       </div>
     </div>

@@ -16,7 +16,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
   return (
     <div
       style={{
-        width: 280,
+        width: 350,
         flexShrink: 0,
         display: "flex",
         flexDirection: "column",
@@ -31,17 +31,17 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "12px 16px",
+          padding: "14px 18px",
           borderBottom: `1px solid ${colors.border}`,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           {/* VibeUI icon */}
           <div
             style={{
-              width: 24,
-              height: 24,
-              borderRadius: 6,
+              width: 32,
+              height: 32,
+              borderRadius: 8,
               backgroundColor: colors.black,
               display: "flex",
               alignItems: "center",
@@ -49,8 +49,8 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
             }}
           >
             <svg
-              width="14"
-              height="14"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               fill="none"
               stroke="white"
@@ -63,7 +63,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
           </div>
           <span
             style={{
-              fontSize: 16,
+              fontSize: 20,
               fontWeight: 600,
               color: colors.text,
             }}
@@ -83,8 +83,8 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
             >
               {/* SlidersHorizontal icon */}
               <svg
-                width="16"
-                height="16"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -107,8 +107,8 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
           {/* Plus icon */}
           <div style={{ padding: 4, color: colors.text2 }}>
             <svg
-              width="16"
-              height="16"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -128,7 +128,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
         style={{
           flex: 1,
           overflow: "hidden",
-          padding: "12px 16px",
+          padding: "14px 18px",
         }}
       >
         {children}
@@ -137,7 +137,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
       {/* Input area */}
       <div
         style={{
-          padding: "10px 12px",
+          padding: "14px 16px",
           borderTop: `1px solid ${colors.border}`,
         }}
       >
@@ -145,8 +145,8 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 6,
-            padding: "8px 10px",
+            gap: 10,
+            padding: "12px 14px",
             borderRadius: 8,
             backgroundColor: colors.bg,
             border: `1px solid ${colors.border}`,
@@ -155,9 +155,9 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
           <div style={{ flex: 1 }} />
           <div
             style={{
-              width: 22,
-              height: 22,
-              borderRadius: 4,
+              width: 30,
+              height: 30,
+              borderRadius: 6,
               backgroundColor: colors.text,
               display: "flex",
               alignItems: "center",
@@ -166,8 +166,8 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
           >
             {/* Send icon */}
             <svg
-              width="12"
-              height="12"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="white"

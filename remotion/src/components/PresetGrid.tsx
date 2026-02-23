@@ -14,7 +14,7 @@ export const PresetGrid: React.FC<PresetGridProps> = ({ activePreset }) => {
       style={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
-        gap: 6,
+        gap: 10,
       }}
     >
       {presets.map((label) => {
@@ -24,8 +24,8 @@ export const PresetGrid: React.FC<PresetGridProps> = ({ activePreset }) => {
             key={label}
             style={{
               borderRadius: 8,
-              padding: "6px 12px",
-              fontSize: 14,
+              padding: "10px 16px",
+              fontSize: 18,
               fontWeight: 500,
               fontFamily: interFamily,
               textAlign: "center",

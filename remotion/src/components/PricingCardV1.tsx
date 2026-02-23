@@ -15,9 +15,9 @@ export const PricingCardV1: React.FC = () => {
     >
       <div
         style={{
-          width: 180,
+          width: 240,
           borderRadius: 12,
-          padding: 16,
+          padding: 20,
           textAlign: "center",
           backgroundColor: colors.card,
           border: `1px solid ${colors.border}`,
@@ -25,7 +25,7 @@ export const PricingCardV1: React.FC = () => {
       >
         <p
           style={{
-            fontSize: 13,
+            fontSize: 17,
             fontWeight: 500,
             letterSpacing: "0.05em",
             textTransform: "uppercase",
@@ -36,7 +36,7 @@ export const PricingCardV1: React.FC = () => {
         </p>
         <p
           style={{
-            fontSize: 28,
+            fontSize: 40,
             fontWeight: 700,
             marginTop: 4,
             color: colors.text,
@@ -45,7 +45,7 @@ export const PricingCardV1: React.FC = () => {
           $9
           <span
             style={{
-              fontSize: 13,
+              fontSize: 17,
               fontWeight: 400,
               color: colors.text2,
             }}
@@ -55,24 +55,24 @@ export const PricingCardV1: React.FC = () => {
         </p>
         <div
           style={{
-            marginTop: 10,
-            paddingTop: 10,
+            marginTop: 12,
+            paddingTop: 12,
             borderTop: `1px solid ${colors.border}`,
             display: "flex",
             flexDirection: "column",
-            gap: 3,
+            gap: 4,
           }}
         >
-          <p style={{ fontSize: 12, color: colors.text2 }}>5 projects</p>
-          <p style={{ fontSize: 12, color: colors.text2 }}>1 GB storage</p>
+          <p style={{ fontSize: 16, color: colors.text2 }}>5 projects</p>
+          <p style={{ fontSize: 16, color: colors.text2 }}>1 GB storage</p>
         </div>
         <button
           style={{
-            marginTop: 12,
+            marginTop: 14,
             width: "100%",
-            padding: "6px 0",
+            padding: "8px 0",
             borderRadius: 6,
-            fontSize: 13,
+            fontSize: 17,
             fontWeight: 500,
             backgroundColor: colors.bg,
             color: colors.text,

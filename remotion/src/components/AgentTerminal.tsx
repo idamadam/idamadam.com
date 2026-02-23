@@ -3,10 +3,11 @@ import { interpolate, useCurrentFrame } from "remotion";
 import { colors } from "../lib/colors";
 
 const lines = [
-  { text: "Exploring 6 components...", frame: 15, green: false },
-  { text: "Found 4 state dimensions", frame: 45, green: false },
-  { text: "Wiring presets and controls...", frame: 75, green: false },
-  { text: "\u2713 Done", frame: 105, green: true },
+  { text: "> running states prompt", frame: 5, green: false, dim: true },
+  { text: "Exploring 6 components...", frame: 15, green: false, dim: false },
+  { text: "Found 4 state dimensions", frame: 45, green: false, dim: false },
+  { text: "Wiring presets and controls...", frame: 75, green: false, dim: false },
+  { text: "\u2713 Done", frame: 105, green: true, dim: false },
 ];
 
 interface AgentTerminalProps {
@@ -53,23 +54,23 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
     <div
       style={{
         position: "absolute",
-        bottom: 20,
-        right: 20,
+        top: "50%",
+        left: "50%",
         zIndex: 30,
         opacity,
-        transform: `translateY(${slideIn}px)`,
+        transform: `translate(-50%, -50%) translateY(${slideIn}px)`,
         boxShadow:
           "0 25px 50px -12px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.05)",
-        borderRadius: 12,
+        borderRadius: 14,
       }}
     >
       <div
         style={{
           backgroundColor: colors.terminal,
-          borderRadius: 12,
+          borderRadius: 14,
           border: `1px solid ${colors.terminalBorder}`,
-          padding: "16px 20px",
-          width: 320,
+          padding: "22px 28px",
+          width: 520,
         }}
       >
         {/* Title bar dots */}
@@ -77,44 +78,44 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 10,
-            marginBottom: 14,
+            gap: 12,
+            marginBottom: 18,
           }}
         >
-          <div style={{ display: "flex", gap: 6 }}>
+          <div style={{ display: "flex", gap: 7 }}>
             <div
               style={{
-                width: 8,
-                height: 8,
-                borderRadius: 4,
+                width: 14,
+                height: 14,
+                borderRadius: 7,
                 backgroundColor: colors.terminalDot,
               }}
             />
             <div
               style={{
-                width: 8,
-                height: 8,
-                borderRadius: 4,
+                width: 14,
+                height: 14,
+                borderRadius: 7,
                 backgroundColor: colors.terminalDot,
               }}
             />
             <div
               style={{
-                width: 8,
-                height: 8,
-                borderRadius: 4,
+                width: 14,
+                height: 14,
+                borderRadius: 7,
                 backgroundColor: colors.terminalDot,
               }}
             />
           </div>
           <span
             style={{
-              fontSize: 13,
+              fontSize: 20,
               color: colors.terminalMuted,
               fontFamily: "monospace",
             }}
           >
-            state-explorer
+            coding-agent
           </span>
         </div>
 
@@ -122,7 +123,7 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
         <div
           style={{
             fontFamily: "monospace",
-            fontSize: 14,
+            fontSize: 22,
             lineHeight: 1.7,
             display: "flex",
             flexDirection: "column",
@@ -153,7 +154,9 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
                   transform: `translateY(${lineSlide}px)`,
                   color: line.green
                     ? colors.terminalTextBright
-                    : colors.terminalText,
+                    : line.dim
+                      ? colors.terminalMuted
+                      : colors.terminalText,
                   fontWeight: line.green ? 600 : 400,
                 }}
               >
@@ -166,8 +169,8 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
             <span
               style={{
                 display: "inline-block",
-                width: 7,
-                height: 15,
+                width: 12,
+                height: 25,
                 backgroundColor: "#a3a3a3",
                 opacity: interpolate(frame % 20, [0, 10, 20], [1, 0.3, 1]),
               }}

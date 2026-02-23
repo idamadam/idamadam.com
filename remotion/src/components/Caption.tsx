@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, interpolate } from "remotion";
+import { interFamily } from "../lib/fonts";
 
 interface CaptionProps {
   text: string;
@@ -33,7 +34,7 @@ export const Caption: React.FC<CaptionProps> = ({
   const slideUp = interpolate(
     frame,
     [enterFrame, enterFrame + fadeDuration],
-    [12, 0],
+    [6, 0],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
 
@@ -45,21 +46,25 @@ export const Caption: React.FC<CaptionProps> = ({
     <div
       style={{
         position: "absolute",
-        bottom: 40,
+        bottom: 28,
         left: 0,
         right: 0,
         display: "flex",
         justifyContent: "center",
         opacity,
         transform: `translateY(${slideUp}px)`,
+        zIndex: 200,
       }}
     >
       <span
         style={{
-          fontFamily: "Inter, sans-serif",
-          fontSize: 40,
-          fontWeight: 400,
-          color: "#666666",
+          fontFamily: interFamily,
+          fontSize: 24,
+          fontWeight: 500,
+          color: "#ffffff",
+          backgroundColor: "rgba(0,0,0,0.75)",
+          padding: "10px 24px",
+          borderRadius: 100,
           whiteSpace: "nowrap",
         }}
       >
