@@ -7,14 +7,9 @@ import { FPS, WIDTH, HEIGHT } from "../lib/constants";
 export const IntroScene: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // Title: spring fade + slide up
-  const titleProgress = spring({
-    frame,
-    fps: FPS,
-    config: { damping: 200, stiffness: 100, mass: 1 },
-  });
-  const titleOpacity = titleProgress;
-  const titleY = (1 - titleProgress) * 30;
+  // Title: visible from frame 0 (so first frame isn't blank for social thumbnails)
+  const titleOpacity = 1;
+  const titleY = 0;
 
   // Subtitle: delayed spring
   const subtitleProgress = spring({
