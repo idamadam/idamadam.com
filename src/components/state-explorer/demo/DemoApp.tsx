@@ -58,7 +58,7 @@ function PreviewV2() {
       {cards.map((c) => (
         <div
           key={c.name}
-          className="w-[105px] rounded-lg p-2.5 text-center relative"
+          className="flex-1 min-w-0 max-w-[105px] rounded-lg p-2.5 text-center relative"
           style={{
             backgroundColor: c.popular ? 'var(--demo-text)' : 'var(--demo-card)',
             border: c.popular ? 'none' : '1px solid var(--demo-border)',
@@ -102,7 +102,7 @@ function SkeletonPreview() {
       {[0, 1, 2].map((i) => (
         <div
           key={i}
-          className="w-[105px] rounded-lg p-2.5 space-y-2"
+          className="flex-1 min-w-0 max-w-[105px] rounded-lg p-2.5 space-y-2"
           style={{ backgroundColor: 'var(--demo-card)', border: '1px solid var(--demo-border)' }}
         >
           <div className="h-2.5 w-10 mx-auto rounded bg-neutral-200 animate-pulse" />
@@ -218,10 +218,10 @@ export default function DemoApp() {
   const visibleMessages = allMessages.slice(0, messageCount)
 
   return (
-    <div className="demo-container flex" style={{ height: '420px', backgroundColor: 'var(--demo-bg)' }}>
+    <div className="demo-container flex flex-col md:flex-row md:h-[420px]" style={{ backgroundColor: 'var(--demo-bg)' }}>
       {/* -- Left: Chat panel -- */}
       <div
-        className="w-[200px] flex-shrink-0 flex flex-col border-r"
+        className="w-full md:w-[200px] md:flex-shrink-0 flex flex-col border-b md:border-b-0 md:border-r max-h-[160px] md:max-h-none"
         style={{ backgroundColor: 'var(--demo-card)', borderColor: 'var(--demo-border)' }}
       >
         {/* Header */}
@@ -350,7 +350,7 @@ export default function DemoApp() {
       </div>
 
       {/* -- Right: Preview panel -- */}
-      <div className="flex-1 relative overflow-hidden flex flex-col">
+      <div className="flex-1 relative overflow-hidden flex flex-col min-h-[260px] md:min-h-0">
         <DemoPanel open={explorerOpen} onClose={() => setExplorerOpen(false)} />
 
         {/* Content */}

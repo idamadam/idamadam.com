@@ -11,7 +11,7 @@ interface DemoPanelProps {
 export default function DemoPanel({ open, onClose }: DemoPanelProps) {
   return (
     <div
-      className="absolute z-50 w-[260px] rounded-xl border shadow-xl overflow-hidden transition-all duration-200 origin-top-left"
+      className="absolute z-50 w-[calc(100%-16px)] sm:w-[260px] rounded-xl border shadow-xl overflow-hidden transition-all duration-200 origin-top-left"
       style={{
         top: '8px',
         left: '8px',
