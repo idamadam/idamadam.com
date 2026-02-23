@@ -37,10 +37,10 @@ export default function AgentOverlay() {
 
   return (
     <div
-      className="absolute z-30 bottom-6 right-6 transition-opacity duration-700 shadow-2xl rounded-lg"
+      className="absolute z-30 bottom-4 left-4 right-4 md:left-auto md:right-6 md:bottom-6 transition-opacity duration-700 shadow-2xl rounded-lg"
       style={{ opacity: fading ? 0 : 1 }}
     >
-      <div className="bg-neutral-900 rounded-lg border border-neutral-700/60 px-5 py-4 w-[260px]">
+      <div className="bg-neutral-900 rounded-lg border border-neutral-700/60 px-4 py-3 md:px-5 md:py-4 w-full md:w-[260px]">
         <div className="flex items-center gap-2 mb-3">
           <div className="flex gap-1.5">
             <div className="w-2 h-2 rounded-full bg-neutral-600" />

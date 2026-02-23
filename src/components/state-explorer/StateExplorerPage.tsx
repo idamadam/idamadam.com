@@ -94,7 +94,7 @@ export default function StateExplorerPage() {
 
             {/* Right: interactive demo */}
             <div className="demo-theme lg:pt-6">
-              <div className="relative">
+              <div className="relative overflow-hidden rounded-2xl">
                 <BrowserFrame url="localhost:5174">
                   <DemoApp />
                 </BrowserFrame>
