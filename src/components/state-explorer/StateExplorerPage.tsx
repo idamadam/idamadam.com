@@ -50,8 +50,8 @@ export default function StateExplorerPage({ highlightedPrompt }: { highlightedPr
           </a>
         </div>
       </header>
-      <section className="relative min-h-screen">
-        <div className="max-w-7xl mx-auto px-6 py-20">
+      <section className="relative py-20">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-[minmax(0,460px)_1fr] gap-10 lg:gap-14 items-start">
             {/* Left: copy + install */}
             <div className="lg:sticky lg:top-20 lg:pt-6">
@@ -112,6 +112,14 @@ export default function StateExplorerPage({ highlightedPrompt }: { highlightedPr
           </div>
         </div>
       </section>
+      <footer className="border-t border-border/50 py-6">
+        <p className="text-center text-sm text-secondary">
+          Made in Melbourne, Australia by{' '}
+          <Link href="/" className="underline hover:opacity-70 transition-opacity">
+            Idam Adam
+          </Link>
+        </p>
+      </footer>
     </div>
   )
 }
