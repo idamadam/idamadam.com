@@ -11,6 +11,7 @@ import { promptText } from './prompt'
 
 export default function StateExplorerPage() {
   const [copiedPrompt, setCopiedPrompt] = useState(false)
+  const [hasEverCopied, setHasEverCopied] = useState(false)
   const autoPlay = useDemoStore((s) => s.autoPlay)
 
   useEffect(() => {
@@ -21,6 +22,7 @@ export default function StateExplorerPage() {
   const handleCopyPrompt = async () => {
     await navigator.clipboard.writeText(promptText)
     setCopiedPrompt(true)
+    setHasEverCopied(true)
     setTimeout(() => setCopiedPrompt(false), 2000)
   }
 
@@ -54,11 +56,11 @@ export default function StateExplorerPage() {
             {/* Left: copy + install */}
             <div className="lg:sticky lg:top-20 lg:pt-6">
               <h1 className="type-display">
-                Reach any prototype state in one click.
+                Reach any prototype state in one click
               </h1>
 
               <p className="type-body mt-4 max-w-[420px]">
-                A prompt that reads your React prototype and wires up a control panel. Works with Claude Code, Cursor, Codex, Figma Make, or any other coding agent.
+                A prompt that figures out which states your prototype has, then builds you a panel to flip between them. Works with Claude Code, Cursor, Codex, Figma Make, or any other coding agent.
               </p>
 
               <button
@@ -68,6 +70,22 @@ export default function StateExplorerPage() {
                 <span>{copiedPrompt ? 'Copied!' : 'Copy prompt'}</span>
                 {copiedPrompt ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
               </button>
+              <p
+                className={`pt-4 text-sm transition-all duration-500 delay-400 ${
+                  hasEverCopied ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1 pointer-events-none'
+                }`}
+              >
+                Did it work?{' '}
+                <a
+                  href="https://www.linkedin.com/in/idamadam/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#0A66C2' }}
+                  className="underline hover:opacity-70 transition-opacity"
+                >
+                  DM me on LinkedIn
+                </a>
+              </p>
 
               <div className="mt-10">
                 <h2 className="type-label">How it works</h2>
@@ -76,12 +94,12 @@ export default function StateExplorerPage() {
                   <li className="type-body">
                     <span className="text-neutral-400 type-code mr-3">1.</span>
                     <span className="text-black font-medium">Paste the prompt.</span>{' '}
-                    Your coding agent inspects your prototype and determines which states to surface.
+                    Your AI tool reads your prototype and proposes a set of states to control.
                   </li>
                   <li className="type-body">
                     <span className="text-neutral-400 type-code mr-3">2.</span>
-                    <span className="text-black font-medium">Review the plan.</span>{' '}
-                    Refine the proposed control panel before any code is written.
+                    <span className="text-black font-medium">Approve the plan.</span>{' '}
+                    You see exactly what it'll build before it touches any code.
                   </li>
                   <li className="type-body">
                     <span className="text-neutral-400 type-code mr-3">3.</span>
@@ -100,8 +118,8 @@ export default function StateExplorerPage() {
                 </BrowserFrame>
                 <AgentOverlay />
               </div>
-              <p className="type-fine mt-4 text-center">
-                Click any preset to change the builder.
+              <p className="type-fine pt-4 text-center">
+                Click any preset to change the prototype.
               </p>
             </div>
           </div>
