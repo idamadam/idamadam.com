@@ -54,7 +54,7 @@ function PreviewV2() {
     { name: 'Team', price: '$79', popular: false, features: ['Everything+', '50 GB'] },
   ]
   return (
-    <div className="flex items-center justify-center h-full px-3 md:px-0 gap-2 md:gap-3">
+    <div className="flex items-center justify-center h-full px-3 md:px-0 pt-3 gap-2 md:gap-3">
       {cards.map((c) => (
         <div
           key={c.name}
