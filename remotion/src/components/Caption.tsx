@@ -7,6 +7,8 @@ interface CaptionProps {
   enterFrame: number;
   exitFrame: number;
   fadeDuration?: number;
+  /** Override default positioning. Replaces the default bottom-centered placement. */
+  position?: React.CSSProperties;
 }
 
 export const Caption: React.FC<CaptionProps> = ({
@@ -14,6 +16,7 @@ export const Caption: React.FC<CaptionProps> = ({
   enterFrame,
   exitFrame,
   fadeDuration = 10,
+  position,
 }) => {
   const frame = useCurrentFrame();
 
@@ -42,15 +45,14 @@ export const Caption: React.FC<CaptionProps> = ({
 
   if (frame < enterFrame || frame > exitFrame) return null;
 
+  const basePosition: React.CSSProperties = position
+    ? { position: "absolute", display: "flex", justifyContent: "center", ...position }
+    : { position: "absolute", bottom: 28, left: 0, right: 0, display: "flex", justifyContent: "center" };
+
   return (
     <div
       style={{
-        position: "absolute",
-        bottom: 28,
-        left: 0,
-        right: 0,
-        display: "flex",
-        justifyContent: "center",
+        ...basePosition,
         opacity,
         transform: `translateY(${slideUp}px)`,
         zIndex: 200,

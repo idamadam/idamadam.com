@@ -12,7 +12,7 @@ import { CursorPointer } from "../components/CursorPointer";
 import { Caption } from "../components/Caption";
 
 /*
-  Combined scene: Agent Scan (0-180) + Panel Reveal (180-300) + Preset Cycling (300-660)
+  Combined scene: Agent Scan (0-180) + Panel Reveal (180-300) + Preset Cycling (300-540)
 
   Agent Scanning (0-180):
     - Browser scales in over first ~20 frames
@@ -26,12 +26,12 @@ import { Caption } from "../components/Caption";
     - "Previous" preset auto-activates
     - Preview cross-fades to v1
 
-  Preset Cycling (300-660):
-    - Cursor clicks through presets:
-    - "Latest" (300-390): v2
-    - "Generating" (390-480): skeleton
-    - "Error" (480-570): error state
-    - "Latest" again (570-660): v2 return
+  Preset Cycling (300-540):
+    - Cursor clicks through presets (60 frames each):
+    - "Latest" (300-360): v2
+    - "Generating" (360-420): skeleton
+    - "Error" (420-480): error state
+    - "Latest" again (480-540): v2 return
 */
 
 // Preset button positions relative to the DemoPanel (top-left of preview area)
@@ -69,15 +69,40 @@ const presetPositions = {
 // Browser frame offset within the 1080 canvas (centered, with title bar ~70px)
 const BROWSER_TITLE_BAR = 70;
 
-// Caption definitions: [enterFrame, exitFrame, text]
-const CAPTIONS: [number, number, string][] = [
-  [0, 50, "Start with an existing prototype"],
-  [60, 170, "Agent scans your prototype and maps every state"],
-  [190, 290, "One-click presets for common state combinations"],
-  [340, 380, "Latest version"],
-  [430, 470, "Mid-generation"],
-  [520, 560, "Error state"],
-  [610, 650, "Back to latest"],
+// Caption definitions with positional awareness
+interface CaptionDef {
+  enterFrame: number;
+  exitFrame: number;
+  text: string;
+  position?: React.CSSProperties;
+}
+
+// Canvas-level caption — centered on full canvas, visible before scrim
+const CANVAS_CAPTIONS: CaptionDef[] = [
+  {
+    enterFrame: 0,
+    exitFrame: 15,
+    text: "Start with an existing prototype",
+    position: { top: 0, left: 0, right: 0, bottom: 0, alignItems: "center" },
+  },
+];
+
+// Browser-level captions — positioned relative to browser wrapper
+const BROWSER_CAPTIONS: CaptionDef[] = [
+  {
+    // Below the centered terminal
+    enterFrame: 60,
+    exitFrame: 170,
+    text: "Agent scans your prototype and maps every state",
+    position: { top: 640, left: 0, right: 0 },
+  },
+  {
+    // Below DemoPanel, aligned with preview area
+    enterFrame: 190,
+    exitFrame: 290,
+    text: "An in-context control panel for important states",
+    position: { top: 300, left: 350, right: 0 },
+  },
 ];
 
 export const BrowserDemoScene: React.FC = () => {
@@ -119,82 +144,82 @@ export const BrowserDemoScene: React.FC = () => {
     previewState = "v1";
     prevPreviewState = "v2";
     transitionFrame = 180;
-  } else if (frame < 390) {
+  } else if (frame < 360) {
     // Cursor clicks "Latest" -> v2
-    activePreset = frame >= 330 ? "Latest" : "Previous";
-    if (frame >= 330) {
+    activePreset = frame >= 320 ? "Latest" : "Previous";
+    if (frame >= 320) {
       previewState = "v2";
       prevPreviewState = "v1";
-      transitionFrame = 330;
+      transitionFrame = 320;
     } else {
       previewState = "v1";
     }
-  } else if (frame < 480) {
+  } else if (frame < 420) {
     // Cursor clicks "Generating" -> skeleton
-    activePreset = frame >= 420 ? "Generating" : "Latest";
-    if (frame >= 420) {
+    activePreset = frame >= 380 ? "Generating" : "Latest";
+    if (frame >= 380) {
       previewState = "skeleton";
       prevPreviewState = "v2";
-      transitionFrame = 420;
+      transitionFrame = 380;
       chatStatus = "generating";
-      statusChangeFrame = 420;
+      statusChangeFrame = 380;
     } else {
       previewState = "v2";
     }
-  } else if (frame < 570) {
+  } else if (frame < 480) {
     // Cursor clicks "Error" -> error
-    activePreset = frame >= 510 ? "Error" : "Generating";
-    if (frame >= 510) {
+    activePreset = frame >= 440 ? "Error" : "Generating";
+    if (frame >= 440) {
       previewState = "error";
       prevPreviewState = "skeleton";
-      transitionFrame = 510;
+      transitionFrame = 440;
       chatStatus = "error";
-      statusChangeFrame = 510;
+      statusChangeFrame = 440;
     } else {
       previewState = "skeleton";
       chatStatus = "generating";
-      statusChangeFrame = 420;
+      statusChangeFrame = 380;
     }
   } else {
     // Cursor clicks "Latest" again -> v2
-    activePreset = frame >= 600 ? "Latest" : "Error";
-    if (frame >= 600) {
+    activePreset = frame >= 500 ? "Latest" : "Error";
+    if (frame >= 500) {
       previewState = "v2";
       prevPreviewState = "error";
-      transitionFrame = 600;
+      transitionFrame = 500;
       chatStatus = "normal";
     } else {
       previewState = "error";
       chatStatus = "error";
-      statusChangeFrame = 510;
+      statusChangeFrame = 440;
     }
   }
 
-  // Cursor moves for preset cycling
+  // Cursor moves for preset cycling (60 frames per preset, click at +20)
   const cursorMoves = [
     {
       startFrame: 300,
       x: presetPositions.Latest.x - 5,
       y: BROWSER_TITLE_BAR + presetPositions.Latest.y - 5,
-      clickFrame: 330,
+      clickFrame: 320,
     },
     {
-      startFrame: 390,
+      startFrame: 360,
       x: presetPositions.Generating.x - 5,
       y: BROWSER_TITLE_BAR + presetPositions.Generating.y - 5,
-      clickFrame: 420,
+      clickFrame: 380,
+    },
+    {
+      startFrame: 420,
+      x: presetPositions.Error.x - 5,
+      y: BROWSER_TITLE_BAR + presetPositions.Error.y - 5,
+      clickFrame: 440,
     },
     {
       startFrame: 480,
-      x: presetPositions.Error.x - 5,
-      y: BROWSER_TITLE_BAR + presetPositions.Error.y - 5,
-      clickFrame: 510,
-    },
-    {
-      startFrame: 570,
       x: presetPositions.Latest.x - 5,
       y: BROWSER_TITLE_BAR + presetPositions.Latest.y - 5,
-      clickFrame: 600,
+      clickFrame: 500,
     },
   ];
 
@@ -274,15 +299,27 @@ export const BrowserDemoScene: React.FC = () => {
         {frame >= 300 && (
           <CursorPointer moves={cursorMoves} enterFrame={300} />
         )}
+
+        {/* Browser-level captions — positioned relative to browser wrapper */}
+        {BROWSER_CAPTIONS.map(({ enterFrame: enter, exitFrame: exit, text, position }) => (
+          <Caption
+            key={text}
+            text={text}
+            enterFrame={enter}
+            exitFrame={exit}
+            position={position}
+          />
+        ))}
       </div>
 
-      {/* Caption pills below browser */}
-      {CAPTIONS.map(([enter, exit, text]) => (
+      {/* Canvas-level captions */}
+      {CANVAS_CAPTIONS.map(({ enterFrame: enter, exitFrame: exit, text, position }) => (
         <Caption
           key={text}
           text={text}
           enterFrame={enter}
           exitFrame={exit}
+          position={position}
         />
       ))}
     </div>

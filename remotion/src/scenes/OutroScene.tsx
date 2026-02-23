@@ -43,7 +43,7 @@ export const OutroScene: React.FC = () => {
           margin: 0,
         }}
       >
-        Get the prompt.
+        Get the prompt
       </h1>
       <p
         style={{

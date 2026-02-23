@@ -51,7 +51,7 @@ export const IntroScene: React.FC = () => {
           maxWidth: 900,
         }}
       >
-        Reach any prototype state in one click.
+        Reach any prototype state in one click
       </h1>
       <p
         style={{

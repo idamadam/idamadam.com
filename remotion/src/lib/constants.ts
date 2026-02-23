@@ -4,7 +4,7 @@ export const HEIGHT = 1080;
 
 // Scene durations in frames
 export const INTRO_DURATION = 90; // 3.0s
-export const BROWSER_DEMO_DURATION = 660; // 22.0s
+export const BROWSER_DEMO_DURATION = 540; // 18.0s
 export const OUTRO_DURATION = 120; // 4.0s
 
 // Transition overlap

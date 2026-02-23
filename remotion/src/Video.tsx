@@ -20,9 +20,9 @@ import {
 
   Intro:       0 -> 90
   Transition:  75 -> 90  (fade)
-  BrowserDemo: 75 -> 735
-  Transition:  720 -> 735 (fade)
-  Outro:       720 -> 840
+  BrowserDemo: 75 -> 615
+  Transition:  600 -> 615 (fade)
+  Outro:       600 -> 720
 */
 
 const SCENE_2_START = INTRO_DURATION - TRANSITION_FRAMES; // 75
