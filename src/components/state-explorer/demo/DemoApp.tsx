@@ -54,7 +54,7 @@ function PreviewV2() {
     { name: 'Team', price: '$79', popular: false, features: ['Everything+', '50 GB'] },
   ]
   return (
-    <div className="flex items-center justify-center h-full px-3 md:px-0 pt-3 gap-2 md:gap-3">
+    <div className="flex items-center justify-center h-full px-3 md:px-6 pt-3 md:py-4 gap-2 md:gap-3">
       {cards.map((c) => (
         <div
           key={c.name}
@@ -98,7 +98,7 @@ function PreviewV2() {
 /* -- Skeleton -- */
 function SkeletonPreview() {
   return (
-    <div className="flex items-center justify-center h-full px-3 md:px-0 gap-2 md:gap-3">
+    <div className="flex items-center justify-center h-full px-3 md:px-6 md:py-4 gap-2 md:gap-3">
       {[0, 1, 2].map((i) => (
         <div
           key={i}
@@ -184,6 +184,7 @@ export default function DemoApp() {
   const setGenerating = useDemoStore((s) => s.setGenerating)
   const prevPhase = useRef(agentPhase)
   const messagesRef = useRef<HTMLDivElement>(null)
+  const messageRefs = useRef<Map<number, HTMLDivElement>>(new Map())
 
   useEffect(() => {
     if (prevPhase.current === 'running' && agentPhase === 'done') {
@@ -197,8 +198,16 @@ export default function DemoApp() {
 
   useEffect(() => {
     const el = messagesRef.current
-    if (el) el.scrollTop = el.scrollHeight
-  }, [messageCount, generationStatus, userMessage])
+    if (!el) return
+    // When version changes, scroll the relevant AI message into view
+    const msgEl = messageRefs.current.get(version)
+    if (msgEl) {
+      msgEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+      return
+    }
+    // Fallback: scroll to bottom for new messages / generation
+    el.scrollTop = el.scrollHeight
+  }, [messageCount, generationStatus, userMessage, version])
 
   // Clear custom message when a preset is applied
   const activePreset = useDemoStore((s) => s.activePreset)
@@ -270,7 +279,14 @@ export default function DemoApp() {
             const isActive = isAi && msgVersion === version
 
             return (
-              <div key={i} className="rounded-md px-1.5 py-1 -mx-1.5">
+              <div
+                key={i}
+                ref={msgVersion ? (el) => {
+                  if (el) messageRefs.current.set(msgVersion, el)
+                  else messageRefs.current.delete(msgVersion!)
+                } : undefined}
+                className="rounded-md px-1.5 py-1 -mx-1.5"
+              >
                 <div className="flex items-center gap-1 mb-0.5">
                   <p className="text-demo-micro font-semibold" style={{ color: isAi ? 'var(--demo-text-2)' : 'var(--demo-text)' }}>
                     {isAi ? 'VibeUI' : 'You'}
