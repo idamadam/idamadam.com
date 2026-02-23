@@ -35,12 +35,6 @@ export default async function Image() {
     )
   ).then((res) => res.arrayBuffer());
 
-  const cards = [
-    { number: "01", heading: "I don\u2019t stop at the user problem" },
-    { number: "02", heading: "I design in the material of software" },
-    { number: "03", heading: "I build trust so people challenge my thinking" },
-  ];
-
   return new ImageResponse(
     (
       <div
@@ -49,7 +43,8 @@ export default async function Image() {
           width: "100%",
           display: "flex",
           backgroundColor: "#FAFAFA",
-          padding: "56px 60px",
+          padding: "72px 80px",
+          alignItems: "center",
         }}
       >
         {/* Left column — identity */}
@@ -58,8 +53,8 @@ export default async function Image() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            width: "460px",
-            paddingRight: "48px",
+            width: "420px",
+            paddingRight: "64px",
             flexShrink: 0,
           }}
         >
@@ -67,20 +62,20 @@ export default async function Image() {
           <div
             style={{
               display: "flex",
-              width: "100px",
-              height: "100px",
+              width: "120px",
+              height: "120px",
               borderRadius: "50%",
               overflow: "hidden",
               boxShadow: "0 4px 16px rgba(0, 0, 0, 0.1)",
-              marginBottom: "28px",
+              marginBottom: "32px",
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={headshotBase64}
               alt="Idam Adam"
-              width={100}
-              height={100}
+              width={120}
+              height={120}
               style={{
                 objectFit: "cover",
               }}
@@ -90,7 +85,7 @@ export default async function Image() {
           {/* Name */}
           <div
             style={{
-              fontSize: "46px",
+              fontSize: "52px",
               fontFamily: "Instrument Serif",
               color: "#1a1a1a",
               lineHeight: 1.1,
@@ -103,116 +98,49 @@ export default async function Image() {
           {/* Role */}
           <div
             style={{
-              fontSize: "20px",
+              fontSize: "24px",
               fontFamily: "Inter",
               fontWeight: 400,
               color: "#666666",
-              marginTop: "10px",
+              marginTop: "12px",
             }}
           >
             Lead Product Designer
           </div>
-
-          {/* Tagline */}
-          <div
-            style={{
-              fontSize: "17px",
-              fontFamily: "Inter",
-              fontWeight: 400,
-              color: "#888888",
-              lineHeight: 1.5,
-              marginTop: "20px",
-            }}
-          >
-            Intelligent software that makes complex, high-stakes problems feel
-            simple.
-          </div>
-
-          {/* URL */}
-          <div
-            style={{
-              display: "flex",
-              fontSize: "16px",
-              fontFamily: "Inter",
-              fontWeight: 400,
-              color: "#999999",
-              marginTop: "28px",
-            }}
-          >
-            idamadam.com
-          </div>
         </div>
 
-        {/* Right column — approach cards */}
+        {/* Divider */}
+        <div
+          style={{
+            display: "flex",
+            width: "1px",
+            height: "320px",
+            backgroundColor: "rgba(107, 114, 128, 0.2)",
+            flexShrink: 0,
+          }}
+        />
+
+        {/* Right column — tagline */}
         <div
           style={{
             display: "flex",
             flex: 1,
-            position: "relative",
+            paddingLeft: "64px",
+            alignItems: "center",
           }}
         >
-          {cards.map((card, i) => (
-            <div
-              key={card.number}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                position: "absolute",
-                left: `${i * 24}px`,
-                top: `${i * 72 + 40}px`,
-                width: "540px",
-                borderRadius: "16px",
-                border: "1px solid rgba(107, 114, 128, 0.18)",
-                padding: "24px 28px",
-                backgroundImage:
-                  "linear-gradient(170deg, #F4F5F7 0%, #FFFFFF 50%)",
-                boxShadow:
-                  "0 8px 24px -4px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.04)",
-              }}
-            >
-              {/* Number + accent line */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
-                  marginBottom: "12px",
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: "13px",
-                    fontFamily: "Inter",
-                    fontWeight: 600,
-                    color: "#6B7280",
-                    letterSpacing: "0.05em",
-                  }}
-                >
-                  {card.number}
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flex: 1,
-                    height: "1px",
-                    backgroundColor: "rgba(107, 114, 128, 0.18)",
-                  }}
-                />
-              </div>
-
-              {/* Heading */}
-              <div
-                style={{
-                  fontSize: "18px",
-                  fontFamily: "Instrument Serif",
-                  color: "#1a1a1a",
-                  lineHeight: 1.35,
-                }}
-              >
-                {card.heading}
-              </div>
-            </div>
-          ))}
+          <div
+            style={{
+              fontSize: "36px",
+              fontFamily: "Instrument Serif",
+              color: "#1a1a1a",
+              lineHeight: 1.4,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            I design intelligent and thoughtful software that makes complex,
+            high-stakes problems feel simple.
+          </div>
         </div>
       </div>
     ),
