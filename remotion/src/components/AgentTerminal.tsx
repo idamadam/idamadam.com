@@ -47,6 +47,9 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
 
   const opacity = enterOpacity * exitOpacity;
 
+  const gradientAngle = ((frame - enterFrame) * 4) % 360;
+  const shimmerGradient = `conic-gradient(from ${gradientAngle}deg, #FFB600, #FF5C0B, #9A36B2, #FF5C0B, #FFB600)`;
+
   if (frame < enterFrame) return null;
   if (opacity <= 0) return null;
 
@@ -59,20 +62,39 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
         zIndex: 30,
         opacity,
         transform: `translate(-50%, -50%) translateY(${slideIn}px)`,
-        boxShadow:
-          "0 25px 50px -12px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.05)",
-        borderRadius: 14,
+        isolation: "isolate",
       }}
     >
+      {/* Glow layer */}
       <div
         style={{
-          backgroundColor: colors.terminal,
+          position: "absolute",
+          inset: 0,
+          background: shimmerGradient,
+          filter: "blur(24px)",
+          opacity: 0.5,
+          zIndex: -1,
+        }}
+      />
+
+      {/* Gradient border */}
+      <div
+        style={{
           borderRadius: 14,
-          border: `1px solid ${colors.terminalBorder}`,
-          padding: "22px 28px",
-          width: 520,
+          padding: 2,
+          background: shimmerGradient,
         }}
       >
+        <div
+          style={{
+            backgroundColor: colors.terminal,
+            borderRadius: 12,
+            padding: "28px 34px",
+            width: 580,
+            boxShadow:
+              "0 25px 50px -12px rgba(0,0,0,0.25)",
+          }}
+        >
         {/* Title bar dots */}
         <div
           style={{
@@ -176,6 +198,7 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
               }}
             />
           )}
+        </div>
         </div>
       </div>
     </div>
