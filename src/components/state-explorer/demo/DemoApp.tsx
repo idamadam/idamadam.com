@@ -54,11 +54,11 @@ function PreviewV2() {
     { name: 'Team', price: '$79', popular: false, features: ['Everything+', '50 GB'] },
   ]
   return (
-    <div className="flex items-center justify-center h-full gap-3">
+    <div className="flex items-center justify-center h-full gap-1.5 md:gap-3">
       {cards.map((c) => (
         <div
           key={c.name}
-          className="flex-1 min-w-0 max-w-[105px] rounded-lg p-2.5 text-center relative"
+          className="flex-1 min-w-0 rounded-lg p-1.5 md:p-2.5 text-center relative"
           style={{
             backgroundColor: c.popular ? 'var(--demo-text)' : 'var(--demo-card)',
             border: c.popular ? 'none' : '1px solid var(--demo-border)',
@@ -74,13 +74,13 @@ function PreviewV2() {
           )}
           <p className="text-demo-xs font-medium tracking-wide uppercase" style={{ color: c.popular ? 'rgba(255,255,255,0.6)' : 'var(--demo-text-2)' }}>{c.name}</p>
           <p className="text-demo-lg font-bold mt-1" style={{ color: c.popular ? '#fff' : 'var(--demo-text)' }}>{c.price}<span className="text-demo-xs font-normal" style={{ color: c.popular ? 'rgba(255,255,255,0.5)' : 'var(--demo-text-2)' }}>/mo</span></p>
-          <div className="mt-2 pt-2 space-y-0.5" style={{ borderTop: c.popular ? '1px solid rgba(255,255,255,0.15)' : '1px solid var(--demo-border)' }}>
+          <div className="mt-1 pt-1 md:mt-2 md:pt-2 space-y-0.5" style={{ borderTop: c.popular ? '1px solid rgba(255,255,255,0.15)' : '1px solid var(--demo-border)' }}>
             {c.features.map((f) => (
               <p key={f} className="text-demo-xxs" style={{ color: c.popular ? 'rgba(255,255,255,0.6)' : 'var(--demo-text-2)' }}>{f}</p>
             ))}
           </div>
           <button
-            className="mt-2.5 w-full py-1 rounded text-demo-xs font-medium"
+            className="mt-1.5 md:mt-2.5 w-full py-0.5 md:py-1 rounded text-demo-xs font-medium"
             style={
               c.popular
                 ? { backgroundColor: '#fff', color: 'var(--demo-text)' }
@@ -98,11 +98,11 @@ function PreviewV2() {
 /* -- Skeleton -- */
 function SkeletonPreview() {
   return (
-    <div className="flex items-center justify-center h-full gap-3">
+    <div className="flex items-center justify-center h-full gap-1.5 md:gap-3">
       {[0, 1, 2].map((i) => (
         <div
           key={i}
-          className="flex-1 min-w-0 max-w-[105px] rounded-lg p-2.5 space-y-2"
+          className="flex-1 min-w-0 rounded-lg p-1.5 md:p-2.5 space-y-1.5 md:space-y-2"
           style={{ backgroundColor: 'var(--demo-card)', border: '1px solid var(--demo-border)' }}
         >
           <div className="h-2.5 w-10 mx-auto rounded bg-neutral-200 animate-pulse" />
