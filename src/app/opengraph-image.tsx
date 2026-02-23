@@ -16,14 +16,30 @@ export default async function Image() {
   const headshotData = await readFile(headshotPath);
   const headshotBase64 = `data:image/jpeg;base64,${headshotData.toString("base64")}`;
 
-  // Load Inter font for the body text
+  // Load fonts
   const interRegular = await fetch(
-    new URL("https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff")
+    new URL(
+      "https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
+    )
   ).then((res) => res.arrayBuffer());
 
   const interSemiBold = await fetch(
-    new URL("https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hjp-Ek-_EeA.woff")
+    new URL(
+      "https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hjp-Ek-_EeA.woff"
+    )
   ).then((res) => res.arrayBuffer());
+
+  const instrumentSerif = await fetch(
+    new URL(
+      "https://cdn.jsdelivr.net/fontsource/fonts/instrument-serif@latest/latin-400-normal.woff"
+    )
+  ).then((res) => res.arrayBuffer());
+
+  const cards = [
+    { number: "01", heading: "I don\u2019t stop at the user problem" },
+    { number: "02", heading: "I design in the material of software" },
+    { number: "03", heading: "I build trust so people challenge my thinking" },
+  ];
 
   return new ImageResponse(
     (
@@ -32,88 +48,171 @@ export default async function Image() {
           height: "100%",
           width: "100%",
           display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
           backgroundColor: "#FAFAFA",
-          padding: "60px",
+          padding: "56px 60px",
         }}
       >
+        {/* Left column — identity */}
         <div
           style={{
             display: "flex",
-            alignItems: "center",
+            flexDirection: "column",
             justifyContent: "center",
-            gap: "48px",
+            width: "460px",
+            paddingRight: "48px",
+            flexShrink: 0,
           }}
         >
           {/* Headshot */}
           <div
             style={{
               display: "flex",
-              width: "240px",
-              height: "240px",
+              width: "100px",
+              height: "100px",
               borderRadius: "50%",
               overflow: "hidden",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
+              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.1)",
+              marginBottom: "28px",
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={headshotBase64}
               alt="Idam Adam"
-              width={240}
-              height={240}
+              width={100}
+              height={100}
               style={{
                 objectFit: "cover",
               }}
             />
           </div>
 
-          {/* Text content */}
+          {/* Name */}
+          <div
+            style={{
+              fontSize: "46px",
+              fontFamily: "Instrument Serif",
+              color: "#1a1a1a",
+              lineHeight: 1.1,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            Idam Adam
+          </div>
+
+          {/* Role */}
+          <div
+            style={{
+              fontSize: "20px",
+              fontFamily: "Inter",
+              fontWeight: 400,
+              color: "#666666",
+              marginTop: "10px",
+            }}
+          >
+            Lead Product Designer
+          </div>
+
+          {/* Tagline */}
+          <div
+            style={{
+              fontSize: "17px",
+              fontFamily: "Inter",
+              fontWeight: 400,
+              color: "#888888",
+              lineHeight: 1.5,
+              marginTop: "20px",
+            }}
+          >
+            Intelligent software that makes complex, high-stakes problems feel
+            simple.
+          </div>
+
+          {/* URL */}
           <div
             style={{
               display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
+              fontSize: "16px",
+              fontFamily: "Inter",
+              fontWeight: 400,
+              color: "#999999",
+              marginTop: "28px",
             }}
           >
-            <div
-              style={{
-                fontSize: "64px",
-                fontWeight: 600,
-                color: "#1a1a1a",
-                lineHeight: 1.1,
-                fontFamily: "Inter",
-              }}
-            >
-              Idam Adam
-            </div>
-            <div
-              style={{
-                fontSize: "32px",
-                fontWeight: 400,
-                color: "#666666",
-                marginTop: "12px",
-                fontFamily: "Inter",
-              }}
-            >
-              Lead Product Designer
-            </div>
+            idamadam.com
           </div>
         </div>
 
-        {/* Subtle domain at bottom */}
+        {/* Right column — approach cards */}
         <div
           style={{
-            position: "absolute",
-            bottom: "40px",
-            fontSize: "20px",
-            color: "#999999",
-            fontFamily: "Inter",
+            display: "flex",
+            flex: 1,
+            position: "relative",
           }}
         >
-          idamadam.com
+          {cards.map((card, i) => (
+            <div
+              key={card.number}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                position: "absolute",
+                left: `${i * 24}px`,
+                top: `${i * 72 + 40}px`,
+                width: "540px",
+                borderRadius: "16px",
+                border: "1px solid rgba(107, 114, 128, 0.18)",
+                padding: "24px 28px",
+                backgroundImage:
+                  "linear-gradient(170deg, #F4F5F7 0%, #FFFFFF 50%)",
+                boxShadow:
+                  "0 8px 24px -4px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.04)",
+              }}
+            >
+              {/* Number + accent line */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  marginBottom: "12px",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "13px",
+                    fontFamily: "Inter",
+                    fontWeight: 600,
+                    color: "#6B7280",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  {card.number}
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flex: 1,
+                    height: "1px",
+                    backgroundColor: "rgba(107, 114, 128, 0.18)",
+                  }}
+                />
+              </div>
+
+              {/* Heading */}
+              <div
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "Instrument Serif",
+                  color: "#1a1a1a",
+                  lineHeight: 1.35,
+                }}
+              >
+                {card.heading}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     ),
@@ -131,6 +230,12 @@ export default async function Image() {
           data: interSemiBold,
           style: "normal",
           weight: 600,
+        },
+        {
+          name: "Instrument Serif",
+          data: instrumentSerif,
+          style: "normal",
+          weight: 400,
         },
       ],
     }
