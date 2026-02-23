@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+import { codeToHtml } from 'shiki'
 import StateExplorerPage from '@/components/state-explorer/StateExplorerPage'
+import { promptText } from '@/components/state-explorer/prompt'
 
 export const metadata: Metadata = {
   title: 'States — Idam Adam',
@@ -20,6 +22,19 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Page() {
-  return <StateExplorerPage />
+export default async function Page() {
+  const rawHtml = await codeToHtml(promptText, {
+    lang: 'markdown',
+    theme: 'github-light',
+  })
+
+  // Strip Shiki's default background and inject word-wrap styles
+  const highlightedPrompt = rawHtml
+    .replace(/background-color:[^;"]+;?/, '')
+    .replace(
+      /(<pre[^>]*style=")/,
+      '$1white-space:pre-wrap;word-break:break-word;overflow-wrap:break-word;padding:0;margin:0;'
+    )
+
+  return <StateExplorerPage highlightedPrompt={highlightedPrompt} />
 }

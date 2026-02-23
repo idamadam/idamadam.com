@@ -9,7 +9,7 @@ import AgentOverlay from './demo/AgentOverlay'
 import { useDemoStore } from './demo/demoStore'
 import { promptText } from './prompt'
 
-export default function StateExplorerPage() {
+export default function StateExplorerPage({ highlightedPrompt }: { highlightedPrompt: string }) {
   const [copiedPrompt, setCopiedPrompt] = useState(false)
   const [hasEverCopied, setHasEverCopied] = useState(false)
   const autoPlay = useDemoStore((s) => s.autoPlay)
@@ -63,13 +63,21 @@ export default function StateExplorerPage() {
                 A prompt that figures out which states your prototype has, then builds you a panel to flip between them. Works with Claude Code, Cursor, Codex, Figma Make, or any other coding agent.
               </p>
 
-              <button
-                onClick={handleCopyPrompt}
-                className="mt-8 btn-primary inline-flex items-center gap-2.5 cursor-pointer"
-              >
-                <span>{copiedPrompt ? 'Copied!' : 'Copy prompt'}</span>
-                {copiedPrompt ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-              </button>
+              <div className="mt-8 rounded-xl border border-neutral-200 bg-neutral-50 relative">
+                <button
+                  onClick={handleCopyPrompt}
+                  className="absolute top-2.5 right-2.5 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium text-neutral-500 hover:text-neutral-700 hover:bg-neutral-200/60 transition-colors cursor-pointer"
+                >
+                  {copiedPrompt ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copiedPrompt ? 'Copied!' : 'Copy prompt'}</span>
+                </button>
+                <div
+                  className="max-h-[200px] overflow-y-auto overflow-x-hidden px-4 py-3 text-[13px] leading-relaxed"
+                  style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}
+                  dangerouslySetInnerHTML={{ __html: highlightedPrompt }}
+                />
+                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-10 rounded-b-xl bg-gradient-to-t from-neutral-50 to-transparent" />
+              </div>
               <p
                 className={`pt-4 text-sm transition-all duration-500 delay-400 ${
                   hasEverCopied ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1 pointer-events-none'
@@ -87,27 +95,6 @@ export default function StateExplorerPage() {
                 </a>
               </p>
 
-              <div className="mt-10">
-                <h2 className="type-label">How it works</h2>
-                <hr className="border-neutral-200 mt-4" />
-                <ol className="mt-8 space-y-6">
-                  <li className="type-body">
-                    <span className="text-neutral-400 type-code mr-3">1.</span>
-                    <span className="text-black font-medium">Paste the prompt.</span>{' '}
-                    Your AI tool reads your prototype and proposes a set of states to control.
-                  </li>
-                  <li className="type-body">
-                    <span className="text-neutral-400 type-code mr-3">2.</span>
-                    <span className="text-black font-medium">Approve the plan.</span>{' '}
-                    You see exactly what it'll build before it touches any code.
-                  </li>
-                  <li className="type-body">
-                    <span className="text-neutral-400 type-code mr-3">3.</span>
-                    <span className="text-black font-medium">Use the control panel.</span>{' '}
-                    A panel appears inside your prototype matched to your app&apos;s style, colors, and layout. Click a preset, see the state.
-                  </li>
-                </ol>
-              </div>
             </div>
 
             {/* Right: interactive demo */}
