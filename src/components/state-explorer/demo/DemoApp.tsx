@@ -199,13 +199,18 @@ export default function DemoApp() {
   useEffect(() => {
     const el = messagesRef.current
     if (!el) return
+    // Generating/error states: always scroll to bottom
+    if (generationStatus === 'generating' || generationStatus === 'error') {
+      el.scrollTop = el.scrollHeight
+      return
+    }
     // When version changes, scroll the relevant AI message into view
     const msgEl = messageRefs.current.get(version)
     if (msgEl) {
       msgEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
       return
     }
-    // Fallback: scroll to bottom for new messages / generation
+    // Fallback: scroll to bottom for new messages
     el.scrollTop = el.scrollHeight
   }, [messageCount, generationStatus, userMessage, version])
 
@@ -305,7 +310,7 @@ export default function DemoApp() {
                     onClick={() => setVersion(msgVersion)}
                   >
                     <FileCode className="w-2.5 h-2.5 flex-shrink-0" style={{ color: isActive ? 'var(--demo-text)' : 'var(--demo-text-2)' }} />
-                    <p className="text-demo-micro font-semibold" style={{ color: 'var(--demo-text)' }}>v{msgVersion}</p>
+                    <span className="text-demo-micro font-semibold leading-none" style={{ color: 'var(--demo-text)' }}>v{msgVersion}</span>
                   </div>
                 )}
               </div>
@@ -327,7 +332,7 @@ export default function DemoApp() {
             <>
               <div className="rounded-md px-1.5 py-1 -mx-1.5">
                 <p className="text-demo-micro font-semibold mb-0.5" style={{ color: 'var(--demo-text-2)' }}>VibeUI</p>
-                <p className="text-demo-xxs leading-[1.4] text-red-500">Error — attempting to fix.</p>
+                <p className="text-demo-xxs leading-[1.4] text-red-400">Error, attempting to fix.</p>
               </div>
               <div className="rounded-md px-1.5 py-1 -mx-1.5">
                 <p className="text-demo-micro font-semibold mb-0.5" style={{ color: 'var(--demo-text-2)' }}>VibeUI</p>
