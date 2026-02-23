@@ -98,7 +98,7 @@ function PreviewV2() {
 /* -- Skeleton -- */
 function SkeletonPreview() {
   return (
-    <div className="flex items-center justify-center h-full px-3 md:px-0 gap-2 md:gap-3">
+    <div className="flex items-center justify-center h-full px-3 md:px-6 md:py-4 gap-2 md:gap-3">
       {[0, 1, 2].map((i) => (
         <div
           key={i}
