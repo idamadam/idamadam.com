@@ -101,7 +101,7 @@ const BROWSER_CAPTIONS: CaptionDef[] = [
     enterFrame: 190,
     exitFrame: 290,
     text: "An in-context control panel for important states",
-    position: { top: 300, left: 350, right: 0 },
+    position: { top: 320, left: 350, right: 0 },
   },
 ];
 
