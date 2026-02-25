@@ -15,22 +15,13 @@ export default function AISuggestionsVignette() {
   const [activeStory, setActiveStory] = useState<DecisionStory | null>(null);
   const [borderSettings, setBorderSettings] =
     useState<BorderSettings>(defaultBorderSettings);
-  const [showBeforeState, setShowBeforeState] = useState(true);
 
   const handleActiveStoryChange = useCallback(
     (story: DecisionStory | null) => {
       setActiveStory(story);
-      setShowBeforeState(true);
-      if (!story) {
-        setBorderSettings(defaultBorderSettings);
-      }
     },
     []
   );
-
-  const handleBeforeAfterToggle = useCallback((before: boolean) => {
-    setShowBeforeState(before);
-  }, []);
 
   const handleBorderSettingsChange = useCallback(
     (settings: BorderSettings) => {
@@ -47,10 +38,6 @@ export default function AISuggestionsVignette() {
             title={
               <SuggestionsTextPanel
                 onActiveStoryChange={handleActiveStoryChange}
-                borderSettings={borderSettings}
-                onBorderSettingsChange={handleBorderSettingsChange}
-                showBeforeState={showBeforeState}
-                onBeforeAfterToggle={handleBeforeAfterToggle}
               />
             }
           >
@@ -62,7 +49,7 @@ export default function AISuggestionsVignette() {
                 content={aiSuggestionsContent}
                 activeStory={activeStory}
                 borderSettings={borderSettings}
-                showBeforeState={showBeforeState}
+                onBorderSettingsChange={handleBorderSettingsChange}
               />
             </div>
           </VignetteSplit>

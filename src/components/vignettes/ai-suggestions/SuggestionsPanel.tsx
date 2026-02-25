@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 import { useIntroSequence } from '@/lib/intro-sequence-context';
+import BorderControls from './BorderControls';
 import type { AISuggestionsContent, BorderSettings } from './content';
 import type { DecisionStory } from '../shared/DecisionStories';
 
@@ -13,7 +14,7 @@ interface SuggestionsPanelProps {
   content: AISuggestionsContent;
   activeStory?: DecisionStory | null;
   borderSettings?: BorderSettings;
-  showBeforeState?: boolean;
+  onBorderSettingsChange?: (settings: BorderSettings) => void;
 }
 
 // Global styles for animated gradient border
@@ -47,6 +48,10 @@ function GradientBorderStyles() {
         );
         animation: rotateGradient var(--rotation-speed, 3s) linear infinite;
         isolation: isolate;
+        will-change: contents;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        transform: translateZ(0);
       }
 
       .suggestions-loading-border::before,
@@ -67,6 +72,10 @@ function GradientBorderStyles() {
         opacity: var(--glow-opacity, 0.6);
         z-index: -1;
         animation: rotateGradient var(--rotation-speed, 3s) linear infinite;
+        will-change: contents;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        transform: translateZ(0);
       }
 
       .suggestions-loading-content {
@@ -130,27 +139,28 @@ interface RecommendationsPanelProps {
   content: AISuggestionsContent;
   activeStory?: DecisionStory | null;
   borderSettings?: BorderSettings;
+  onBorderSettingsChange?: (settings: BorderSettings) => void;
 }
 
 function RecommendationsPanel({
   content,
   activeStory = null,
   borderSettings,
+  onBorderSettingsChange,
 }: RecommendationsPanelProps) {
   const isBorderHighlighted = activeStory?.highlightSection === 2;
   const isSuggestionsHighlighted = activeStory?.highlightSection === 3;
   const isPanelDimmed = activeStory?.highlightSection != null && !isBorderHighlighted && !isSuggestionsHighlighted;
 
-  const borderOverrides =
-    isBorderHighlighted && borderSettings
-      ? ({
-          '--ai-gradient-1': borderSettings.colors[0],
-          '--ai-gradient-2': borderSettings.colors[1],
-          '--ai-gradient-3': borderSettings.colors[2],
-          '--rotation-speed': `${borderSettings.speed}s`,
-          '--glow-opacity': borderSettings.glow,
-        } as React.CSSProperties)
-      : undefined;
+  const borderOverrides = borderSettings
+    ? ({
+        '--ai-gradient-1': borderSettings.colors[0],
+        '--ai-gradient-2': borderSettings.colors[1],
+        '--ai-gradient-3': borderSettings.colors[2],
+        '--rotation-speed': `${borderSettings.speed}s`,
+        '--glow-opacity': borderSettings.glow,
+      } as React.CSSProperties)
+    : undefined;
 
   return (
     <div
@@ -161,21 +171,8 @@ function RecommendationsPanel({
         ...borderOverrides,
       }}
     >
-      {/* Static gradient border (default state) */}
-      <div
-        className="absolute inset-0 rounded-[7px] transition-opacity duration-300"
-        style={{
-          background:
-            'linear-gradient(135deg, var(--ai-gradient-1), var(--ai-gradient-2), var(--ai-gradient-3))',
-          opacity: isBorderHighlighted ? 0 : 1,
-        }}
-      />
-      {/* Animated gradient border (highlighted state) */}
-      <div
-        className={`suggestions-animated-border transition-opacity duration-300 ${
-          isBorderHighlighted ? 'opacity-100' : 'opacity-0'
-        }`}
-      />
+      {/* Animated gradient border (always visible) */}
+      <div className="suggestions-animated-border opacity-100" />
 
       <div className="bg-background-elevated rounded-[5px] px-6 py-6 space-y-6 relative z-10">
         {/* Header */}
@@ -233,6 +230,17 @@ function RecommendationsPanel({
             </button>
           </div>
         </div>
+
+        {/* Border controls */}
+        {borderSettings && onBorderSettingsChange && (
+          <div className="border-t border-border pt-4">
+            <BorderControls
+              borderSettings={borderSettings}
+              onBorderSettingsChange={onBorderSettingsChange}
+              highlighted={isBorderHighlighted}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -242,7 +250,7 @@ export default function SuggestionsPanel({
   content,
   activeStory = null,
   borderSettings,
-  showBeforeState = true,
+  onBorderSettingsChange,
 }: SuggestionsPanelProps) {
   const reducedMotion = useReducedMotion();
   const { isComplete } = useIntroSequence();
@@ -306,10 +314,12 @@ export default function SuggestionsPanel({
               content={content}
               activeStory={activeStory}
               borderSettings={borderSettings}
+              onBorderSettingsChange={onBorderSettingsChange}
             />
           </motion.div>
         )}
       </AnimatePresence>
+
     </div>
   );
 }
