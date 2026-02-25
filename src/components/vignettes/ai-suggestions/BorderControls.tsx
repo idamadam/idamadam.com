@@ -4,6 +4,7 @@ import type { BorderSettings } from './content';
 interface BorderControlsProps {
   borderSettings: BorderSettings;
   onBorderSettingsChange: (settings: BorderSettings) => void;
+  highlighted?: boolean;
 }
 
 export default function BorderControls({
