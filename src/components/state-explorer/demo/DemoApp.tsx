@@ -196,7 +196,12 @@ export default function DemoApp({ highlightedCode }: { highlightedCode: string }
     // When version changes, scroll the relevant AI message into view
     const msgEl = messageRefs.current.get(version)
     if (msgEl) {
-      msgEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+      // Keep scrolling constrained to the chat panel. `scrollIntoView` can move the page on mobile.
+      const containerRect = el.getBoundingClientRect()
+      const messageRect = msgEl.getBoundingClientRect()
+      const topDelta = messageRect.top - containerRect.top
+      const targetTop = el.scrollTop + topDelta - 8
+      el.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' })
       return
     }
     // Fallback: scroll to bottom for new messages
