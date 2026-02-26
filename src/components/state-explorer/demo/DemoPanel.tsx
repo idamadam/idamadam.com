@@ -60,7 +60,10 @@ export default function DemoPanel({ open, onClose }: DemoPanelProps) {
           {/* Inner content */}
           <div
             className="rounded-[14px] overflow-hidden shadow-xl flex flex-col"
-            style={{ backgroundColor: 'var(--demo-card)', maxHeight: '380px' }}
+            style={{
+              backgroundColor: 'var(--demo-card)',
+              maxHeight: 'min(460px, calc(100vh - 80px))',
+            }}
           >
             {/* Header */}
             <div
