@@ -9,8 +9,19 @@ import AgentOverlay from './demo/AgentOverlay'
 import { useDemoStore } from './demo/demoStore'
 import { promptText } from './prompt'
 
-export default function StateExplorerPage({ highlightedPrompt, highlightedCode }: { highlightedPrompt: string; highlightedCode: string }) {
+const installCommand = 'npx skills add idamadam/skills --skill states'
+
+export default function StateExplorerPage({
+  highlightedPrompt,
+  highlightedCode,
+  highlightedInstallCommand,
+}: {
+  highlightedPrompt: string
+  highlightedCode: string
+  highlightedInstallCommand: string
+}) {
   const [copiedPrompt, setCopiedPrompt] = useState(false)
+  const [copiedInstallCommand, setCopiedInstallCommand] = useState(false)
   const [hasEverCopied, setHasEverCopied] = useState(false)
   const autoPlay = useDemoStore((s) => s.autoPlay)
 
@@ -24,6 +35,12 @@ export default function StateExplorerPage({ highlightedPrompt, highlightedCode }
     setCopiedPrompt(true)
     setHasEverCopied(true)
     setTimeout(() => setCopiedPrompt(false), 2000)
+  }
+
+  const handleCopyInstallCommand = async () => {
+    await navigator.clipboard.writeText(installCommand)
+    setCopiedInstallCommand(true)
+    setTimeout(() => setCopiedInstallCommand(false), 2000)
   }
 
   return (
@@ -77,6 +94,23 @@ export default function StateExplorerPage({ highlightedPrompt, highlightedCode }
                   dangerouslySetInnerHTML={{ __html: highlightedPrompt }}
                 />
                 <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-10 rounded-b-xl bg-gradient-to-t from-neutral-50 to-transparent" />
+              </div>
+              <div className="mt-3 rounded-xl border border-neutral-800 bg-neutral-950 relative">
+                <button
+                  onClick={handleCopyInstallCommand}
+                  aria-label={copiedInstallCommand ? 'Command copied' : 'Copy install command'}
+                  title={copiedInstallCommand ? 'Copied' : 'Copy command'}
+                  className="absolute top-2.5 right-2.5 z-10 inline-flex items-center justify-center p-1.5 rounded-md text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800 transition-colors cursor-pointer"
+                >
+                  {copiedInstallCommand ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                </button>
+                <p className="px-4 pt-3 pb-1 text-xs text-neutral-300">
+                  Also available as a skill
+                </p>
+                <div
+                  className="px-4 pb-3 text-[13px] leading-relaxed overflow-x-auto text-neutral-100"
+                  dangerouslySetInnerHTML={{ __html: highlightedInstallCommand }}
+                />
               </div>
               <p
                 className={`pt-4 text-sm transition-all duration-500 delay-400 ${

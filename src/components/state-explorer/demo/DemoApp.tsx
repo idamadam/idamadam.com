@@ -221,7 +221,7 @@ export default function DemoApp({ highlightedCode }: { highlightedCode: string }
   const visibleMessages = allMessages.slice(0, messageCount)
 
   return (
-    <div className="demo-container flex flex-col md:flex-row md:h-[420px]" style={{ backgroundColor: 'var(--demo-bg)' }}>
+    <div className="demo-container flex flex-col md:flex-row md:h-[520px]" style={{ backgroundColor: 'var(--demo-bg)' }}>
       {/* -- Left: Chat panel -- */}
       <div
         className="w-full md:w-[200px] md:flex-shrink-0 flex flex-col border-b md:border-b-0 md:border-r max-h-[280px] md:max-h-none"
