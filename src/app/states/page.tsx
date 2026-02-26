@@ -3,6 +3,16 @@ import { codeToHtml } from 'shiki'
 import StateExplorerPage from '@/components/state-explorer/StateExplorerPage'
 import { promptText } from '@/components/state-explorer/prompt'
 
+const codeViewSource = `export default function PricingCard() {
+  return (
+    <div className="flex gap-4">
+      <TierCard name="Basic" price={9} />
+      <TierCard name="Pro" popular />
+      <TierCard name="Team" price={79} />
+    </div>
+  )
+}`
+
 export const metadata: Metadata = {
   title: 'States — Idam Adam',
   description:
@@ -23,18 +33,25 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  const rawHtml = await codeToHtml(promptText, {
-    lang: 'markdown',
-    theme: 'github-light',
-  })
+  const [rawPromptHtml, rawCodeHtml] = await Promise.all([
+    codeToHtml(promptText, { lang: 'markdown', theme: 'github-light' }),
+    codeToHtml(codeViewSource, { lang: 'tsx', theme: 'github-dark' }),
+  ])
 
   // Strip Shiki's default background and inject word-wrap styles
-  const highlightedPrompt = rawHtml
+  const highlightedPrompt = rawPromptHtml
     .replace(/background-color:[^;"]+;?/, '')
     .replace(
       /(<pre[^>]*style=")/,
       '$1white-space:pre-wrap;word-break:break-word;overflow-wrap:break-word;padding:0;margin:0;'
     )
 
-  return <StateExplorerPage highlightedPrompt={highlightedPrompt} />
+  const highlightedCode = rawCodeHtml
+    .replace(/background-color:[^;"]+;?/, '')
+    .replace(
+      /(<pre[^>]*style=")/,
+      '$1padding:0;margin:0;'
+    )
+
+  return <StateExplorerPage highlightedPrompt={highlightedPrompt} highlightedCode={highlightedCode} />
 }

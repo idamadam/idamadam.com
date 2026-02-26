@@ -9,7 +9,7 @@ import AgentOverlay from './demo/AgentOverlay'
 import { useDemoStore } from './demo/demoStore'
 import { promptText } from './prompt'
 
-export default function StateExplorerPage({ highlightedPrompt }: { highlightedPrompt: string }) {
+export default function StateExplorerPage({ highlightedPrompt, highlightedCode }: { highlightedPrompt: string; highlightedCode: string }) {
   const [copiedPrompt, setCopiedPrompt] = useState(false)
   const [hasEverCopied, setHasEverCopied] = useState(false)
   const autoPlay = useDemoStore((s) => s.autoPlay)
@@ -101,7 +101,7 @@ export default function StateExplorerPage({ highlightedPrompt }: { highlightedPr
             <div className="demo-theme lg:pt-6">
               <div className="relative overflow-hidden rounded-2xl">
                 <BrowserFrame url="localhost:5174">
-                  <DemoApp />
+                  <DemoApp highlightedCode={highlightedCode} />
                 </BrowserFrame>
                 <AgentOverlay />
               </div>

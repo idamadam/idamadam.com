@@ -19,6 +19,9 @@ export interface DemoState {
 export interface DemoActions {
   applyPreset: (preset: string) => void
   setVersion: (v: Version) => void
+  setViewMode: (v: ViewMode) => void
+  setGenerationStatus: (s: GenerationStatus) => void
+  setMessageCount: (c: MessageCount) => void
   setGenerating: () => void
   runAgent: () => void
   autoPlay: () => void
@@ -84,6 +87,9 @@ export const useDemoStore = create<DemoState & DemoActions>((set) => ({
   agentPhase: 'idle',
 
   setVersion: (v) => set({ version: v, activePreset: null }),
+  setViewMode: (v) => set({ viewMode: v, activePreset: null }),
+  setGenerationStatus: (s) => set({ generationStatus: s, activePreset: null }),
+  setMessageCount: (c) => set({ messageCount: c, activePreset: null }),
   setGenerating: () => set({ generationStatus: 'generating', activePreset: null }),
 
   applyPreset: (presetId) => {

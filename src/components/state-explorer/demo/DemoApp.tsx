@@ -119,24 +119,13 @@ function SkeletonPreview() {
 }
 
 /* -- Code view -- */
-function CodeView() {
+function CodeView({ highlightedCode }: { highlightedCode: string }) {
   return (
     <div
-      className="h-full m-1.5 rounded p-2 overflow-auto font-mono"
-      style={{ backgroundColor: '#1e1e1e' }}
-    >
-      <div className="text-demo-micro leading-[1.7] space-y-px">
-        <p><span style={{ color: '#569cd6' }}>export default</span> <span style={{ color: '#dcdcaa' }}>function</span> <span style={{ color: '#4ec9b0' }}>PricingCard</span><span style={{ color: '#d4d4d4' }}>() {'{'}</span></p>
-        <p><span style={{ color: '#d4d4d4' }}>  </span><span style={{ color: '#c586c0' }}>return</span> <span style={{ color: '#d4d4d4' }}>(</span></p>
-        <p><span style={{ color: '#d4d4d4' }}>    </span><span style={{ color: '#808080' }}>&lt;</span><span style={{ color: '#569cd6' }}>div</span> <span style={{ color: '#9cdcfe' }}>className</span><span style={{ color: '#d4d4d4' }}>=</span><span style={{ color: '#ce9178' }}>&quot;flex gap-4&quot;</span><span style={{ color: '#808080' }}>&gt;</span></p>
-        <p><span style={{ color: '#d4d4d4' }}>      </span><span style={{ color: '#808080' }}>&lt;</span><span style={{ color: '#4ec9b0' }}>TierCard</span> <span style={{ color: '#9cdcfe' }}>name</span><span style={{ color: '#d4d4d4' }}>=</span><span style={{ color: '#ce9178' }}>&quot;Basic&quot;</span> <span style={{ color: '#9cdcfe' }}>price</span><span style={{ color: '#d4d4d4' }}>=</span><span style={{ color: '#b5cea8' }}>9</span> <span style={{ color: '#808080' }}>/&gt;</span></p>
-        <p><span style={{ color: '#d4d4d4' }}>      </span><span style={{ color: '#808080' }}>&lt;</span><span style={{ color: '#4ec9b0' }}>TierCard</span> <span style={{ color: '#9cdcfe' }}>name</span><span style={{ color: '#d4d4d4' }}>=</span><span style={{ color: '#ce9178' }}>&quot;Pro&quot;</span> <span style={{ color: '#9cdcfe' }}>popular</span> <span style={{ color: '#808080' }}>/&gt;</span></p>
-        <p><span style={{ color: '#d4d4d4' }}>      </span><span style={{ color: '#808080' }}>&lt;</span><span style={{ color: '#4ec9b0' }}>TierCard</span> <span style={{ color: '#9cdcfe' }}>name</span><span style={{ color: '#d4d4d4' }}>=</span><span style={{ color: '#ce9178' }}>&quot;Team&quot;</span> <span style={{ color: '#9cdcfe' }}>price</span><span style={{ color: '#d4d4d4' }}>=</span><span style={{ color: '#b5cea8' }}>79</span> <span style={{ color: '#808080' }}>/&gt;</span></p>
-        <p><span style={{ color: '#d4d4d4' }}>    </span><span style={{ color: '#808080' }}>&lt;/</span><span style={{ color: '#569cd6' }}>div</span><span style={{ color: '#808080' }}>&gt;</span></p>
-        <p><span style={{ color: '#d4d4d4' }}>  )</span></p>
-        <p><span style={{ color: '#d4d4d4' }}>{'}'}</span></p>
-      </div>
-    </div>
+      className="h-full m-1.5 rounded p-2 overflow-auto font-mono text-demo-micro leading-[1.7]"
+      style={{ backgroundColor: '#24292e' }}
+      dangerouslySetInnerHTML={{ __html: highlightedCode }}
+    />
   )
 }
 
@@ -166,17 +155,17 @@ function ErrorPreview() {
 /* -- Content resolver -- */
 const previewByVersion: Record<Version, () => React.JSX.Element> = { 1: PreviewV1, 2: PreviewV2 }
 
-function ContentArea({ status, viewMode, version }: { status: GenerationStatus; viewMode: ViewMode; version: Version }) {
+function ContentArea({ status, viewMode, version, highlightedCode }: { status: GenerationStatus; viewMode: ViewMode; version: Version; highlightedCode: string }) {
   if (status === 'idle') return <EmptyPreview />
   if (status === 'generating') return <SkeletonPreview />
   if (status === 'error') return <ErrorPreview />
-  if (viewMode === 'code') return <CodeView />
+  if (viewMode === 'code') return <CodeView highlightedCode={highlightedCode} />
   const Preview = previewByVersion[version]
   return <Preview />
 }
 
 /* -- Main -- */
-export default function DemoApp() {
+export default function DemoApp({ highlightedCode }: { highlightedCode: string }) {
   const [explorerOpen, setExplorerOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [userMessage, setUserMessage] = useState<string | null>(null)
@@ -376,7 +365,7 @@ export default function DemoApp() {
 
         {/* Content */}
         <div className="flex-1 overflow-auto">
-          <ContentArea status={generationStatus} viewMode={viewMode} version={version} />
+          <ContentArea status={generationStatus} viewMode={viewMode} version={version} highlightedCode={highlightedCode} />
         </div>
       </div>
     </div>

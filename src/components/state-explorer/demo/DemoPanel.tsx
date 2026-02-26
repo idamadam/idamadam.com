@@ -2,6 +2,7 @@
 
 import { X } from 'lucide-react'
 import DemoPresetGrid from './DemoPresetGrid'
+import DemoControls from './DemoControls'
 
 interface DemoPanelProps {
   open: boolean
@@ -58,12 +59,12 @@ export default function DemoPanel({ open, onClose }: DemoPanelProps) {
         >
           {/* Inner content */}
           <div
-            className="rounded-[14px] overflow-hidden shadow-xl"
-            style={{ backgroundColor: 'var(--demo-card)' }}
+            className="rounded-[14px] overflow-hidden shadow-xl flex flex-col"
+            style={{ backgroundColor: 'var(--demo-card)', maxHeight: '380px' }}
           >
             {/* Header */}
             <div
-              className="flex items-center justify-between px-3 py-2.5 border-b"
+              className="flex items-center justify-between px-3 py-2.5 border-b flex-shrink-0"
               style={{ borderColor: 'var(--demo-border)' }}
             >
               <span
@@ -81,9 +82,20 @@ export default function DemoPanel({ open, onClose }: DemoPanelProps) {
               </button>
             </div>
 
-            {/* Presets */}
-            <div className="p-2.5">
-              <DemoPresetGrid />
+            {/* Scrollable content */}
+            <div className="overflow-y-auto flex-1">
+              {/* Presets */}
+              <div className="px-2.5 pt-2.5 pb-2">
+                <DemoPresetGrid />
+              </div>
+
+              {/* Fine-tuning controls */}
+              <div
+                className="px-2.5 pb-2.5 pt-2"
+                style={{ borderTop: '1px solid var(--demo-border)' }}
+              >
+                <DemoControls />
+              </div>
             </div>
           </div>
         </div>
