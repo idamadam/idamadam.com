@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RichTextEditor from '@/components/demos/RichTextEditor';
 import { useReducedMotion } from '@/lib/useReducedMotion';
-import { useIntroSequence } from '@/lib/intro-sequence-context';
 import BorderControls from './BorderControls';
 import type { AISuggestionsContent, BorderSettings } from './content';
 import type { DecisionStory } from '../shared/DecisionStories';
@@ -253,23 +252,18 @@ export default function SuggestionsPanel({
   onBorderSettingsChange,
 }: SuggestionsPanelProps) {
   const reducedMotion = useReducedMotion();
-  const { isComplete } = useIntroSequence();
-  const [showLoading, setShowLoading] = useState(true);
-  const hasStartedRef = useRef(false);
+  const [activated, setActivated] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
-  useEffect(() => {
-    if (isComplete && showLoading && !hasStartedRef.current) {
-      hasStartedRef.current = true;
-      const entranceDelay = reducedMotion ? 0 : 600;
-      const loadingDuration = reducedMotion ? 0 : 1500;
-
-      setTimeout(() => {
-        setTimeout(() => {
-          setShowLoading(false);
-        }, loadingDuration);
-      }, entranceDelay);
-    }
-  }, [isComplete, showLoading, reducedMotion]);
+  const handleImprove = () => {
+    if (activated) return;
+    setActivated(true);
+    setShowLoading(true);
+    const loadingDuration = reducedMotion ? 0 : 1500;
+    setTimeout(() => {
+      setShowLoading(false);
+    }, loadingDuration);
+  };
 
   return (
     <div className="space-y-2 flex flex-col overflow-visible">
@@ -280,8 +274,9 @@ export default function SuggestionsPanel({
           content={content.beforeText}
           placeholder="Write feedback..."
           showImproveButton={true}
+          onImprove={handleImprove}
           isImproving={showLoading}
-          isImproveActivated={!showLoading}
+          isImproveActivated={activated && !showLoading}
           mobileFormatting="dots"
           dimmed={activeStory?.highlightSection === 1}
         />
@@ -289,7 +284,7 @@ export default function SuggestionsPanel({
 
       {/* Panel below — animates between loading and recommendations */}
       <AnimatePresence mode="wait">
-        {showLoading && (
+        {activated && showLoading && (
           <motion.div
             key="loading"
             initial={{ opacity: 0, y: -10 }}
@@ -301,7 +296,7 @@ export default function SuggestionsPanel({
             <LoadingPanel />
           </motion.div>
         )}
-        {!showLoading && (
+        {activated && !showLoading && (
           <motion.div
             key="recommendations"
             initial={{ opacity: 0, y: -10 }}
