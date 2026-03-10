@@ -44,7 +44,7 @@ export default function StateExplorerPage({
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <header className="border-b border-border/50">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="text-[1rem] font-semibold text-primary tracking-[-0.01em] hover:opacity-70 transition-opacity">
@@ -71,7 +71,7 @@ export default function StateExplorerPage({
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-[minmax(0,460px)_1fr] gap-10 lg:gap-14 items-start">
             {/* Left: copy + install */}
-            <div className="lg:sticky lg:top-20 lg:pt-6">
+            <div className="lg:sticky lg:top-20 lg:pt-6 min-w-0">
               <h1 className="type-display">
                 Reach any prototype state in one click
               </h1>
@@ -109,6 +109,7 @@ export default function StateExplorerPage({
                 </p>
                 <div
                   className="px-4 pb-3 text-[13px] leading-relaxed overflow-x-auto text-neutral-100"
+                  style={{ overflowWrap: 'break-word', wordBreak: 'break-all' }}
                   dangerouslySetInnerHTML={{ __html: highlightedInstallCommand }}
                 />
               </div>
@@ -132,7 +133,7 @@ export default function StateExplorerPage({
             </div>
 
             {/* Right: interactive demo */}
-            <div className="demo-theme lg:pt-6">
+            <div className="demo-theme lg:pt-6 min-w-0">
               <div className="relative overflow-hidden rounded-2xl">
                 <BrowserFrame url="localhost:5174">
                   <DemoApp highlightedCode={highlightedCode} />

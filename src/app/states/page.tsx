@@ -60,7 +60,7 @@ export default async function Page() {
     .replace(/background-color:[^;"]+;?/g, '')
     .replace(
       /(<pre[^>]*style=")/,
-      '$1padding:0;margin:0;background:transparent;'
+      '$1white-space:pre-wrap;word-break:break-all;overflow-wrap:break-word;padding:0;margin:0;background:transparent;'
     )
     .replace(
       /(<code[^>]*style=")/,
