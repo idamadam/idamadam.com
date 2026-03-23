@@ -19,11 +19,11 @@ export const baseline: IterationDefinition<BaselineState> = {
     contentWidth: 'default',
   },
   presets: [
-    { id: 'default', label: 'Default (post-intro)' },
-    { id: 'splash', label: 'Splash state' },
-    { id: 'no-cards', label: 'Without cards' },
-    { id: 'narrow', label: 'Narrow container' },
-    { id: 'wide', label: 'Wide container' },
+    { id: 'default', label: 'Default (post-intro)', hint: 'Main landing state after intro animation' },
+    { id: 'splash', label: 'Splash state', hint: 'Initial splash screen before content reveals' },
+    { id: 'no-cards', label: 'Without cards', hint: 'Hero without approach cards section' },
+    { id: 'narrow', label: 'Narrow container', hint: 'Constrained width layout' },
+    { id: 'wide', label: 'Wide container', hint: 'Expanded width layout' },
   ],
   resolvePreset(id) {
     switch (id) {
