@@ -1,9 +1,39 @@
 # Hero Vignette — Autonomous Iteration Session Log
 
 **Date**: 2026-03-23
-**Method**: Claude Code orchestrating eval + creation subagents in a loop
+**Method**: Claude Code (Opus 4.6) orchestrating eval + creation subagents in a loop
 **Iterations**: 5 rounds (baseline → v6)
 **Goal**: Explore hero section design for recruiter appeal
+**Human involvement**: Prompt only — all evaluation, iteration, and verification was fully autonomous
+**Harness**: [design-notebook skill](https://github.com/idamadam/skills/tree/main/plugins/design-notebook) — a Claude Code skill that scaffolds a design iteration notebook with chrome, presets, state explorer, and decision trail
+
+This session was run **entirely by Claude Code** after a single human prompt. No human reviewed or steered the design between iterations. The main thread orchestrated the loop, spawning subagents for evaluation and creation, and using preview tools to verify each iteration rendered correctly before proceeding.
+
+The design-notebook skill provided the iteration harness — each variation is a self-contained folder with `Content.tsx`, `definition.ts`, and `controls.tsx`, rendered in a vertical canvas with lightweight chrome showing what changed and why. The notebook's append-only `ITERATIONS` array and decision trail gave the autonomous loop a structured place to log each step.
+
+---
+
+## The Prompt
+
+The human's request (paraphrased, then refined into a plan):
+
+> I'm curious to understand how you go about using the preview environment where it is loaded up and how you go about running like 5 iterations yourself using a design notebook.
+>
+> The workflow is something like: check the current version, then make a couple of changes, then have it be logged, then run an eval on that and then make a couple more iterations.
+>
+> This is designed to be my portfolio website, I want it to be a good representation of myself to recruiters.
+>
+> For implementation, I reckon you can be the main thread and then you execute a subagent to create an iteration, then another subagent for eval etc, maybe try 5 runs?
+
+### Agreed Plan
+
+1. Start the preview server, navigate to the design notebook, screenshot the baseline
+2. For each of 5 rounds:
+   - **Step A — Evaluate** (subagent): Receive latest screenshot + description, assess against recruiter-appeal criteria, suggest one direction for next iteration
+   - **Step B — Create** (subagent): Receive eval feedback, copy previous iteration folder, build new Content.tsx / definition.ts / controls.tsx, update index.ts
+   - **Step C — Verify** (main thread): Screenshot the rendered result, check for console errors, fix issues if needed, then loop back
+
+The human chose "Explore freely" when asked what aspects to focus on — layout, content, or visual polish.
 
 ---
 
