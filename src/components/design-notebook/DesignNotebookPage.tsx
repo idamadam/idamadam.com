@@ -39,7 +39,7 @@ function InstallBlock({ compact }: { compact?: boolean }) {
     <div className={compact ? 'space-y-4' : 'mt-10 space-y-4 max-w-[540px]'}>
       <div className="flex items-center gap-3 flex-wrap">
         <a
-          href="https://github.com/idamadam/skills/releases/download/v0.3.1/design-notebook-v0.3.1.zip"
+          href="https://github.com/idamadam/skills/releases/download/v0.3.2/design-notebook-v0.3.2.skill"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-base font-medium transition-all bg-[hsl(15_54.2%_51.2%)] hover:bg-[hsl(15_63.1%_59.6%)] hover:shadow-lg hover:shadow-[hsl(15_54.2%_51.2%)]/25 active:scale-[0.98]"
