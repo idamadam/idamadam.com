@@ -86,7 +86,9 @@ export default function DesignNotebookPage() {
             </a>
           </p>
           <h1 className="type-display max-w-[800px] text-balance">
-            You explored 20 directions. Can you explain why you picked this one?
+            You explored 20 directions.
+            <br />
+            Can you explain how you got there?
           </h1>
           <p className="type-body text-secondary mt-5">
             Design Notebook is a skill for Claude that tracks your design iterations as a living timeline.
