@@ -3,7 +3,6 @@
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { fadeInUp } from '@/lib/animations';
-import SectionTitle from './SectionTitle';
 import HighlightsPanel from './vignettes/ai-highlights/HighlightsPanel';
 import SuggestionsPanel from './vignettes/ai-suggestions/SuggestionsPanel';
 import TranslationManagementPanel from './vignettes/multilingual/TranslationManagementPanel';
@@ -74,18 +73,11 @@ function PrototypingCard() {
 
 export default function WorkGridSection() {
   return (
-    <section id="work" className="w-full pb-12 lg:pb-20 px-6 lg:px-10 2xl:px-16 scroll-mt-20">
-      <div className="max-w-[1408px] mx-auto border-t border-border/60 pt-10 lg:pt-14">
-        <SectionTitle>Selected work</SectionTitle>
-      </div>
-      <div className="max-w-[1408px] mx-auto mt-8 lg:mt-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <HighlightsCard />
-          <SuggestionsCard />
-          <MultilingualCard />
-          <PrototypingCard />
-        </div>
-      </div>
-    </section>
+    <div className="max-w-[1408px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <HighlightsCard />
+      <SuggestionsCard />
+      <MultilingualCard />
+      <PrototypingCard />
+    </div>
   );
 }

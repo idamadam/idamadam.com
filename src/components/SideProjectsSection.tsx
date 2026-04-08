@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { fadeInUp } from '@/lib/animations';
-import SectionTitle from './SectionTitle';
 
 const sideProjects = [
   {
@@ -24,11 +23,7 @@ const sideProjects = [
 
 export default function SideProjectsSection() {
   return (
-    <section className="w-full pb-12 lg:pb-20 px-6 lg:px-10 2xl:px-16 scroll-mt-20">
-      <div className="max-w-[1408px] mx-auto border-t border-border/60 pt-10 lg:pt-14">
-        <SectionTitle>Projects</SectionTitle>
-      </div>
-      <div className="max-w-[1408px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8 lg:mt-10">
+    <div className="max-w-[1408px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         {sideProjects.map((project) => (
           <Link key={project.name} href={project.href}>
             <motion.article
@@ -46,7 +41,6 @@ export default function SideProjectsSection() {
             </motion.article>
           </Link>
         ))}
-      </div>
-    </section>
+    </div>
   );
 }
