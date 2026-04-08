@@ -18,8 +18,8 @@ const IntroSequenceContext = createContext<IntroSequenceContextValue | null>(nul
 const SCROLL_THRESHOLD = 20; // pixels scrolled before triggering skip
 
 export function IntroSequenceProvider({ children }: { children: ReactNode }) {
-  const [stage, setStageInternal] = useState<IntroStage>('name');
-  const [isSplashComplete, setIsSplashComplete] = useState(false);
+  const [stage, setStageInternal] = useState<IntroStage>('complete');
+  const [isSplashComplete, setIsSplashComplete] = useState(true);
 
   const setStage = useCallback((newStage: IntroStage) => {
     setStageInternal(newStage);

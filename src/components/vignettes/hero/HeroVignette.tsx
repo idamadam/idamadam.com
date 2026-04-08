@@ -29,7 +29,7 @@ export default function HeroVignette() {
   const reducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
   const t = reducedMotion ? timingReduced : timing;
-  const [isSplash, setIsSplash] = useState(!reducedMotion);
+  const [isSplash, setIsSplash] = useState(false);
   const { setSplashComplete, setStage, isComplete } = useIntroSequence();
 
   // Snap to final state if intro was skipped (via scroll)
