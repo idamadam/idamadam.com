@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { CSSGradientBackground } from "@/components/CSSGradientBackground";
@@ -11,12 +11,6 @@ const inter = Inter({
   weight: ["400", "500", "600"],
 });
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://idamadam.com"),
@@ -73,7 +67,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
       </head>
       <body
-        className={`${inter.variable} ${instrumentSerif.variable} antialiased`}
+        className={`${inter.variable} antialiased`}
       >
         <CSSGradientBackground />
           {children}

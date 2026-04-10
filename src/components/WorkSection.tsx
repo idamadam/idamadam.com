@@ -150,9 +150,8 @@ export default function WorkSection() {
           {workItems.map((item) => {
             const inner = (
               <div className="flex flex-col gap-1">
-                <span className="type-label text-tertiary">{item.label}</span>
                 <h3 className="text-[1.125rem] font-medium text-primary tracking-[-0.01em]">{item.title}</h3>
-                <p className="text-sm text-secondary">{item.description}</p>
+                <p className="text-sm text-tertiary">{item.description}</p>
               </div>
             );
             return item.href ? (
@@ -177,16 +176,15 @@ export default function WorkSection() {
               const inner = (
                 <div
                   key={item.id}
-                  className={`py-5 border-b border-border/40 cursor-pointer transition-colors duration-150 ${
+                  className={`py-4 border-b border-border/40 cursor-pointer transition-colors duration-150 ${
                     isActive ? '' : 'opacity-40 hover:opacity-70'
                   }`}
                   onMouseEnter={() => setActiveId(item.id)}
                 >
-                  <span className="type-label text-tertiary">{item.label}</span>
-                  <h3 className="text-[1.125rem] font-medium text-primary tracking-[-0.01em] mt-1">{item.title}</h3>
-                  <p className="text-sm text-secondary mt-1">{item.description}</p>
+                  <h3 className="text-sm font-medium text-primary leading-snug !m-0">{item.title}</h3>
+                  <p className="text-sm text-tertiary leading-snug">{item.description}</p>
                   {item.href && (
-                    <span className="text-sm font-medium text-primary mt-2 block">
+                    <span className="text-sm font-medium text-primary">
                       View project →
                     </span>
                   )}

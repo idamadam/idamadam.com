@@ -20,7 +20,7 @@ export default function HeroContent() {
     <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 lg:gap-10">
       {/* Profile photo */}
       <motion.div
-        className="shrink-0 w-[120px] h-[120px] rounded-full overflow-hidden cursor-pointer"
+        className="shrink-0 w-[56px] h-[56px] rounded-full overflow-hidden cursor-pointer"
         whileTap={{ scale: 0.92 }}
         transition={{
           type: 'spring',
@@ -31,8 +31,8 @@ export default function HeroContent() {
         <Image
           src="/avatars/headshot.jpg"
           alt={heroContent.name}
-          width={120}
-          height={120}
+          width={56}
+          height={56}
           className="w-full h-full object-cover"
         />
       </motion.div>
@@ -61,7 +61,7 @@ export default function HeroContent() {
               ease: [0.25, 0.1, 0.25, 1],
             }}
           >
-            <span className="text-[1.125rem] font-medium text-primary tracking-[-0.01em]">
+            <span className="text-sm text-secondary">
               {introContent.role}
             </span>
             <a

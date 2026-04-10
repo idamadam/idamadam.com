@@ -25,7 +25,7 @@ export default function Footer() {
         >
           {/* Left column */}
           <div className="flex flex-col gap-4">
-            <h2 className="font-[family-name:var(--font-display)] text-[2rem] leading-[1.15] tracking-[-0.01em] text-primary font-normal">
+            <h2 className="text-[2rem] leading-[1.15] tracking-[-0.01em] text-primary font-normal tracking-[-0.02em]">
               Let&apos;s connect
             </h2>
           </div>
