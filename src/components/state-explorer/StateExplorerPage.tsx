@@ -46,8 +46,8 @@ export default function StateExplorerPage({
   return (
     <div className="min-h-screen overflow-x-hidden">
       <header className="border-b border-border/50">
-        <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/" className="text-[1rem] font-semibold text-primary tracking-[-0.01em] hover:opacity-70 transition-opacity">
+        <div className="max-w-[1200px] mx-auto px-6 h-14 flex items-center justify-between">
+          <Link href="/" className="font-medium text-primary hover:opacity-70 transition-opacity">
             Idam Adam
           </Link>
           <a
@@ -67,16 +67,16 @@ export default function StateExplorerPage({
           </a>
         </div>
       </header>
-      <section className="relative py-20">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative py-16 lg:py-24">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid lg:grid-cols-[minmax(0,460px)_1fr] gap-10 lg:gap-14 items-start">
             {/* Left: copy + install */}
             <div className="lg:sticky lg:top-20 lg:pt-6 min-w-0">
-              <h1 className="type-display">
+              <h1 className="type-page-heading">
                 Reach any prototype state in one click
               </h1>
 
-              <p className="type-body mt-4 max-w-[420px]">
+              <p className="text-secondary mt-4 max-w-[420px]">
                 A prompt that figures out which states your prototype has, then builds you a panel to flip between them. Works with Claude Code, Cursor, Codex, Figma Make, or any other coding agent.
               </p>
 
@@ -148,7 +148,7 @@ export default function StateExplorerPage({
         </div>
       </section>
       <footer className="border-t border-border/50 py-6">
-        <p className="text-center text-sm text-secondary">
+        <p className="text-center text-secondary">
           Made in Melbourne, Australia by{' '}
           <Link href="/" className="underline hover:opacity-70 transition-opacity">
             Idam Adam

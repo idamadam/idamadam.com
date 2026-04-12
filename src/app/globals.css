@@ -166,6 +166,17 @@
   letter-spacing: 0;
 }
 
+/* Single larger size, used only for page-level h1s on subpages */
+.type-page-heading {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  color: var(--primary);
+  text-wrap: balance;
+}
+
 .type-pixel {
   font-family: var(--font-inter), system-ui, sans-serif;
   font-size: 1rem;
@@ -242,18 +253,13 @@ body {
   font-feature-settings: 'cv01', 'cv02', 'cv03', 'cv04';
 }
 
-/* Typography improvements */
-h1, h2, h3, h4, h5, h6 {
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.5;
-  letter-spacing: 0;
-  margin: 0;
-}
-
-p {
-  margin: 0;
-  line-height: 1.5;
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
 }
 
 /* Focus styles for accessibility */

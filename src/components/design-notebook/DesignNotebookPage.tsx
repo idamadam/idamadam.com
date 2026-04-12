@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Check, Copy } from 'lucide-react'
 
 function ClaudeIcon({ className }: { className?: string }) {
@@ -36,8 +37,8 @@ function CopyCommand({ text }: { text: string }) {
 
 function InstallBlock({ compact }: { compact?: boolean }) {
   return (
-    <div className={compact ? 'space-y-4' : 'mt-10 space-y-4 max-w-[540px]'}>
-      <div className="flex items-center gap-3 flex-wrap">
+    <div className={compact ? 'mt-10 space-y-8' : 'mt-10 space-y-8 max-w-[540px]'}>
+      <div>
         <a
           href="https://github.com/idamadam/skills/releases/download/v0.3.2/design-notebook-v0.3.2.skill"
           target="_blank"
@@ -48,20 +49,29 @@ function InstallBlock({ compact }: { compact?: boolean }) {
           <ClaudeIcon className="w-4 h-4" />
           Download skill for Claude.ai
         </a>
-        <a
-          href="https://github.com/idamadam/skills/tree/main/plugins/design-notebook/skills/design-notebook"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-secondary underline hover:opacity-70 transition-opacity"
-        >
-          View source on GitHub
-        </a>
+        <p className="text-tertiary mt-3">
+          Upload to{' '}
+          <a
+            href="https://claude.ai/customize/skills"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-primary transition-colors"
+          >
+            Claude.ai
+          </a>
+          , then run /design-notebook ·{' '}
+          <a
+            href="https://github.com/idamadam/skills/tree/main/plugins/design-notebook/skills/design-notebook"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-primary transition-colors"
+          >
+            View source
+          </a>
+        </p>
       </div>
-      <p className="text-sm text-secondary">
-        Upload skill to{' '}<a href="https://claude.ai/customize/skills" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity" style={{ color: '#2563eb' }}>claude.ai/customize/skills</a>, then type <code className="bg-neutral-100 px-1.5 py-0.5 rounded font-mono">/design-notebook</code> to use
-      </p>
       <div>
-        <p className="text-sm text-secondary">Or install via CLI for Claude Code, Codex, Cursor &amp; more</p>
+        <p className="text-secondary">Or install via CLI for Claude Code, Codex, Cursor &amp; more</p>
         <div className="mt-2">
           <CopyCommand text="npx skills add idamadam/skills --skill design-notebook" />
         </div>
@@ -73,44 +83,61 @@ function InstallBlock({ compact }: { compact?: boolean }) {
 export default function DesignNotebookPage() {
   return (
     <div className="min-h-screen overflow-x-hidden">
-      {/* Hero */}
-      <section className="pt-20 pb-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="type-body text-secondary mb-4 flex items-center gap-1">
-            <span>Design skill by</span>
-            <a href="https://www.linkedin.com/in/idamadam/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 py-1 px-1 -mx-1 text-secondary underline hover:opacity-70 transition-opacity">
-              Idam Adam
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-[14px] w-[14px]">
-                <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
-              </svg>
-            </a>
-          </p>
-          <h1 className="type-display max-w-[800px] text-balance">
-            You explored 20 directions.
-            <br />
-            Can you explain how you got there?
-          </h1>
-          <p className="type-body text-secondary mt-5">
-            Design Notebook is a skill for Claude that tracks your design iterations as a living timeline.
-            <br />
-            Diverge into multiple directions, converge on the best parts, and always know how you got there.
-          </p>
-          <InstallBlock />
+      <header className="border-b border-border/50">
+        <div className="max-w-[1200px] mx-auto px-6 h-14 flex items-center">
+          <Link href="/" className="font-medium text-primary hover:opacity-70 transition-opacity">
+            Idam Adam
+          </Link>
         </div>
-      </section>
+      </header>
 
-      {/* Live notebook */}
-      <section className="pb-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="type-body text-secondary mb-4">
-            <span className="font-medium text-primary">See it in action.</span> Click the timeline below to see how this design evolved.
-          </p>
-          <div className="relative overflow-hidden rounded-2xl border border-neutral-200 [&>div]:!min-h-0">
-            <NotebookApp iterations={ITERATIONS} project={PROJECT} defaultFilmstripOpen />
+      {/* Hero */}
+      <section className="relative py-16 lg:py-24">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="grid lg:grid-cols-[minmax(0,460px)_1fr] gap-10 lg:gap-14 items-start">
+            {/* Left: copy + install */}
+            <div className="lg:sticky lg:top-20 lg:pt-6 min-w-0">
+              <p className="text-tertiary mb-4 flex items-center gap-1">
+                <span>Design skill by</span>
+                <a href="https://www.linkedin.com/in/idamadam/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 py-1 px-1 -mx-1 underline hover:text-primary transition-colors">
+                  Idam Adam
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-[14px] w-[14px]">
+                    <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
+                  </svg>
+                </a>
+              </p>
+              <h1 className="type-page-heading">
+                You explored 20 directions.
+                <br />
+                Can you explain how you got there?
+              </h1>
+              <p className="text-secondary mt-4 max-w-[420px]">
+                Design Notebook is a skill for Claude that tracks your design iterations as a living timeline. Diverge into multiple directions, converge on the best parts, and always know how you got there.
+              </p>
+              <InstallBlock compact />
+            </div>
+
+            {/* Right: live notebook */}
+            <div className="lg:pt-6 min-w-0">
+              <div className="relative overflow-hidden rounded-xl border border-border/60 [&>div]:!min-h-0">
+                <NotebookApp iterations={ITERATIONS} project={PROJECT} defaultFilmstripOpen />
+              </div>
+              <p className="text-tertiary pt-4 text-center">
+                Click the timeline to see how this design evolved.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
+      <footer className="border-t border-border/50 py-6">
+        <p className="text-center text-secondary">
+          Made in Melbourne, Australia by{' '}
+          <Link href="/" className="underline hover:opacity-70 transition-opacity">
+            Idam Adam
+          </Link>
+        </p>
+      </footer>
     </div>
   )
 }
