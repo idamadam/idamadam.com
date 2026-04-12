@@ -11,9 +11,9 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="w-full py-16 lg:py-24 px-6 lg:px-10 2xl:px-16 scroll-mt-20">
-      <div className="max-w-[1200px] mx-auto border-t border-border/60 pt-12 lg:pt-16">
+      <div className="max-w-[1200px] mx-auto pt-12 lg:pt-16">
         <motion.div
-          className="flex flex-col lg:flex-row lg:justify-between gap-10 lg:gap-16"
+          className="flex flex-col lg:flex-row lg:justify-between gap-6"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
@@ -24,14 +24,14 @@ export default function Footer() {
           }}
         >
           {/* Left column */}
-          <div className="flex flex-col gap-4">
-            <h2 className="text-[2rem] leading-[1.15] tracking-[-0.01em] text-primary font-normal tracking-[-0.02em]">
+          <div className="flex flex-col">
+            <h2 className="font-medium text-primary">
               Let&apos;s connect
             </h2>
           </div>
 
           {/* Right column */}
-          <div className="flex flex-col items-start lg:items-end gap-4">
+          <div className="flex flex-col items-start lg:items-end gap-2">
             <div className="flex items-center gap-4">
               <a
                 href="https://www.linkedin.com/in/idamadam/"
@@ -66,7 +66,7 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-            <p className="text-sm text-tertiary mt-2">Designed & built in Melbourne, Australia</p>
+            <p className="text-tertiary">Designed & built in Melbourne, Australia</p>
           </div>
         </motion.div>
       </div>

@@ -4,17 +4,12 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { heroContent, introContent } from './content';
 import { useReducedMotion } from '@/lib/useReducedMotion';
-import { useIntroSequence } from '@/lib/intro-sequence-context';
 import { timing, timingReduced } from '@/lib/animations';
 import TextReveal from './TextReveal';
 
 export default function HeroContent() {
   const reducedMotion = useReducedMotion();
   const t = reducedMotion ? timingReduced : timing;
-  const { isSplashComplete } = useIntroSequence();
-
-  // Show role+logo after name reveals (during splash, before move)
-  const shouldShowRole = true;
 
   return (
     <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
@@ -50,8 +45,7 @@ export default function HeroContent() {
         </h1>
 
         {/* Role + Company */}
-        {shouldShowRole && (
-          <motion.div
+        <motion.div
             className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -80,7 +74,6 @@ export default function HeroContent() {
               />
             </a>
           </motion.div>
-        )}
       </div>
     </div>
   );

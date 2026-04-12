@@ -46,13 +46,13 @@ export default function Header() {
         >
           <div className="max-w-[1200px] mx-auto h-14 flex items-center justify-between">
             {/* Name */}
-            <span className="text-[1rem] font-semibold text-primary tracking-[-0.01em]">{heroContent.name}</span>
+            <span className="font-medium text-primary">{heroContent.name}</span>
 
             {/* Navigation + LinkedIn */}
             <div className="flex items-center gap-6">
               <nav className="hidden sm:flex items-center gap-5">
-                <a href="#work" className="text-sm text-secondary hover:text-primary transition-colors duration-200">Work</a>
-                <a href="#contact" className="text-sm text-secondary hover:text-primary transition-colors duration-200">Contact</a>
+                <a href="#work" className="text-tertiary hover:text-primary transition-colors duration-200">Work</a>
+                <a href="#contact" className="text-tertiary hover:text-primary transition-colors duration-200">Contact</a>
               </nav>
               <a
                 href="https://www.linkedin.com/in/idamadam/"
