@@ -44,36 +44,19 @@ export default function HeroContent() {
           />
         </h1>
 
-        {/* Role + Company */}
-        <motion.div
-            className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: t.intro.stageDuration,
-              delay: t.intro.nameReveal,
-              ease: [0.25, 0.1, 0.25, 1],
-            }}
-          >
-            <span className="text-secondary">
-              {introContent.role}
-            </span>
-            <a
-              href={heroContent.companies[0].url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition duration-200"
-              title={heroContent.companies[0].name}
-            >
-              <Image
-                src={heroContent.companies[0].logo}
-                alt={heroContent.companies[0].name}
-                width={103}
-                height={15}
-                className="h-[14px] w-auto"
-              />
-            </a>
-          </motion.div>
+        {/* Tagline */}
+        <motion.span
+          className="text-secondary"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: t.intro.stageDuration,
+            delay: t.intro.nameReveal,
+            ease: [0.25, 0.1, 0.25, 1],
+          }}
+        >
+          {introContent.role}
+        </motion.span>
       </div>
     </div>
   );

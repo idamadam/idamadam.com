@@ -33,7 +33,7 @@ export const heroContent: HeroContent = {
 };
 
 export const introContent: IntroContent = {
-  role: 'Lead Product Designer at',
+  role: 'designing with machines',
   lines: [
     "I design intelligent and thoughtful software that makes complex, high-stakes problems feel simple.",
     "I bridge design and engineering through prototyping directly in code and helping other designers to do the same.",
