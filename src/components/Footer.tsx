@@ -11,7 +11,7 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="w-full py-16 lg:py-24 px-6 lg:px-10 2xl:px-16 scroll-mt-20">
-      <div className="max-w-[1408px] mx-auto border-t border-border/60 pt-12 lg:pt-16">
+      <div className="max-w-[1200px] mx-auto border-t border-border/60 pt-12 lg:pt-16">
         <motion.div
           className="flex flex-col lg:flex-row lg:justify-between gap-10 lg:gap-16"
           initial={{ opacity: 0, y: 24 }}

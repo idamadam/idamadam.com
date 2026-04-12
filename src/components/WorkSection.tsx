@@ -143,10 +143,10 @@ export default function WorkSection() {
 
   return (
     <section id="work" className="w-full pb-16 lg:pb-24 px-6 lg:px-10 2xl:px-16 scroll-mt-20">
-      <div className="max-w-[1408px] mx-auto pt-16 lg:pt-24">
+      <div className="max-w-[1200px] mx-auto pt-16 lg:pt-24">
         <SectionTitle disableScrollTrigger>Work</SectionTitle>
       </div>
-      <motion.div className="max-w-[1408px] mx-auto mt-8" {...fadeInUp}>
+      <motion.div className="max-w-[1200px] mx-auto mt-8" {...fadeInUp}>
         {/* Mobile: stacked list */}
         <div className="lg:hidden flex flex-col gap-6">
           {workItems.map((item) => {
