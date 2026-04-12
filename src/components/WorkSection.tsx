@@ -153,7 +153,7 @@ export default function WorkSection() {
             const inner = (
               <div className="flex flex-col gap-1">
                 <h3 className="font-medium text-primary">{item.title}</h3>
-                <p className="text-tertiary">{item.description}</p>
+                <p className="text-secondary">{item.description}</p>
               </div>
             );
             return item.href ? (
@@ -183,7 +183,7 @@ export default function WorkSection() {
                   onClick={() => setLockedId(item.id)}
                 >
                   <h3 className="font-medium text-primary !m-0">{item.title}</h3>
-                  <p className="text-tertiary">{item.description}</p>
+                  <p className="text-secondary">{item.description}</p>
                 </button>
               );
             })}

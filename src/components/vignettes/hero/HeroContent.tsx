@@ -55,7 +55,7 @@ export default function HeroContent() {
               ease: [0.25, 0.1, 0.25, 1],
             }}
           >
-            <span className="text-tertiary">
+            <span className="text-secondary">
               {introContent.role}
             </span>
             <a

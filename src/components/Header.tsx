@@ -51,8 +51,8 @@ export default function Header() {
             {/* Navigation + LinkedIn */}
             <div className="flex items-center gap-6">
               <nav className="hidden sm:flex items-center gap-5">
-                <a href="#work" className="text-tertiary hover:text-primary transition-colors duration-200">Work</a>
-                <a href="#contact" className="text-tertiary hover:text-primary transition-colors duration-200">Contact</a>
+                <a href="#work" className="text-secondary hover:text-primary transition-colors duration-200">Work</a>
+                <a href="#contact" className="text-secondary hover:text-primary transition-colors duration-200">Contact</a>
               </nav>
               <a
                 href="https://www.linkedin.com/in/idamadam/"

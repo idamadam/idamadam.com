@@ -66,7 +66,7 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-            <p className="text-tertiary">Designed & built in Melbourne, Australia</p>
+            <p className="text-secondary">Designed & built in Melbourne, Australia</p>
           </div>
         </motion.div>
       </div>
