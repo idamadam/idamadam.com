@@ -137,29 +137,28 @@ function PanelRenderer({ activeId }: { activeId: string }) {
 }
 
 export default function WorkSection() {
-  const [activeId, setActiveId] = useState(workItems[0].id);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [lockedId, setLockedId] = useState<string | null>(null);
+  const activeId = hoveredId ?? lockedId;
 
   return (
-    <section id="work" className="w-full pb-12 lg:pb-20 px-6 lg:px-10 2xl:px-16 scroll-mt-20">
-      <div className="max-w-[1408px] mx-auto border-t border-border/60 pt-10 lg:pt-14">
+    <section id="work" className="w-full pb-16 lg:pb-24 px-6 lg:px-10 2xl:px-16 scroll-mt-20">
+      <div className="max-w-[1408px] mx-auto pt-16 lg:pt-24">
         <SectionTitle disableScrollTrigger>Work</SectionTitle>
       </div>
-      <motion.div className="max-w-[1408px] mx-auto mt-8 lg:mt-10" {...fadeInUp}>
+      <motion.div className="max-w-[1408px] mx-auto mt-8" {...fadeInUp}>
         {/* Mobile: stacked list */}
         <div className="lg:hidden flex flex-col gap-6">
           {workItems.map((item) => {
             const inner = (
               <div className="flex flex-col gap-1">
-                <h3 className="text-[1.125rem] font-medium text-primary tracking-[-0.01em]">{item.title}</h3>
-                <p className="text-sm text-tertiary">{item.description}</p>
+                <h3 className="font-medium text-primary">{item.title}</h3>
+                <p className="text-tertiary">{item.description}</p>
               </div>
             );
             return item.href ? (
-              <Link key={item.id} href={item.href} className="group">
+              <Link key={item.id} href={item.href}>
                 {inner}
-                <span className="text-sm font-medium text-primary group-hover:underline underline-offset-2 mt-1 block">
-                  View project →
-                </span>
               </Link>
             ) : (
               <div key={item.id}>{inner}</div>
@@ -168,42 +167,31 @@ export default function WorkSection() {
         </div>
 
         {/* Desktop: text left, panel right */}
-        <div className="hidden lg:grid lg:grid-cols-[400px_1fr] xl:grid-cols-[440px_1fr] gap-12 items-start">
+        <div className="hidden lg:grid lg:grid-cols-[400px_1fr] xl:grid-cols-[440px_1fr] gap-16 items-start">
           {/* Left: text list */}
-          <div className="flex flex-col">
+          <div className="flex flex-col -mx-3" onMouseLeave={() => setHoveredId(null)}>
             {workItems.map((item) => {
               const isActive = activeId === item.id;
-              const inner = (
-                <div
+              return (
+                <button
                   key={item.id}
-                  className={`py-4 border-b border-border/40 cursor-pointer transition-colors duration-150 ${
-                    isActive ? '' : 'opacity-40 hover:opacity-70'
+                  type="button"
+                  className={`text-left py-3 px-3 rounded-lg cursor-pointer transition-colors duration-150 ${
+                    isActive ? 'bg-muted' : 'bg-transparent'
                   }`}
-                  onMouseEnter={() => setActiveId(item.id)}
+                  onMouseEnter={() => setHoveredId(item.id)}
+                  onClick={() => setLockedId(item.id)}
                 >
-                  <h3 className="text-sm font-medium text-primary leading-snug !m-0">{item.title}</h3>
-                  <p className="text-sm text-tertiary leading-snug">{item.description}</p>
-                  {item.href && (
-                    <span className="text-sm font-medium text-primary">
-                      View project →
-                    </span>
-                  )}
-                </div>
-              );
-
-              return item.href ? (
-                <Link key={item.id} href={item.href}>
-                  {inner}
-                </Link>
-              ) : (
-                <div key={item.id}>{inner}</div>
+                  <h3 className="font-medium text-primary !m-0">{item.title}</h3>
+                  <p className="text-tertiary">{item.description}</p>
+                </button>
               );
             })}
           </div>
 
-          {/* Right: interactive panel */}
-          <div className="sticky top-24 rounded-2xl border border-border/60 bg-white overflow-hidden p-8">
-            <PanelRenderer activeId={activeId} />
+          {/* Right: interactive panel — only visible on hover */}
+          <div className="sticky top-24 overflow-hidden">
+            {activeId && <PanelRenderer activeId={activeId} />}
           </div>
         </div>
       </motion.div>

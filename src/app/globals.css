@@ -91,12 +91,12 @@
   --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /*
-   * Typography System - Premium, refined hierarchy
-   * Lighter tracking for serif headlines, generous for body
+   * Typography System — single size, two weights
+   * All text is 14px. Hierarchy comes from weight and color.
    */
   --text-display: 1rem;
   --text-display--line-height: 1.5;
-  --text-display--font-weight: 400;
+  --text-display--font-weight: 500;
 
   --text-h2: 1rem;
   --text-h2--line-height: 1.5;
@@ -105,16 +105,16 @@
   --text-h3--line-height: 1.5;
 
   --text-body: 1rem;
-  --text-body--line-height: 1.65;
+  --text-body--line-height: 1.5;
 
-  --text-body-sm: 0.875rem;
+  --text-body-sm: 1rem;
   --text-body-sm--line-height: 1.5;
 
-  --text-caption: 0.75rem;
-  --text-caption--line-height: 1.4;
+  --text-caption: 1rem;
+  --text-caption--line-height: 1.5;
 
-  --text-label: 0.6875rem;
-  --text-label--line-height: 1.4;
+  --text-label: 1rem;
+  --text-label--line-height: 1.5;
 
   /* Line heights (for standalone use) */
   --leading-display: 0.95;
@@ -161,18 +161,17 @@
 .type-display {
   @apply text-display;
   font-family: var(--font-inter), system-ui, sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--primary);
-  text-wrap: balance;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 .type-pixel {
   font-family: var(--font-inter), system-ui, sans-serif;
   font-size: 1rem;
   line-height: 1.5;
-  letter-spacing: -0.01em;
-  font-weight: 600;
+  letter-spacing: 0;
+  font-weight: 500;
   color: var(--primary);
 }
 
@@ -181,36 +180,34 @@
   font-family: var(--font-inter), system-ui, sans-serif;
   font-weight: 500;
   color: var(--primary);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 .type-body {
   @apply text-body;
   font-family: var(--font-inter), system-ui, sans-serif;
-  line-height: 1.65;
+  line-height: 1.5;
 }
 
 .type-label {
   @apply text-label;
   font-family: var(--font-inter), system-ui, sans-serif;
   color: var(--tertiary);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .type-small {
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #999;
+  color: var(--tertiary);
 }
 
 .type-fine {
-  font-size: 0.8125rem;
+  font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #999;
+  color: var(--tertiary);
 }
 
 .type-code {
@@ -247,14 +244,15 @@ body {
 
 /* Typography improvements */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
-  margin: 0 0 24px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  margin: 0;
 }
 
 p {
-  margin: 0 0 12px 0;
+  margin: 0;
   line-height: 1.5;
 }
 
@@ -307,7 +305,7 @@ a {
   justify-content: center;
   gap: 0.5rem;
   font-weight: 500;
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1;
   border: none;
   cursor: pointer;
@@ -348,7 +346,7 @@ a {
 .btn-secondary {
   background-color: transparent;
   color: var(--primary);
-  padding: 0.5rem 0.875rem;
+  padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.15);
   font-weight: 500;

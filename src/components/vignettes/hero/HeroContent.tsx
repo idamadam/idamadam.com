@@ -17,10 +17,10 @@ export default function HeroContent() {
   const shouldShowRole = true;
 
   return (
-    <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 lg:gap-10">
+    <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
       {/* Profile photo */}
       <motion.div
-        className="shrink-0 w-[56px] h-[56px] rounded-full overflow-hidden cursor-pointer"
+        className="shrink-0 w-10 h-10 rounded-full overflow-hidden cursor-pointer"
         whileTap={{ scale: 0.92 }}
         transition={{
           type: 'spring',
@@ -31,14 +31,14 @@ export default function HeroContent() {
         <Image
           src="/avatars/headshot.jpg"
           alt={heroContent.name}
-          width={56}
-          height={56}
+          width={40}
+          height={40}
           className="w-full h-full object-cover"
         />
       </motion.div>
 
       {/* All text in single column */}
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-1">
         {/* Name with pixel font */}
         <h1 className="type-pixel whitespace-nowrap !m-0">
           <TextReveal
@@ -52,7 +52,7 @@ export default function HeroContent() {
         {/* Role + Company */}
         {shouldShowRole && (
           <motion.div
-            className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5"
+            className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{
@@ -61,14 +61,14 @@ export default function HeroContent() {
               ease: [0.25, 0.1, 0.25, 1],
             }}
           >
-            <span className="text-sm text-secondary">
+            <span className="text-tertiary">
               {introContent.role}
             </span>
             <a
               href={heroContent.companies[0].url}
               target="_blank"
               rel="noopener noreferrer"
-              className="opacity-75 hover:opacity-100 transition-opacity duration-200"
+              className="grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition duration-200"
               title={heroContent.companies[0].name}
             >
               <Image
