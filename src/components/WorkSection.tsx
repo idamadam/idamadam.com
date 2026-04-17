@@ -23,48 +23,44 @@ interface WorkItem {
   id: string;
   title: string;
   description: string;
-  label: string;
   href?: string;
 }
 
-const workItems: WorkItem[] = [
+const skillItems: WorkItem[] = [
   {
     id: 'notebook',
     title: 'Design Notebook',
     description: 'An interactive timeline of design iterations. Diverge, pick the best parts, and always know how you got there.',
-    label: 'Claude Code Skill',
     href: '/notebook',
   },
   {
     id: 'states',
     title: 'States',
     description: 'A control panel that reveals hidden UI variations — empty states, edge cases, loading races, error conditions.',
-    label: 'Claude Code Skill',
     href: '/states',
   },
+];
+
+const projectItems: WorkItem[] = [
   {
     id: 'highlights',
     title: 'Highlights and Opportunities',
     description: 'AI summaries to make performance reviews easier.',
-    label: 'AI & Intelligence',
   },
   {
     id: 'suggestions',
     title: 'AI Suggest Improvements',
     description: 'AI suggestions to help managers write better feedback.',
-    label: 'AI & Intelligence',
   },
   {
     id: 'multilingual',
     title: 'Multilingual Performance Cycles',
     description: 'A simple workflow to run a multilingual performance cycle.',
-    label: 'Platform & Systems',
   },
   {
     id: 'prototyping',
     title: 'Design Sandbox',
     description: 'Built an internal repository to make AI prototyping faster and easier.',
-    label: 'Platform & Systems',
   },
 ];
 
@@ -136,6 +132,78 @@ function PanelRenderer({ activeId }: { activeId: string }) {
   );
 }
 
+function GroupLabel({ children }: { children: string }) {
+  return (
+    <div className="text-xs font-medium uppercase tracking-[0.08em] text-secondary">
+      {children}
+    </div>
+  );
+}
+
+function MobileGroup({ label, items }: { label: string; items: WorkItem[] }) {
+  return (
+    <div className="flex flex-col gap-4">
+      <GroupLabel>{label}</GroupLabel>
+      <div className="flex flex-col gap-6">
+        {items.map((item) => {
+          const inner = (
+            <div className="flex flex-col gap-1">
+              <h3 className="font-medium text-primary">{item.title}</h3>
+              <p className="text-secondary">{item.description}</p>
+            </div>
+          );
+          return item.href ? (
+            <Link key={item.id} href={item.href}>
+              {inner}
+            </Link>
+          ) : (
+            <div key={item.id}>{inner}</div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function DesktopGroup({
+  label,
+  items,
+  activeId,
+  onHover,
+  onClick,
+}: {
+  label: string;
+  items: WorkItem[];
+  activeId: string | null;
+  onHover: (id: string) => void;
+  onClick: (id: string) => void;
+}) {
+  return (
+    <div className="flex flex-col">
+      <div className="px-3 pb-2">
+        <GroupLabel>{label}</GroupLabel>
+      </div>
+      {items.map((item) => {
+        const isActive = activeId === item.id;
+        return (
+          <button
+            key={item.id}
+            type="button"
+            className={`text-left py-3 px-3 rounded-lg cursor-pointer transition-colors duration-150 ${
+              isActive ? 'bg-muted' : 'bg-transparent'
+            }`}
+            onMouseEnter={() => onHover(item.id)}
+            onClick={() => onClick(item.id)}
+          >
+            <h3 className="font-medium text-primary !m-0">{item.title}</h3>
+            <p className="text-secondary">{item.description}</p>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function WorkSection() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [lockedId, setLockedId] = useState<string | null>(null);
@@ -148,49 +216,33 @@ export default function WorkSection() {
       </div>
       <motion.div className="max-w-[1200px] mx-auto mt-8" {...fadeInUp}>
         {/* Mobile: stacked list */}
-        <div className="lg:hidden flex flex-col gap-6">
-          {workItems.map((item) => {
-            const inner = (
-              <div className="flex flex-col gap-1">
-                <h3 className="font-medium text-primary">{item.title}</h3>
-                <p className="text-secondary">{item.description}</p>
-              </div>
-            );
-            return item.href ? (
-              <Link key={item.id} href={item.href}>
-                {inner}
-              </Link>
-            ) : (
-              <div key={item.id}>{inner}</div>
-            );
-          })}
+        <div className="lg:hidden flex flex-col gap-10">
+          <MobileGroup label="Agent skills" items={skillItems} />
+          <MobileGroup label="Culture Amp" items={projectItems} />
         </div>
 
         {/* Desktop: text left, panel right */}
         <div className="hidden lg:grid lg:grid-cols-[400px_1fr] xl:grid-cols-[440px_1fr] gap-16 items-start">
           {/* Left: text list */}
-          <div className="flex flex-col -mx-3" onMouseLeave={() => setHoveredId(null)}>
-            {workItems.map((item) => {
-              const isActive = activeId === item.id;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={`text-left py-3 px-3 rounded-lg cursor-pointer transition-colors duration-150 ${
-                    isActive ? 'bg-muted' : 'bg-transparent'
-                  }`}
-                  onMouseEnter={() => setHoveredId(item.id)}
-                  onClick={() => setLockedId(item.id)}
-                >
-                  <h3 className="font-medium text-primary !m-0">{item.title}</h3>
-                  <p className="text-secondary">{item.description}</p>
-                </button>
-              );
-            })}
+          <div className="flex flex-col gap-6 -mx-3" onMouseLeave={() => setHoveredId(null)}>
+            <DesktopGroup
+              label="Agent skills"
+              items={skillItems}
+              activeId={activeId}
+              onHover={setHoveredId}
+              onClick={setLockedId}
+            />
+            <DesktopGroup
+              label="Culture Amp"
+              items={projectItems}
+              activeId={activeId}
+              onHover={setHoveredId}
+              onClick={setLockedId}
+            />
           </div>
 
           {/* Right: interactive panel — only visible on hover */}
-          <div className="sticky top-24 overflow-hidden">
+          <div className="sticky top-24">
             {activeId && <PanelRenderer activeId={activeId} />}
           </div>
         </div>
