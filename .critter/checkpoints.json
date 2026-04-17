@@ -1,0 +1,74 @@
+[
+  {
+    "hash": "0a364b2ce63e292833de1e8dcb2090e36f2ec309",
+    "shortHash": "0a364b2",
+    "branch": "homepage-refresh",
+    "message": "Remove homepage loading animation — show content immediately",
+    "diffStat": "projects/idamadam.com/src/components/vignettes/hero/HeroVignette.tsx | 2 +-\n projects/idamadam.com/src/lib/intro-sequence-context.tsx             | 4 ++--\n 2 files changed, 3 insertions(+), 3 deletions(-)",
+    "timestamp": "2026-04-09T06:08:59+10:00"
+  },
+  {
+    "hash": "2b1d3fa63646d88cccf6573f39699e6b5bd027f3",
+    "shortHash": "2b1d3fa",
+    "branch": "homepage-refresh",
+    "message": "Restructure homepage: featured side projects + compact work grid",
+    "diffStat": "projects/idamadam.com/src/app/page.tsx             | 14 ++--\n .../src/components/SideProjectsSection.tsx         | 52 +++++++++++++\n .../src/components/WorkGridSection.tsx             | 91 ++++++++++++++++++++++\n 3 files changed, 152 insertions(+), 5 deletions(-)",
+    "timestamp": "2026-04-09T06:41:41+10:00"
+  },
+  {
+    "hash": "caffbb742b0d7ecacf83c5cbcffb9f598333590b",
+    "shortHash": "caffbb7",
+    "branch": "homepage-refresh",
+    "message": "Simplify hero and merge work sections under single header",
+    "diffStat": "projects/idamadam.com/src/app/page.tsx               | 16 +++++++++++-----\n .../src/components/SideProjectsSection.tsx           | 10 ++--------\n .../idamadam.com/src/components/WorkGridSection.tsx  | 20 ++++++--------------\n .../src/components/vignettes/hero/HeroVignette.tsx   |  8 ++------\n 4 files changed, 21 insertions(+), 33 deletions(-)",
+    "timestamp": "2026-04-09T07:04:49+10:00"
+  },
+  {
+    "hash": "8a997ea03d00f1cda66db4477bafd4fa9d5c17ce",
+    "shortHash": "8a997ea",
+    "branch": "homepage-refresh",
+    "message": "Hover-driven work section with inline demos for all projects",
+    "diffStat": "projects/idamadam.com/src/app/page.tsx             |  19 +-\n .../idamadam.com/src/components/WorkSection.tsx    | 214 +++++++++++++++++++++\n 2 files changed, 216 insertions(+), 17 deletions(-)",
+    "timestamp": "2026-04-09T07:10:35+10:00"
+  },
+  {
+    "hash": "57246657db2a81e0a9934eddc5f405cd4b50abce",
+    "shortHash": "5724665",
+    "branch": "homepage-refresh",
+    "message": "Flat type scale, hover-driven work section with demos",
+    "diffStat": "projects/idamadam.com/src/app/globals.css          | 41 +++++++++-------------\n projects/idamadam.com/src/app/layout.tsx           | 10 ++----\n projects/idamadam.com/src/components/Footer.tsx    |  2 +-\n .../idamadam.com/src/components/WorkSection.tsx    | 12 +++----\n .../src/components/vignettes/hero/HeroContent.tsx  |  8 ++---\n projects/zoetrope/bin/zoetrope.js                  | 17 ++++++---\n 6 files changed, 41 insertions(+), 49 deletions(-)",
+    "timestamp": "2026-04-10T13:51:00.723Z"
+  },
+  {
+    "hash": "e0fe4bd118589b8a4947aafa5b33fc744c5e50f3",
+    "shortHash": "e0fe4bd",
+    "branch": "homepage-refresh",
+    "message": "Tighten type scale + click-to-lock demos",
+    "diffStat": "projects/idamadam.com/src/app/globals.css          | 58 ++++++++++-----------\n .../idamadam.com/src/components/WorkSection.tsx    | 60 +++++++++-------------\n .../src/components/vignettes/hero/HeroContent.tsx  | 16 +++---\n .../src/components/vignettes/hero/HeroVignette.tsx |  2 +-\n 4 files changed, 61 insertions(+), 75 deletions(-)",
+    "timestamp": "2026-04-12T11:41:40.335Z"
+  },
+  {
+    "hash": "9d38828bce6158f6b9471d0f7aa674480fba6bfb",
+    "shortHash": "9d38828",
+    "branch": "homepage-refresh",
+    "message": "Cap page width at 1200px",
+    "diffStat": "projects/idamadam.com/src/components/Footer.tsx                      | 2 +-\n projects/idamadam.com/src/components/Header.tsx                      | 2 +-\n projects/idamadam.com/src/components/WorkSection.tsx                 | 4 ++--\n projects/idamadam.com/src/components/vignettes/hero/HeroVignette.tsx | 2 +-\n 4 files changed, 5 insertions(+), 5 deletions(-)",
+    "timestamp": "2026-04-12T11:44:16.116Z"
+  },
+  {
+    "hash": "7af96f2ff1593d262d947d207612824a4a76e942",
+    "shortHash": "7af96f2",
+    "branch": "homepage-refresh",
+    "message": "Unify header/footer with type system",
+    "diffStat": "projects/idamadam.com/src/components/Footer.tsx              | 12 ++++++------\n projects/idamadam.com/src/components/Header.tsx              |  6 +++---\n .../src/components/vignettes/hero/HeroContent.tsx            |  9 +--------\n 3 files changed, 10 insertions(+), 17 deletions(-)",
+    "timestamp": "2026-04-12T11:47:39.241Z"
+  },
+  {
+    "hash": "43454cc5b5e8f191e451366ce5416e1764a06ef8",
+    "shortHash": "43454cc",
+    "branch": "homepage-refresh",
+    "message": "Align /states and /notebook with homepage system",
+    "diffStat": "projects/idamadam.com/src/app/globals.css          |  30 +++---\n .../design-notebook/DesignNotebookPage.tsx         | 119 +++++++++++++--------\n .../state-explorer/StateExplorerPage.tsx           |  14 +--\n projects/zoetrope/bin/zoetrope.js                  |  63 ++++++++---\n 4 files changed, 147 insertions(+), 79 deletions(-)",
+    "timestamp": "2026-04-12T12:26:59.974Z"
+  }
+]
