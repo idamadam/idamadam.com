@@ -110,5 +110,13 @@
     "message": "fix horizontal layout shift on hover (grid minmax(0,1fr))",
     "diffStat": "projects/idamadam.com/.critter/checkpoints.json        |   8 ++++++++\n projects/idamadam.com/.critter/screenshots/idam-v7.png | Bin 0 -> 110628 bytes\n projects/idamadam.com/src/components/WorkSection.tsx   |   2 +-\n 3 files changed, 9 insertions(+), 1 deletion(-)",
     "timestamp": "2026-04-18T09:02:50.831Z"
+  },
+  {
+    "hash": "7db8e72fe0bbc029e085b55fb18ff3833d2c54bf",
+    "shortHash": "7db8e72",
+    "branch": "critter-test",
+    "message": "sentence-case group labels, drop active item accent bar",
+    "diffStat": "projects/idamadam.com/.critter/worktree              | 2 +-\n projects/idamadam.com/src/components/WorkSection.tsx | 8 +-------\n 2 files changed, 2 insertions(+), 8 deletions(-)",
+    "timestamp": "2026-04-18T10:31:56.411Z"
   }
 ]
