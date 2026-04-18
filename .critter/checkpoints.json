@@ -102,5 +102,13 @@
     "message": "tighten hero lede to one sentence (Emil-rhythm)",
     "diffStat": "projects/idamadam.com/.critter/checkpoints.json    |   8 ++++\n .../.critter/evals/2026-04-18T09-15-00.000Z.json   |  41 +++++++++++++++++++++\n .../idamadam.com/.critter/screenshots/idam-v6.png  | Bin 0 -> 130558 bytes\n .../src/components/vignettes/hero/content.ts       |   2 -\n 4 files changed, 49 insertions(+), 2 deletions(-)",
     "timestamp": "2026-04-18T08:51:39.815Z"
+  },
+  {
+    "hash": "1f010dd95fb0280f8548eb755df0af30a6e52b43",
+    "shortHash": "1f010dd",
+    "branch": "critter-test",
+    "message": "fix horizontal layout shift on hover (grid minmax(0,1fr))",
+    "diffStat": "projects/idamadam.com/.critter/checkpoints.json        |   8 ++++++++\n projects/idamadam.com/.critter/screenshots/idam-v7.png | Bin 0 -> 110628 bytes\n projects/idamadam.com/src/components/WorkSection.tsx   |   2 +-\n 3 files changed, 9 insertions(+), 1 deletion(-)",
+    "timestamp": "2026-04-18T09:02:50.831Z"
   }
 ]
