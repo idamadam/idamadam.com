@@ -230,7 +230,7 @@ export default function WorkSection() {
         </div>
 
         {/* Desktop: text left, panel right */}
-        <div className="hidden lg:grid lg:grid-cols-[400px_1fr] xl:grid-cols-[440px_1fr] gap-16 items-start">
+        <div className="hidden lg:grid lg:grid-cols-[400px_minmax(0,1fr)] xl:grid-cols-[440px_minmax(0,1fr)] gap-16 items-start">
           {/* Left: text list */}
           <div className="flex flex-col gap-6 -mx-3" onMouseLeave={() => setHoveredId(null)}>
             <DesktopGroup

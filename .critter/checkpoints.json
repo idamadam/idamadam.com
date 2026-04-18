@@ -94,5 +94,13 @@
     "message": "warm cream tint + tan accent on active work item",
     "diffStat": "projects/idamadam.com/.critter/checkpoints.json        |   8 ++++++++\n projects/idamadam.com/.critter/screenshots/idam-v5.png | Bin 0 -> 148245 bytes\n projects/idamadam.com/src/components/WorkSection.tsx   |  12 ++++++++++--\n 3 files changed, 18 insertions(+), 2 deletions(-)",
     "timestamp": "2026-04-18T08:49:13.297Z"
+  },
+  {
+    "hash": "c43e0dcfa93d5de187758a1246ac6ea2cbd12d18",
+    "shortHash": "c43e0dc",
+    "branch": "critter-test",
+    "message": "tighten hero lede to one sentence (Emil-rhythm)",
+    "diffStat": "projects/idamadam.com/.critter/checkpoints.json    |   8 ++++\n .../.critter/evals/2026-04-18T09-15-00.000Z.json   |  41 +++++++++++++++++++++\n .../idamadam.com/.critter/screenshots/idam-v6.png  | Bin 0 -> 130558 bytes\n .../src/components/vignettes/hero/content.ts       |   2 -\n 4 files changed, 49 insertions(+), 2 deletions(-)",
+    "timestamp": "2026-04-18T08:51:39.815Z"
   }
 ]
