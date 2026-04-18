@@ -12,7 +12,7 @@ export default function HeroContent() {
   const t = reducedMotion ? timingReduced : timing;
 
   return (
-    <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+    <div className="flex flex-col items-start gap-4">
       {/* Profile photo */}
       <motion.div
         className="shrink-0 w-10 h-10 rounded-full overflow-hidden cursor-pointer"

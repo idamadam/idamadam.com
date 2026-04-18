@@ -93,9 +93,7 @@ export default function HeroVignette() {
       >
         <article id="hero" className="flex flex-col gap-8 lg:gap-10">
           <HeroContent />
-          <div className="pl-16 sm:pl-16">
-            <IntroPanel />
-          </div>
+          <IntroPanel />
         </article>
       </motion.div>
     </motion.section>
