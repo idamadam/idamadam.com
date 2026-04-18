@@ -78,5 +78,13 @@
     "message": "show work on first load + hero intro body + type hierarchy tier",
     "diffStat": "--full-page                                        | Bin 0 -> 27340 bytes\n .claude/settings.local.json                        |   7 +++\n projects/idamadam.com/.critter/brief.md            |  58 +++++++++++++++++++++\n .../.critter/evals/2026-04-18T08-39-33.221Z.json   |  35 +++++++++++++\n .../.critter/evals/2026-04-18T08-50-00.000Z.json   |  41 +++++++++++++++\n .../.critter/screenshots/idam-before-desktop.png   | Bin 0 -> 52547 bytes\n .../idamadam.com/.critter/screenshots/idam-v1.png  | Bin 0 -> 73731 bytes\n .../idamadam.com/.critter/screenshots/idam-v2.png  | Bin 0 -> 148134 bytes\n projects/idamadam.com/src/app/globals.css          |  11 ++--\n .../idamadam.com/src/components/WorkSection.tsx    |   2 +-\n .../src/components/vignettes/hero/HeroVignette.tsx |   5 +-\n 11 files changed, 152 insertions(+), 7 deletions(-)",
     "timestamp": "2026-04-18T08:45:29.840Z"
+  },
+  {
+    "hash": "123ff5642ac7cd7b4cd6bde76255e6d90f26283a",
+    "shortHash": "123ff56",
+    "branch": "critter-test",
+    "message": "align hero + work columns flush-left, stack avatar above name, tighten hero→work gap",
+    "diffStat": "projects/idamadam.com/.critter/checkpoints.json        |   8 ++++++++\n projects/idamadam.com/.critter/screenshots/idam-v4.png | Bin 0 -> 137768 bytes\n projects/idamadam.com/src/components/WorkSection.tsx   |   4 ++--\n .../src/components/vignettes/hero/HeroContent.tsx      |   2 +-\n .../src/components/vignettes/hero/HeroVignette.tsx     |   4 +---\n 5 files changed, 12 insertions(+), 6 deletions(-)",
+    "timestamp": "2026-04-18T08:47:42.521Z"
   }
 ]

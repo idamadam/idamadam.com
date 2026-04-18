@@ -189,12 +189,20 @@ function DesktopGroup({
           <button
             key={item.id}
             type="button"
-            className={`text-left py-3 px-3 rounded-lg cursor-pointer transition-colors duration-150 ${
-              isActive ? 'bg-muted' : 'bg-transparent'
+            className={`text-left py-3 px-3 rounded-lg cursor-pointer transition-all duration-200 relative ${
+              isActive
+                ? 'bg-[#F5EFE6]/60'
+                : 'bg-transparent hover:bg-black/[0.02]'
             }`}
             onMouseEnter={() => onHover(item.id)}
             onClick={() => onClick(item.id)}
           >
+            {isActive && (
+              <span
+                aria-hidden
+                className="absolute left-0 top-3 bottom-3 w-[2px] rounded-full bg-[#B8956A]"
+              />
+            )}
             <h3 className="font-medium text-primary !m-0">{item.title}</h3>
             <p className="text-secondary">{item.description}</p>
           </button>
