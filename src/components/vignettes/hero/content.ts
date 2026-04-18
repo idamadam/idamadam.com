@@ -36,8 +36,6 @@ export const introContent: IntroContent = {
   role: 'designing with machines',
   lines: [
     "I design intelligent and thoughtful software that makes complex, high-stakes problems feel simple.",
-    "I bridge design and engineering through prototyping directly in code and helping other designers to do the same.",
-    "I've shaped product direction for AI features, platform strategy, and multilingual expansion. I lead through craft and by creating high-trust environments where high standards and psychological safety amplify each other.",
   ],
   links: {},
 };

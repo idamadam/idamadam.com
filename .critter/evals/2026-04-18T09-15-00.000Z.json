@@ -1,0 +1,41 @@
+{
+  "type": "before-after",
+  "candidates": ["v2", "v5"],
+  "winner": "v5",
+  "per_criterion": [
+    {
+      "name": "Typography vs Emil",
+      "verdict": "b",
+      "confidence": "high",
+      "note": "Shared left edge in v5 establishes a single column spine. v2's ~60px hero indent read as an accident. Name/Work tier bump gives a cleaner primary/secondary rhythm closer to Emil's discipline."
+    },
+    {
+      "name": "Personality vs Daniel",
+      "verdict": "b",
+      "confidence": "medium",
+      "note": "Warm cream tint + tan accent bar on the active vignette is the first real moment of character. It's subtle, not shouty. v2 was uniformly grey. Still only one such moment on the page though."
+    },
+    {
+      "name": "Hero establishes 'designing with machines'",
+      "verdict": "tie",
+      "confidence": "high",
+      "note": "Copy is identical. Tagline carries the idea in both. Neither version does anything visually to reinforce it."
+    },
+    {
+      "name": "Vignettes feel like considered artifacts",
+      "verdict": "b",
+      "confidence": "medium",
+      "note": "Tighter hero→work gap and the cream active state make the Design Notebook read more like a selected artifact and less like a screenshot dump. The artifact itself is unchanged."
+    },
+    {
+      "name": "First contact shows the work",
+      "verdict": "b",
+      "confidence": "high",
+      "note": "56px top padding on Work means the notebook enters the first viewport sooner. v2 burned too much air before anything loaded. This is the biggest functional win."
+    }
+  ],
+  "dealbreakers": [],
+  "overall_confidence": "high",
+  "decisive_criterion": "First contact shows the work",
+  "timestamp": "2026-04-18T09:15:00.000Z"
+}

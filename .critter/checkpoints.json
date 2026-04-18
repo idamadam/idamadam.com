@@ -86,5 +86,13 @@
     "message": "align hero + work columns flush-left, stack avatar above name, tighten hero→work gap",
     "diffStat": "projects/idamadam.com/.critter/checkpoints.json        |   8 ++++++++\n projects/idamadam.com/.critter/screenshots/idam-v4.png | Bin 0 -> 137768 bytes\n projects/idamadam.com/src/components/WorkSection.tsx   |   4 ++--\n .../src/components/vignettes/hero/HeroContent.tsx      |   2 +-\n .../src/components/vignettes/hero/HeroVignette.tsx     |   4 +---\n 5 files changed, 12 insertions(+), 6 deletions(-)",
     "timestamp": "2026-04-18T08:47:42.521Z"
+  },
+  {
+    "hash": "9c05f3b8c5aa7b16765906cc0dc1d25e7996a838",
+    "shortHash": "9c05f3b",
+    "branch": "critter-test",
+    "message": "warm cream tint + tan accent on active work item",
+    "diffStat": "projects/idamadam.com/.critter/checkpoints.json        |   8 ++++++++\n projects/idamadam.com/.critter/screenshots/idam-v5.png | Bin 0 -> 148245 bytes\n projects/idamadam.com/src/components/WorkSection.tsx   |  12 ++++++++++--\n 3 files changed, 18 insertions(+), 2 deletions(-)",
+    "timestamp": "2026-04-18T08:49:13.297Z"
   }
 ]
