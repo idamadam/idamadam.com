@@ -1,0 +1,41 @@
+{
+  "type": "before-after",
+  "candidates": ["v1", "v2"],
+  "winner": "v2",
+  "per_criterion": [
+    {
+      "name": "Typography vs Emil",
+      "verdict": "tie",
+      "confidence": "medium",
+      "note": "Both share the same restrained type system; v2 does not degrade it, but neither matches Emil's tighter measure and more generous leading."
+    },
+    {
+      "name": "Personality vs Daniel",
+      "verdict": "b",
+      "confidence": "medium",
+      "note": "v1 is uniformly flat until hover; v2's visible artifact (green/red diff text, tool cards) lends a diary-like, hand-on-it quality."
+    },
+    {
+      "name": "Hero communicates 'designing with machines'",
+      "verdict": "b",
+      "confidence": "high",
+      "note": "v1's 'designing with machines' is just a tagline; v2 makes it literal by landing with a chat-driven iteration history visible in-frame."
+    },
+    {
+      "name": "Vignettes feel like considered artifacts",
+      "verdict": "b",
+      "confidence": "medium",
+      "note": "The Notebook reads as a crafted artifact with numbered iterations and annotated diffs rather than a screenshot dumped in a card."
+    },
+    {
+      "name": "Shows the work on first contact",
+      "verdict": "b",
+      "confidence": "high",
+      "note": "v1 is a wall of prose with a hidden-on-hover right column; v2 is the only one that honors the brief's explicit foreground."
+    }
+  ],
+  "dealbreakers": [],
+  "overall_confidence": "medium",
+  "decisive_criterion": "Shows the work on first contact",
+  "timestamp": "2026-04-18T08:50:00.000Z"
+}

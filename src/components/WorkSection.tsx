@@ -206,7 +206,7 @@ function DesktopGroup({
 
 export default function WorkSection() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [lockedId, setLockedId] = useState<string | null>(null);
+  const [lockedId, setLockedId] = useState<string | null>(skillItems[0]?.id ?? null);
   const activeId = hoveredId ?? lockedId;
 
   return (

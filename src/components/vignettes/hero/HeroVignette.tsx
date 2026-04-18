@@ -91,8 +91,11 @@ export default function HeroVignette() {
           ease: [0.25, 0.1, 0.25, 1],
         }}
       >
-        <article id="hero">
+        <article id="hero" className="flex flex-col gap-8 lg:gap-10">
           <HeroContent />
+          <div className="pl-16 sm:pl-16">
+            <IntroPanel />
+          </div>
         </article>
       </motion.div>
     </motion.section>

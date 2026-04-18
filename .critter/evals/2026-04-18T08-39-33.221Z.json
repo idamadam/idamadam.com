@@ -1,0 +1,35 @@
+{
+  "type": "before-after",
+  "candidates": ["before-desktop", "v1"],
+  "winner": "v1",
+  "per_criterion": [
+    {
+      "name": "Typographic discipline vs Emil",
+      "verdict": "b",
+      "confidence": "medium",
+      "note": "B introduces body prose at a consistent size/weight that echoes Emil's diary register; A has a naked hero hanging in whitespace with nothing to establish rhythm."
+    },
+    {
+      "name": "Warmth / personality vs Daniel",
+      "verdict": "b",
+      "confidence": "low",
+      "note": "B adds a human first-person voice which lends faint warmth, but neither candidate offers any color, texture, or visual moment — both read austere."
+    },
+    {
+      "name": "Hero establishes 'designing with machines'",
+      "verdict": "b",
+      "confidence": "high",
+      "note": "A's 'designing with machines' tagline is ungrounded and reads like any portfolio; B's three paragraphs actually stake a position about AI, prototyping, and leadership."
+    },
+    {
+      "name": "Vignettes as considered artifacts",
+      "verdict": "tie",
+      "confidence": "high",
+      "note": "Identical — both screenshots show bare text-list work entries with no visual artifacts rendered; this is the biggest unaddressed weakness in both."
+    }
+  ],
+  "dealbreakers": [],
+  "overall_confidence": "medium",
+  "decisive_criterion": "Hero establishes 'designing with machines'",
+  "timestamp": "2026-04-18T08:39:33.221Z"
+}
