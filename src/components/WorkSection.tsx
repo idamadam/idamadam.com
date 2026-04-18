@@ -134,7 +134,7 @@ function PanelRenderer({ activeId }: { activeId: string }) {
 
 function GroupLabel({ children }: { children: string }) {
   return (
-    <div className="text-xs font-medium uppercase tracking-[0.08em] text-secondary">
+    <div className="text-sm font-medium text-secondary">
       {children}
     </div>
   );
@@ -197,12 +197,6 @@ function DesktopGroup({
             onMouseEnter={() => onHover(item.id)}
             onClick={() => onClick(item.id)}
           >
-            {isActive && (
-              <span
-                aria-hidden
-                className="absolute left-0 top-3 bottom-3 w-[2px] rounded-full bg-[#B8956A]"
-              />
-            )}
             <h3 className="font-medium text-primary !m-0">{item.title}</h3>
             <p className="text-secondary">{item.description}</p>
           </button>
