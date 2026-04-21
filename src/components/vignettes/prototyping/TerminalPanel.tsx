@@ -152,7 +152,7 @@ function ActionButton({
     <button
       onClick={onClick}
       disabled={disabled}
-      className="text-[11px] px-2.5 py-1.5 rounded bg-[#1f1f23] hover:bg-[#2a2a30] text-gray-300 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-mono"
+      className="text-[12px] px-3.5 py-2 rounded-md bg-[#1f1f23] hover:bg-[#2a2a30] text-gray-300 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-mono"
     >
       {children}
     </button>
@@ -241,7 +241,7 @@ export default function TerminalPanel({
       </div>
 
       {/* TUI Content */}
-      <div className="p-3 pb-12 font-mono text-caption leading-relaxed min-h-[100px]">
+      <div className="p-3 font-mono text-caption leading-relaxed min-h-[100px]">
         <AnimatePresence mode="wait">
           {showIdleState ? (
             <motion.div
@@ -306,11 +306,6 @@ export default function TerminalPanel({
         </AnimatePresence>
       </div>
 
-      {/* Status bar */}
-      <div className="absolute bottom-0 left-0 right-0 px-3 py-1.5 border-t border-[#1f1f23] rounded-b-lg flex items-center justify-between text-[10px] font-mono text-muted-foreground bg-[#09090B]">
-        <span>opus 4.5</span>
-        <span>{isAnimating ? 'processing...' : showNamePrompt ? 'awaiting input...' : 'ready'}</span>
-      </div>
     </motion.div>
   );
 }

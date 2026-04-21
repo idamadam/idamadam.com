@@ -126,7 +126,7 @@ export default function IntroPanel() {
   // For reduced motion or scroll-skipped intro, show final state immediately
   if (reducedMotion || isComplete) {
     return (
-      <div className="max-w-[544px]">
+      <div className="max-w-[544px] lg:max-w-[400px] xl:max-w-[440px]">
         <div className="text-body text-primary tracking-[-0.01em] space-y-4 text-wrap-balance">
           {introContent.lines.map((line, lineIndex) => (
             <p key={lineIndex}>
@@ -167,7 +167,7 @@ export default function IntroPanel() {
   };
 
   return (
-    <div className="max-w-[544px]">
+    <div className="max-w-[544px] lg:max-w-[400px] xl:max-w-[440px]">
       <div className="text-body text-primary tracking-[-0.01em] space-y-4 text-wrap-balance">
         {lineUnits.map((units, lineIndex) => (
           <motion.p

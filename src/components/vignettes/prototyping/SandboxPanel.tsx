@@ -65,12 +65,13 @@ function DesignerCard({
       `}
       style={isNew ? { '--tw-ring-color': designer.avatarColor } as React.CSSProperties : undefined}
     >
-      {/* Avatar with subtle gradient overlay */}
+      {/* Avatar — soft tinted background with colored initials */}
       <div className="relative flex-shrink-0">
         <div
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[11px] sm:text-xs font-semibold text-white shadow-sm"
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[11px] sm:text-xs font-medium"
           style={{
-            background: `linear-gradient(135deg, ${designer.avatarColor} 0%, ${designer.avatarColor}dd 100%)`,
+            backgroundColor: `${designer.avatarColor}1f`,
+            color: designer.avatarColor,
           }}
         >
           {designer.initials}
@@ -112,16 +113,6 @@ function DesignerCard({
   return cardContent;
 }
 
-// Stats badge component
-function StatBadge({ value, label }: { value: string | number; label: string }) {
-  return (
-    <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-neutral-100/80 border border-neutral-200/50">
-      <span className="text-[13px] font-semibold text-neutral-700 tabular-nums">{value}</span>
-      <span className="text-[11px] text-neutral-400">{label}</span>
-    </div>
-  );
-}
-
 function SolutionState({
   activeStory = null,
 }: {
@@ -151,38 +142,10 @@ function SolutionState({
             backdropFilter: 'blur(8px)',
           }}
         >
-          <div className="flex items-center justify-between">
-            {/* Logo and Title */}
-            <div className="flex items-center gap-2.5">
-              <div
-                className="w-7 h-7 rounded-md flex items-center justify-center shadow-sm"
-                style={{
-                  background: 'linear-gradient(135deg, #F0532D 0%, #E04420 100%)',
-                }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-white">
-                  <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" opacity="0.9"/>
-                  <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-
-              <div>
-                <h3 className="text-[13px] font-semibold text-neutral-800 leading-tight !m-0">
-                  Design Sandbox
-                </h3>
-                <p className="text-[10px] text-neutral-400 leading-tight !m-0">
-                  Culture Amp
-                </p>
-              </div>
-            </div>
-
-            {/* Stats badges */}
-            <div className="hidden sm:flex items-center gap-1.5">
-              <StatBadge value={content.adoptionStats.designers} label="designers" />
-              <StatBadge value={`${content.adoptionStats.prototypes}+`} label="prototypes" />
-            </div>
-          </div>
+          <h3 className="text-[13px] font-semibold text-neutral-800 leading-tight !m-0">
+            <span className="text-neutral-400 font-normal">Culture Amp</span>{' '}
+            <span>Design Sandbox</span>
+          </h3>
         </div>
 
         {/* Content area */}

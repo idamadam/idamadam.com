@@ -59,11 +59,6 @@ export const multilingualContent: MultilingualContent = {
       label: 'Performance review question',
       sourceText: 'How did this person perform during this review period?',
     },
-    {
-      id: 2,
-      label: 'Goals question',
-      sourceText: 'What progress was made toward their goals?',
-    }
   ],
   languages: [
     {
@@ -71,11 +66,9 @@ export const multilingualContent: MultilingualContent = {
       name: 'Fran\u00e7ais (French)',
       texts: [
         "Comment cette personne a-t-elle perform\u00e9 au cours de cette p\u00e9riode d'\u00e9valuation?",
-        "Quels progr\u00e8s ont \u00e9t\u00e9 r\u00e9alis\u00e9s vers leurs objectifs?"
       ],
       words: [
         ['Comment', 'cette', 'personne', 'a-t-elle', 'perform\u00e9', 'au', 'cours', 'de', 'cette', 'p\u00e9riode', "d'\u00e9valuation?"],
-        ['Quels', 'progr\u00e8s', 'ont', '\u00e9t\u00e9', 'r\u00e9alis\u00e9s', 'vers', 'leurs', 'objectifs?']
       ],
     },
     {
@@ -83,11 +76,9 @@ export const multilingualContent: MultilingualContent = {
       name: 'Espa\u00f1ol (Spanish)',
       texts: [
         '\u00bfC\u00f3mo se desempe\u00f1\u00f3 esta persona durante este per\u00edodo de evaluaci\u00f3n?',
-        '\u00bfQu\u00e9 progreso se hizo hacia sus objetivos?'
       ],
       words: [
         ['\u00bfC\u00f3mo', 'se', 'desempe\u00f1\u00f3', 'esta', 'persona', 'durante', 'este', 'per\u00edodo', 'de', 'evaluaci\u00f3n?'],
-        ['\u00bfQu\u00e9', 'progreso', 'se', 'hizo', 'hacia', 'sus', 'objetivos?']
       ],
     },
     {
@@ -95,11 +86,9 @@ export const multilingualContent: MultilingualContent = {
       name: '\u078b\u07a8\u0788\u07ac\u0780\u07a8 (Dhivehi)',
       texts: [
         '\u0789\u07a8 \u0789\u07a9\u0780\u07a7 \u0789\u07a8 \u0783\u07a8\u0788\u07a8\u0787\u07aa \u078e\u07ac\u0783\u07ad\u078e\u07a6\u0787\u07a8 \u0786\u07a8\u0780\u07a8\u0782\u07ac\u0787\u07b0 \u0786\u07aa\u0783\u07a8\u0787\u07a6\u0783\u07a6\u0787\u07a8\u078a\u07a8\u061f',
-        '\u0787\u07ac\u0789\u07a9\u0780\u07aa\u0782\u07b0\u078e\u07ac \u078d\u07a6\u0782\u07b0\u0791\u07aa\u078b\u07a6\u0782\u07b0\u0791\u07a8\u078c\u07a6\u0786\u07a6\u0781\u07b0 \u0786\u07ae\u0782\u07b0 \u0786\u07aa\u0783\u07a8\u0787\u07ac\u0783\u07aa\u0789\u07ac\u0787\u07b0 \u078d\u07a8\u0784\u07aa\u0782\u07a9\u061f'
       ],
       words: [
         ['\u0789\u07a8', '\u0789\u07a9\u0780\u07a7', '\u0789\u07a8', '\u0783\u07a8\u0788\u07a8\u0787\u07aa', '\u078e\u07ac\u0783\u07ad\u078e\u07a6\u0787\u07a8', '\u0786\u07a8\u0780\u07a8\u0782\u07ac\u0787\u07b0', '\u0786\u07aa\u0783\u07a8\u0787\u07a6\u0783\u07a6\u0787\u07a8\u078a\u07a8\u061f'],
-        ['\u0787\u07ac\u0789\u07a9\u0780\u07aa\u0782\u07b0\u078e\u07ac', '\u078d\u07a6\u0782\u07b0\u0791\u07aa\u078b\u07a6\u0782\u07b0\u0791\u07a8\u078c\u07a6\u0786\u07a6\u0781\u07b0', '\u0786\u07ae\u0782\u07b0', '\u0786\u07aa\u0783\u07a8\u0787\u07ac\u0783\u07aa\u0789\u07ac\u0787\u07b0', '\u078d\u07a8\u0784\u07aa\u0782\u07a9\u061f']
       ],
     },
   ],
