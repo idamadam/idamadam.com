@@ -30,13 +30,13 @@ const skillItems: WorkItem[] = [
   {
     id: 'notebook',
     title: 'Design Notebook',
-    description: 'An interactive timeline of design iterations. Diverge, pick the best parts, and always know how you got there.',
+    description: 'Create an interactive timeline of design iterations in Claude.ai. Diverge, pick the best parts and always know you got there.',
     href: '/notebook',
   },
   {
     id: 'states',
     title: 'States',
-    description: 'A control panel that reveals hidden UI variations — empty states, edge cases, loading races, error conditions.',
+    description: 'Create a control panel inside your UI to reveal empty states, edge cases, loading states & error conditions.',
     href: '/states',
   },
 ];
@@ -153,7 +153,7 @@ function MobileGroup({ label, items }: { label: string; items: WorkItem[] }) {
             </div>
           );
           return item.href ? (
-            <Link key={item.id} href={item.href}>
+            <Link key={item.id} href={item.href} target="_blank" rel="noopener noreferrer">
               {inner}
             </Link>
           ) : (
@@ -185,20 +185,53 @@ function DesktopGroup({
       </div>
       {items.map((item) => {
         const isActive = activeId === item.id;
-        return (
+        const className = `group text-left py-3 px-3 rounded-lg cursor-pointer transition-all duration-200 relative block ${
+          isActive
+            ? 'bg-[#F5EFE6]/60'
+            : 'bg-transparent hover:bg-black/[0.02]'
+        }`;
+        const inner = (
+          <>
+            <div className="flex items-baseline gap-1.5">
+              <h3 className="font-medium text-primary !m-0">{item.title}</h3>
+              {item.href && (
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  className={`text-secondary transition-all duration-200 ${
+                    isActive ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0'
+                  }`}
+                  aria-hidden="true"
+                >
+                  <path d="M5 3l8 0 0 8M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
+            </div>
+            <p className="text-secondary">{item.description}</p>
+          </>
+        );
+        return item.href ? (
+          <Link
+            key={item.id}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={className}
+            onMouseEnter={() => onHover(item.id)}
+          >
+            {inner}
+          </Link>
+        ) : (
           <button
             key={item.id}
             type="button"
-            className={`text-left py-3 px-3 rounded-lg cursor-pointer transition-all duration-200 relative ${
-              isActive
-                ? 'bg-[#F5EFE6]/60'
-                : 'bg-transparent hover:bg-black/[0.02]'
-            }`}
+            className={className}
             onMouseEnter={() => onHover(item.id)}
             onClick={() => onClick(item.id)}
           >
-            <h3 className="font-medium text-primary !m-0">{item.title}</h3>
-            <p className="text-secondary">{item.description}</p>
+            {inner}
           </button>
         );
       })}
