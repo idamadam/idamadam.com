@@ -48,12 +48,8 @@ export default function Header() {
             {/* Name */}
             <span className="font-medium text-primary">{heroContent.name}</span>
 
-            {/* Navigation + LinkedIn */}
+            {/* LinkedIn */}
             <div className="flex items-center gap-6">
-              <nav className="hidden sm:flex items-center gap-5">
-                <a href="#work" className="text-secondary hover:text-primary transition-colors duration-200">Work</a>
-                <a href="#contact" className="text-secondary hover:text-primary transition-colors duration-200">Contact</a>
-              </nav>
               <a
                 href="https://www.linkedin.com/in/idamadam/"
                 target="_blank"
